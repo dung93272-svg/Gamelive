@@ -948,4 +948,499 @@ function runStep(){
 
   if(type === 'rhythm') MiniGames.startRhythm(container, onDone, stepName);
   else if(type === 'temp') MiniGames.startTemp(container, onDone, stepName);
-  else MiniGames.startDecor(container, onDone, stepName, craft
+  else MiniGames.startDecor(container, onDone, stepName, craft.area);
+}
+
+function finishCraft(){
+  MiniGames.cleanup();
+  const avg = craft.scores.reduce((a,b)=>a+b,0) / craft.scores.length;
+  let quality, mult, emoji, color;
+  if(avg >= 85){ quality='PERFECT'; mult=1.55; emoji='🌟'; color='#ffd700'; }
+  else if(avg >= 65){ quality='GOOD'; mult=1.20; emoji='✨'; color='#81c784'; }
+  else if(avg >= 45){ quality='OK'; mult=1.00; emoji='👍'; color='#8ecae6'; }
+  else { quality='POOR'; mult=0.55; emoji='😐'; color='#ef5350'; }
+
+  const c = craft.customer;
+  const area = craft.area;
+  const list = listOf(area);
+
+  if(list.indexOf(c) < 0){
+    toast('😢 Khách đã bỏ đi trước khi bạn làm xong!', 'bad');
+    closeCraft();
+    renderAll();
+    return;
+  }
+  list.splice(list.indexOf(c), 1);
+
+  const earn = Math.round(c.item.price * mult * c.personality.tip);
+  state.money += earn;
+  state.stats.totalEarned += earn;
+  state.stats.served++;
+
+  const p = c.personality;
+  const line = quality === 'PERFECT' ? p.line.perfect : quality === 'POOR' ? p.line.bad : 'Ổn đó!';
+  const rating = quality === 'PERFECT' ? '✨ Rất thích!' : quality === 'POOR' ? '😭 Thất vọng...' : '😊 Hài lòng';
+
+  $('miniGameContainer').innerHTML = `
+    <div class="craft-result">
+      <div class="craft-result-emoji">${c.item.emoji}</div>
+      <div class="craft-result-quality" style="color:${color}">${emoji} ${quality}</div>
+      <div class="craft-result-tip">${p.emoji} ${c.name}: "${line}" — ${rating}</div>
+      <div class="craft-result-money">+${fmt(earn)} <span style="color:#9fb3c8;font-size:12px">(x${(mult*c.personality.tip).toFixed(2)})</span></div>
+    </div>`;
+  $('craftProgress').textContent = 'Hoàn thành!';
+
+  setTimeout(() => {
+    closeCraft();
+    renderAll();
+  }, 2000);
+}
+
+function closeCraft(){
+  craft.open = false;
+  craft.customer = null;
+  MiniGames.cleanup();
+  $('craftModal').classList.remove('open');
+}
+
+/* =========================================================
+   UPDATE LOOP
+   ========================================================= */
+function update(dt){
+  state.spawnBakery -= dt;
+  if(state.spawnBakery <= 0){
+    if(state.bakeryCustomers.length < 5) state.bakeryCustomers.push(makeCustomer('bakery'));
+    state.spawnBakery = rand(8000, 15000);
+  }
+  if(isUnlocked('clothes')){
+    state.spawnClothes -= dt;
+    if(state.spawnClothes <= 0){
+      if(state.clothesCustomers.length < 4) state.clothesCustomers.push(makeCustomer('clothes'));
+      state.spawnClothes = rand(20000, 34000);
+    }
+  }
+  for(const area of ['bakery','clothes']){
+    const list = listOf(area);
+    for(let i = list.length - 1; i >= 0; i--){
+      const c = list[i];
+      c.elapsed += dt;
+      if(c.elapsed >= c.patience){
+        toast(`😡 ${c.name} (${c.personality.emoji} ${c.personality.name}) bỏ đi...`, 'bad');
+        list.splice(i, 1);
+      }
+    }
+  }
+  for(const elf of state.elves){
+    if(elf.cooldown > 0) elf.cooldown -= dt;
+    else{
+      const t = findUrgentCustomer();
+      if(t){ completeServe(t.area, t.c, elf); elf.cooldown = elf.interval; }
+    }
+  }
+  state.refreshTimer -= dt;
+  if(state.refreshTimer <= 0){
+    state.elfMarket = [makeElf(),makeElf(),makeElf(),makeElf()];
+    state.refreshTimer = 60000;
+  }
+  // Level-up check
+  const lv = currentLevel();
+  if(lv > state.lastLevel){
+    const L = LEVELS.find(x=>x.lv===lv);
+    state.lastLevel = lv;
+    toast(`🎉 THỊ TRẤN LÊN CẤP ${lv}!`, 'levelup');
+    setTimeout(()=>toast(`🔓 ${L.name} đã được mở khoá!`, 'levelup'), 700);
+  }
+}
+
+/* =========================================================
+   RENDER
+   ========================================================= */
+function renderHeader(){
+  $('uiMoney').textContent = fmt(state.money);
+  $('uiElves').textContent = state.elves.length;
+  $('uiDecor').textContent = Object.values(state.decor).reduce((a,b)=>a+b,0);
+  const lv = currentLevel();
+  $('uiLevel').textContent = lv;
+  $('uiDay').textContent = LEVELS.find(x=>x.lv===lv).day;
+}
+
+function renderTabs(){
+  document.querySelectorAll('#tabs button').forEach(btn => {
+    const a = btn.dataset.area;
+    if(!a) return;
+    const unlocked = isUnlocked(a);
+    btn.classList.toggle('locked', !unlocked);
+    const lock = btn.querySelector('.lock');
+    if(unlocked && lock) lock.remove();
+    else if(!unlocked && !lock){
+      const s = document.createElement('span');
+      s.className = 'lock'; s.textContent = '🔒';
+      btn.appendChild(s);
+    }
+  });
+}
+
+function renderMap(){
+  const scene = $('mapScene');
+  scene.querySelectorAll('.map-node').forEach(n => n.remove());
+  const nodes = [
+    {area:'bakery',  emoji:'🥐', name:'Tiệm bánh',  x:22, y:32},
+    {area:'clothes', emoji:'🎅', name:'Tiệm may',   x:52, y:22},
+    {area:'tree',    emoji:'🎄', name:'Quảng trường',x:78, y:38},
+    {area:'elves',   emoji:'🧝', name:'Xưởng Elf',  x:35, y:62},
+    {area:'reindeer',emoji:'🦌', name:'Chuồng tuần lộc', x:70, y:72, req:'Sưu tầm 10 decor', cond:s=>Object.keys(s.decor).length>=10},
+  ];
+  nodes.forEach(n=>{
+    const div = document.createElement('div');
+    const L = LEVELS.find(x=>x.area===n.area);
+    const unlocked = L ? isUnlocked(n.area) : (n.cond ? n.cond(state.stats) : true);
+    div.className = 'map-node ' + (unlocked ? 'unlocked' : 'locked');
+    div.style.left = n.x + '%';
+    div.style.top = n.y + '%';
+    const reqText = L ? L.desc : (n.req || '');
+    div.innerHTML = `
+      <div class="node-emoji">${unlocked ? n.emoji : '🔒'}</div>
+      <div class="node-name">${n.name}</div>
+      ${unlocked
+        ? `<div class="node-status">✓ Đã mở</div>`
+        : `<div class="node-req">${reqText}</div>`}
+    `;
+    div.onclick = () => {
+      if(!unlocked){
+        toast(`🔒 ${n.name} chưa mở. Cần: ${reqText}`, 'bad');
+        return;
+      }
+      // Chuyển tab
+      document.querySelectorAll('#tabs button').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.area').forEach(a=>a.classList.remove('active'));
+      const tabBtn = document.querySelector(`#tabs button[data-tab="${n.area}"]`);
+      if(tabBtn) tabBtn.classList.add('active');
+      const areaEl = $('area-' + n.area);
+      if(areaEl) areaEl.classList.add('active');
+    };
+    scene.appendChild(div);
+  });
+  $('mapSub').textContent = `Cấp ${currentLevel()} · ${LEVELS.filter(L=>isUnlocked(L.area)).length}/${LEVELS.length+1} địa điểm mở`;
+}
+
+function customerHTML(c){
+  const left = Math.max(0, c.patience - c.elapsed);
+  const pct = (left / c.patience) * 100;
+  const cls = pct > 50 ? 'ok' : pct > 25 ? 'warn' : 'danger';
+  const sec = Math.ceil(left/1000);
+  const mm = Math.floor(sec/60), ss = String(sec%60).padStart(2,'0');
+  const p = c.personality;
+  return `<div class="customer">
+    <div class="chibi-wrap">${chibiSVG(c.chibi)}</div>
+    <div class="cust-body">
+      <div class="cust-name">
+        ${c.name} <span class="cust-age">${c.age}t</span>
+        <span class="pers-tag">${p.emoji} ${p.name}</span>
+      </div>
+      <div class="cust-want">muốn <b>${c.item.emoji} ${c.item.name}</b> · tip x${p.tip.toFixed(2)}</div>
+      <div class="bar"><div class="fill ${cls}" style="width:${pct}%"></div></div>
+    </div>
+    <div class="cust-time">${mm}:${ss}</div>
+  </div>`;
+}
+
+function renderCustomers(){
+  const bEl = $('bakeryCustomers');
+  bEl.innerHTML = state.bakeryCustomers.length
+    ? state.bakeryCustomers.map(customerHTML).join('')
+    : '<div class="empty">Chưa có khách nhí nào... ❄️</div>';
+  $('bakeryQueueInfo').textContent = state.bakeryCustomers.length + '/5 khách';
+
+  const cEl = $('clothesCustomers');
+  cEl.innerHTML = state.clothesCustomers.length
+    ? state.clothesCustomers.map(customerHTML).join('')
+    : '<div class="empty">Chưa có khách nào... ❄️</div>';
+  $('clothesQueueInfo').textContent = state.clothesCustomers.length + '/4 khách';
+}
+
+function renderMenu(){
+  $('bakeryMenu').innerHTML = BAKERY.map(it => {
+    const want = state.bakeryCustomers.filter(c => c.item.id === it.id).length;
+    return `<button class="item-btn ${want?'wanted':''}" data-area="bakery" data-id="${it.id}">
+      ${want?`<span class="badge">${want}</span>`:''}
+      <span class="emo">${it.emoji}</span><span class="nm">${it.name}</span><span class="pr">${fmt(it.price)}</span>
+    </button>`;
+  }).join('');
+  $('clothesMenu').innerHTML = CLOTHES.map(it => {
+    const want = state.clothesCustomers.filter(c => c.item.id === it.id).length;
+    return `<button class="item-btn ${want?'wanted':''}" data-area="clothes" data-id="${it.id}">
+      ${want?`<span class="badge">${want}</span>`:''}
+      <span class="emo">${it.emoji}</span><span class="nm">${it.name}</span><span class="pr">${fmt(it.price)}</span>
+    </button>`;
+  }).join('');
+}
+
+/* TREE */
+function buildTreeSlots(){
+  const rows = [
+    {y:14,n:1,w:0},{y:26,n:2,w:12},{y:38,n:3,w:20},{y:50,n:4,w:28},{y:62,n:5,w:36},{y:74,n:6,w:44},
+  ];
+  const out = [];
+  for(const r of rows){
+    if(r.n===1){ out.push([50,r.y]); continue; }
+    for(let i=0;i<r.n;i++){
+      const t = i/(r.n-1);
+      out.push([50 - r.w/2 + r.w*t, r.y + (i%2?1.6:0)]);
+    }
+  }
+  return out;
+}
+const TREE_SLOTS = buildTreeSlots();
+
+function computeSparkle(){
+  let s = 0;
+  for(const d of DECOR){
+    if((state.decor[d.id]||0) > 0) s += d.spark;
+  }
+  return Math.min(100, s);
+}
+
+function renderTree(){
+  const scene = $('treeScene');
+  scene.querySelectorAll('.slot').forEach(n=>n.remove());
+  const owned = DECOR.filter(d => (state.decor[d.id]||0) > 0);
+  owned.slice(0, TREE_SLOTS.length).forEach((d,i)=>{
+    const [x,y] = TREE_SLOTS[i];
+    const el = document.createElement('div');
+    el.className = 'slot rar-' + d.rar;
+    el.textContent = d.emoji;
+    el.style.left = x + '%'; el.style.top = y + '%';
+    el.style.animationDelay = (Math.random()*2.4).toFixed(2) + 's';
+    el.title = d.name;
+    scene.appendChild(el);
+  });
+  const spark = computeSparkle();
+  $('sparkleVal').textContent = spark;
+  $('sparkleFill').style.width = spark + '%';
+  $('treeInfo').textContent = owned.length + '/' + DECOR.length + ' loại';
+  const svg = $('treeSvg');
+  svg.classList.remove('sparkle-25','sparkle-50','sparkle-75','sparkle-100');
+  if(spark >= 100) svg.classList.add('sparkle-100');
+  else if(spark >= 75) svg.classList.add('sparkle-75');
+  else if(spark >= 50) svg.classList.add('sparkle-50');
+  else if(spark >= 25) svg.classList.add('sparkle-25');
+}
+
+function renderCollection(){
+  $('collection').innerHTML = DECOR.map(d=>{
+    const cnt = state.decor[d.id] || 0;
+    const owned = cnt > 0;
+    return `<div class="coll-item ${owned?'owned':'locked'} rar-${d.rar}" title="${d.name} · +${d.spark}✨">
+      ${owned?`<span class="cnt">x${cnt}</span>`:''}
+      <span class="e">${owned ? d.emoji : '❔'}</span>
+      <span class="n">${owned ? d.name : '???'}</span>
+    </div>`;
+  }).join('');
+  const kinds = DECOR.filter(d=>(state.decor[d.id]||0)>0).length;
+  $('collInfo').textContent = kinds + '/' + DECOR.length + ' loại';
+}
+
+/* ELVES */
+function elfCardHTML(elf, mode){
+  let action = '';
+  if(mode === 'market'){
+    action = `<button class="btn gold" data-hire="${elf.uid}" ${state.money<elf.price||state.elves.length>=8?'disabled':''}>Thuê ${fmt(elf.price)}</button>`;
+  } else {
+    action = `<div style="text-align:right;font-size:10.5px;color:#9fb3c8;flex:none;line-height:1.5">
+      Đã bán<br><b style="color:#ffd54f;font-size:12px">${elf.served}</b><br>
+      <b style="color:#81c784;font-size:11px">${fmt(elf.earned)}</b></div>`;
+  }
+  return `<div class="elf-card">
+    <div class="elf-avatar">${chibiSVG(elf.chibi)}</div>
+    <div class="elf-info">
+      <div class="elf-name">${elf.name}</div>
+      <div class="elf-trait">🌟 <b>${elf.trait.name}</b> — ${elf.trait.desc}</div>
+      <div class="elf-stats"><span>⚡${elf.speed}</span><span>💖${elf.charm}</span><span>🛠${elf.skill}</span><span>⏱${(elf.interval/1000).toFixed(1)}s</span></div>
+    </div>
+    ${action}
+  </div>`;
+}
+
+function renderElves(){
+  $('elfMarket').innerHTML = state.elfMarket.length
+    ? state.elfMarket.map(e=>elfCardHTML(e,'market')).join('')
+    : '<div class="empty">Đang tải chợ yêu tinh...</div>';
+  $('elfTeam').innerHTML = state.elves.length
+    ? state.elves.map(e=>elfCardHTML(e,'team')).join('')
+    : '<div class="empty">Bạn chưa thuê yêu tinh nào.<br>Hãy chiêu mộ một trợ thủ! 🧝</div>';
+  $('teamInfo').textContent = state.elves.length + '/8';
+}
+
+function renderAll(){
+  renderHeader();
+  renderTabs();
+  renderMap();
+  renderCustomers();
+  renderMenu();
+  renderTree();
+  renderCollection();
+  renderElves();
+}
+
+/* =========================================================
+   EVENTS
+   ========================================================= */
+document.addEventListener('click', e => {
+  const itemBtn = e.target.closest('.item-btn');
+  if(itemBtn && !craft.open){
+    const area = itemBtn.dataset.area;
+    const id = itemBtn.dataset.id;
+    const list = listOf(area);
+    const cust = list.find(c=>c.item.id===id);
+    if(!cust){ toast('❌ Không có khách nào đang cần món này!', 'bad'); return; }
+    openCraft(area, cust);
+    return;
+  }
+  const hireBtn = e.target.closest('[data-hire]');
+  if(hireBtn){
+    const uid = Number(hireBtn.dataset.hire);
+    const idx = state.elfMarket.findIndex(x=>x.uid===uid);
+    if(idx<0) return;
+    const elf = state.elfMarket[idx];
+    if(state.elves.length>=8){ toast('Đội đã đầy!', 'bad'); return; }
+    if(state.money<elf.price){ toast('Không đủ tiền!', 'bad'); return; }
+    state.money -= elf.price;
+    state.elves.push(elf);
+    state.elfMarket.splice(idx,1);
+    toast(`🎉 Đã thuê ${elf.name}!`, 'gold');
+    renderAll();
+  }
+});
+
+/* Modal backdrop closes */
+$('craftModal').addEventListener('click', e => {
+  if(e.target === $('craftModal')){
+    // Cancel: customer leaves disappointed
+    if(craft.customer){
+      const list = listOf(craft.area);
+      const i = list.indexOf(craft.customer);
+      if(i >= 0){
+        list.splice(i, 1);
+        toast(`😡 ${craft.customer.name} bỏ đi vì bạn huỷ giữa chừng!`, 'bad');
+      }
+    }
+    closeCraft();
+    renderAll();
+  }
+});
+
+/* Gift box */
+$('openGiftBtn').addEventListener('click', ()=>{
+  const COST = 100000;
+  if(state.money < COST){ toast('Không đủ tiền! Cần 100.000đ.', 'bad'); return; }
+  state.money -= COST;
+  const totalW = Object.values(RARITY_WEIGHT).reduce((a,b)=>a+b,0);
+  let r = Math.random() * totalW;
+  let chosenRar = 'common';
+  for(const rar of ['common','rare','epic','legend']){
+    r -= RARITY_WEIGHT[rar];
+    if(r <= 0){ chosenRar = rar; break; }
+  }
+  const pool = DECOR.filter(d=>d.rar===chosenRar);
+  const item = pick(pool);
+  state.decor[item.id] = (state.decor[item.id]||0) + 1;
+  toast(`🎁 Nhận được: ${item.emoji} ${item.name} [${RARITY_LABEL[chosenRar]}] +${item.spark}✨`, 'gold');
+  renderAll();
+});
+
+/* Refresh elves */
+$('refreshElves').addEventListener('click', ()=>{
+  if(state.money<50000){ toast('Không đủ tiền!', 'bad'); return; }
+  state.money -= 50000;
+  state.elfMarket = [makeElf(),makeElf(),makeElf(),makeElf()];
+  state.refreshTimer = 60000;
+  toast('🔄 Danh sách đã đổi mới!', 'good');
+  renderAll();
+});
+
+/* Tabs */
+$('tabs').addEventListener('click', e => {
+  const btn = e.target.closest('button[data-tab]');
+  if(!btn) return;
+  const area = btn.dataset.area;
+  if(area && !isUnlocked(area)){
+    const L = LEVELS.find(x=>x.area===area);
+    toast(`🔒 Chưa mở. Cần: ${L ? L.desc : 'hoàn thành điều kiện'}`, 'bad');
+    return;
+  }
+  document.querySelectorAll('#tabs button').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.area').forEach(a=>a.classList.remove('active'));
+  btn.classList.add('active');
+  $('area-' + btn.dataset.tab).classList.add('active');
+});
+
+/* Speed */
+$('speedBox').addEventListener('click', e => {
+  const btn = e.target.closest('button[data-speed]');
+  if(!btn) return;
+  state.speed = Number(btn.dataset.speed);
+  document.querySelectorAll('#speedBox button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  toast(`⏱ Tốc độ: x${state.speed}`, 'good');
+});
+
+/* =========================================================
+   SAVE / LOAD
+   ========================================================= */
+function save(){
+  try{
+    localStorage.setItem('xmasChibiV3', JSON.stringify({
+      money: state.money,
+      decor: state.decor,
+      elves: state.elves,
+      stats: state.stats,
+      lastLevel: state.lastLevel,
+    }));
+  }catch(e){}
+}
+function load(){
+  try{
+    const raw = localStorage.getItem('xmasChibiV3');
+    if(!raw) return false;
+    const d = JSON.parse(raw);
+    state.money = d.money ?? state.money;
+    state.decor = d.decor ?? {};
+    state.elves = (d.elves ?? []).map(e=>({...e, cooldown:0}));
+    state.stats = d.stats ?? { totalEarned:0, served:0 };
+    state.lastLevel = d.lastLevel ?? 1;
+    return true;
+  }catch(e){ return false; }
+}
+
+/* =========================================================
+   INIT + LOOP
+   ========================================================= */
+function init(){
+  const loaded = load();
+  state.elfMarket = [makeElf(),makeElf(),makeElf(),makeElf()];
+  state.bakeryCustomers.push(makeCustomer('bakery'));
+  state.bakeryCustomers.push(makeCustomer('bakery'));
+  renderAll();
+  if(loaded) toast('💾 Đã tải lại tiến trình!', 'gold');
+  else toast('🎄 Chào mừng đến Thị Trấn Noel · v3!', 'gold');
+  setInterval(save, 5000);
+}
+
+let lastFrame = performance.now();
+let lastRender = 0;
+function loop(now){
+  const dt = Math.min(now - lastFrame, 120);
+  lastFrame = now;
+  update(dt * state.speed);
+  if(now - lastRender > 220){
+    renderAll();
+    lastRender = now;
+  }
+  requestAnimationFrame(loop);
+}
+
+init();
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
