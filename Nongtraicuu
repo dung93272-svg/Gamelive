@@ -1,0 +1,660 @@
+# -*- coding: utf-8 -*-
+"""
+🌾 NÔNG TRẠI VUI VẺ 🌾
+Game mô phỏng nông trại: trồng cây, nuôi gia súc, phục vụ khách NPC.
+Chạy: python farm_game.py  (chỉ cần Python 3 + tkinter)
+"""
+
+import tkinter as tk
+from tkinter import messagebox
+import random
+import time
+
+# ==================== DỮ LIỆU GAME ====================
+
+# Cây trồng: giá hạt -> thời gian lớn -> giá bán
+CROPS = {
+    "Cà rốt":  {"seed": 10,  "grow": 6,  "sell": 22,  "color": "#FF8C42"},
+    "Cà chua": {"seed": 25,  "grow": 10, "sell": 55,  "color": "#E63946"},
+    "Bắp cải": {"seed": 45,  "grow": 15, "sell": 100, "color": "#7CB518"},
+    "Dâu tây": {"seed": 80,  "grow": 22, "sell": 180, "color": "#D62828"},
+    "Nho":     {"seed": 140, "grow": 30, "sell": 320, "color": "#6A4C93"},
+}
+
+# Vật nuôi: giá mua -> thời gian ra sản phẩm -> sản phẩm -> giá bán
+ANIMALS = {
+    "Gà":  {"cost": 60,  "time": 7,  "product": "Trứng",    "sell": 28},
+    "Heo": {"cost": 160, "time": 12, "product": "Thịt heo", "sell": 75},
+    "Bò":  {"cost": 340, "time": 16, "product": "Sữa",      "sell": 150},
+    "Cừu": {"cost": 600, "time": 22, "product": "Len",      "sell": 260},
+}
+
+EMOJI = {
+    "Cà rốt": "🥕", "Cà chua": "🍅", "Bắp cải": "🥬", "Dâu tây": "🍓", "Nho": "🍇",
+    "Gà": "🐔", "Heo": "🐷", "Bò": "🐄", "Cừu": "🐑",
+}
+
+# Bảng giá sản phẩm (dùng cho NPC trả tiền & bán ở chợ)
+PRODUCT_PRICE = {}
+for k, v in CROPS.items():
+    PRODUCT_PRICE[k] = v["sell"]
+for k, v in ANIMALS.items():
+    PRODUCT_PRICE[v["product"]] = v["sell"]
+
+# Phông nền trang trại
+THEMES = {
+    "Đồng quê xanh": {"sky": "#8ECAE6", "ground": "#7CB342", "slot": "#8D6E63", "slot_border": "#5D4037"},
+    "Hoàng hôn":     {"sky": "#FF9E6D", "ground": "#C2703B", "slot": "#8D6E63", "slot_border": "#4E342E"},
+    "Núi tuyết":     {"sky": "#CFE8F5", "ground": "#E8EEF2", "slot": "#90A4AE", "slot_border": "#546E7A"},
+    "Sa mạc":        {"sky": "#FFD79A", "ground": "#E8C07D", "slot": "#C9A227", "slot_border": "#8D6E63"},
+    "Đêm sao":       {"sky": "#1B2A4A", "ground": "#2E4A3D", "slot": "#4E342E", "slot_border": "#3E2723"},
+}
+
+# Tên NPC ngẫu nhiên
+HO = ["Nguyễn", "Trần", "Lê", "Phạm", "Hoàng", "Huỳnh", "Vũ", "Võ", "Đặng", "Bùi",
+      "Đỗ", "Hồ", "Ngô", "Dương", "Lý", "Đinh", "Tạ", "Trịnh", "Cao", "Mai"]
+DEM = ["Văn", "Thị", "Minh", "Hữu", "Thanh", "Quốc", "Ngọc", "Kim", "Anh", "Đức", "Xuân", "Thu"]
+TEN = ["An", "Bình", "Châu", "Dũng", "Giang", "Hà", "Hùng", "Lan", "Mai", "Nam", "Oanh",
+       "Phúc", "Quỳnh", "Sơn", "Trang", "Tuấn", "Vy", "Yến", "Khoa", "Linh", "My",
+       "Nhi", "Phong", "Thảo", "Trâm", "Kiệt", "Hân", "Lộc", "Tú", "Bảo"]
+TITLES = ["Anh", "Chị", "Cô", "Chú", "Bác", "Em", "Ông", "Bà", "Cậu", "Dì"]
+
+
+def random_npc_name():
+    """Sinh tên NPC ngẫu nhiên kiểu Việt Nam."""
+    if random.random() < 0.5:
+        return f"{random.choice(TITLES)} {random.choice(HO)} {random.choice(TEN)}"
+    return f"{random.choice(TITLES)} {random.choice(HO)} {random.choice(DEM)} {random.choice(TEN)}"
+
+
+# ==================== LỚP ĐỐI TƯỢNG ====================
+
+class Slot:
+    """Một ô đất trên nông trại: trống / cây trồng / chuồng vật nuôi."""
+    __slots__ = ("kind", "name", "progress", "ready")
+
+    def __init__(self):
+        self.kind = None       # None | 'crop' | 'animal'
+        self.name = None
+        self.progress = 0.0
+        self.ready = False
+
+
+class Customer:
+    """Khách NPC với một đơn hàng."""
+    def __init__(self, name, order, reward, patience):
+        self.name = name
+        self.order = order          # dict: tên_sản_phẩm -> số lượng
+        self.reward = reward
+        self.patience = patience
+        self.max_patience = patience
+
+
+# ==================== GAME ====================
+
+class FarmGame:
+    COLS, ROWS = 4, 3
+    SLOT_W, SLOT_H = 146, 130
+    GAP_X, GAP_Y = 12, 16
+    ORIGIN_X, ORIGIN_Y = 40, 200
+    CANVAS_W, CANVAS_H = 700, 660
+
+    def __init__(self, root, farm_name, theme_key):
+        self.root = root
+        self.farm_name = farm_name
+        self.theme = THEMES[theme_key]
+
+        self.money = 500
+        self.inventory = {}          # tên -> số lượng (hạt giống, con giống, sản phẩm)
+        self.slots = [Slot() for _ in range(self.COLS * self.ROWS)]
+        self.customers = []
+        self.reputation = 5.0        # 0..10
+        self.ad_time = 0.0           # giây quảng cáo còn hiệu lực
+        self.spawn_cd = 4.0
+        self.t = 0.0
+        self.last = time.time()
+        self.status = "Chào mừng đến với nông trại! Hãy mua hạt giống ở Cửa hàng."
+
+        self._build_ui()
+        self.tick()
+
+    # ---------------- GIAO DIỆN ----------------
+    def _build_ui(self):
+        root = self.root
+        root.configure(bg="#1B1B1B")
+
+        # ---- Thanh trên cùng ----
+        top = tk.Frame(root, bg="#2E7D32", height=54)
+        top.pack(fill="x")
+        top.pack_propagate(False)
+
+        tk.Label(top, text=f"🌾 {self.farm_name}", font=("Segoe UI", 16, "bold"),
+                 fg="#FFF9C4", bg="#2E7D32").pack(side="left", padx=16)
+
+        self.lbl_money = tk.Label(top, text="", font=("Segoe UI", 13, "bold"),
+                                  fg="#FFD54F", bg="#2E7D32")
+        self.lbl_money.pack(side="left", padx=12)
+
+        self.lbl_scale = tk.Label(top, text="", font=("Segoe UI", 11),
+                                  fg="white", bg="#2E7D32")
+        self.lbl_scale.pack(side="left", padx=12)
+
+        self.lbl_rep = tk.Label(top, text="", font=("Segoe UI", 11),
+                                fg="white", bg="#2E7D32")
+        self.lbl_rep.pack(side="left", padx=12)
+
+        self.lbl_ad = tk.Label(top, text="", font=("Segoe UI", 11, "bold"),
+                               fg="#FFAB91", bg="#2E7D32")
+        self.lbl_ad.pack(side="right", padx=16)
+
+        # ---- Khu vực chính ----
+        main = tk.Frame(root, bg="#1B1B1B")
+        main.pack(fill="both", expand=True)
+
+        # ----- Bên trái: sân nông trại -----
+        left = tk.Frame(main, bg="#1B1B1B")
+        left.pack(side="left", padx=(10, 5), pady=10)
+
+        self.canvas = tk.Canvas(left, width=self.CANVAS_W, height=self.CANVAS_H,
+                                highlightthickness=0, bg="#111111")
+        self.canvas.pack()
+        self.canvas.bind("<Button-1>", self.on_farm_click)
+
+        self.lbl_status = tk.Label(left, text=self.status, font=("Segoe UI", 10),
+                                   fg="#FFF59D", bg="#1B1B1B", anchor="w",
+                                   wraplength=self.CANVAS_W, justify="left")
+        self.lbl_status.pack(fill="x", pady=(6, 0))
+
+        # ----- Bên phải: bảng điều khiển -----
+        right = tk.Frame(main, bg="#263238", width=440)
+        right.pack(side="left", fill="both", expand=True, padx=(5, 10), pady=10)
+        right.pack_propagate(False)
+
+        # === Cửa hàng ===
+        shop = tk.Frame(right, bg="#263238")
+        shop.pack(fill="x", padx=8, pady=(8, 0))
+        shop.columnconfigure(0, weight=1)
+        shop.columnconfigure(1, weight=1)
+
+        tk.Label(shop, text="🛒 CỬA HÀNG", font=("Segoe UI", 11, "bold"),
+                 fg="#80CBC4", bg="#263238").grid(row=0, column=0, columnspan=2,
+                                                  sticky="w", pady=(0, 4))
+
+        r = 1
+        for crop, d in CROPS.items():
+            tk.Button(shop, text=f"🌱 {crop}  {d['seed']}$", font=("Segoe UI", 9),
+                      bg="#37474F", fg="white", activebackground="#546E7A",
+                      relief="flat", cursor="hand2",
+                      command=lambda c=crop: self.buy_seed(c)
+                      ).grid(row=r, column=0, sticky="ew", padx=2, pady=2)
+            r += 1
+
+        r = 1
+        for a, d in ANIMALS.items():
+            tk.Button(shop, text=f"🐾 {a}  {d['cost']}$", font=("Segoe UI", 9),
+                      bg="#37474F", fg="white", activebackground="#546E7A",
+                      relief="flat", cursor="hand2",
+                      command=lambda x=a: self.buy_animal(x)
+                      ).grid(row=r, column=1, sticky="ew", padx=2, pady=2)
+            r += 1
+
+        tk.Button(shop, text="📢 Tờ rơi (100$ · 20s)", font=("Segoe UI", 9),
+                  bg="#5D4037", fg="white", relief="flat", cursor="hand2",
+                  command=lambda: self.buy_ad(20, 100)
+                  ).grid(row=6, column=0, sticky="ew", padx=2, pady=(6, 2))
+
+        tk.Button(shop, text="📻 Radio (300$ · 45s)", font=("Segoe UI", 9),
+                  bg="#5D4037", fg="white", relief="flat", cursor="hand2",
+                  command=lambda: self.buy_ad(45, 300)
+                  ).grid(row=6, column=1, sticky="ew", padx=2, pady=(6, 2))
+
+        # === Kho ===
+        inv = tk.Frame(right, bg="#263238")
+        inv.pack(fill="x", padx=8, pady=(10, 0))
+
+        tk.Label(inv, text="🎒 KHO HÀNG", font=("Segoe UI", 11, "bold"),
+                 fg="#80CBC4", bg="#263238", anchor="w").pack(fill="x")
+
+        self.lbl_inv = tk.Label(inv, text="(trống)", font=("Segoe UI", 9),
+                                fg="#ECEFF1", bg="#263238", anchor="w",
+                                wraplength=420, justify="left")
+        self.lbl_inv.pack(fill="x", pady=2)
+
+        tk.Button(inv, text="🏪 Bán hết ở chợ (80% giá)", font=("Segoe UI", 9),
+                  bg="#455A64", fg="white", relief="flat", cursor="hand2",
+                  command=self.sell_all).pack(fill="x", pady=2)
+
+        # === Khách hàng ===
+        cust = tk.Frame(right, bg="#263238")
+        cust.pack(fill="both", expand=True, padx=8, pady=(10, 8))
+
+        tk.Label(cust, text="👥 KHÁCH HÀNG", font=("Segoe UI", 11, "bold"),
+                 fg="#80CBC4", bg="#263238", anchor="w").pack(fill="x")
+
+        self.ccanvas = tk.Canvas(cust, width=428, height=380,
+                                 highlightthickness=0, bg="#1C262B")
+        self.ccanvas.pack(pady=4)
+        self.ccanvas.bind("<Button-1>", self.on_customer_click)
+
+    # ---------------- VỊ TRÍ Ô ĐẤT ----------------
+    def slot_rect(self, i):
+        r, c = divmod(i, self.COLS)
+        x = self.ORIGIN_X + c * (self.SLOT_W + self.GAP_X)
+        y = self.ORIGIN_Y + r * (self.SLOT_H + self.GAP_Y)
+        return x, y, x + self.SLOT_W, y + self.SLOT_H
+
+    def slot_at(self, px, py):
+        for i in range(len(self.slots)):
+            x1, y1, x2, y2 = self.slot_rect(i)
+            if x1 <= px <= x2 and y1 <= py <= y2:
+                return i
+        return None
+
+    # ---------------- MUA HÀNG ----------------
+    def buy_seed(self, crop):
+        cost = CROPS[crop]["seed"]
+        if self.money < cost:
+            self.status = "❌ Không đủ tiền mua hạt giống!"
+            return
+        self.money -= cost
+        key = "Hạt " + crop
+        self.inventory[key] = self.inventory.get(key, 0) + 1
+        self.status = f"🛒 Đã mua 1 hạt {crop} (-{cost}$). Bấm vào ô đất trống để trồng."
+
+    def buy_animal(self, animal):
+        cost = ANIMALS[animal]["cost"]
+        if self.money < cost:
+            self.status = "❌ Không đủ tiền mua con giống!"
+            return
+        self.money -= cost
+        self.inventory[animal] = self.inventory.get(animal, 0) + 1
+        self.status = f"🛒 Đã mua 1 con {animal} (-{cost}$). Bấm vào ô đất trống để nuôi."
+
+    def buy_ad(self, seconds, cost):
+        if self.money < cost:
+            self.status = "❌ Không đủ tiền chạy quảng cáo!"
+            return
+        self.money -= cost
+        self.ad_time += seconds
+        self.status = f"📢 Quảng cáo chạy {seconds}s! Khách sẽ kéo đến đông hơn."
+
+    # ---------------- TƯƠNG TÁC Ô ĐẤT ----------------
+    def on_farm_click(self, event):
+        i = self.slot_at(event.x, event.y)
+        if i is None:
+            return
+        s = self.slots[i]
+
+        if s.kind is None:
+            self.open_plant_menu(i)
+        elif s.kind == "crop":
+            if s.ready:
+                self.harvest(i)
+            else:
+                need = CROPS[s.name]["grow"]
+                self.status = f"🌱 {s.name} đang lớn... ({s.progress:.1f}/{need}s)"
+        else:
+            if s.ready:
+                self.collect(i)
+            else:
+                need = ANIMALS[s.name]["time"]
+                self.status = f"🐾 {s.name} đang sản xuất... ({s.progress:.1f}/{need}s)"
+
+    def open_plant_menu(self, i):
+        menu = tk.Menu(self.root, tearoff=0, font=("Segoe UI", 10))
+        has = False
+
+        for crop in CROPS:
+            key = "Hạt " + crop
+            n = self.inventory.get(key, 0)
+            if n > 0:
+                has = True
+                menu.add_command(label=f"Trồng {crop}   (còn {n} hạt)",
+                                 command=lambda c=crop: self.plant(i, c))
+
+        for a in ANIMALS:
+            n = self.inventory.get(a, 0)
+            if n > 0:
+                has = True
+                menu.add_command(label=f"Nuôi {a}   (còn {n} con)",
+                                 command=lambda x=a: self.place_animal(i, x))
+
+        if not has:
+            menu.add_command(label="(Chưa có hạt giống / con giống)", state="disabled")
+            menu.add_command(label="→ Mua ở Cửa hàng bên phải", state="disabled")
+
+        try:
+            menu.tk_popup(self.canvas.winfo_pointerx(), self.canvas.winfo_pointery())
+        finally:
+            menu.grab_release()
+
+    def plant(self, i, crop):
+        self.inventory["Hạt " + crop] -= 1
+        s = self.slots[i]
+        s.kind, s.name, s.progress, s.ready = "crop", crop, 0.0, False
+        self.status = f"🌱 Đã trồng {crop}!"
+
+    def place_animal(self, i, animal):
+        self.inventory[animal] -= 1
+        s = self.slots[i]
+        s.kind, s.name, s.progress, s.ready = "animal", animal, 0.0, False
+        self.status = f"🐾 Đã nuôi {animal}!"
+
+    def harvest(self, i):
+        s = self.slots[i]
+        name = s.name
+        self.inventory[name] = self.inventory.get(name, 0) + 1
+        s.kind = s.name = None
+        s.progress, s.ready = 0.0, False
+        self.status = f"🌾 Thu hoạch được 1 {name}!"
+
+    def collect(self, i):
+        s = self.slots[i]
+        prod = ANIMALS[s.name]["product"]
+        self.inventory[prod] = self.inventory.get(prod, 0) + 1
+        s.ready, s.progress = False, 0.0
+        self.status = f"📦 Thu được 1 {prod} từ {s.name}!"
+
+    def sell_all(self):
+        total = 0
+        for k in list(self.inventory.keys()):
+            if k in PRODUCT_PRICE and self.inventory[k] > 0:
+                total += PRODUCT_PRICE[k] * self.inventory[k]
+                self.inventory[k] = 0
+        total = int(total * 0.8)
+        self.money += total
+        self.status = f"🏪 Bán ở chợ được {total}$ (80% giá trị)."
+
+    # ---------------- KHÁCH HÀNG ----------------
+    def producible_items(self):
+        items = set()
+        for s in self.slots:
+            if s.kind == "crop":
+                items.add(s.name)
+            elif s.kind == "animal":
+                items.add(ANIMALS[s.name]["product"])
+        return list(items)
+
+    def farm_scale(self):
+        return sum(1 for s in self.slots if s.kind)
+
+    def max_customers(self):
+        return min(6, 2 + self.farm_scale() // 3 + (2 if self.ad_time > 0 else 0))
+
+    def spawn_interval(self):
+        scale = self.farm_scale()
+        rate = 0.05 + scale * 0.025 + (0.35 if self.ad_time > 0 else 0) + self.reputation * 0.01
+        base = 1.0 / max(rate, 0.02)
+        return random.uniform(base * 0.7, base * 1.3)
+
+    def spawn_customer(self):
+        pool = self.producible_items()
+        if not pool:
+            return
+
+        kinds = random.sample(pool, min(len(pool), random.choice([1, 1, 2])))
+        order = {}
+        total_value = 0
+        for it in kinds:
+            qty = random.randint(1, 3)
+            order[it] = qty
+            total_value += PRODUCT_PRICE.get(it, 10) * qty
+
+        reward = int(total_value * random.uniform(1.25, 1.65))
+        patience = random.uniform(28, 45)
+
+        self.customers.append(Customer(random_npc_name(), order, reward, patience))
+
+    def deliver(self, idx):
+        cu = self.customers[idx]
+        for item, qty in cu.order.items():
+            if self.inventory.get(item, 0) < qty:
+                self.status = f"❌ Không đủ {item} để giao cho {cu.name}!"
+                return
+        for item, qty in cu.order.items():
+            self.inventory[item] -= qty
+        self.money += cu.reward
+        self.reputation = min(10.0, self.reputation + 0.2)
+        self.status = f"✅ Giao hàng cho {cu.name} — nhận {cu.reward}$!"
+        self.customers.pop(idx)
+
+    def on_customer_click(self, event):
+        idx = event.y // 60
+        if idx < 0 or idx >= len(self.customers):
+            return
+        cy = idx * 60
+        if 330 <= event.x <= 422 and cy + 14 <= event.y <= cy + 44:
+            self.deliver(idx)
+
+    # ---------------- VÒNG LẶP ----------------
+    def update(self, dt):
+        # Cây trồng & vật nuôi
+        for s in self.slots:
+            if s.kind == "crop" and not s.ready:
+                s.progress += dt
+                if s.progress >= CROPS[s.name]["grow"]:
+                    s.progress = CROPS[s.name]["grow"]
+                    s.ready = True
+            elif s.kind == "animal" and not s.ready:
+                s.progress += dt
+                if s.progress >= ANIMALS[s.name]["time"]:
+                    s.progress = ANIMALS[s.name]["time"]
+                    s.ready = True
+
+        # Quảng cáo
+        if self.ad_time > 0:
+            self.ad_time = max(0.0, self.ad_time - dt)
+
+        # Kiên nhẫn của khách
+        for cu in self.customers[:]:
+            cu.patience -= dt
+            if cu.patience <= 0:
+                self.customers.remove(cu)
+                self.reputation = max(0.0, self.reputation - 0.4)
+                self.status = f"😠 {cu.name} bỏ đi vì chờ quá lâu!"
+
+        # Sinh khách mới
+        self.spawn_cd -= dt
+        if self.spawn_cd <= 0:
+            self.spawn_cd = self.spawn_interval()
+            if len(self.customers) < self.max_customers():
+                self.spawn_customer()
+
+    def tick(self):
+        if not self.root.winfo_exists():
+            return
+        now = time.time()
+        dt = min(now - self.last, 0.5)
+        self.last = now
+        self.t += dt
+
+        self.update(dt)
+        self.draw_farm()
+        self.draw_customers()
+        self.update_hud()
+
+        self.root.after(60, self.tick)
+
+    # ---------------- VẼ ----------------
+    def draw_farm(self):
+        c = self.canvas
+        c.delete("all")
+        th = self.theme
+        W, H = self.CANVAS_W, self.CANVAS_H
+
+        c.create_rectangle(0, 0, W, 160, fill=th["sky"], outline="")
+        c.create_rectangle(0, 160, W, H, fill=th["ground"], outline="")
+
+        # Mặt trời
+        c.create_oval(40, 30, 110, 100, fill="#FFE082", outline="")
+
+        # Mây
+        for (cx, cy, sc) in [(250, 60, 1.0), (430, 40, 0.7), (620, 95, 0.85)]:
+            self.draw_cloud(c, cx, cy, sc)
+
+        # Chuồng trại
+        self.draw_barn(c, 520, 75)
+
+        # Các ô đất
+        for i, s in enumerate(self.slots):
+            self.draw_slot(c, i, s)
+
+    def draw_cloud(self, c, x, y, s):
+        col = "#FFFFFF"
+        c.create_oval(x, y, x + 50 * s, y + 26 * s, fill=col, outline="")
+        c.create_oval(x + 25 * s, y - 14 * s, x + 82 * s, y + 26 * s, fill=col, outline="")
+        c.create_oval(x + 58 * s, y + 2 * s, x + 104 * s, y + 26 * s, fill=col, outline="")
+
+    def draw_barn(self, c, x, y):
+        c.create_rectangle(x, y + 40, x + 130, y + 120, fill="#C62828", outline="#8E1F1F", width=2)
+        c.create_polygon(x - 12, y + 42, x + 65, y - 15, x + 142, y + 42,
+                         fill="#8D6E63", outline="#5D4037", width=2)
+        c.create_rectangle(x + 48, y + 72, x + 88, y + 120, fill="#5D4037", outline="")
+        c.create_line(x + 68, y + 72, x + 68, y + 120, fill="#3E2723", width=2)
+        c.create_rectangle(x + 15, y + 60, x + 38, y + 84, fill="#FFF59D", outline="#5D4037", width=2)
+
+    def draw_slot(self, c, i, s):
+        x1, y1, x2, y2 = self.slot_rect(i)
+        th = self.theme
+        cx = (x1 + x2) / 2
+
+        c.create_rectangle(x1, y1, x2, y2, fill=th["slot"], outline=th["slot_border"], width=2)
+
+        if s.kind is None:
+            c.create_text(cx, (y1 + y2) / 2, text="+", font=("Segoe UI", 30, "bold"), fill="#D7CCC8")
+            return
+
+        if s.kind == "crop":
+            data = CROPS[s.name]
+            c.create_oval(cx - 36, y1 + 12, cx + 36, y1 + 84, fill=data["color"], outline="")
+            c.create_text(cx, y1 + 48, text=EMOJI.get(s.name, "🌱"),
+                          font=("Segoe UI Emoji", 28))
+            p = s.progress / data["grow"]
+        else:
+            data = ANIMALS[s.name]
+            c.create_text(cx, y1 + 52, text=EMOJI.get(s.name, "🐾"),
+                          font=("Segoe UI Emoji", 40))
+            p = s.progress / data["time"]
+
+        # Thanh tiến độ
+        bw = (x2 - x1) - 24
+        bx, by = x1 + 12, y2 - 18
+        c.create_rectangle(bx, by, bx + bw, by + 8, fill="#3E2723", outline="")
+
+        if s.ready:
+            c.create_rectangle(bx, by, bx + bw, by + 8, fill="#FFD54F", outline="")
+            if int(self.t * 4) % 2 == 0:
+                c.create_rectangle(x1 + 2, y1 + 2, x2 - 2, y2 - 2, outline="#FFD54F", width=3)
+            txt = "THU HOẠCH" if s.kind == "crop" else "LẤY SẢN PHẨM"
+            c.create_text(cx, y2 - 30, text=txt, font=("Segoe UI", 8, "bold"), fill="#FFF9C4")
+        else:
+            c.create_rectangle(bx, by, bx + bw * max(0.0, min(1.0, p)), by + 8,
+                               fill="#4CAF50", outline="")
+
+    def draw_customers(self):
+        c = self.ccanvas
+        c.delete("all")
+
+        if not self.customers:
+            c.create_text(214, 40, text="Chưa có khách nào...\nHãy trồng trọt & nuôi thú!",
+                          font=("Segoe UI", 10), fill="#78909C", justify="center")
+            return
+
+        for i, cu in enumerate(self.customers[:6]):
+            y = i * 60
+            c.create_rectangle(0, y, 428, y + 54, fill="#37474F", outline="#546E7A")
+
+            c.create_text(10, y + 14, text=cu.name, anchor="w",
+                          fill="#FFD54F", font=("Segoe UI", 10, "bold"))
+
+            order_txt = ", ".join(f"{q}× {it}" for it, q in cu.order.items())
+            c.create_text(10, y + 32, text="Cần: " + order_txt, anchor="w",
+                          fill="#ECEFF1", font=("Segoe UI", 9))
+
+            # Thanh kiên nhẫn
+            p = max(0.0, cu.patience / cu.max_patience)
+            c.create_rectangle(10, y + 44, 200, y + 50, fill="#263238", outline="")
+            col = "#EF5350" if p < 0.3 else "#66BB6A"
+            c.create_rectangle(10, y + 44, 10 + 190 * p, y + 50, fill=col, outline="")
+
+            c.create_text(212, y + 14, text=f"💰 {cu.reward}$", anchor="w",
+                          fill="#A5D6A7", font=("Segoe UI", 10, "bold"))
+
+            c.create_rectangle(330, y + 14, 422, y + 44, fill="#43A047", outline="#2E7D32")
+            c.create_text(376, y + 29, text="GIAO", fill="white",
+                          font=("Segoe UI", 10, "bold"))
+
+    def inv_text(self):
+        parts = [f"{k} ×{v}" for k, v in self.inventory.items() if v > 0]
+        return " • ".join(parts) if parts else "(trống)"
+
+    def update_hud(self):
+        self.lbl_money.config(text=f"💰 {self.money}$")
+        self.lbl_scale.config(text=f"🏡 Quy mô: {self.farm_scale()}/12")
+        self.lbl_rep.config(text=f"⭐ Uy tín: {self.reputation:.1f}/10")
+        self.lbl_ad.config(text=f"📢 QC: {self.ad_time:.0f}s" if self.ad_time > 0 else "📢 Không QC")
+        self.lbl_status.config(text=self.status)
+        self.lbl_inv.config(text=self.inv_text())
+
+
+# ==================== MÀN HÌNH BẮT ĐẦU ====================
+
+class App:
+    def __init__(self):
+        self.root = tk.Tk()
+        self.root.title("🌾 Nông Trại Vui Vẻ 🌾")
+        self.root.geometry("1200x820")
+        self.root.resizable(False, False)
+        self.show_start()
+        self.root.mainloop()
+
+    def show_start(self):
+        f = tk.Frame(self.root, bg="#1B5E20")
+        f.pack(fill="both", expand=True)
+
+        tk.Label(f, text="🌾 NÔNG TRẠI VUI VẺ 🌾", font=("Segoe UI", 32, "bold"),
+                 fg="#FFEB3B", bg="#1B5E20").pack(pady=(60, 10))
+
+        tk.Label(f, text="Trồng cây – Nuôi thú – Phục vụ khách hàng NPC",
+                 font=("Segoe UI", 14), fg="white", bg="#1B5E20").pack(pady=(0, 34))
+
+        tk.Label(f, text="Tên nông trại của bạn:", font=("Segoe UI", 13),
+                 fg="white", bg="#1B5E20").pack()
+
+        name_var = tk.StringVar(value="Đồi Gió")
+        tk.Entry(f, textvariable=name_var, font=("Segoe UI", 15), width=26,
+                 justify="center").pack(pady=10, ipady=4)
+
+        tk.Label(f, text="Chọn phông nền trang trại:", font=("Segoe UI", 13),
+                 fg="white", bg="#1B5E20").pack(pady=(26, 10))
+
+        theme_var = tk.StringVar(value=list(THEMES.keys())[0])
+        tf = tk.Frame(f, bg="#1B5E20")
+        tf.pack()
+        for k in THEMES:
+            tk.Radiobutton(tf, text=k, variable=theme_var, value=k,
+                           font=("Segoe UI", 11), fg="white", bg="#1B5E20",
+                           selectcolor="#2E7D32", activebackground="#1B5E20",
+                           activeforeground="white", cursor="hand2").pack(side="left", padx=8)
+
+        tk.Label(f, text="💡 Mẹo: Quy mô càng lớn + chạy quảng cáo → khách NPC càng đông!",
+                 font=("Segoe UI", 11), fg="#C8E6C9", bg="#1B5E20").pack(pady=(34, 0))
+
+        def go():
+            name = name_var.get().strip() or "Nông trại"
+            self.start_game(name, theme_var.get())
+
+        tk.Button(f, text="▶   BẮT ĐẦU", font=("Segoe UI", 16, "bold"),
+                  bg="#FFC107", fg="#1B5E20", activebackground="#FFD54F",
+                  padx=36, pady=12, relief="flat", cursor="hand2",
+                  command=go).pack(pady=38)
+
+    def start_game(self, name, theme_key):
+        for w in self.root.winfo_children():
+            w.destroy()
+        FarmGame(self.root, name, theme_key)
+
+
+# ==================== CHẠY ====================
+if __name__ == "__main__":
+    App()
