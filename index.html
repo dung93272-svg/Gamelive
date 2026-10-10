@@ -38,6 +38,8 @@ h1{font-size:18px;text-align:center;background:linear-gradient(90deg,#f472b6,#a7
 .act-btn{background:#1e293b;border:2px solid #334155;color:#e2e8f0;padding:8px;border-radius:10px;cursor:pointer;font-family:inherit;font-size:12px;text-align:left;transition:.15s}
 .act-btn:hover:not(:disabled){background:#334155;border-color:#7c3aed;transform:translateY(-1px)}
 .act-btn:disabled{opacity:.4;cursor:not-allowed}
+.act-btn.exam{border-color:#facc15;background:#422006;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(250,204,21,.4)}50%{box-shadow:0 0 0 8px rgba(250,204,21,0)}}
 .act-btn .nm{font-weight:bold;display:block;margin-bottom:3px}
 .act-btn .meta{font-size:10px;color:#94a3b8;display:flex;justify-content:space-between;gap:4px}
 .act-btn .meta .cost{color:#facc15;font-weight:bold}
@@ -61,8 +63,9 @@ h1{font-size:18px;text-align:center;background:linear-gradient(90deg,#f472b6,#a7
 .btn.sec:hover{background:#475569}
 .btn.gold{background:linear-gradient(135deg,#f59e0b,#facc15);color:#1c1917}
 .btn.danger{background:#7f1d1d;color:#fecaca}
+.btn.success{background:linear-gradient(135deg,#22c55e,#10b981);color:#fff}
 .btn:disabled{opacity:.4;cursor:not-allowed}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;padding:12px;z-index:100}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;padding:12px;z-index:100}
 .modal.on{display:flex}
 .mbox{background:#1e293b;border-radius:14px;padding:16px;max-width:680px;width:100%;max-height:92vh;overflow-y:auto;border:1px solid #475569}
 .mbox h2{font-size:16px;margin-bottom:10px;color:#f472b6}
@@ -112,13 +115,11 @@ h1{font-size:18px;text-align:center;background:linear-gradient(90deg,#f472b6,#a7
 <body>
 <div class="app">
   <h1>NHỊP ĐỜI ONLINE</h1>
-  
   <div class="time-bar">
     <span class="clock" id="clock">06:00</span>
     <span class="day" id="dayInfo">📅 Thứ Hai · Ngày 1</span>
     <span class="period" id="period">🌅 Sáng</span>
   </div>
-  
   <div class="top-info">
     <span class="pill money" id="moneyPill">💰 3.000đ</span>
     <span class="pill job" id="jobPill">🎓 Sinh viên</span>
@@ -126,33 +127,19 @@ h1{font-size:18px;text-align:center;background:linear-gradient(90deg,#f472b6,#a7
     <span class="pill partner" id="partnerPill" style="display:none">💗</span>
     <span class="pill" id="locPill">📍 Nhà</span>
   </div>
-  
   <div class="stats-grid" id="statsGrid"></div>
-  
   <div class="section">
-    <div class="section-title">
-      <span>📍 Địa điểm</span>
-      <span class="count" id="locCount"></span>
-    </div>
+    <div class="section-title"><span>📍 Địa điểm</span><span class="count" id="locCount"></span></div>
     <div class="locations-grid" id="locationsGrid"></div>
   </div>
-  
   <div class="section" id="actsSection" style="display:none">
-    <div class="section-title">
-      <span id="actsTitle">🎯 Hoạt động</span>
-      <span class="count" id="actsCount"></span>
-    </div>
+    <div class="section-title"><span id="actsTitle">🎯 Hoạt động</span><span class="count" id="actsCount"></span></div>
     <div class="acts-grid" id="actsGrid"></div>
   </div>
-  
   <div class="section">
-    <div class="section-title">
-      <span>📜 Nhật ký</span>
-      <span class="count" id="logCount"></span>
-    </div>
+    <div class="section-title"><span>📜 Nhật ký</span><span class="count" id="logCount"></span></div>
     <div class="log" id="log"></div>
   </div>
-  
   <div class="footer">
     <button class="btn sec" id="relBtn">🤝 Quan hệ</button>
     <button class="btn sec" id="childBtn">👶 Con</button>
@@ -161,16 +148,12 @@ h1{font-size:18px;text-align:center;background:linear-gradient(90deg,#f472b6,#a7
     <button class="btn danger" id="resetBtn">🚪 Chơi lại</button>
   </div>
 </div>
-
 <div class="modal" id="modal"><div class="mbox" id="mbox"></div></div>
 <div class="notification" id="notif"></div>
 
 <script>
-// ═══════════════════════════════════════════
-//  CONSTANTS
-// ═══════════════════════════════════════════
-
-const TICK_MINUTES_PER_SEC = 4; // 1 giây thực = 4 phút game
+// ═══════════ CONSTANTS ═══════════
+const TICK = 4; // 1s = 4 phút
 
 const JOBS = {
   thatnghiep:{n:'Thất nghiệp', i:'🚫', w:0, s:0},
@@ -185,25 +168,31 @@ const JOBS = {
   freelancer:{n:'Freelancer', i:'✏️', w:900, s:15, edu:'c3'},
   streamer:{n:'Streamer', i:'🎮', w:600, s:12, edu:'c3'},
   musician:{n:'Nhạc sĩ', i:'🎸', w:500, s:10, edu:'c3'},
-  teacher:{n:'Giáo viên', i:'📚', w:900, s:16, edu:'dh'},
-  accountant:{n:'Kế toán', i:'📊', w:1100, s:16, edu:'dh'},
-  nurse:{n:'Y tá', i:'💉', w:1200, s:22, edu:'dh'},
-  designer:{n:'Thiết kế', i:'🎨', w:1300, s:18, edu:'dh'},
-  dev:{n:'Lập trình viên', i:'💻', w:1600, s:20, edu:'dh'},
-  engineer:{n:'Kỹ sư', i:'⚙️', w:1500, s:20, edu:'dh'},
-  banker:{n:'Nhân viên NH', i:'🏦', w:1400, s:18, edu:'dh'},
-  pilot:{n:'Phi công', i:'✈️', w:2500, s:25, edu:'dh'},
-  doctor:{n:'Bác sĩ', i:'🩺', w:2800, s:30, edu:'ths'},
-  lawyer:{n:'Luật sư', i:'⚖️', w:2400, s:22, edu:'ths'},
-  architect:{n:'Kiến trúc sư', i:'🏛️', w:2000, s:20, edu:'ths'},
-  manager:{n:'Quản lý', i:'📈', w:2200, s:22, edu:'ths'},
-  professor:{n:'Giáo sư', i:'🎩', w:3000, s:18, edu:'ts'},
-  scientist:{n:'Nhà khoa học', i:'🔬', w:2800, s:20, edu:'ts'},
-  ceo:{n:'Giám đốc', i:'🏢', w:4500, s:28, edu:'ts'}
+  teacher:{n:'Giáo viên', i:'📚', w:1500, s:16, edu:'dh'},
+  accountant:{n:'Kế toán', i:'📊', w:1800, s:16, edu:'dh'},
+  nurse:{n:'Y tá', i:'💉', w:2000, s:22, edu:'dh'},
+  designer:{n:'Thiết kế', i:'🎨', w:2200, s:18, edu:'dh'},
+  dev:{n:'Lập trình viên', i:'💻', w:2800, s:20, edu:'dh'},
+  engineer:{n:'Kỹ sư', i:'⚙️', w:2600, s:20, edu:'dh'},
+  banker:{n:'Nhân viên NH', i:'🏦', w:2400, s:18, edu:'dh'},
+  pilot:{n:'Phi công', i:'✈️', w:3500, s:25, edu:'dh'},
+  doctor:{n:'Bác sĩ', i:'🩺', w:5500, s:30, edu:'ths'},
+  lawyer:{n:'Luật sư', i:'⚖️', w:5000, s:22, edu:'ths'},
+  architect:{n:'Kiến trúc sư', i:'🏛️', w:4500, s:20, edu:'ths'},
+  manager:{n:'Quản lý', i:'📈', w:4800, s:22, edu:'ths'},
+  professor:{n:'Giáo sư', i:'🎩', w:9000, s:18, edu:'ts'},
+  scientist:{n:'Nhà khoa học', i:'🔬', w:8500, s:20, edu:'ts'},
+  ceo:{n:'Giám đốc', i:'🏢', w:15000, s:28, edu:'ts'}
 };
 
 const EDU_RANK = {c3:1, dh:2, ths:3, ts:4};
 const EDU_LABEL = {c3:'📗 Cấp 3', dh:'📘 Đại học', ths:'📙 Thạc sĩ', ts:'📕 Tiến sĩ'};
+const EXAM_REQ = {c3:5, dh:10, ths:15, ts:999};
+const EXAM_CONFIG = {
+  c3: {next:'dh', count:10, passRate:0.7, label:'Đại học'},
+  dh: {next:'ths', count:20, passRate:0.7, label:'Thạc sĩ'},
+  ths: {next:'ts', count:30, passRate:0.7, label:'Tiến sĩ'}
+};
 
 const HOUSES = [
   {id:'none', n:'Không có (ở trọ)', p:0, m:0},
@@ -213,7 +202,6 @@ const HOUSES = [
   {id:'biet_thu', n:'Biệt thự', p:20000000, m:25},
   {id:'cung_dien', n:'Cung điện', p:80000000, m:40}
 ];
-
 const CARS = [
   {id:'none', n:'Đi bộ / xe bus', p:0, tr:0},
   {id:'xe_dap', n:'Xe đạp', p:500000, tr:5},
@@ -222,7 +210,6 @@ const CARS = [
   {id:'oto_moi', n:'Ô tô mới', p:30000000, tr:50},
   {id:'sieu_xe', n:'Siêu xe', p:120000000, tr:75}
 ];
-
 const BUSINESS = [
   {id:'none', n:'Không có', p:0, inc:0},
   {id:'tap_hoa', n:'Tạp hóa', p:3000000, inc:200000},
@@ -232,216 +219,263 @@ const BUSINESS = [
   {id:'tap_doan', n:'Tập đoàn', p:500000000, inc:40000000}
 ];
 
-// ═══════════════════════════════════════════
-//  LOCATIONS & ACTIVITIES
-// ═══════════════════════════════════════════
-
-const LOCATIONS = {
-  home: {
-    n:'Nhà', e:'🏠', desc:'Nơi nghỉ ngơi',
-    acts: [
-      {id:'sleep', n:'😴 Ngủ', t:480, cost:0, ef:{energy:80, mental:20, health:5}, once:'day', special:'sleep'},
-      {id:'nap', n:'🛏️ Ngủ trưa', t:60, cost:0, ef:{energy:25, mental:8}},
-      {id:'cook', n:'🍳 Nấu ăn', t:60, cost:80, ef:{energy:20, mental:8}},
-      {id:'shower', n:'🚿 Tắm rửa', t:20, cost:20, ef:{mental:8, health:2}},
-      {id:'tv', n:'📺 Xem TV', t:60, cost:0, ef:{mental:10, energy:-5}},
-      {id:'phone', n:'📱 Lướt điện thoại', t:30, cost:0, ef:{mental:5, energy:-3}},
-      {id:'clean', n:'🧹 Dọn nhà', t:45, cost:0, ef:{mental:5, health:3, energy:-10}},
-      {id:'hobby_home', n:'🎨 Làm sở thích', t:90, cost:0, ef:{passion:10, mental:8, energy:-8}},
-      {id:'exercise_home', n:'💪 Tập thể dục', t:30, cost:0, ef:{health:8, energy:-10, mental:5}},
-      {id:'meditate', n:'🧘 Thiền', t:30, cost:0, ef:{mental:15, health:5}}
-    ]
-  },
-  cafe: {
-    n:'Cà phê', e:'☕', desc:'Gặp gỡ, thư giãn',
-    acts: [
-      {id:'coffee', n:'☕ Uống cà phê', t:30, cost:30, ef:{energy:15, mental:8}},
-      {id:'cake', n:'🧁 Ăn bánh ngọt', t:30, cost:50, ef:{energy:12, mental:10}},
-      {id:'chat', n:'💬 Trò chuyện', t:60, cost:20, ef:{mental:12, love:3}},
-      {id:'read_cafe', n:'📖 Đọc sách', t:90, cost:30, ef:{skill:2, mental:8}},
-      {id:'work_cafe', n:'💻 Làm việc', t:120, cost:50, ef:{money:300, energy:-15, mental:-5}},
-      {id:'music', n:'🎵 Nghe nhạc', t:45, cost:20, ef:{mental:10, passion:3}}
-    ]
-  },
-  restaurant: {
-    n:'Quán ăn', e:'🍜', desc:'Ăn uống ngon miệng',
-    acts: [
-      {id:'breakfast', n:'🥐 Ăn sáng', t:30, cost:40, ef:{energy:25, mental:8}, time:['sang']},
-      {id:'lunch', n:'🍱 Ăn trưa', t:60, cost:80, ef:{energy:35, mental:12}, time:['trua']},
-      {id:'dinner', n:'🍽️ Ăn tối', t:90, cost:100, ef:{energy:40, mental:15}, time:['toi']},
-      {id:'drink', n:'🍺 Nhậu bạn bè', t:180, cost:250, ef:{mental:25, health:-10, energy:-15}},
-      {id:'snack', n:'🍕 Ăn vặt', t:30, cost:50, ef:{energy:15, mental:8}}
-    ]
-  },
-  gym: {
-    n:'Gym', e:'🏋️', desc:'Tập luyện sức khỏe',
-    acts: [
-      {id:'workout', n:'🏋️ Tập tạ', t:90, cost:50, ef:{health:15, skill:1, energy:-20, mental:5}},
-      {id:'yoga', n:'🧘 Yoga', t:60, cost:40, ef:{health:10, mental:12, energy:-10}},
-      {id:'boxing', n:'🥊 Boxing', t:90, cost:60, ef:{health:18, skill:2, energy:-25}},
-      {id:'swim', n:'🏊 Bơi lội', t:60, cost:50, ef:{health:12, energy:-15, mental:8}},
-      {id:'run', n:'🏃 Chạy bộ', t:45, cost:0, ef:{health:10, energy:-12, mental:5}},
-      {id:'sauna', n:'♨️ Xông hơi', t:30, cost:80, ef:{health:8, mental:10, energy:5}}
-    ]
-  },
-  park: {
-    n:'Công viên', e:'🌳', desc:'Thiên nhiên xanh mát',
-    acts: [
-      {id:'walk_park', n:'🚶 Đi dạo', t:60, cost:0, ef:{mental:12, health:5}},
-      {id:'photo', n:'📸 Chụp ảnh', t:45, cost:0, ef:{passion:10, mental:8}},
-      {id:'picnic', n:'🧺 Dã ngoại', t:120, cost:100, ef:{mental:20, energy:15, health:8}},
-      {id:'paint', n:'🎨 Vẽ tranh', t:90, cost:20, ef:{passion:12, mental:10, energy:-8}},
-      {id:'play_music', n:'🎸 Chơi nhạc', t:60, cost:0, ef:{passion:10, mental:8, energy:-5}},
-      {id:'jog', n:'🏃 Chạy bộ', t:45, cost:0, ef:{health:8, energy:-10, mental:6}}
-    ]
-  },
-  school: {
-    n:'Trường học', e:'🏫', desc:'Học tập nâng cao',
-    acts: [
-      {id:'study_school', n:'📚 Ôn tập', t:180, cost:100, ef:{skill:3, mental:-5, energy:-15}},
-      {id:'programming', n:'💻 Học lập trình', t:180, cost:200, ef:{skill:5, energy:-18}},
-      {id:'art', n:'🎨 Học vẽ', t:120, cost:150, ef:{passion:8, skill:2, energy:-12}},
-      {id:'music_class', n:'🎵 Học nhạc', t:120, cost:150, ef:{passion:8, skill:2, energy:-12}},
-      {id:'english', n:'🇬🇧 Học tiếng Anh', t:120, cost:100, ef:{skill:3, energy:-12}},
-      {id:'exam', n:'📝 Thi cuối khóa', t:240, cost:300, ef:{skill:5, mental:-15, energy:-25}, special:'exam'}
-    ]
-  },
-  library: {
-    n:'Thư viện', e:'📚', desc:'Yên tĩnh đọc sách',
-    acts: [
-      {id:'read_lib', n:'📖 Đọc sách', t:120, cost:0, ef:{skill:3, mental:8, energy:-8}},
-      {id:'research', n:'🔬 Nghiên cứu', t:240, cost:0, ef:{skill:6, energy:-20, mental:-8}},
-      {id:'self_study', n:'✏️ Tự học', t:180, cost:0, ef:{skill:4, energy:-15}}
-    ]
-  },
-  hospital: {
-    n:'Bệnh viện', e:'🏥', desc:'Chăm sóc sức khỏe',
-    acts: [
-      {id:'checkup', n:'🩺 Khám tổng quát', t:60, cost:500, ef:{health:20, energy:5}},
-      {id:'treat', n:'💊 Điều trị', t:120, cost:1500, ef:{health:50, energy:10}},
-      {id:'therapy', n:'🧠 Trị liệu tâm lý', t:120, cost:800, ef:{mental:40, energy:-5}},
-      {id:'dentist', n:'🦷 Nha khoa', t:60, cost:1200, ef:{health:10, mental:5}}
-    ]
-  },
-  bank: {
-    n:'Ngân hàng', e:'🏦', desc:'Giao dịch tài chính',
-    acts: [
-      {id:'save', n:'💰 Gửi tiết kiệm', t:30, cost:0, ef:{mental:5}},
-      {id:'invest', n:'📈 Đầu tư chứng khoán', t:60, cost:1000, ef:{}, special:'gamble', gamble:{win:3000, lose:-1200, chance:0.45}},
-      {id:'loan', n:'💳 Vay vốn', t:60, cost:0, ef:{money:5000}, special:'loan'}
-    ]
-  },
-  market: {
-    n:'Chợ', e:'🛒', desc:'Mua bán thực phẩm',
-    acts: [
-      {id:'buy_food', n:'🥬 Mua thực phẩm', t:45, cost:150, ef:{energy:10, health:3}},
-      {id:'buy_fruit', n:'🍎 Mua trái cây', t:30, cost:100, ef:{health:8, energy:5}},
-      {id:'street_food', n:'🍢 Ăn hàng rong', t:30, cost:40, ef:{energy:15, mental:5}},
-      {id:'buy_flowers', n:'💐 Mua hoa', t:15, cost:80, ef:{mental:8}}
-    ]
-  },
-  supermarket: {
-    n:'Siêu thị', e:'🏪', desc:'Mua sắm đủ loại',
-    acts: [
-      {id:'grocery', n:'🛒 Mua đồ ăn', t:60, cost:300, ef:{energy:15, mental:5}},
-      {id:'hygiene', n:'🧴 Đồ vệ sinh', t:30, cost:150, ef:{health:3}},
-      {id:'snacks', n:'🍫 Đồ ăn vặt', t:30, cost:120, ef:{mental:8, energy:5}},
-      {id:'buy_phone', n:'📱 Mua điện thoại', t:30, cost:5000, ef:{mental:20, skill:1}, once:'day'}
-    ]
-  },
-  mall: {
-    n:'Trung tâm TM', e:'🏬', desc:'Giải trí, mua sắm',
-    acts: [
-      {id:'clothes', n:'👕 Mua quần áo', t:60, cost:300, ef:{mental:12}},
-      {id:'shoes', n:'👟 Mua giày', t:30, cost:500, ef:{mental:10}},
-      {id:'jewelry', n:'💍 Mua trang sức', t:30, cost:5000, ef:{mental:20, love:5}},
-      {id:'arcade', n:'🎮 Khu game', t:90, cost:100, ef:{mental:15, energy:-10}},
-      {id:'food_court', n:'🍔 Khu ăn uống', t:60, cost:150, ef:{energy:25, mental:10}},
-      {id:'cinema_mall', n:'🎬 Rạp phim', t:150, cost:120, ef:{mental:20, energy:5}}
-    ]
-  },
-  cinema: {
-    n:'Rạp phim', e:'🎬', desc:'Phim bom tấn',
-    acts: [
-      {id:'watch_movie', n:'🍿 Xem phim', t:150, cost:120, ef:{mental:22, energy:8}},
-      {id:'premium_movie', n:'🎥 Phim VIP', t:180, cost:250, ef:{mental:30, energy:10}}
-    ]
-  },
-  bar: {
-    n:'Bar / Pub', e:'🍺', desc:'Vui chơi về đêm',
-    acts: [
-      {id:'beer', n:'🍺 Uống bia', t:120, cost:200, ef:{mental:20, health:-8, energy:-10}, time:['toi','dem']},
-      {id:'cocktail', n:'🍸 Cocktail', t:90, cost:300, ef:{mental:25, energy:-5}, time:['toi','dem']},
-      {id:'dance', n:'💃 Nhảy', t:180, cost:400, ef:{mental:30, energy:-20, health:-5}, time:['toi','dem']}
-    ]
-  },
-  spa: {
-    n:'Spa', e:'💆', desc:'Thư giãn, làm đẹp',
-    acts: [
-      {id:'massage', n:'💆 Massage', t:90, cost:600, ef:{health:15, mental:25, energy:10}},
-      {id:'facial', n:'🌸 Chăm sóc da', t:60, cost:400, ef:{mental:15, health:5}},
-      {id:'sauna_spa', n:'♨️ Xông hơi', t:30, cost:200, ef:{health:8, mental:10}},
-      {id:'nail', n:'💅 Làm nail', t:45, cost:180, ef:{mental:12}}
-    ]
-  },
-  barber: {
-    n:'Tiệm cắt tóc', e:'💈', desc:'Làm mới bản thân',
-    acts: [
-      {id:'haircut', n:'✂️ Cắt tóc', t:45, cost:100, ef:{mental:10}},
-      {id:'shave', n:'🪒 Cạo râu', t:20, cost:50, ef:{mental:5}},
-      {id:'dye', n:'🎨 Nhuộm tóc', t:120, cost:800, ef:{mental:20}},
-      {id:'shampoo', n:'💆 Gội đầu', t:30, cost:80, ef:{mental:10, health:3}}
-    ]
-  },
-  company: {
-    n:'Công ty', e:'🏢', desc:'Nơi làm việc',
-    acts: [
-      {id:'work', n:'💼 Đi làm', t:240, cost:0, ef:{money:'wage', energy:-20, mental:-8, skill:1}, once:'day'},
-      {id:'overtime', n:'🔥 Làm thêm giờ', t:120, cost:0, ef:{money:'half', energy:-18, mental:-12}, special:'afterWork'},
-      {id:'meeting', n:'📊 Họp nhóm', t:60, cost:0, ef:{skill:2, mental:-5, energy:-8}},
-      {id:'interview', n:'🎯 Phỏng vấn việc mới', t:60, cost:0, ef:{mental:-5, energy:-10}, special:'interview'}
-    ]
-  },
-  casino: {
-    n:'Sòng bạc', e:'🎰', desc:'Cờ bạc may rủi',
-    acts: [
-      {id:'slot', n:'🎰 Slot machine', t:30, cost:100, special:'gamble', gamble:{win:500, lose:-150, chance:0.35}},
-      {id:'dice', n:'🎲 Xúc xắc', t:60, cost:500, special:'gamble', gamble:{win:2000, lose:-700, chance:0.4}},
-      {id:'card', n:'🃏 Đánh bài', t:120, cost:1000, special:'gamble', gamble:{win:4000, lose:-1500, chance:0.42}},
-      {id:'roulette', n:'🎯 Roulette', t:60, cost:500, special:'gamble', gamble:{win:2500, lose:-800, chance:0.38}}
-    ]
-  },
-  karaoke: {
-    n:'Karaoke', e:'🎤', desc:'Hát cho vui',
-    acts: [
-      {id:'sing', n:'🎤 Hát đơn', t:120, cost:200, ef:{mental:20, passion:5, energy:-15}},
-      {id:'sing_group', n:'👥 Hát nhóm', t:180, cost:400, ef:{mental:30, love:5, energy:-20}}
-    ]
-  },
-  temple: {
-    n:'Đền / Chùa', e:'🙏', desc:'Tâm linh an yên',
-    acts: [
-      {id:'pray', n:'🙏 Cầu nguyện', t:30, cost:0, ef:{mental:15, health:3}},
-      {id:'meditate_temple', n:'🧘 Thiền', t:90, cost:0, ef:{mental:25, health:8, energy:5}},
-      {id:'offering', n:'📿 Dâng lễ', t:60, cost:100, ef:{mental:20, love:5}}
-    ]
-  },
-  petshop: {
-    n:'Tiệm thú cưng', e:'🐾', desc:'Bạn đồng hành',
-    acts: [
-      {id:'buy_dog', n:'🐕 Mua chó', t:60, cost:2000, ef:{mental:20, love:10}, special:'buyPet', pet:'dog'},
-      {id:'buy_cat', n:'🐈 Mua mèo', t:60, cost:1500, ef:{mental:20, love:10}, special:'buyPet', pet:'cat'},
-      {id:'buy_fish', n:'🐠 Mua cá cảnh', t:30, cost:500, ef:{mental:10}}
-    ]
-  }
+// ═══════════ QUESTION BANK ═══════════
+const QUESTIONS = {
+  c3: [
+    // Địa lý
+    {q:'Thủ đô của Việt Nam là gì?', o:['Hà Nội','TP. Hồ Chí Minh','Đà Nẵng','Huế'], a:0, s:'Địa lý'},
+    {q:'Việt Nam giáp bao nhiêu quốc gia trên đất liền?', o:['3','2','4','1'], a:0, s:'Địa lý'},
+    {q:'Đỉnh núi cao nhất Việt Nam là?', o:['Phan Xi Păng','Ngọc Linh','Bà Đen','Tam Đảo'], a:0, s:'Địa lý'},
+    {q:'Thành phố đông dân nhất Việt Nam?', o:['TP. Hồ Chí Minh','Hà Nội','Đà Nẵng','Cần Thơ'], a:0, s:'Địa lý'},
+    {q:'Châu lục nào lớn nhất thế giới?', o:['Châu Á','Châu Âu','Châu Phi','Châu Mỹ'], a:0, s:'Địa lý'},
+    {q:'Đại dương nào lớn nhất thế giới?', o:['Thái Bình Dương','Đại Tây Dương','Ấn Độ Dương','Bắc Băng Dương'], a:0, s:'Địa lý'},
+    {q:'Thủ đô của Nhật Bản là?', o:['Tokyo','Osaka','Kyoto','Nagoya'], a:0, s:'Địa lý'},
+    {q:'Thủ đô của Pháp là?', o:['Paris','Lyon','Marseille','Nice'], a:0, s:'Địa lý'},
+    {q:'Quốc gia có diện tích lớn nhất thế giới?', o:['Nga','Canada','Trung Quốc','Mỹ'], a:0, s:'Địa lý'},
+    {q:'Việt Nam có bao nhiêu dân tộc anh em?', o:['54','53','55','56'], a:0, s:'Địa lý'},
+    {q:'Sông nào chảy qua thủ đô Hà Nội?', o:['Sông Hồng','Sông Đồng Nai','Sông Mã','Sông Cả'], a:0, s:'Địa lý'},
+    {q:'Vịnh nào được UNESCO công nhận di sản?', o:['Vịnh Hạ Long','Vịnh Nha Trang','Vịnh Cam Ranh','Vịnh Vân Phong'], a:0, s:'Địa lý'},
+    {q:'Đảo lớn nhất Việt Nam là?', o:['Phú Quốc','Cát Bà','Côn Đảo','Lý Sơn'], a:0, s:'Địa lý'},
+    {q:'Sa mạc lớn nhất thế giới?', o:['Sahara','Gobi','Kalahari','Atacama'], a:0, s:'Địa lý'},
+    {q:'Thủ đô của Anh là?', o:['London','Manchester','Liverpool','Birmingham'], a:0, s:'Địa lý'},
+    // Lịch sử
+    {q:'Vị vua đầu tiên của Việt Nam?', o:['Hùng Vương','Lý Thái Tổ','Ngô Quyền','Đinh Tiên Hoàng'], a:0, s:'Lịch sử'},
+    {q:'Chiến thắng Bạch Đằng năm 938 do ai lãnh đạo?', o:['Ngô Quyền','Lê Lợi','Trần Hưng Đạo','Lý Thường Kiệt'], a:0, s:'Lịch sử'},
+    {q:'Ai đánh đuổi quân Minh, lập nhà Hậu Lê?', o:['Lê Lợi','Nguyễn Huệ','Trần Hưng Đạo','Lý Thường Kiệt'], a:0, s:'Lịch sử'},
+    {q:'Bác Hồ đọc Tuyên ngôn Độc lập vào ngày nào?', o:['2/9/1945','2/9/1946','1/9/1945','3/9/1945'], a:0, s:'Lịch sử'},
+    {q:'Chiến dịch Điện Biên Phủ kết thúc năm nào?', o:['1954','1953','1955','1956'], a:0, s:'Lịch sử'},
+    {q:'Ngày giải phóng miền Nam?', o:['30/4/1975','30/4/1974','1/5/1975','2/9/1975'], a:0, s:'Lịch sử'},
+    {q:'Đảng Cộng sản Việt Nam thành lập năm nào?', o:['1930','1929','1931','1932'], a:0, s:'Lịch sử'},
+    {q:'Ai viết "Bình Ngô đại cáo"?', o:['Nguyễn Trãi','Nguyễn Du','Trần Quốc Tuấn','Lê Lợi'], a:0, s:'Lịch sử'},
+    {q:'Triều đại phong kiến cuối cùng của Việt Nam?', o:['Nhà Nguyễn','Nhà Lê','Nhà Tây Sơn','Nhà Trần'], a:0, s:'Lịch sử'},
+    {q:'Chiến tranh thế giới thứ 2 kết thúc năm nào?', o:['1945','1944','1946','1943'], a:0, s:'Lịch sử'},
+    {q:'Cách mạng tháng Mười Nga năm nào?', o:['1917','1916','1918','1919'], a:0, s:'Lịch sử'},
+    {q:'Ai viết "Truyện Kiều"?', o:['Nguyễn Du','Nguyễn Trãi','Hồ Xuân Hương','Cao Bá Quát'], a:0, s:'Lịch sử'},
+    {q:'Vua Quang Trung đánh tan quân Thanh năm nào?', o:['1789','1788','1790','1787'], a:0, s:'Lịch sử'},
+    {q:'Thực dân Pháp xâm lược Việt Nam năm nào?', o:['1858','1857','1859','1860'], a:0, s:'Lịch sử'},
+    {q:'Ai là tổng chỉ huy chiến dịch Điện Biên Phủ?', o:['Võ Nguyên Giáp','Hồ Chí Minh','Nguyễn Chí Thanh','Văn Tiến Dũng'], a:0, s:'Lịch sử'},
+    // Toán
+    {q:'15 + 27 = ?', o:['42','41','43','40'], a:0, s:'Toán'},
+    {q:'7 × 8 = ?', o:['56','54','58','48'], a:0, s:'Toán'},
+    {q:'144 ÷ 12 = ?', o:['12','11','13','14'], a:0, s:'Toán'},
+    {q:'Căn bậc hai của 81 là?', o:['9','8','10','11'], a:0, s:'Toán'},
+    {q:'2^5 = ?', o:['32','16','64','25'], a:0, s:'Toán'},
+    {q:'Diện tích hình chữ nhật dài 5 rộng 3?', o:['15','8','16','12'], a:0, s:'Toán'},
+    {q:'25% của 200 là?', o:['50','25','75','100'], a:0, s:'Toán'},
+    {q:'Số nguyên tố nhỏ nhất là?', o:['2','1','3','5'], a:0, s:'Toán'},
+    {q:'Đạo hàm của x² là?', o:['2x','x','2','x²'], a:0, s:'Toán'},
+    {q:'sin(90°) = ?', o:['1','0','-1','0.5'], a:0, s:'Toán'},
+    {q:'12 × 12 = ?', o:['144','124','134','154'], a:0, s:'Toán'},
+    {q:'100 - 37 = ?', o:['63','67','73','57'], a:0, s:'Toán'},
+    // Văn học
+    {q:'Ai viết "Tắt đèn"?', o:['Ngô Tất Tố','Nam Cao','Vũ Trọng Phụng','Nguyễn Công Hoan'], a:0, s:'Văn học'},
+    {q:'Ai viết "Chí Phèo"?', o:['Nam Cao','Ngô Tất Tố','Vũ Trọng Phụng','Nguyễn Tuân'], a:0, s:'Văn học'},
+    {q:'"Truyện Kiều" viết theo thể thơ nào?', o:['Lục bát','Song thất lục bát','Thất ngôn','Ngũ ngôn'], a:0, s:'Văn học'},
+    {q:'Nhà thơ nào được gọi là "Bà chúa thơ Nôm"?', o:['Hồ Xuân Hương','Bà Huyện Thanh Quan','Xuân Quỳnh','Đoàn Thị Điểm'], a:0, s:'Văn học'},
+    {q:'Ai viết "Nhật ký trong tù"?', o:['Hồ Chí Minh','Tố Hữu','Nguyễn Du','Nguyễn Trãi'], a:0, s:'Văn học'},
+    {q:'Tác giả bài thơ "Đồng chí"?', o:['Chính Hữu','Quang Dũng','Tố Hữu','Xuân Quỳnh'], a:0, s:'Văn học'},
+    {q:'Ai viết "Vợ nhặt"?', o:['Kim Lân','Nam Cao','Nguyễn Tuân','Vũ Trọng Phụng'], a:0, s:'Văn học'},
+    {q:'"Số đỏ" của tác giả nào?', o:['Vũ Trọng Phụng','Nam Cao','Ngô Tất Tố','Nguyễn Công Hoan'], a:0, s:'Văn học'},
+    {q:'Tác phẩm "Lão Hạc" của ai?', o:['Nam Cao','Ngô Tất Tố','Nguyễn Tuân','Thạch Lam'], a:0, s:'Văn học'},
+    {q:'Tác giả bài thơ "Sóng"?', o:['Xuân Quỳnh','Xuân Diệu','Huy Cận','Tế Hanh'], a:0, s:'Văn học'}
+  ],
+  dh: [
+    {q:'Thủ đô của Úc là?', o:['Canberra','Sydney','Melbourne','Brisbane'], a:0, s:'Địa lý'},
+    {q:'Quốc gia nào có nhiều múi giờ nhất?', o:['Pháp','Nga','Mỹ','Trung Quốc'], a:0, s:'Địa lý'},
+    {q:'Sông nào dài nhất châu Á?', o:['Dương Tử','Hoàng Hà','Mekong','Ấn'], a:0, s:'Địa lý'},
+    {q:'Núi nào cao thứ 2 thế giới?', o:['K2','Kangchenjunga','Lhotse','Makalu'], a:0, s:'Địa lý'},
+    {q:'Đỉnh Everest cao bao nhiêu mét?', o:['8.848m','8.850m','8.846m','8.849m'], a:0, s:'Địa lý'},
+    {q:'Chiến tranh lạnh kết thúc năm nào?', o:['1991','1989','1990','1992'], a:0, s:'Lịch sử'},
+    {q:'Bức tường Berlin sụp đổ năm nào?', o:['1989','1988','1990','1991'], a:0, s:'Lịch sử'},
+    {q:'Hiệp định Paris ký năm nào?', o:['1973','1972','1974','1975'], a:0, s:'Lịch sử'},
+    {q:'Cách mạng Pháp năm nào?', o:['1789','1788','1790','1791'], a:0, s:'Lịch sử'},
+    {q:'Chiến tranh thế giới thứ 1 (1914-1918) bắt đầu năm?', o:['1914','1913','1915','1916'], a:0, s:'Lịch sử'},
+    {q:'Tích phân của 2x dx?', o:['x² + C','2x² + C','x²/2 + C','x + C'], a:0, s:'Toán'},
+    {q:'cos(0°) = ?', o:['1','0','-1','0.5'], a:0, s:'Toán'},
+    {q:'log₂(8) = ?', o:['3','2','4','8'], a:0, s:'Toán'},
+    {q:'5! = ?', o:['120','100','60','24'], a:0, s:'Toán'},
+    {q:'Số Fibonacci thứ 10?', o:['55','34','89','21'], a:0, s:'Toán'},
+    {q:'Định lý Pythagoras: a² + b² = ?', o:['c²','c','2c','c³'], a:0, s:'Toán'},
+    {q:'Đạo hàm của sin(x)?', o:['cos(x)','-cos(x)','sin(x)','-sin(x)'], a:0, s:'Toán'},
+    {q:'Số nguyên tố nào nằm giữa 20 và 30?', o:['23 và 29','21 và 27','25 và 27','21 và 25'], a:0, s:'Toán'},
+    {q:'Giới hạn của 1/x khi x→∞?', o:['0','1','∞','-1'], a:0, s:'Toán'},
+    {q:'e^x đạo hàm là?', o:['e^x','xe^x','e^(x-1)','ln(x)'], a:0, s:'Toán'},
+    {q:'Ai viết "Chiến tranh và Hòa bình"?', o:['Tolstoy','Dostoevsky','Chekhov','Gorky'], a:0, s:'Văn học'},
+    {q:'Ai viết "Tội ác và Hình phạt"?', o:['Dostoevsky','Tolstoy','Pushkin','Gogol'], a:0, s:'Văn học'},
+    {q:'"Những người khốn khổ" của ai?', o:['Victor Hugo','Balzac','Flaubert','Zola'], a:0, s:'Văn học'},
+    {q:'"Chinh phụ ngâm" của ai?', o:['Đặng Trần Côn','Đoàn Thị Điểm','Hồ Xuân Hương','Nguyễn Du'], a:0, s:'Văn học'},
+    {q:'Ai viết "Cung oán ngâm khúc"?', o:['Nguyễn Gia Thiều','Nguyễn Du','Đặng Trần Côn','Hồ Xuân Hương'], a:0, s:'Văn học'},
+    {q:'Tác giả "Tây Tiến"?', o:['Quang Dũng','Chính Hữu','Tố Hữu','Nguyễn Đình Thi'], a:0, s:'Văn học'},
+    {q:'Phong trào Thơ mới (1932-1945) gắn với nhà thơ nào?', o:['Xuân Diệu','Nguyễn Bính','Tản Đà','Tú Xương'], a:0, s:'Văn học'},
+    {q:'Nguyễn Du sinh năm nào?', o:['1765','1766','1764','1767'], a:0, s:'Văn học'},
+    {q:'"Hịch tướng sĩ" của Trần Quốc Tuấn viết theo thể?', o:['Hịch','Cáo','Chiếu','Biểu'], a:0, s:'Văn học'},
+    {q:'Tác phẩm "Đất nước" của ai?', o:['Nguyễn Khoa Điềm','Nguyễn Đình Thi','Tố Hữu','Huy Cận'], a:0, s:'Văn học'}
+  ],
+  ths: [
+    {q:'Hằng số Planck xấp xỉ?', o:['6.626×10⁻³⁴ Js','3.14','9.8','1.6×10⁻¹⁹'], a:0, s:'Vật lý'},
+    {q:'Vận tốc ánh sáng trong chân không?', o:['3×10⁸ m/s','3×10⁷ m/s','3×10⁹ m/s','3×10¹⁰ m/s'], a:0, s:'Vật lý'},
+    {q:'Số Avogadro xấp xỉ?', o:['6.022×10²³','3.14×10²³','1.6×10¹⁹','9.8×10²³'], a:0, s:'Vật lý'},
+    {q:'Định luật 2 Newton phát biểu: F = ?', o:['ma','m/a','a/m','m+a'], a:0, s:'Vật lý'},
+    {q:'Đơn vị đo cường độ dòng điện?', o:['Ampe','Volt','Ohm','Watt'], a:0, s:'Vật lý'},
+    {q:'Nguyên tố nào có ký hiệu K?', o:['Kali','Krypton','Kẽm','Kền'], a:0, s:'Hóa học'},
+    {q:'Công thức hóa học của muối ăn?', o:['NaCl','KCl','CaCl₂','MgCl₂'], a:0, s:'Hóa học'},
+    {q:'Kim loại nào dẫn điện tốt nhất?', o:['Bạc','Đồng','Vàng','Nhôm'], a:0, s:'Hóa học'},
+    {q:'Nguyên tố nào nhiều nhất trong vũ trụ?', o:['Hydro','Heli','Oxy','Cacbon'], a:0, s:'Hóa học'},
+    {q:'Cấu trúc DNA được phát hiện bởi?', o:['Watson và Crick','Darwin','Mendel','Pasteur'], a:0, s:'Sinh học'},
+    {q:'Nguyên lý bất định Heisenberg nói về?', o:['Vị trí và động lượng','Năng lượng','Khối lượng','Thời gian'], a:0, s:'Vật lý'},
+    {q:'Lý thuyết tương đối của Einstein công bố năm nào?', o:['1905 và 1915','1900','1920','1930'], a:0, s:'Vật lý'},
+    {q:'Đơn vị đo lực?', o:['Newton','Joule','Watt','Pascal'], a:0, s:'Vật lý'},
+    {q:'Hành tinh nào lớn nhất hệ Mặt Trời?', o:['Mộc','Thổ','Thiên Vương','Hải Vương'], a:0, s:'Thiên văn'},
+    {q:'Trái Đất quay quanh Mặt Trời mất bao lâu?', o:['365.25 ngày','365 ngày','366 ngày','360 ngày'], a:0, s:'Thiên văn'},
+    {q:'"Chiến tranh và Hòa bình" gồm bao nhiêu tập?', o:['4','3','5','2'], a:0, s:'Văn học'},
+    {q:'"Ulysses" của tác giả nào?', o:['James Joyce','Virginia Woolf','Kafka','Proust'], a:0, s:'Văn học'},
+    {q:'GDP là viết tắt của?', o:['Gross Domestic Product','General Domestic Production','Global Domestic Product','Gross Development Product'], a:0, s:'Kinh tế'},
+    {q:'Lạm phát đo bằng chỉ số nào?', o:['CPI','GDP','GNP','FDI'], a:0, s:'Kinh tế'},
+    {q:'Internet ra đời năm nào?', o:['1969','1970','1968','1971'], a:0, s:'Công nghệ'},
+    {q:'WWW viết tắt của?', o:['World Wide Web','World Web Wide','Wide World Web','Web World Wide'], a:0, s:'Công nghệ'},
+    {q:'Bitcoin được tạo ra bởi?', o:['Satoshi Nakamoto','Vitalik Buterin','Elon Musk','Jack Dorsey'], a:0, s:'Công nghệ'},
+    {q:'AI viết tắt của?', o:['Artificial Intelligence','Automated Information','Advanced Interface','Algorithmic Input'], a:0, s:'Công nghệ'},
+    {q:'Định lý Gödel bất toàn liên quan đến?', o:['Toán học','Vật lý','Hóa học','Sinh học'], a:0, s:'Toán'},
+    {q:'Nguyên lý cơ bản của kinh tế học: cung tăng, cầu không đổi thì?', o:['Giá giảm','Giá tăng','Giá không đổi','Không xác định'], a:0, s:'Kinh tế'},
+    {q:'Phản ứng phân hạch hạt nhân giải phóng?', o:['Năng lượng lớn','Nước','Oxy','CO₂'], a:0, s:'Vật lý'},
+    {q:'Trong Kinh tế học, GDP là tổng sản phẩm quốc nội, GNP là gì?', o:['Tổng sản phẩm quốc dân','Tổng thu nhập quốc gia','Tổng giá trị quốc gia','Tổng nợ quốc gia'], a:0, s:'Kinh tế'},
+    {q:'Thuật toán sắp xếp nhanh (QuickSort) có độ phức tạp trung bình?', o:['O(n log n)','O(n²)','O(n)','O(log n)'], a:0, s:'Công nghệ'},
+    {q:'Mô hình OSI có bao nhiêu tầng?', o:['7','5','4','6'], a:0, s:'Công nghệ'},
+    {q:'Từ "triết học" (philosophy) có nguồn gốc từ tiếng nào?', o:['Hy Lạp','La Mã','Phạn','Anh'], a:0, s:'Triết học'}
+  ]
 };
 
-// ═══════════════════════════════════════════
-//  NPC DATA
-// ═══════════════════════════════════════════
+// ═══════════ LOCATIONS ═══════════
+const LOCATIONS = {
+  home: {n:'Nhà', e:'🏠', desc:'Nơi nghỉ ngơi', acts:[
+    {id:'sleep', n:'😴 Ngủ (đến 6h sáng)', t:480, cost:0, ef:{energy:80, mental:20, health:5}, special:'sleep'},
+    {id:'nap', n:'🛏️ Ngủ trưa', t:60, cost:0, ef:{energy:25, mental:8}},
+    {id:'cook', n:'🍳 Nấu ăn', t:60, cost:80, ef:{energy:20, mental:8}},
+    {id:'shower', n:'🚿 Tắm rửa', t:20, cost:20, ef:{mental:8, health:2}},
+    {id:'tv', n:'📺 Xem TV', t:60, cost:0, ef:{mental:10, energy:-5}},
+    {id:'clean', n:'🧹 Dọn nhà', t:45, cost:0, ef:{mental:5, health:3, energy:-10}},
+    {id:'hobby', n:'🎨 Làm sở thích', t:90, cost:0, ef:{passion:10, mental:8, energy:-8}},
+    {id:'meditate', n:'🧘 Thiền', t:30, cost:0, ef:{mental:15, health:5}}
+  ]},
+  cafe: {n:'Cà phê', e:'☕', desc:'Gặp gỡ, thư giãn', acts:[
+    {id:'coffee', n:'☕ Uống cà phê', t:30, cost:30, ef:{energy:15, mental:8}},
+    {id:'cake', n:'🧁 Bánh ngọt', t:30, cost:50, ef:{energy:12, mental:10}},
+    {id:'chat', n:'💬 Trò chuyện', t:60, cost:20, ef:{mental:12, love:3}},
+    {id:'read', n:'📖 Đọc sách', t:90, cost:30, ef:{skill:2, mental:8}},
+    {id:'work_cafe', n:'💻 Làm việc', t:120, cost:50, ef:{money:300, energy:-15}}
+  ]},
+  restaurant: {n:'Quán ăn', e:'🍜', desc:'Ăn uống', acts:[
+    {id:'breakfast', n:'🥐 Ăn sáng', t:30, cost:40, ef:{energy:25, mental:8}, time:['sang']},
+    {id:'lunch', n:'🍱 Ăn trưa', t:60, cost:80, ef:{energy:35, mental:12}, time:['trua']},
+    {id:'dinner', n:'🍽️ Ăn tối', t:90, cost:100, ef:{energy:40, mental:15}, time:['toi']},
+    {id:'drink', n:'🍺 Nhậu', t:180, cost:250, ef:{mental:25, health:-10}},
+    {id:'snack', n:'🍕 Ăn vặt', t:30, cost:50, ef:{energy:15, mental:8}}
+  ]},
+  gym: {n:'Gym', e:'🏋️', desc:'Tập luyện', acts:[
+    {id:'workout', n:'🏋️ Tập tạ', t:90, cost:50, ef:{health:15, skill:1, energy:-20}},
+    {id:'yoga', n:'🧘 Yoga', t:60, cost:40, ef:{health:10, mental:12, energy:-10}},
+    {id:'boxing', n:'🥊 Boxing', t:90, cost:60, ef:{health:18, skill:2, energy:-25}},
+    {id:'swim', n:'🏊 Bơi lội', t:60, cost:50, ef:{health:12, energy:-15}},
+    {id:'run', n:'🏃 Chạy bộ', t:45, cost:0, ef:{health:10, energy:-12}},
+    {id:'sauna', n:'♨️ Xông hơi', t:30, cost:80, ef:{health:8, mental:10}}
+  ]},
+  park: {n:'Công viên', e:'🌳', desc:'Thiên nhiên', acts:[
+    {id:'walk_park', n:'🚶 Đi dạo', t:60, cost:0, ef:{mental:12, health:5}},
+    {id:'photo', n:'📸 Chụp ảnh', t:45, cost:0, ef:{passion:10, mental:8}},
+    {id:'picnic', n:'🧺 Dã ngoại', t:120, cost:100, ef:{mental:20, energy:15}},
+    {id:'paint', n:'🎨 Vẽ tranh', t:90, cost:20, ef:{passion:12, mental:10}}
+  ]},
+  school: {n:'Trường học', e:'🏫', desc:'Học tập & thi cử', acts:[
+    {id:'study_basic', n:'📚 Ôn tập', t:180, cost:100, ef:{skill:3, mental:-5, energy:-15}, addsProgress:1},
+    {id:'study_adv', n:'📖 Học nâng cao', t:240, cost:200, ef:{skill:5, mental:-8, energy:-18}, addsProgress:2},
+    {id:'programming', n:'💻 Học lập trình', t:180, cost:200, ef:{skill:5, energy:-18}, addsProgress:1},
+    {id:'english', n:'🇬🇧 Học tiếng Anh', t:120, cost:100, ef:{skill:3, energy:-12}, addsProgress:1},
+    {id:'exam', n:'📝 Thi lên cấp', t:240, cost:300, ef:{mental:-15, energy:-25}, special:'exam'}
+  ]},
+  library: {n:'Thư viện', e:'📚', desc:'Yên tĩnh', acts:[
+    {id:'read_lib', n:'📖 Đọc sách', t:120, cost:0, ef:{skill:3, mental:8}, addsProgress:1},
+    {id:'research', n:'🔬 Nghiên cứu', t:240, cost:0, ef:{skill:6, energy:-20}, addsProgress:2},
+    {id:'self_study', n:'✏️ Tự học', t:180, cost:0, ef:{skill:4, energy:-15}, addsProgress:1}
+  ]},
+  hospital: {n:'Bệnh viện', e:'🏥', desc:'Sức khỏe', acts:[
+    {id:'checkup', n:'🩺 Khám tổng quát', t:60, cost:500, ef:{health:20}},
+    {id:'treat', n:'💊 Điều trị', t:120, cost:1500, ef:{health:50}},
+    {id:'therapy', n:'🧠 Trị liệu tâm lý', t:120, cost:800, ef:{mental:40}},
+    {id:'dentist', n:'🦷 Nha khoa', t:60, cost:1200, ef:{health:10, mental:5}}
+  ]},
+  bank: {n:'Ngân hàng', e:'🏦', desc:'Tài chính', acts:[
+    {id:'save', n:'💰 Gửi tiết kiệm', t:30, cost:0, ef:{mental:5}},
+    {id:'invest', n:'📈 Đầu tư', t:60, cost:1000, special:'gamble', gamble:{win:3000, lose:-1200, chance:0.45}},
+    {id:'loan', n:'💳 Vay vốn', t:60, cost:0, ef:{}, special:'loan'}
+  ]},
+  market: {n:'Chợ', e:'🛒', desc:'Mua bán', acts:[
+    {id:'buy_food', n:'🥬 Mua thực phẩm', t:45, cost:150, ef:{energy:10, health:3}},
+    {id:'buy_fruit', n:'🍎 Trái cây', t:30, cost:100, ef:{health:8}},
+    {id:'street_food', n:'🍢 Ăn hàng rong', t:30, cost:40, ef:{energy:15, mental:5}},
+    {id:'buy_flowers', n:'💐 Mua hoa', t:15, cost:80, ef:{mental:8}}
+  ]},
+  supermarket: {n:'Siêu thị', e:'🏪', desc:'Mua sắm', acts:[
+    {id:'grocery', n:'🛒 Mua đồ ăn', t:60, cost:300, ef:{energy:15}},
+    {id:'hygiene', n:'🧴 Đồ vệ sinh', t:30, cost:150, ef:{health:3}},
+    {id:'buy_phone', n:'📱 Điện thoại', t:30, cost:5000, ef:{mental:20, skill:1}}
+  ]},
+  mall: {n:'Trung tâm TM', e:'🏬', desc:'Giải trí', acts:[
+    {id:'clothes', n:'👕 Quần áo', t:60, cost:300, ef:{mental:12}},
+    {id:'jewelry', n:'💍 Trang sức', t:30, cost:5000, ef:{mental:20, love:5}},
+    {id:'arcade', n:'🎮 Khu game', t:90, cost:100, ef:{mental:15, energy:-10}},
+    {id:'food_court', n:'🍔 Ăn uống', t:60, cost:150, ef:{energy:25, mental:10}},
+    {id:'cinema_mall', n:'🎬 Rạp phim', t:150, cost:120, ef:{mental:20}}
+  ]},
+  cinema: {n:'Rạp phim', e:'🎬', desc:'Phim', acts:[
+    {id:'watch_movie', n:'🍿 Xem phim', t:150, cost:120, ef:{mental:22}},
+    {id:'premium_movie', n:'🎥 Phim VIP', t:180, cost:250, ef:{mental:30}}
+  ]},
+  bar: {n:'Bar / Pub', e:'🍺', desc:'Về đêm', acts:[
+    {id:'beer', n:'🍺 Uống bia', t:120, cost:200, ef:{mental:20, health:-8}, time:['toi','dem']},
+    {id:'cocktail', n:'🍸 Cocktail', t:90, cost:300, ef:{mental:25}, time:['toi','dem']},
+    {id:'dance', n:'💃 Nhảy', t:180, cost:400, ef:{mental:30, energy:-20}, time:['toi','dem']}
+  ]},
+  spa: {n:'Spa', e:'💆', desc:'Thư giãn', acts:[
+    {id:'massage', n:'💆 Massage', t:90, cost:600, ef:{health:15, mental:25}},
+    {id:'facial', n:'🌸 Chăm sóc da', t:60, cost:400, ef:{mental:15}},
+    {id:'sauna_spa', n:'♨️ Xông hơi', t:30, cost:200, ef:{health:8, mental:10}},
+    {id:'nail', n:'💅 Làm nail', t:45, cost:180, ef:{mental:12}}
+  ]},
+  barber: {n:'Cắt tóc', e:'💈', desc:'Làm mới', acts:[
+    {id:'haircut', n:'✂️ Cắt tóc', t:45, cost:100, ef:{mental:10}},
+    {id:'dye', n:'🎨 Nhuộm tóc', t:120, cost:800, ef:{mental:20}},
+    {id:'shampoo', n:'💆 Gội đầu', t:30, cost:80, ef:{mental:10, health:3}}
+  ]},
+  company: {n:'Công ty', e:'🏢', desc:'Nơi làm', acts:[
+    {id:'work', n:'💼 Đi làm', t:240, cost:0, ef:{money:'wage', energy:-20, mental:-8, skill:1}, once:'day'},
+    {id:'overtime', n:'🔥 Làm thêm', t:120, cost:0, ef:{money:'half', energy:-18, mental:-12}, special:'afterWork'},
+    {id:'meeting', n:'📊 Họp nhóm', t:60, cost:0, ef:{skill:2, mental:-5}},
+    {id:'interview', n:'🎯 Phỏng vấn', t:60, cost:0, ef:{energy:-10}, special:'interview'}
+  ]},
+  casino: {n:'Sòng bạc', e:'🎰', desc:'Cờ bạc', acts:[
+    {id:'slot', n:'🎰 Slot', t:30, cost:100, special:'gamble', gamble:{win:500, lose:-150, chance:0.35}},
+    {id:'dice', n:'🎲 Xúc xắc', t:60, cost:500, special:'gamble', gamble:{win:2000, lose:-700, chance:0.4}},
+    {id:'card', n:'🃏 Đánh bài', t:120, cost:1000, special:'gamble', gamble:{win:4000, lose:-1500, chance:0.42}},
+    {id:'roulette', n:'🎯 Roulette', t:60, cost:500, special:'gamble', gamble:{win:2500, lose:-800, chance:0.38}}
+  ]},
+  karaoke: {n:'Karaoke', e:'🎤', desc:'Hát', acts:[
+    {id:'sing', n:'🎤 Hát', t:120, cost:200, ef:{mental:20, passion:5, energy:-15}},
+    {id:'sing_group', n:'👥 Hát nhóm', t:180, cost:400, ef:{mental:30, love:5, energy:-20}}
+  ]},
+  temple: {n:'Đền / Chùa', e:'🙏', desc:'Tâm linh', acts:[
+    {id:'pray', n:'🙏 Cầu nguyện', t:30, cost:0, ef:{mental:15, health:3}},
+    {id:'meditate_temple', n:'🧘 Thiền', t:90, cost:0, ef:{mental:25, health:8}},
+    {id:'offering', n:'📿 Dâng lễ', t:60, cost:100, ef:{mental:20, love:5}}
+  ]},
+  petshop: {n:'Thú cưng', e:'🐾', desc:'Bạn đồng hành', acts:[
+    {id:'buy_dog', n:'🐕 Mua chó', t:60, cost:2000, ef:{mental:20, love:10}, special:'buyPet', pet:'dog'},
+    {id:'buy_cat', n:'🐈 Mua mèo', t:60, cost:1500, ef:{mental:20, love:10}, special:'buyPet', pet:'cat'}
+  ]}
+};
 
+// ═══════════ NPC DATA ═══════════
 const NPC_POOL = [
-  {id:'duong', n:'Dương', av:'👨‍💻', g:'nam', age:22, job:'dev', ap:6, wl:25, edu:'dh', bg:'trungluu', per:['vuitinh','hoatbat','chamchi'], likes:['vuitinh','langman'], dis:['lanhlung'], hob:['game','am_nhac','ca_phe'], att:['nu'], sched:{work:'company', lunch:'restaurant', afternoon:'company', evening:'cafe', night:'home'}, bio:'IT vui tính, mọt game.', views:{love:'"Yêu nên bắt đầu từ tình bạn."', career:'"Code là đam mê."'}},
+  {id:'duong', n:'Dương', av:'👨‍💻', g:'nam', age:22, job:'dev', ap:6, wl:25, edu:'dh', bg:'trungluu', per:['vuitinh','hoatbat','chamchi'], likes:['vuitinh','langman'], dis:['lanhlung'], hob:['game','am_nhac','ca_phe'], att:['nu'], sched:{work:'company', lunch:'restaurant', afternoon:'company', evening:'cafe', night:'home'}, bio:'IT vui tính.', views:{love:'"Yêu nên bắt đầu từ tình bạn."', career:'"Code là đam mê."'}},
   {id:'truong', n:'Trường', av:'👨‍🔬', g:'nam', age:26, job:'scientist', ap:6, wl:45, edu:'ts', bg:'khagia', per:['tramtinh','chamchi','sautam'], likes:['tramtinh','sautam'], dis:['hoatbat'], hob:['doc_sach','am_nhac','ca_phe'], att:['nu'], sched:{work:'library', lunch:'cafe', afternoon:'library', evening:'library', night:'home'}, bio:'Nhà khoa học trầm tính.', views:{love:'"Yêu là hiểu, không chiếm hữu."', career:'"Khoa học cần kiên nhẫn."'}},
   {id:'quang', n:'Quang', av:'👨‍💼', g:'nam', age:30, job:'ceo', ap:8, wl:85, edu:'ths', bg:'gia', per:['lanhlung','thamvong','thucte'], likes:['doclap','thamvong'], dis:['noilo','vuitinh'], hob:['doc_sach','the_thao','du_lich'], att:['nu'], sched:{work:'company', lunch:'restaurant', afternoon:'company', evening:'restaurant', night:'home'}, bio:'Giám đốc lạnh lùng.', views:{love:'"Hôn nhân là hợp tác."', career:'"Thành công không chờ ai."'}},
   {id:'hieu', n:'Hiếu', av:'👨‍🎤', g:'nam', age:24, job:'musician', ap:7, wl:8, edu:'c3', bg:'ngheo', per:['langman','sautam','doclap'], likes:['langman','sautam'], dis:['thucte'], hob:['am_nhac','nghe_thuat','ca_phe'], att:['nu','khac'], sched:{work:'park', lunch:'cafe', afternoon:'park', evening:'cafe', night:'bar'}, bio:'Nghệ sĩ đường phố.', views:{love:'"Yêu là sống hết mình."', career:'"Nghệ thuật không gò bó."'}},
@@ -458,33 +492,23 @@ const NPC_POOL = [
   {id:'nhi', n:'Nhi', av:'👩‍🎤', g:'nu', age:23, job:'streamer', ap:7, wl:55, edu:'c3', bg:'khagia', per:['hoatbat','vuitinh','quantam'], likes:['hoatbat','vuitinh'], dis:['tramtinh'], hob:['game','am_nhac'], att:['nam','khac'], sched:{work:'home', lunch:'cafe', afternoon:'mall', evening:'cafe', night:'bar'}, bio:'Streamer xinh xắn.', views:{love:'"Yêu là cười cùng nhau."', career:'"Đam mê hơn lương."'}}
 ];
 
-// ═══════════════════════════════════════════
-//  STATE
-// ═══════════════════════════════════════════
-
-let S = null;
-let _lastTick = Date.now();
-let _currentLoc = null;
-let _lastDayProcessed = 0;
-let _lastWeekProcessed = 0;
+// ═══════════ STATE ═══════════
+let S = null, _lastTick = Date.now(), _currentLoc = null, _lastDay = 0, _lastWeek = 0, _exam = null;
 
 function newState() {
   return {
     gender: null, name: '', hobbies: [],
-    gameMinutes: 6 * 60, // 6:00 sáng ngày 1
-    st: {health: 80, energy: 80, mental: 70, money: 3000, skill: 0, love: 0, passion: 0, reputation: 0},
+    gameMinutes: 6 * 60,
+    st: {health: 80, energy: 80, mental: 70, money: 3000, skill: 0, love: 0, passion: 0},
     job: 'student', edu: 'c3', eduProgress: 0,
-    _worked: false, _schooled: false, _dated: false, _interviewed: false,
+    _worked: false, _schooled: false, _dated: false,
     assets: {house: 'none', car: 'none', business: 'none'},
     rels: {}, npcRels: {}, partnerId: null, children: [], pets: [],
-    log: [], chats: {}, currentLoc: 'home', ended: false
+    log: [], chats: {}, ended: false
   };
 }
 
-// ═══════════════════════════════════════════
-//  HELPERS
-// ═══════════════════════════════════════════
-
+// ═══════════ HELPERS ═══════════
 const clamp = (v, a=0, b=100) => Math.max(a, Math.min(b, v));
 const fmt = v => (v < 0 ? '-' : '') + Math.abs(Math.round(v)).toLocaleString('vi-VN') + 'đ';
 const pad2 = n => String(n).padStart(2, '0');
@@ -496,15 +520,12 @@ function getTime() {
   const hour = Math.floor(minOfDay / 60);
   const minute = minOfDay % 60;
   const dow = (day - 1) % 7;
-  return {
-    day, hour, minute, dow,
+  return {day, hour, minute, dow,
     dw: ['T2','T3','T4','T5','T6','T7','CN'][dow],
     dwFull: ['Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy','Chủ Nhật'][dow],
-    period: getPeriod(hour),
-    periodLabel: getPeriodLabel(hour)
+    period: getPeriod(hour), periodLabel: getPeriodLabel(hour)
   };
 }
-
 function getPeriod(hour) {
   if (hour >= 6 && hour < 11) return 'sang';
   if (hour >= 11 && hour < 14) return 'trua';
@@ -512,7 +533,6 @@ function getPeriod(hour) {
   if (hour >= 18 && hour < 22) return 'toi';
   return 'dem';
 }
-
 function getPeriodLabel(hour) {
   if (hour >= 5 && hour < 11) return '🌅 Sáng';
   if (hour >= 11 && hour < 14) return '☀️ Trưa';
@@ -520,91 +540,51 @@ function getPeriodLabel(hour) {
   if (hour >= 18 && hour < 22) return '🌆 Tối';
   return '🌙 Đêm';
 }
-
 function addLog(m, t='info') {
   const time = getTime();
   S.log.unshift({m, t, time: `${pad2(time.hour)}:${pad2(time.minute)}`, dw: time.dw, day: time.day});
   if (S.log.length > 60) S.log.pop();
 }
-
 function apply(k, v) {
   if (k === 'money') { S.st.money = Math.round(S.st.money + v); return; }
-  if (k === 'reputation') { S.st.reputation = clamp(S.st.reputation + v, -100, 100); return; }
   S.st[k] = clamp(S.st[k] + v);
 }
-
 function getPartner() { return S.partnerId ? S.rels[S.partnerId] : null; }
 function syncLove() { const p = getPartner(); S.st.love = p ? Math.max(0, p.love) : 0; }
 
-// ═══════════════════════════════════════════
-//  TIME PROCESSING
-// ═══════════════════════════════════════════
-
+// ═══════════ TIME ═══════════
 function processTime() {
   const time = getTime();
-  if (time.day > _lastDayProcessed) {
-    for (let d = _lastDayProcessed + 1; d <= time.day; d++) endOfDay(d);
-    _lastDayProcessed = time.day;
+  if (time.day > _lastDay) {
+    for (let d = _lastDay + 1; d <= time.day; d++) endOfDay(d);
+    _lastDay = time.day;
   }
-  if (time.dow === 0 && time.day > _lastWeekProcessed) { // Chủ nhật
-    endOfWeek(time.day);
-    _lastWeekProcessed = time.day;
-  }
+  if (time.dow === 0 && time.day > _lastWeek) { endOfWeek(); _lastWeek = time.day; }
 }
-
 function endOfDay(day) {
   apply('money', -100);
-  apply('energy', 15);
-  apply('mental', -2);
-  apply('health', 1);
+  apply('energy', 15); apply('mental', -2); apply('health', 1);
   const houseM = HOUSES.find(h => h.id === S.assets.house)?.m || 0;
   if (houseM) apply('mental', houseM);
-  const cc = S.children.length * 200;
-  if (cc) { apply('money', -cc); }
+  if (S.children.length) apply('money', -S.children.length * 200);
   const bizInc = BUSINESS.find(b => b.id === S.assets.business)?.inc || 0;
-  if (bizInc > 0) { apply('money', Math.round(bizInc / 7)); }
+  if (bizInc > 0) apply('money', Math.round(bizInc / 7));
   const partner = getPartner();
-  if (partner && partner.stage === 'married' && partner.job) {
-    apply('money', Math.round((JOBS[partner.job]?.w || 0) * 0.7));
-  }
-  // Reset daily actions
-  S._worked = false;
-  S._schooled = false;
-  S._interviewed = false;
-  // NPC daily tick
+  if (partner?.stage === 'married' && partner.job) apply('money', Math.round((JOBS[partner.job]?.w || 0) * 0.7));
+  S._worked = false; S._schooled = false;
   npcDailyTick();
   checkHealth();
   addLog(`🌅 Ngày ${day} bắt đầu.`, 'day');
   save();
 }
-
-function endOfWeek(day) {
-  // NPC weekly romance
-  npcWeeklyTick();
-}
-
+function endOfWeek() { npcWeeklyTick(); }
 function checkHealth() {
-  if (S.st.health <= 0) {
-    apply('health', 40);
-    apply('money', -2000);
-    addLog('🏥 Ngất xỉu, nhập viện! (-2.000đ)', 'bad');
-  }
-  if (S.st.energy <= 0) {
-    apply('energy', 30);
-    apply('mental', -10);
-    addLog('😵 Kiệt sức!', 'bad');
-  }
-  if (S.st.mental <= 0) {
-    apply('mental', 25);
-    apply('money', -1000);
-    addLog('😵 Suy nhược tinh thần!', 'bad');
-  }
+  if (S.st.health <= 0) { apply('health', 40); apply('money', -2000); addLog('🏥 Nhập viện! (-2.000đ)', 'bad'); }
+  if (S.st.energy <= 0) { apply('energy', 30); apply('mental', -10); addLog('😵 Kiệt sức!', 'bad'); }
+  if (S.st.mental <= 0) { apply('mental', 25); apply('money', -1000); addLog('😵 Suy nhược!', 'bad'); }
 }
 
-// ═══════════════════════════════════════════
-//  ACTIVITY HANDLER
-// ═══════════════════════════════════════════
-
+// ═══════════ ACTIVITY ═══════════
 function selectLocation(locId) {
   _currentLoc = locId;
   render();
@@ -612,24 +592,23 @@ function selectLocation(locId) {
   const loc = LOCATIONS[locId];
   document.getElementById('actsTitle').textContent = `${loc.e} ${loc.n} — ${loc.desc}`;
   document.getElementById('actsCount').textContent = `${loc.acts.length} hoạt động`;
-  document.getElementById('actsSection').scrollIntoView({behavior:'smooth', block:'nearest'});
 }
 
-function checkRequirements(act) {
+function checkReq(act) {
   const time = getTime();
   const reqs = [];
-  // Check time
   if (act.time && !act.time.includes(time.period)) {
-    reqs.push(`Cần ${act.time.map(t => ({sang:'Sáng', trua:'Trưa', chieu:'Chiều', toi:'Tối', dem:'Đêm'})[t]).join('/')}`);
+    const m = {sang:'Sáng', trua:'Trưa', chieu:'Chiều', toi:'Tối', dem:'Đêm'};
+    reqs.push(`Cần ${act.time.map(t => m[t]).join('/')}`);
   }
-  // Check once
   if (act.once === 'day') {
-    if (act.id === 'work' && S._worked) reqs.push('Hôm nay đã làm rồi');
-    if (act.id === 'sleep' && time.hour >= 6 && time.hour < 20) reqs.push('Chỉ ngủ được buổi tối');
+    if (act.id === 'work' && S._worked) reqs.push('Hôm nay đã làm');
   }
-  // Check afterWork
   if (act.special === 'afterWork' && !S._worked) reqs.push('Phải đi làm trước');
-  // Money
+  if (act.special === 'exam') {
+    if (S.edu === 'ts') reqs.push('Đã đạt cấp cao nhất');
+    else if (S.eduProgress < EXAM_REQ[S.edu]) reqs.push(`Cần ${EXAM_REQ[S.edu]} buổi học (hiện ${S.eduProgress})`);
+  }
   if (act.cost > 0 && S.st.money < act.cost) reqs.push('Không đủ tiền');
   return reqs;
 }
@@ -638,18 +617,18 @@ function doActivity(locId, actId) {
   const loc = LOCATIONS[locId];
   const act = loc.acts.find(a => a.id === actId);
   if (!act) return;
-  const reqs = checkRequirements(act);
-  if (reqs.length > 0) {
-    notify(`❌ ${reqs[0]}`);
+  const reqs = checkReq(act);
+  if (reqs.length) { notify(`❌ ${reqs[0]}`); return; }
+  if (act.cost > 0) apply('money', -act.cost);
+  S.gameMinutes += act.t;
+  processTime();
+  // Exam special
+  if (act.special === 'exam') {
+    checkHealth(); render();
+    startExam();
     return;
   }
-  // Pay cost
-  if (act.cost > 0) {
-    apply('money', -act.cost);
-  }
-  // Advance time
-  S.gameMinutes += act.t;
-  // Apply effects
+  // Normal effects
   if (act.ef) {
     for (const [k, v] of Object.entries(act.ef)) {
       if (k === 'money' && typeof v === 'string') {
@@ -661,99 +640,180 @@ function doActivity(locId, actId) {
       }
     }
   }
-  // Special effects
+  if (act.addsProgress) S.eduProgress += act.addsProgress;
   if (act.special === 'sleep') {
-    // Fast forward to 6 AM next day
     const t = getTime();
-    const addMin = (t.hour >= 6) ? (24 - t.hour + 6) * 60 - t.minute : (6 - t.hour) * 60 - t.minute;
-    S.gameMinutes = S.gameMinutes - act.t + addMin; // Correct for double advance
+    const add = (t.hour >= 6) ? (24 - t.hour + 6) * 60 - t.minute : (6 - t.hour) * 60 - t.minute;
+    S.gameMinutes = S.gameMinutes - act.t + add;
     apply('energy', 40); apply('mental', 15); apply('health', 5);
   }
   if (act.special === 'gamble' && act.gamble) {
     const win = Math.random() < act.gamble.chance;
     const amount = win ? act.gamble.win : act.gamble.lose;
-    apply('money', amount - act.cost); // Already paid cost, so add net
-    apply('money', act.cost); // Undo the cost we already paid? No, we need to calculate properly
-    S.st.money = Math.round(S.st.money);
-    // Reset and apply net
-    S.st.money = Math.round(S.st.money - act.cost + amount);
-    // Actually we already deducted cost, so just add amount:
     S.st.money = Math.round(S.st.money + amount);
-    addLog(win ? `🎉 Thắng lớn! +${fmt(amount)}` : `💸 Thua đậm! ${fmt(amount)}`, win ? 'money' : 'bad');
+    addLog(win ? `🎉 Thắng ${fmt(amount)}` : `💸 Thua ${fmt(amount)}`, win ? 'money' : 'bad');
   }
   if (act.special === 'loan') {
     apply('money', 5000);
-    addLog(`💳 Vay 5.000đ từ ngân hàng`, 'money');
+    addLog(`💳 Vay 5.000đ`, 'money');
   }
   if (act.special === 'interview') {
-    S._interviewed = true;
     const jobList = Object.entries(JOBS).filter(([k, j]) => j.edu && EDU_RANK[S.edu] >= EDU_RANK[j.edu] && j.w > (JOBS[S.job]?.w || 0));
     if (jobList.length > 0) {
-      const newJob = jobList[Math.floor(Math.random() * jobList.length)];
+      const [jk, jv] = jobList[Math.floor(Math.random() * jobList.length)];
       setTimeout(() => {
-        if (confirm(`🎉 Bạn được nhận làm ${newJob[1].i} ${newJob[1].n}!\nLương ${fmt(newJob[1].w)}/ngày. Nhận việc?`)) {
-          S.job = newJob[0];
-          addLog(`🎉 Nhận việc: ${newJob[1].i} ${newJob[1].n}`, 'good');
+        if (confirm(`🎉 Bạn được nhận làm ${jv.i} ${jv.n}!\nLương ${fmt(jv.w)}/ngày. Nhận việc?`)) {
+          S.job = jk;
+          addLog(`🎉 Nhận việc: ${jv.i} ${jv.n}`, 'good');
           render();
         }
       }, 100);
-    } else {
-      addLog(`❌ Không có việc nào tốt hơn hiện tại.`, 'bad');
-    }
+    } else addLog(`❌ Không có việc tốt hơn.`, 'bad');
   }
   if (act.special === 'buyPet') {
     S.pets.push({type: act.pet, name: act.pet === 'dog' ? 'Cún' : 'Mèo'});
-    addLog(`🐾 Đã nhận nuôi ${act.pet === 'dog' ? 'chó' : 'mèo'}!`, 'good');
+    addLog(`🐾 Nhận nuôi ${act.pet === 'dog' ? 'chó' : 'mèo'}!`, 'good');
   }
-  // Check for events
   processTime();
   checkHealth();
-  // Log
-  addLog(`📍 ${loc.e} ${loc.n}: ${act.n}`, act.ef && act.ef.money === 'wage' ? 'money' : 'info');
+  addLog(`📍 ${loc.e} ${loc.n}: ${act.n}`, act.ef?.money === 'wage' ? 'money' : 'info');
   render();
-  notify(`✅ ${act.n} hoàn tất!`);
+  notify(`✅ ${act.n}`);
 }
 
-// ═══════════════════════════════════════════
-//  NPC SYSTEM
-// ═══════════════════════════════════════════
+// ═══════════ EXAM SYSTEM ═══════════
+function startExam() {
+  const cfg = EXAM_CONFIG[S.edu];
+  if (!cfg) { notify('❌ Đã đạt cấp cao nhất'); return; }
+  const bank = QUESTIONS[S.edu];
+  const shuffled = [...bank].sort(() => Math.random() - 0.5);
+  const questions = shuffled.slice(0, cfg.count).map(q => {
+    const correctText = q.o[q.a];
+    const shuffledOpts = [...q.o].sort(() => Math.random() - 0.5);
+    return {q: q.q, o: shuffledOpts, a: shuffledOpts.indexOf(correctText), s: q.s};
+  });
+  _exam = {questions, idx: 0, correct: 0};
+  renderExamQuestion();
+}
 
+function renderExamQuestion() {
+  if (!_exam) return;
+  const {questions, idx, correct} = _exam;
+  if (idx >= questions.length) return renderExamResult();
+  const q = questions[idx];
+  const cfg = EXAM_CONFIG[S.edu];
+  const letters = ['A', 'B', 'C', 'D'];
+  showModal(`
+    <h2>📝 Thi ${cfg.label} — Câu ${idx + 1}/${questions.length}</h2>
+    <div style="background:#0f172a;border-radius:8px;padding:8px 12px;margin-bottom:12px">
+      <div style="font-size:11px;color:#94a3b8;display:flex;justify-content:space-between">
+        <span>📚 ${q.s}</span>
+        <span>✅ Đúng: ${correct}/${idx}</span>
+      </div>
+      <div style="height:5px;background:#1e293b;border-radius:2px;margin-top:6px;overflow:hidden">
+        <div style="height:100%;background:linear-gradient(90deg,#8b5cf6,#ec4899);width:${idx/questions.length*100}%;transition:width .3s"></div>
+      </div>
+    </div>
+    <div style="background:#0f172a;border-radius:10px;padding:16px;margin-bottom:12px;font-size:14px;line-height:1.6">
+      <b>Câu ${idx + 1}:</b> ${q.q}
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      ${q.o.map((opt, i) => `
+        <button class="btn sec" style="text-align:left;padding:10px 14px" onclick="answerExam(${i})">
+          <b style="color:#a78bfa">${letters[i]}.</b> ${opt}
+        </button>
+      `).join('')}
+    </div>
+  `);
+}
+
+function answerExam(choice) {
+  if (!_exam) return;
+  const q = _exam.questions[_exam.idx];
+  const isCorrect = choice === q.a;
+  if (isCorrect) _exam.correct++;
+  const letters = ['A', 'B', 'C', 'D'];
+  const last = _exam.idx >= _exam.questions.length - 1;
+  showModal(`
+    <h2>${isCorrect ? '✅ Chính xác!' : '❌ Sai rồi!'}</h2>
+    <div style="background:#0f172a;border-radius:10px;padding:16px;margin-bottom:12px">
+      <div style="font-size:13px;color:#cbd5e1;margin-bottom:10px">${q.q}</div>
+      <div style="font-size:13px;color:${isCorrect ? '#86efac' : '#fca5a5'}">
+        ${isCorrect ? '✅' : '❌'} Bạn chọn: <b>${letters[choice]}. ${q.o[choice]}</b>
+      </div>
+      ${!isCorrect ? `<div style="font-size:13px;color:#86efac;margin-top:6px">✅ Đáp án đúng: <b>${letters[q.a]}. ${q.o[q.a]}</b></div>` : ''}
+    </div>
+    <button class="btn pri" onclick="nextExamQuestion()">${last ? '📊 Xem kết quả' : '➡️ Câu tiếp'}</button>
+  `);
+}
+
+function nextExamQuestion() {
+  _exam.idx++;
+  renderExamQuestion();
+}
+
+function renderExamResult() {
+  const {questions, correct} = _exam;
+  const cfg = EXAM_CONFIG[S.edu];
+  const total = questions.length;
+  const pct = correct / total;
+  const passed = pct >= cfg.passRate;
+  const oldEdu = S.edu;
+  if (passed) {
+    S.edu = cfg.next;
+    S.eduProgress = 0;
+    apply('mental', 20);
+    addLog(`🎓 Thi đỗ ${cfg.label}! (${correct}/${total})`, 'good');
+  } else {
+    S.eduProgress = 0;
+    apply('mental', -15);
+    addLog(`❌ Thi trượt ${cfg.label}. Học lại từ đầu. (${correct}/${total})`, 'bad');
+  }
+  showModal(`
+    <h2>${passed ? '🎉 Đỗ!' : '😢 Trượt'}</h2>
+    <div style="text-align:center;font-size:64px;margin:16px 0">${passed ? '🎓' : '📚'}</div>
+    <div style="background:#0f172a;border-radius:10px;padding:16px;margin-bottom:12px;text-align:center">
+      <div style="font-size:36px;font-weight:bold;color:${passed ? '#22c55e' : '#ef4444'}">${correct}/${total}</div>
+      <div style="font-size:14px;color:#94a3b8;margin-top:6px">${Math.round(pct*100)}% — Cần ${cfg.passRate*100}% để đỗ</div>
+    </div>
+    <p style="font-size:13px;color:#cbd5e1;text-align:center">
+      ${passed ? `Bạn đã lên cấp: <b>${EDU_LABEL[cfg.next]}</b>` : 'Hãy học lại từ đầu để thi lại.'}
+    </p>
+    <button class="btn pri" onclick="closeModal();_exam=null;render();">OK</button>
+  `);
+  _exam = null;
+  render();
+}
+
+// ═══════════ NPC SYSTEM ═══════════
 function npcDailyTick() {
   if (!S || S.ended) return;
-  // Check unfriend
   const toRemove = [];
   for (const r of Object.values(S.rels)) {
     if (r.stage === 'married') continue;
     if (r.love <= -50) toRemove.push(r);
   }
   toRemove.forEach(r => {
-    addLog(`💔 ${r.n} đã hủy kết bạn với bạn!`, 'bad');
+    addLog(`💔 ${r.n} hủy kết bạn!`, 'bad');
     if (S.partnerId === r.id) { S.partnerId = null; syncLove(); }
     delete S.rels[r.id];
     apply('mental', -10);
   });
-  // Random messages
   for (const r of Object.values(S.rels)) {
     if (r.stage === 'married') continue;
     if (Math.random() < 0.15) {
       if (r.love > 70) { r.love = clamp(r.love + 1); addLog(`📩 ${r.av} ${r.n}: "Nhớ cậu quá!"`, 'love'); }
-      else if (r.love < 20) { addLog(`📩 ${r.av} ${r.n}: "Dạo này cậu bận lắm hả?"`, 'info'); }
+      else if (r.love < 20) { addLog(`📩 ${r.av} ${r.n}: "Dạo này bận lắm hả?"`, 'info'); }
     }
-    // Decay if not dated
-    if (r.stage === 'dating' || r.stage === 'crush') {
-      if (!S._dated) { r.love = clamp(r.love - 3); }
-    }
+    if ((r.stage === 'dating' || r.stage === 'crush') && !S._dated) r.love = clamp(r.love - 3);
   }
   S._dated = false;
-  // Pregnancy
   const partner = getPartner();
-  if (partner && partner.expecting) {
+  if (partner?.expecting) {
     partner.expectingWeeks--;
     if (partner.expectingWeeks <= 0) birthChild();
   }
-  // Children age
   for (const c of S.children) c.age++;
-  // NPC romance
   if (Math.random() < 0.4) npcWeeklyTick();
 }
 
@@ -767,10 +827,8 @@ function npcWeeklyTick() {
       if (partner && (partner.pid === a.id || partner.pid === b.id)) continue;
       const rel = S.npcRels[a.id][b.id];
       if (rel.status === 'married') continue;
-      let comp = 0;
-      if (!a.att.includes(b.g)) continue;
-      if (!b.att.includes(a.g)) continue;
-      comp += Math.max(0, 20 - Math.abs(a.age - b.age));
+      if (!a.att.includes(b.g) || !b.att.includes(a.g)) continue;
+      let comp = Math.max(0, 20 - Math.abs(a.age - b.age));
       for (const t of b.per) { if (a.likes.includes(t)) comp += 8; if (a.dis.includes(t)) comp -= 5; }
       comp += a.hob.filter(h => b.hob.includes(h)).length * 4;
       if (comp < 15) continue;
@@ -783,42 +841,28 @@ function npcWeeklyTick() {
 }
 
 function getNpcSched(npc) {
-  const time = getTime();
-  const h = time.hour;
+  const h = getTime().hour;
   let slot = 'work';
   if (h >= 22 || h < 6) slot = 'night';
   else if (h >= 12 && h < 14) slot = 'lunch';
   else if (h >= 14 && h < 18) slot = 'afternoon';
   else if (h >= 18 && h < 22) slot = 'evening';
-  const locKey = npc.sched?.[slot] || npc.sched?.work || 'home';
-  return LOCATIONS[locKey] || LOCATIONS.home;
+  return LOCATIONS[npc.sched?.[slot] || npc.sched?.work || 'home'] || LOCATIONS.home;
 }
 
 function getNpcActivity(npc) {
-  const t = getTime();
-  if (t.hour >= 22 || t.hour < 6) return 'đang ngủ';
+  const h = getTime().hour;
+  if (h >= 22 || h < 6) return 'đang ngủ';
   const loc = getNpcSched(npc);
-  const verbs = {
-    'Nhà': 'ở nhà', 'Cà phê': 'uống cafe', 'Quán ăn': 'đang ăn', 'Gym': 'tập gym',
-    'Công viên': 'dạo chơi', 'Trường học': 'dạy/học', 'Thư viện': 'đọc sách',
-    'Bệnh viện': 'làm việc', 'Ngân hàng': 'giao dịch', 'Chợ': 'mua sắm',
-    'Trung tâm TM': 'mua sắm', 'Rạp phim': 'xem phim', 'Bar / Pub': 'uống bia',
-    'Spa': 'thư giãn', 'Tiệm cắt tóc': 'làm tóc', 'Công ty': 'làm việc',
-    'Sòng bạc': 'chơi bài', 'Karaoke': 'hát', 'Đền / Chùa': 'cầu nguyện',
-    'Tiệm thú cưng': 'mua thú cưng', 'Siêu thị': 'mua sắm'
-  };
-  return verbs[loc.n] || 'đang ở ' + loc.n;
+  const verbs = {'Nhà':'ở nhà','Cà phê':'uống cafe','Quán ăn':'đang ăn','Gym':'tập gym','Công viên':'dạo chơi','Trường học':'dạy/học','Thư viện':'đọc sách','Bệnh viện':'làm việc','Ngân hàng':'giao dịch','Chợ':'mua sắm','Trung tâm TM':'mua sắm','Rạp phim':'xem phim','Bar / Pub':'uống bia','Spa':'thư giãn','Cắt tóc':'làm tóc','Công ty':'làm việc','Sòng bạc':'chơi bài','Karaoke':'hát','Đền / Chùa':'cầu nguyện','Thú cưng':'mua thú cưng','Siêu thị':'mua sắm'};
+  return verbs[loc.n] || 'ở ' + loc.n;
 }
 
-// ═══════════════════════════════════════════
-//  RELATIONSHIP MANAGEMENT
-// ═══════════════════════════════════════════
-
+// ═══════════ MEET / RELATIONSHIP ═══════════
 function openMeet() {
   const met = new Set(Object.values(S.rels).map(r => r.pid));
   const avail = NPC_POOL.filter(p => !met.has(p.id));
-  if (avail.length === 0) { showModal(`<h2>🌐 Gặp gỡ</h2><p>Bạn đã gặp tất cả NPC!</p><button class="btn sec" onclick="closeModal()">Đóng</button>`); return; }
-  // Chọn 5 random
+  if (!avail.length) { showModal(`<h2>🌐 Gặp gỡ</h2><p>Bạn đã gặp tất cả!</p><button class="btn sec" onclick="closeModal()">Đóng</button>`); return; }
   const shuffled = avail.sort(() => Math.random() - 0.5).slice(0, 5);
   showModal(`
     <h2>🌐 Gặp gỡ (Prestige: ${prestige()})</h2>
@@ -827,7 +871,7 @@ function openMeet() {
         <div style="background:#0f172a;border-radius:10px;padding:10px;border:2px solid #334155">
           <div style="text-align:center;font-size:34px">${p.av}</div>
           <div style="text-align:center;color:#facc15;font-weight:bold">${p.n}</div>
-          <div style="text-align:center;font-size:11px;color:#94a3b8;margin-bottom:6px">${p.age}t · ${JOBS[p.job]?.n||p.job}</div>
+          <div style="text-align:center;font-size:11px;color:#94a3b8;margin-bottom:6px">${p.age}t · ${JOBS[p.job]?.n || p.job}</div>
           <div style="font-size:10px;color:#cbd5e1;display:flex;justify-content:space-between"><span>Ngoại hình</span><span style="color:#facc15">${p.ap}/10</span></div>
           <div style="font-size:10px;color:#cbd5e1;display:flex;justify-content:space-between"><span>Tài sản</span><span style="color:#facc15">${p.wl}/100</span></div>
           <div style="font-size:10px;color:#cbd5e1;display:flex;justify-content:space-between"><span>Học vấn</span><span style="color:#facc15">${EDU_LABEL[p.edu]}</span></div>
@@ -850,8 +894,8 @@ function tryMeet(pid) {
   let chance = 1;
   if (pre < req) chance = 1 - Math.min(0.9, (req - pre) / req * 0.9);
   if (Math.random() > chance) {
-    notify(`❌ ${p.n} từ chối kết bạn.`);
-    addLog(`❌ ${p.n} từ chối kết bạn.`, 'bad');
+    notify(`❌ ${p.n} từ chối.`);
+    addLog(`❌ ${p.n} từ chối.`, 'bad');
     return;
   }
   const rid = 'r' + pid;
@@ -873,26 +917,16 @@ function openRel() {
   const list = Object.values(S.rels);
   let html = `<h2>🤝 Quan hệ (${list.length})</h2>`;
   const partner = getPartner();
-  if (partner) {
-    html += `<h3>💗 Người thương</h3>`;
-    html += renderRelCard(partner, true);
-  }
+  if (partner) { html += `<h3>💗 Người thương</h3>`; html += renderRelCard(partner, true); }
   const others = list.filter(r => r.id !== S.partnerId);
-  if (others.length > 0) {
-    html += `<h3>🌐 Người quen (${others.length})</h3>`;
-    for (const r of others) html += renderRelCard(r, false);
-  }
-  // NPC marriages
+  if (others.length) { html += `<h3>🌐 Người quen (${others.length})</h3>`; for (const r of others) html += renderRelCard(r, false); }
   const marriages = [];
-  for (const a of NPC_POOL) {
-    for (const b of NPC_POOL) {
-      if (a.id >= b.id) continue;
-      const rel = S.npcRels[a.id]?.[b.id];
-      if (rel?.status === 'married') marriages.push({a, b});
-    }
+  for (const a of NPC_POOL) for (const b of NPC_POOL) {
+    if (a.id >= b.id) continue;
+    if (S.npcRels[a.id]?.[b.id]?.status === 'married') marriages.push({a, b});
   }
-  if (marriages.length > 0) {
-    html += `<h3>💒 NPC kết hôn với nhau</h3>`;
+  if (marriages.length) {
+    html += `<h3>💒 NPC kết hôn</h3>`;
     html += marriages.map(m => `<div class="npc-card m"><div class="npc-h"><span class="av">${m.a.av}</span><span class="nm">${m.a.n}</span>❤️<span class="av">${m.b.av}</span><span class="nm">${m.b.n}</span></div></div>`).join('');
   }
   html += `<button class="btn pri" style="margin-top:8px" onclick="openMeet()">🌐 Gặp người mới</button>`;
@@ -902,37 +936,30 @@ function openRel() {
 
 function renderRelCard(r, isPartner) {
   const shared = r.hob.filter(h => S.hobbies.includes(h));
-  const isSameG = r.g === S.gender;
   const stageLabel = {friend:'🤝 Bạn', close:'💛 Bạn thân', bestie:'💜 Bạn thân', brother:'🤜🤛 Chí cốt', crush:'💓 Để ý', dating:'💕 Hẹn hò', engaged:'💍 Đính hôn', married:'💒 Vợ chồng'}[r.stage] || r.stage;
   const npc = NPC_POOL.find(p => p.id === r.pid);
   const activity = npc ? getNpcActivity(npc) : '';
   const loc = npc ? getNpcSched(npc) : null;
-
   let acts = `<button class="btn sec" onclick="openChat('${r.id}')">💬 Chat</button>`;
   acts += `<button class="btn sec" onclick="hang('${r.id}')">Đi chơi</button>`;
   acts += `<button class="btn sec" onclick="gift('${r.id}')">Quà</button>`;
-  if (r.g !== S.gender && r.stage !== 'married' && r.stage !== 'engaged') {
-    acts += `<button class="btn gold" onclick="dateWith('${r.id}')">Hẹn hò</button>`;
-  }
+  if (r.g !== S.gender && r.stage !== 'married' && r.stage !== 'engaged') acts += `<button class="btn gold" onclick="dateWith('${r.id}')">Hẹn hò</button>`;
   if (isPartner && r.stage === 'dating') acts += `<button class="btn gold" onclick="openPropose()">💍 Cầu hôn</button>`;
   if (isPartner && r.stage === 'engaged') acts += `<button class="btn gold" onclick="openWedding()">💒 Cưới</button>`;
   if (isPartner && r.stage === 'married' && !r.expecting) acts += `<button class="btn gold" onclick="tryPregnant()">👶 Có con</button>`;
   acts += `<button class="btn danger" onclick="unfriend('${r.id}')">🚫 Hủy</button>`;
-
-  return `<div class="npc-card ${isPartner?'p':''} ${r.angry?'a':''}">
+  return `<div class="npc-card ${isPartner ? 'p' : ''} ${r.angry ? 'a' : ''}">
     <div class="npc-h">
       <span class="av">${r.av}</span><span class="nm">${r.n}</span>
-      <span class="bd">${r.age}t</span>
-      <span class="bd">${JOBS[r.job]?.n || r.job}</span>
-      <span class="bd gold">${stageLabel}</span>
-      ${r.angry ? '<span class="bd red">😡 Giận</span>' : ''}
+      <span class="bd">${r.age}t</span><span class="bd">${JOBS[r.job]?.n || r.job}</span>
+      <span class="bd gold">${stageLabel}</span>${r.angry ? '<span class="bd red">😡</span>' : ''}
     </div>
     <div style="font-size:10px;color:#38bdf8">📍 ${loc ? loc.e + ' ' + loc.n : ''} — ${activity}</div>
     <div style="font-size:10px;color:#94a3b8;margin-top:3px">💗 ${Math.round(r.love)} · 🤝 ${Math.round(r.bond)}</div>
     <div class="bond"><div class="bond-f ${r.love < 0 ? 'neg' : ''}" style="width:${Math.abs(r.love)}%"></div></div>
-    ${shared.length ? `<div style="font-size:10px;color:#6ee7b7">Chung sở thích: ${shared.map(h => HOBBIES[h]?.e).join(' ')}</div>` : ''}
+    ${shared.length ? `<div style="font-size:10px;color:#6ee7b7">Chung: ${shared.map(h => HOBBIES[h]?.e).join(' ')}</div>` : ''}
     ${r.love <= -15 ? `<div class="warn">⚠️ Nguy cơ hủy kết bạn!</div>` : ''}
-    ${r.expecting ? `<div style="font-size:10px;color:#fbbf24">🤰 Mang thai (${r.expectingWeeks} tuần)</div>` : ''}
+    ${r.expecting ? `<div style="font-size:10px;color:#fbbf24">🤰 Mang thai</div>` : ''}
     <div class="npc-a">${acts}</div>
   </div>`;
 }
@@ -943,96 +970,43 @@ function openChat(id) {
   if (!S.chats[id]) S.chats[id] = [];
   const log = S.chats[id];
   const topics = [
-    {id:'greet', n:'👋 Chào hỏi'},
-    {id:'ask', n:'❓ Hỏi thăm'},
-    {id:'khen', n:'💐 Khen ngợi'},
-    {id:'share', n:'💭 Chia sẻ'},
-    {id:'love', n:'💗 Tình yêu'},
-    {id:'career', n:'💼 Sự nghiệp'},
-    {id:'money', n:'💰 Tiền bạc'},
-    {id:'family', n:'👨‍👩‍👧 Gia đình'}
+    {id:'greet', n:'👋 Chào'},{id:'ask', n:'❓ Hỏi thăm'},{id:'khen', n:'💐 Khen'},
+    {id:'share', n:'💭 Chia sẻ'},{id:'love', n:'💗 Tình yêu'},{id:'career', n:'💼 Sự nghiệp'},
+    {id:'money', n:'💰 Tiền'},{id:'family', n:'👨‍👩‍👧 Gia đình'}
   ];
   showModal(`
     <h2>💬 ${r.av} ${r.n}</h2>
     <p style="font-size:11px;color:#94a3b8">${r.age}t · ${JOBS[r.job]?.n || r.job} · ${r.per.join(', ')}</p>
-    ${r.angry ? '<div class="warn">😡 Đang giận bạn</div>' : ''}
+    ${r.angry ? '<div class="warn">😡 Đang giận</div>' : ''}
     <div class="chat" id="chatBox">
-      ${log.length === 0 ? '<div class="msg sys">Bắt đầu trò chuyện...</div>' : ''}
+      ${log.length === 0 ? '<div class="msg sys">Bắt đầu...</div>' : ''}
       ${log.map(m => `<div class="msg ${m.who}">${m.t}</div>`).join('')}
     </div>
-    <div style="margin-bottom:8px">
-      ${topics.map(t => `<button class="topic" onclick="doChat('${id}','${t.id}')">${t.n}</button>`).join('')}
-    </div>
+    <div style="margin-bottom:8px">${topics.map(t => `<button class="topic" onclick="doChat('${id}','${t.id}')">${t.n}</button>`).join('')}</div>
     <button class="btn sec" onclick="openRel()">← Quay lại</button>
   `);
-  setTimeout(() => {
-    const box = document.getElementById('chatBox');
-    if (box) box.scrollTop = box.scrollHeight;
-  }, 50);
+  setTimeout(() => { const b = document.getElementById('chatBox'); if (b) b.scrollTop = b.scrollHeight; }, 50);
 }
 
 function doChat(id, topicId) {
   const r = S.rels[id];
   if (!r) return;
   const log = S.chats[id];
-  const topicNames = {greet:'Chào hỏi', ask:'Hỏi thăm', khen:'Khen ngợi', share:'Chia sẻ', love:'Tình yêu', career:'Sự nghiệp', money:'Tiền bạc', family:'Gia đình'};
-  log.push({who: 'you', t: topicNames[topicId]});
-  let reply = '';
-  let loveGain = 0, bondGain = 0;
-  const rand = Math.random();
-  if (r.angry) {
-    reply = '"..." (họ không muốn nói chuyện)';
-    loveGain = -2;
-  } else {
-    const traits = r.per;
-    switch (topicId) {
-      case 'greet':
-        if (traits.includes('vuitinh')) reply = '"Ơ cậu đến rồi!"';
-        else if (traits.includes('tramtinh')) reply = '"Ừ, chào cậu."';
-        else reply = '"Chào cậu!"';
-        loveGain = 1; bondGain = 2;
-        break;
-      case 'ask':
-        if (traits.includes('quantam')) reply = '"Ngày tớ bình thường. Còn cậu?"';
-        else if (traits.includes('noilo')) reply = '"Hôm nay tớ hơi lo..."';
-        else reply = '"Cũng ổn."';
-        loveGain = 2; bondGain = 2;
-        break;
-      case 'khen':
-        if (traits.includes('langman')) reply = '"Cậu làm tớ ngại quá..."';
-        else reply = '"Cảm ơn cậu!"';
-        loveGain = 4; bondGain = 2;
-        break;
-      case 'share':
-        if (traits.includes('sautam')) reply = '"...Cảm ơn cậu đã lắng nghe."';
-        else reply = '"Ừ, tớ hiểu."';
-        loveGain = 3; bondGain = 4;
-        break;
-      case 'love':
-        if (r.views?.love) reply = r.views.love;
-        else reply = '"Tình yêu là điều kỳ diệu."';
-        if (r.g !== S.gender) loveGain = 4;
-        bondGain = 3;
-        break;
-      case 'career':
-        if (r.views?.career) reply = r.views.career;
-        else reply = '"Công việc cũng ổn."';
-        bondGain = 3;
-        break;
-      case 'money':
-        if (r.views?.money) reply = r.views.money;
-        else reply = '"Tiền không phải tất cả."';
-        bondGain = 3;
-        break;
-      case 'family':
-        if (r.views?.family) reply = r.views.family;
-        else reply = '"Gia đình rất quan trọng."';
-        loveGain = 3; bondGain = 4;
-        break;
-    }
-    // Bonus from traits
-    if (traits.includes('galant') && topicId === 'love') loveGain += 3;
-    if (traits.includes('stingy') && topicId === 'money') bondGain += 2;
+  const names = {greet:'Chào hỏi', ask:'Hỏi thăm', khen:'Khen ngợi', share:'Chia sẻ', love:'Tình yêu', career:'Sự nghiệp', money:'Tiền', family:'Gia đình'};
+  log.push({who: 'you', t: names[topicId]});
+  let reply = '', loveGain = 0, bondGain = 0;
+  if (r.angry) { reply = '"..." (không muốn nói chuyện)'; loveGain = -2; }
+  else {
+    const t = r.per;
+    if (topicId === 'greet') { reply = t.includes('vuitinh') ? '"Ơ cậu đến rồi!"' : t.includes('tramtinh') ? '"Ừ, chào cậu."' : '"Chào cậu!"'; loveGain = 1; bondGain = 2; }
+    else if (topicId === 'ask') { reply = t.includes('quantam') ? '"Ngày tớ bình thường."' : t.includes('noilo') ? '"Hôm nay hơi lo..."' : '"Cũng ổn."'; loveGain = 2; bondGain = 2; }
+    else if (topicId === 'khen') { reply = t.includes('langman') ? '"Cậu làm tớ ngại..."' : '"Cảm ơn!"'; loveGain = 4; bondGain = 2; }
+    else if (topicId === 'share') { reply = t.includes('sautam') ? '"...Cảm ơn cậu."' : '"Ừ, tớ hiểu."'; loveGain = 3; bondGain = 4; }
+    else if (topicId === 'love') { reply = r.views?.love || '"Tình yêu là điều kỳ diệu."'; if (r.g !== S.gender) loveGain = 4; bondGain = 3; }
+    else if (topicId === 'career') { reply = r.views?.career || '"Công việc ổn."'; bondGain = 3; }
+    else if (topicId === 'money') { reply = r.views?.money || '"Tiền không phải tất cả."'; bondGain = 3; }
+    else if (topicId === 'family') { reply = r.views?.family || '"Gia đình quan trọng."'; loveGain = 3; bondGain = 4; }
+    if (t.includes('galant') && topicId === 'love') loveGain += 3;
   }
   if (loveGain) r.love = clamp(r.love + loveGain);
   if (bondGain) r.bond = clamp(r.bond + bondGain);
@@ -1041,98 +1015,68 @@ function doChat(id, topicId) {
   processTime();
   log.push({who: 'them', t: reply});
   if (log.length > 30) log.splice(0, log.length - 30);
-  addLog(`💬 Chat với ${r.n}.`, 'love');
+  addLog(`💬 Chat với ${r.n}`, 'love');
   updateStage(r);
   render();
   openChat(id);
 }
 
 function updateStage(r) {
-  if (['dating', 'engaged', 'married'].includes(r.stage)) return;
-  const same = r.g === S.gender;
-  if (same) {
-    if (r.bond >= 90) r.stage = 'brother';
-    else if (r.bond >= 70) r.stage = 'close';
-    else r.stage = 'friend';
-  } else {
-    if (r.love >= 60) r.stage = 'crush';
-    else if (r.bond >= 70) r.stage = 'close';
-    else r.stage = 'friend';
-  }
+  if (['dating','engaged','married'].includes(r.stage)) return;
+  if (r.g === S.gender) { if (r.bond >= 90) r.stage = 'brother'; else if (r.bond >= 70) r.stage = 'close'; else r.stage = 'friend'; }
+  else { if (r.love >= 60) r.stage = 'crush'; else if (r.bond >= 70) r.stage = 'close'; else r.stage = 'friend'; }
 }
 
 function hang(id) {
-  const r = S.rels[id];
-  if (!r) return;
-  S.gameMinutes += 60;
-  r.bond = clamp(r.bond + 5);
+  const r = S.rels[id]; if (!r) return;
+  S.gameMinutes += 60; r.bond = clamp(r.bond + 5);
   if (r.g !== S.gender) r.love = clamp(r.love + 3);
   apply('mental', 5);
-  addLog(`🤝 Đi chơi với ${r.n}.`, 'love');
-  processTime();
-  render();
-  openRel();
+  addLog(`🤝 Đi chơi với ${r.n}`, 'love');
+  processTime(); render(); openRel();
 }
 
 function gift(id) {
-  const r = S.rels[id];
-  if (!r) return;
-  if (S.st.money < 200) { notify('❌ Không đủ tiền (cần 200đ)'); return; }
-  apply('money', -200);
-  S.gameMinutes += 30;
-  r.love = clamp(r.love + 12);
-  r.bond = clamp(r.bond + 3);
+  const r = S.rels[id]; if (!r) return;
+  if (S.st.money < 200) { notify('❌ Cần 200đ'); return; }
+  apply('money', -200); S.gameMinutes += 30;
+  r.love = clamp(r.love + 12); r.bond = clamp(r.bond + 3);
   apply('mental', 3);
-  addLog(`🎁 Tặng quà cho ${r.n}.`, 'love');
-  processTime();
-  render();
-  openRel();
+  addLog(`🎁 Tặng quà cho ${r.n}`, 'love');
+  processTime(); render(); openRel();
 }
 
 function dateWith(id) {
-  const r = S.rels[id];
-  if (!r) return;
-  const isG = r.per.includes('galant');
-  const isS = r.per.includes('stingy');
-  let cost = 300, msg = '';
-  if (isG) { cost = 0; msg = ' (Họ trả hết 🎩)'; }
-  else if (isS) { cost = 600; msg = ' (Bạn trả gấp đôi 💰)'; }
+  const r = S.rels[id]; if (!r) return;
+  const isG = r.per.includes('galant'), isS = r.per.includes('stingy');
+  let cost = 300;
+  if (isG) cost = 0; else if (isS) cost = 600;
   if (S.st.money < cost) { notify('❌ Không đủ tiền'); return; }
-  S.gameMinutes += 120;
-  if (cost) apply('money', -cost);
-  r.love = clamp(r.love + 12);
-  r.bond = clamp(r.bond + 4);
-  apply('mental', 10);
-  updateStage(r);
-  S._dated = true;
-  addLog(`💗 Hẹn hò với ${r.n}${msg}`, 'love');
-  processTime();
-  render();
-  openRel();
+  S.gameMinutes += 120; if (cost) apply('money', -cost);
+  r.love = clamp(r.love + 12); r.bond = clamp(r.bond + 4);
+  apply('mental', 10); updateStage(r); S._dated = true;
+  addLog(`💗 Hẹn hò với ${r.n}`, 'love');
+  processTime(); render(); openRel();
 }
 
 function unfriend(id) {
-  const r = S.rels[id];
-  if (!r) return;
+  const r = S.rels[id]; if (!r) return;
   if (!confirm(`Hủy kết bạn với ${r.n}?`)) return;
   if (S.partnerId === id) { S.partnerId = null; syncLove(); }
   delete S.rels[id];
   apply('mental', -8);
-  addLog(`💔 Đã hủy kết bạn với ${r.n}.`, 'bad');
-  closeModal();
-  render();
+  addLog(`💔 Hủy kết bạn với ${r.n}`, 'bad');
+  closeModal(); render();
 }
 
 function openPropose() {
-  const p = getPartner();
-  if (!p || p.stage !== 'dating') return;
-  let chance = p.love < 70 ? 0 : p.love >= 95 ? 1 : (p.love - 70) / 25;
+  const p = getPartner(); if (!p || p.stage !== 'dating') return;
+  const chance = p.love < 70 ? 0 : p.love >= 95 ? 1 : (p.love - 70) / 25;
   const pct = Math.round(chance * 100);
   showModal(`
     <h2>💍 Cầu hôn ${p.n}</h2>
     <div style="background:#0f172a;padding:10px;border-radius:8px;font-size:12px;margin:10px 0">
-      Tình cảm: ${Math.round(p.love)}/100<br>
-      Chi phí nhẫn: 5.000đ<br>
+      Tình cảm: ${Math.round(p.love)}/100<br>Nhẫn: 5.000đ<br>
       Cơ hội: <b style="color:${pct >= 70 ? '#22c55e' : pct >= 30 ? '#facc15' : '#ef4444'}">${pct}%</b>
     </div>
     <button class="btn gold" ${S.st.money >= 5000 ? '' : 'disabled'} onclick="doPropose()">Cầu hôn (5.000đ)</button>
@@ -1141,94 +1085,60 @@ function openPropose() {
 }
 
 function doPropose() {
-  const p = getPartner();
-  if (!p || S.st.money < 5000) return;
-  let chance = p.love < 70 ? 0 : p.love >= 95 ? 1 : (p.love - 70) / 25;
+  const p = getPartner(); if (!p || S.st.money < 5000) return;
+  const chance = p.love < 70 ? 0 : p.love >= 95 ? 1 : (p.love - 70) / 25;
   apply('money', -5000);
   if (Math.random() < chance) {
-    p.stage = 'engaged';
-    p.love = clamp(p.love + 15);
-    syncLove();
-    apply('mental', 20);
-    addLog(`💍 ${p.n} đồng ý cầu hôn!`, 'love');
+    p.stage = 'engaged'; p.love = clamp(p.love + 15); syncLove();
+    apply('mental', 20); addLog(`💍 ${p.n} đồng ý!`, 'love');
     notify(`💍 ${p.n} đồng ý!`);
   } else {
-    p.love = clamp(p.love - 15);
-    syncLove();
-    p.angry = true;
-    addLog(`💔 ${p.n} từ chối cầu hôn.`, 'bad');
-    notify('💔 Bị từ chối!');
+    p.love = clamp(p.love - 15); syncLove(); p.angry = true;
+    addLog(`💔 ${p.n} từ chối.`, 'bad'); notify('💔 Bị từ chối!');
   }
-  render();
-  openRel();
+  render(); openRel();
 }
 
 function openWedding() {
-  const p = getPartner();
-  if (!p || p.stage !== 'engaged') return;
+  const p = getPartner(); if (!p || p.stage !== 'engaged') return;
   showModal(`
     <h2>💒 Đám cưới</h2>
     <p>Chi phí: <b>10.000đ</b></p>
-    <p>Sau cưới, ${p.n} sẽ đóng góp mỗi ngày.</p>
     <button class="btn gold" ${S.st.money >= 10000 ? '' : 'disabled'} onclick="doWedding()">Tổ chức</button>
     <button class="btn sec" onclick="openRel()">Để sau</button>
   `);
 }
 
 function doWedding() {
-  const p = getPartner();
-  if (!p || p.stage !== 'engaged' || S.st.money < 10000) return;
-  apply('money', -10000);
-  p.stage = 'married';
-  p.love = clamp(p.love + 15);
-  syncLove();
-  apply('mental', 30);
-  addLog(`💒 Kết hôn với ${p.n}!`, 'love');
-  notify(`💒 Chúc mừng đám cưới!`);
-  render();
-  openRel();
+  const p = getPartner(); if (!p || p.stage !== 'engaged' || S.st.money < 10000) return;
+  apply('money', -10000); p.stage = 'married'; p.love = clamp(p.love + 15); syncLove();
+  apply('mental', 30); addLog(`💒 Kết hôn với ${p.n}!`, 'love');
+  notify('💒 Chúc mừng!'); render(); openRel();
 }
 
 function tryPregnant() {
-  const p = getPartner();
-  if (!p || p.stage !== 'married' || p.expecting) return;
-  if (S.st.money < 1000) { notify('❌ Không đủ tiền (cần 1.000đ)'); return; }
+  const p = getPartner(); if (!p || p.stage !== 'married' || p.expecting) return;
+  if (S.st.money < 1000) { notify('❌ Cần 1.000đ'); return; }
   apply('money', -1000);
-  if (Math.random() < 0.5) {
-    p.expecting = true;
-    p.expectingWeeks = 3;
-    addLog(`🤰 ${p.n} đã mang thai!`, 'love');
-    notify('🤰 Có tin vui!');
-  } else {
-    addLog('Chưa có tin vui.', 'info');
-  }
+  if (Math.random() < 0.5) { p.expecting = true; p.expectingWeeks = 3; addLog(`🤰 ${p.n} mang thai!`, 'love'); notify('🤰 Có tin vui!'); }
+  else addLog('Chưa có tin vui.', 'info');
   render();
 }
 
 function birthChild() {
-  const p = getPartner();
-  if (!p) return;
+  const p = getPartner(); if (!p) return;
   p.expecting = false;
   const gender = Math.random() < 0.5 ? 'nam' : 'nu';
   const names = ['An','Bình','Chi','Duy','Hân','Khang','Linh','Minh','Nam','Phúc','Quỳnh','Trang'];
   const name = names[Math.floor(Math.random() * names.length)];
   S.children.push({id: 'c' + Date.now(), name, gender, age: 0, bond: 60});
   addLog(`👶 Bé ${name} chào đời!`, 'child');
-  notify(`👶 Bé ${name} đã chào đời!`);
-  apply('mental', 25);
-  p.love = clamp(p.love + 15);
-  syncLove();
+  notify(`👶 Bé ${name} chào đời!`);
+  apply('mental', 25); p.love = clamp(p.love + 15); syncLove();
 }
 
-// ═══════════════════════════════════════════
-//  OTHER MENUS
-// ═══════════════════════════════════════════
-
 function openChildren() {
-  if (S.children.length === 0) {
-    showModal(`<h2>👶 Con cái</h2><p>Bạn chưa có con.</p><button class="btn sec" onclick="closeModal()">Đóng</button>`);
-    return;
-  }
+  if (!S.children.length) { showModal(`<h2>👶 Con cái</h2><p>Chưa có con.</p><button class="btn sec" onclick="closeModal()">Đóng</button>`); return; }
   showModal(`
     <h2>👶 Con cái (${S.children.length})</h2>
     ${S.children.map(c => `
@@ -1240,7 +1150,6 @@ function openChildren() {
           <span class="bd blue">${c.age} ngày</span>
         </div>
         <div class="bond"><div class="bond-f" style="width:${c.bond}%"></div></div>
-        <div style="font-size:11px;color:#94a3b8">Gắn bó: ${Math.round(c.bond)}/100</div>
       </div>
     `).join('')}
     <button class="btn sec" onclick="closeModal()">Đóng</button>
@@ -1248,18 +1157,18 @@ function openChildren() {
 }
 
 function openJobs() {
-  const playerRank = EDU_RANK[S.edu];
+  const pr = EDU_RANK[S.edu];
   const sorted = Object.entries(JOBS).sort((a, b) => a[1].w - b[1].w);
   showModal(`
     <h2>💼 Chọn nghề</h2>
-    <p style="font-size:11px;color:#94a3b8">Học vấn của bạn: ${EDU_LABEL[S.edu]}</p>
+    <p style="font-size:11px;color:#94a3b8">Học vấn: ${EDU_LABEL[S.edu]} · Lương càng cao khi học vấn càng cao</p>
     <div style="max-height:60vh;overflow-y:auto">
     ${sorted.map(([k, j]) => {
-      const reqRank = j.edu ? EDU_RANK[j.edu] : 0;
-      const locked = playerRank < reqRank;
+      const req = j.edu ? EDU_RANK[j.edu] : 0;
+      const locked = pr < req;
       const cur = S.job === k;
       return `<button class="btn ${cur ? 'pri' : 'sec'}" style="text-align:left;padding:8px 12px;margin-bottom:4px" ${locked || cur ? 'disabled' : ''} onclick="changeJob('${k}')">
-        ${j.i} ${j.n} — ${fmt(j.w)}/ngày
+        ${j.i} ${j.n} — ${fmt(j.w)}/ngày ${j.edu ? `[${EDU_LABEL[j.edu]}]` : ''}
         ${locked ? `<br><small style="color:#fca5a5">🔒 Cần ${EDU_LABEL[j.edu]}</small>` : ''}
         ${cur ? '<br><small>Đang làm</small>' : ''}
       </button>`;
@@ -1270,21 +1179,14 @@ function openJobs() {
 }
 
 function changeJob(k) {
-  const j = JOBS[k];
-  if (!j) return;
-  const reqRank = j.edu ? EDU_RANK[j.edu] : 0;
-  if (EDU_RANK[S.edu] < reqRank) return;
+  const j = JOBS[k]; if (!j) return;
+  if (j.edu && EDU_RANK[S.edu] < EDU_RANK[j.edu]) return;
   S.job = k;
   addLog(`Chuyển sang: ${j.i} ${j.n}`, 'info');
-  closeModal();
-  render();
+  closeModal(); render();
 }
 
 function openAssets() {
-  const house = HOUSES.find(h => h.id === S.assets.house) || HOUSES[0];
-  const car = CARS.find(c => c.id === S.assets.car) || CARS[0];
-  const biz = BUSINESS.find(b => b.id === S.assets.business) || BUSINESS[0];
-
   const renderList = (title, list, current, type) => `
     <h3 style="color:#f472b6;margin-top:12px">${title}</h3>
     ${list.map(item => {
@@ -1292,13 +1194,10 @@ function openAssets() {
       const canBuy = S.st.money >= item.p && !isOwned;
       let stats = '';
       if (type === 'house') stats = `+${item.m} Tinh thần/ngày`;
-      if (type === 'car') stats = `+${item.tr}% giá trị giao dịch`;
+      if (type === 'car') stats = `+${item.tr}% giá trị`;
       if (type === 'biz') stats = `+${fmt(item.inc)}/tuần`;
       return `<div class="asset-card">
-        <div>
-          <h4>${item.n} ${isOwned ? '✅' : ''}</h4>
-          <p>${stats}</p>
-        </div>
+        <div><h4>${item.n} ${isOwned ? '✅' : ''}</h4><p>${stats}</p></div>
         <div style="text-align:right">
           <div style="font-size:12px;color:#facc15;font-weight:bold;margin-bottom:4px">${fmt(item.p)}</div>
           ${isOwned ? '<span class="bd green">Đang dùng</span>' : `<button class="btn sec" style="padding:4px 8px;font-size:11px" ${canBuy ? '' : 'disabled'} onclick="buyAsset('${type}','${item.id}',${item.p})">Mua</button>`}
@@ -1306,7 +1205,6 @@ function openAssets() {
       </div>`;
     }).join('')}
   `;
-
   showModal(`
     <h2>🏠 Tài sản & Kinh doanh</h2>
     <p style="font-size:12px;color:#94a3b8">Số dư: <b>${fmt(S.st.money)}</b> · Prestige: ✨ ${prestige()}</p>
@@ -1321,108 +1219,68 @@ function buyAsset(type, id, price) {
   if (S.st.money < price) return;
   apply('money', -price);
   S.assets[type] = id;
-  addLog(`🛍️ Đã mua tài sản mới!`, 'good');
-  render();
-  openAssets();
+  addLog(`🛍️ Đã mua tài sản!`, 'good');
+  render(); openAssets();
 }
 
 function prestige() {
-  const assetVal = (HOUSES.find(h => h.id === S.assets.house)?.p || 0)
-    + (CARS.find(c => c.id === S.assets.car)?.p || 0)
-    + (BUSINESS.find(b => b.id === S.assets.business)?.p || 0);
-  return Math.round((S.st.money + assetVal) / 1200 + EDU_RANK[S.edu] * 15 + S.st.skill * 0.6);
+  const av = (HOUSES.find(h => h.id === S.assets.house)?.p || 0) + (CARS.find(c => c.id === S.assets.car)?.p || 0) + (BUSINESS.find(b => b.id === S.assets.business)?.p || 0);
+  return Math.round((S.st.money + av) / 1200 + EDU_RANK[S.edu] * 15 + S.st.skill * 0.6);
 }
 
-// ═══════════════════════════════════════════
-//  RENDERING
-// ═══════════════════════════════════════════
-
+// ═══════════ RENDER ═══════════
 function render() {
   if (!S || !S.gender) return;
   const t = getTime();
-  
-  // Time bar
   document.getElementById('clock').textContent = `${pad2(t.hour)}:${pad2(t.minute)}`;
   document.getElementById('dayInfo').textContent = `📅 ${t.dwFull} · Ngày ${t.day}`;
   document.getElementById('period').textContent = t.periodLabel;
-  
-  // Pills
   document.getElementById('moneyPill').textContent = `💰 ${fmt(S.st.money)}`;
   document.getElementById('jobPill').textContent = `${JOBS[S.job].i} ${JOBS[S.job].n}`;
-  document.getElementById('eduPill').textContent = `${EDU_LABEL[S.edu]}${S.eduProgress ? ` (${S.eduProgress})` : ''}`;
+  const eduStr = S.edu === 'ts' ? EDU_LABEL[S.edu] : `${EDU_LABEL[S.edu]} (${S.eduProgress}/${EXAM_REQ[S.edu]})`;
+  document.getElementById('eduPill').textContent = eduStr;
   const p = getPartner();
   const pp = document.getElementById('partnerPill');
   if (p) { pp.style.display = ''; pp.textContent = `${p.av} ${p.n}`; } else pp.style.display = 'none';
   document.getElementById('locPill').textContent = `📍 ${LOCATIONS[_currentLoc]?.e || '🛣️'} ${LOCATIONS[_currentLoc]?.n || 'Ngoài đường'}`;
-  
-  // Stats
   const defs = [
-    {k:'health', l:'❤️ Sức khỏe', c:'#ef4444'},
-    {k:'energy', l:'⚡ Năng lượng', c:'#facc15'},
-    {k:'mental', l:'🧠 Tinh thần', c:'#a78bfa'},
-    {k:'skill', l:'📚 Kỹ năng', c:'#38bdf8'},
-    {k:'love', l:'💗 Tình cảm', c:'#ec4899'},
-    {k:'passion', l:'🔥 Đam mê', c:'#fb923c'}
+    {k:'health', l:'❤️ Sức khỏe', c:'#ef4444'},{k:'energy', l:'⚡ Năng lượng', c:'#facc15'},
+    {k:'mental', l:'🧠 Tinh thần', c:'#a78bfa'},{k:'skill', l:'📚 Kỹ năng', c:'#38bdf8'},
+    {k:'love', l:'💗 Tình cảm', c:'#ec4899'},{k:'passion', l:'🔥 Đam mê', c:'#fb923c'}
   ];
   document.getElementById('statsGrid').innerHTML = defs.map(d => {
     const v = S.st[d.k];
-    return `<div class="stat">
-      <div class="lbl"><span>${d.l}</span><span>${Math.round(v)}</span></div>
-      <div class="bar"><div class="fill" style="width:${v}%;background:${d.c}"></div></div>
-    </div>`;
+    return `<div class="stat"><div class="lbl"><span>${d.l}</span><span>${Math.round(v)}</span></div><div class="bar"><div class="fill" style="width:${v}%;background:${d.c}"></div></div></div>`;
   }).join('');
-  
-  // Locations
   document.getElementById('locationsGrid').innerHTML = Object.entries(LOCATIONS).map(([k, loc]) => {
     const active = _currentLoc === k;
-    return `<button class="loc-btn ${active ? 'active' : ''}" onclick="selectLocation('${k}')">
-      <span class="em">${loc.e}</span>
-      <span class="nm">${loc.n}</span>
-      <span class="hint">${loc.acts.length} HĐ</span>
-    </button>`;
+    return `<button class="loc-btn ${active ? 'active' : ''}" onclick="selectLocation('${k}')"><span class="em">${loc.e}</span><span class="nm">${loc.n}</span><span class="hint">${loc.acts.length} HĐ</span></button>`;
   }).join('');
   document.getElementById('locCount').textContent = `${Object.keys(LOCATIONS).length} địa điểm`;
-  
-  // Activities
   if (_currentLoc) {
     const loc = LOCATIONS[_currentLoc];
     document.getElementById('actsGrid').innerHTML = loc.acts.map(a => {
-      const reqs = checkRequirements(a);
+      const reqs = checkReq(a);
       const disabled = reqs.length > 0;
       const hours = a.t >= 60 ? (a.t / 60).toFixed(1).replace('.0', '') + 'h' : a.t + 'p';
       const costStr = a.cost > 0 ? `-${fmt(a.cost)}` : (a.ef?.money === 'wage' ? `+${fmt(JOBS[S.job].w)}` : 'Miễn phí');
-      return `<button class="act-btn" ${disabled ? 'disabled' : ''} onclick="doActivity('${_currentLoc}','${a.id}')">
+      const isExam = a.special === 'exam';
+      return `<button class="act-btn ${isExam ? 'exam' : ''}" ${disabled ? 'disabled' : ''} onclick="doActivity('${_currentLoc}','${a.id}')">
         <span class="nm">${a.n}</span>
         <div class="meta"><span class="time">⏱ ${hours}</span><span class="cost">${costStr}</span></div>
-        ${disabled ? `<div class="meta"><span class="req">⚠️ ${reqs[0]}</span></div>` : ''}
+        ${disabled ? `<div class="meta"><span class="req">⚠️ ${reqs[0]}</span></div>` : (a.addsProgress ? `<div class="meta"><span style="color:#86efac">+${a.addsProgress} buổi học</span></div>` : '')}
       </button>`;
     }).join('');
   }
-  
-  // Log
-  document.getElementById('log').innerHTML = S.log.slice(0, 40).map(e => 
-    `<div class="e ${e.t}"><b>${e.dw} ${e.time}:</b> ${e.m}</div>`
-  ).join('');
+  document.getElementById('log').innerHTML = S.log.slice(0, 40).map(e => `<div class="e ${e.t}"><b>${e.dw} ${e.time}:</b> ${e.m}</div>`).join('');
   document.getElementById('logCount').textContent = `${S.log.length} sự kiện`;
-  
   save();
 }
 
-// ═══════════════════════════════════════════
-//  MODAL / NOTIFICATION
-// ═══════════════════════════════════════════
-
-function showModal(h) {
-  document.getElementById('mbox').innerHTML = h;
-  document.getElementById('modal').classList.add('on');
-}
-
-function closeModal() {
-  document.getElementById('modal').classList.remove('on');
-}
-
+// ═══════════ MODAL / NOTIFICATION ═══════════
+function showModal(h) { document.getElementById('mbox').innerHTML = h; document.getElementById('modal').classList.add('on'); }
+function closeModal() { document.getElementById('modal').classList.remove('on'); }
 document.getElementById('modal').onclick = e => { if (e.target.id === 'modal') closeModal(); };
-
 let _notifTimer = null;
 function notify(text) {
   const n = document.getElementById('notif');
@@ -1432,58 +1290,28 @@ function notify(text) {
   _notifTimer = setTimeout(() => n.classList.remove('on'), 2500);
 }
 
-// ═══════════════════════════════════════════
-//  SAVE / LOAD
-// ═══════════════════════════════════════════
-
+// ═══════════ SAVE / LOAD ═══════════
 function save() {
-  try {
-    localStorage.setItem('nhipdoi_v3_save', JSON.stringify({
-      S, _currentLoc, _lastDayProcessed, _lastWeekProcessed
-    }));
-  } catch (e) {}
+  try { localStorage.setItem('nhipdoi_v4_save', JSON.stringify({S, _currentLoc, _lastDay, _lastWeek})); } catch (e) {}
 }
-
 function load() {
   try {
-    const raw = localStorage.getItem('nhipdoi_v3_save');
+    const raw = localStorage.getItem('nhipdoi_v4_save');
     if (!raw) return false;
-    const data = JSON.parse(raw);
-    if (!data.S || !data.S.gender) return false;
-    S = data.S;
-    _currentLoc = data._currentLoc || 'home';
-    _lastDayProcessed = data._lastDayProcessed || 0;
-    _lastWeekProcessed = data._lastWeekProcessed || 0;
+    const d = JSON.parse(raw);
+    if (!d.S || !d.S.gender) return false;
+    S = d.S; _currentLoc = d._currentLoc || 'home';
+    _lastDay = d._lastDay || 0; _lastWeek = d._lastWeek || 0;
     return true;
   } catch (e) { return false; }
 }
 
-// ═══════════════════════════════════════════
-//  START SCREEN
-// ═══════════════════════════════════════════
-
-const HOBBIES = {
-  doc_sach: {n:'Đọc sách', e:'📚'},
-  am_nhac: {n:'Âm nhạc', e:'🎵'},
-  the_thao: {n:'Thể thao', e:'⚽'},
-  game: {n:'Game', e:'🎮'},
-  du_lich: {n:'Du lịch', e:'✈️'},
-  nau_an: {n:'Nấu ăn', e:'🍳'},
-  nghe_thuat: {n:'Nghệ thuật', e:'🎨'},
-  ca_phe: {n:'Cà phê', e:'☕'}
-};
-
-const TRAITS = {
-  chamchi:'💪 Chăm chỉ', vuitinh:'😄 Vui tính', tramtinh:'🌙 Trầm tính',
-  langman:'🌹 Lãng mạn', noilo:'😰 Lo lắng', thucte:'📐 Thực tế',
-  hoatbat:'⚡ Hoạt bát', sautam:'💭 Sâu tâm', doclap:'🦅 Độc lập',
-  quantam:'💞 Quan tâm', galant:'🎩 Ga lăng', stingy:'💰 Bủn xỉn',
-  lanhlung:'❄️ Lạnh lùng', thamvong:'🏆 Tham vọng'
-};
+// ═══════════ START SCREEN ═══════════
+const HOBBIES = {doc_sach:{n:'Đọc sách', e:'📚'}, am_nhac:{n:'Âm nhạc', e:'🎵'}, the_thao:{n:'Thể thao', e:'⚽'}, game:{n:'Game', e:'🎮'}, du_lich:{n:'Du lịch', e:'✈️'}, nau_an:{n:'Nấu ăn', e:'🍳'}, nghe_thuat:{n:'Nghệ thuật', e:'🎨'}, ca_phe:{n:'Cà phê', e:'☕'}};
+const TRAITS = {chamchi:'💪 Chăm chỉ', vuitinh:'😄 Vui tính', tramtinh:'🌙 Trầm tính', langman:'🌹 Lãng mạn', noilo:'😰 Lo lắng', thucte:'📐 Thực tế', hoatbat:'⚡ Hoạt bát', sautam:'💭 Sâu tâm', doclap:'🦅 Độc lập', quantam:'💞 Quan tâm', galant:'🎩 Ga lăng', stingy:'💰 Bủn xỉn', lanhlung:'❄️ Lạnh lùng', thamvong:'🏆 Tham vọng'};
 
 function showStart() {
-  window._g = null;
-  window._h = [];
+  window._g = null; window._h = [];
   showModal(`
     <h2>Chào mừng đến Nhịp Đời</h2>
     <p>Tạo nhân vật và bắt đầu cuộc sống mới!</p>
@@ -1495,26 +1323,14 @@ function showStart() {
     </div>
     <h3>Tên</h3>
     <input class="inp" id="nm" maxlength="20" placeholder="Nhập tên...">
-    <h3>Sở thích (chọn 2-3)</h3>
-    <div class="opt" id="hobbies">
-      ${Object.entries(HOBBIES).map(([k, v]) => `<button onclick="pickH(this,'${k}')">${v.e} ${v.n}</button>`).join('')}
-    </div>
+    <h3>Sở thích (2-3)</h3>
+    <div class="opt" id="hobbies">${Object.entries(HOBBIES).map(([k, v]) => `<button onclick="pickH(this,'${k}')">${v.e} ${v.n}</button>`).join('')}</div>
+    <p style="font-size:11px;color:#facc15;margin-top:12px;text-align:center">📚 Học đến cấp cao phải vượt qua kỳ thi! (10/20/30 câu tùy cấp)</p>
     <button class="btn pri" style="margin-top:12px" onclick="startGame()">Bắt đầu cuộc đời</button>
   `);
 }
-
-function pickG(b, g) {
-  window._g = g;
-  b.parentElement.querySelectorAll('button').forEach(x => x.classList.remove('sel'));
-  b.classList.add('sel');
-}
-
-function pickH(b, h) {
-  const i = window._h.indexOf(h);
-  if (i >= 0) { window._h.splice(i, 1); b.classList.remove('sel'); }
-  else if (window._h.length < 3) { window._h.push(h); b.classList.add('sel'); }
-}
-
+function pickG(b, g) { window._g = g; b.parentElement.querySelectorAll('button').forEach(x => x.classList.remove('sel')); b.classList.add('sel'); }
+function pickH(b, h) { const i = window._h.indexOf(h); if (i >= 0) { window._h.splice(i, 1); b.classList.remove('sel'); } else if (window._h.length < 3) { window._h.push(h); b.classList.add('sel'); } }
 function startGame() {
   if (!window._g) return alert('Chọn giới tính.');
   if (window._h.length < 2) return alert('Chọn ít nhất 2 sở thích.');
@@ -1522,22 +1338,14 @@ function startGame() {
   S.gender = window._g;
   S.name = (document.getElementById('nm').value || '').trim() || 'Bạn';
   S.hobbies = [...window._h];
-  _currentLoc = 'home';
-  _lastDayProcessed = 1;
-  _lastWeekProcessed = 0;
+  _currentLoc = 'home'; _lastDay = 1; _lastWeek = 0;
   addLog(`Chào mừng ${S.name}!`, 'good');
-  addLog(`💡 Chọn địa điểm để xem hoạt động.`, 'info');
-  addLog(`💡 Thời gian tự chạy liên tục.`, 'info');
-  addLog(`💡 Chú ý Sức khỏe, Năng lượng, Tinh thần.`, 'info');
-  closeModal();
-  render();
-  selectLocation('home');
+  addLog(`💡 Học ở Trường để lên cấp, phải thi đỗ!`, 'info');
+  addLog(`💡 Thời gian tự chạy.`, 'info');
+  closeModal(); render(); selectLocation('home');
 }
 
-// ═══════════════════════════════════════════
-//  GAME LOOP
-// ═══════════════════════════════════════════
-
+// ═══════════ GAME LOOP ═══════════
 function gameLoop() {
   function tick() {
     if (S && S.gender && !S.ended) {
@@ -1545,9 +1353,8 @@ function gameLoop() {
       const dt = (now - _lastTick) / 1000;
       _lastTick = now;
       if (dt > 0 && dt < 5) {
-        S.gameMinutes += dt * TICK_MINUTES_PER_SEC;
+        S.gameMinutes += dt * TICK;
         processTime();
-        // Update only time display
         const t = getTime();
         document.getElementById('clock').textContent = `${pad2(t.hour)}:${pad2(t.minute)}`;
         document.getElementById('dayInfo').textContent = `📅 ${t.dwFull} · Ngày ${t.day}`;
@@ -1559,16 +1366,10 @@ function gameLoop() {
   requestAnimationFrame(tick);
 }
 
-// ═══════════════════════════════════════════
-//  INIT
-// ═══════════════════════════════════════════
-
+// ═══════════ INIT ═══════════
 function init() {
-  if (!load()) {
-    S = newState();
-    showStart();
-  } else {
-    // Migration
+  if (!load()) { S = newState(); showStart(); }
+  else {
     if (!S.assets) S.assets = {house: 'none', car: 'none', business: 'none'};
     if (!S.children) S.children = [];
     if (!S.pets) S.pets = [];
@@ -1580,23 +1381,22 @@ function init() {
   gameLoop();
 }
 
-// Wire buttons
 document.getElementById('relBtn').onclick = openRel;
 document.getElementById('childBtn').onclick = openChildren;
 document.getElementById('jobBtn').onclick = openJobs;
 document.getElementById('assetsBtn').onclick = openAssets;
 document.getElementById('resetBtn').onclick = () => {
-  if (!confirm('Chơi lại từ đầu? Toàn bộ dữ liệu sẽ bị xóa.')) return;
-  localStorage.removeItem('nhipdoi_v3_save');
+  if (!confirm('Chơi lại từ đầu?')) return;
+  localStorage.removeItem('nhipdoi_v4_save');
   location.reload();
 };
 
-// Expose
 Object.assign(window, {
   selectLocation, doActivity, tryMeet, openMeet, openRel, openChat, doChat,
   hang, gift, dateWith, unfriend, openPropose, doPropose, openWedding, doWedding,
   tryPregnant, openChildren, openJobs, changeJob, openAssets, buyAsset,
-  showModal, closeModal, pickG, pickH, startGame
+  showModal, closeModal, pickG, pickH, startGame,
+  startExam, renderExamQuestion, answerExam, nextExamQuestion, renderExamResult
 });
 
 init();
