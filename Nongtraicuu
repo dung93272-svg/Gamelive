@@ -1,660 +1,1156 @@
-# -*- coding: utf-8 -*-
-"""
-🌾 NÔNG TRẠI VUI VẺ 🌾
-Game mô phỏng nông trại: trồng cây, nuôi gia súc, phục vụ khách NPC.
-Chạy: python farm_game.py  (chỉ cần Python 3 + tkinter)
-"""
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌾 Nông Trại Vui Vẻ 🌾</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-import tkinter as tk
-from tkinter import messagebox
-import random
-import time
+  body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: #10161a;
+    color: #eceff1;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+  }
 
-# ==================== DỮ LIỆU GAME ====================
+  /* ============ MÀN HÌNH BẮT ĐẦU ============ */
+  #start-screen {
+    background: linear-gradient(160deg, #1B5E20, #0d3b12);
+    border-radius: 20px;
+    padding: 48px 56px;
+    max-width: 720px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,.6);
+    border: 2px solid #2E7D32;
+  }
 
-# Cây trồng: giá hạt -> thời gian lớn -> giá bán
-CROPS = {
-    "Cà rốt":  {"seed": 10,  "grow": 6,  "sell": 22,  "color": "#FF8C42"},
-    "Cà chua": {"seed": 25,  "grow": 10, "sell": 55,  "color": "#E63946"},
-    "Bắp cải": {"seed": 45,  "grow": 15, "sell": 100, "color": "#7CB518"},
-    "Dâu tây": {"seed": 80,  "grow": 22, "sell": 180, "color": "#D62828"},
-    "Nho":     {"seed": 140, "grow": 30, "sell": 320, "color": "#6A4C93"},
+  #start-screen h1 {
+    font-size: 42px;
+    color: #FFEB3B;
+    text-shadow: 0 3px 10px rgba(0,0,0,.5);
+    margin-bottom: 8px;
+  }
+
+  .subtitle { color: #C8E6C9; font-size: 15px; margin-bottom: 32px; }
+
+  .field-label { font-size: 14px; color: #fff; margin-bottom: 10px; display: block; }
+
+  #farm-name-input {
+    font-size: 20px;
+    padding: 12px 18px;
+    width: 300px;
+    text-align: center;
+    border-radius: 10px;
+    border: 2px solid #4CAF50;
+    background: #0d2b10;
+    color: #FFEB3B;
+    outline: none;
+    font-weight: bold;
+  }
+  #farm-name-input:focus { border-color: #FFC107; }
+
+  .theme-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 12px;
+    margin: 14px 0 28px;
+  }
+
+  .theme-card {
+    border-radius: 12px;
+    padding: 10px;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: transform .15s, border-color .15s;
+    text-align: center;
+  }
+  .theme-card:hover { transform: translateY(-3px); }
+  .theme-card.active { border-color: #FFC107; box-shadow: 0 0 16px rgba(255,193,7,.5); }
+
+  .theme-preview { height: 46px; border-radius: 8px; margin-bottom: 6px; }
+  .theme-name { font-size: 12px; color: #fff; font-weight: 600; }
+
+  .btn-primary {
+    background: #FFC107;
+    color: #1B5E20;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 14px 52px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform .15s, background .15s;
+    box-shadow: 0 6px 0 #c79100;
+  }
+  .btn-primary:hover { background: #FFD54F; transform: translateY(-2px); }
+  .btn-primary:active { transform: translateY(3px); box-shadow: 0 2px 0 #c79100; }
+
+  .hint { margin-top: 22px; color: #A5D6A7; font-size: 13px; }
+
+  /* ============ GAME ============ */
+  #game-screen {
+    display: none;
+    width: 100%;
+    max-width: 1240px;
+    background: #182228;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,.7);
+    border: 2px solid #263238;
+  }
+
+  /* --- Thanh HUD --- */
+  #hud {
+    background: linear-gradient(90deg, #2E7D32, #1B5E20);
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    border-bottom: 3px solid #0d3b12;
+  }
+
+  #hud .farm-title { font-size: 18px; font-weight: bold; color: #FFF9C4; }
+
+  .stat {
+    font-size: 13px;
+    font-weight: 600;
+    background: rgba(0,0,0,.25);
+    padding: 5px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .stat.money { color: #FFD54F; }
+  .stat.scale { color: #B3E5FC; }
+  .stat.rep   { color: #F8BBD0; }
+  .stat.ad    { color: #FFAB91; }
+  .stat.ad.inactive { opacity: .45; }
+  .spacer { flex: 1; }
+
+  /* --- Bố cục chính --- */
+  #main {
+    display: flex;
+    gap: 12px;
+    padding: 12px;
+    align-items: flex-start;
+  }
+
+  /* --- Sân nông trại --- */
+  #farm-area { flex: 0 0 auto; }
+
+  #farm {
+    position: relative;
+    width: 690px;
+    height: 640px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 3px solid #37474F;
+  }
+
+  #sky {
+    position: absolute; top: 0; left: 0; right: 0; height: 155px;
+  }
+  #ground {
+    position: absolute; top: 155px; left: 0; right: 0; bottom: 0;
+  }
+
+  .sun {
+    position: absolute; top: 22px; left: 32px;
+    width: 62px; height: 62px; border-radius: 50%;
+    background: radial-gradient(circle, #FFF59D, #FFD54F);
+    box-shadow: 0 0 40px rgba(255,213,79,.85);
+  }
+
+  .cloud {
+    position: absolute;
+    background: #fff;
+    border-radius: 50px;
+    opacity: .9;
+  }
+  .cloud::before, .cloud::after {
+    content: ''; position: absolute; background: #fff; border-radius: 50%;
+  }
+  .cloud::before { width: 55%; height: 150%; top: -60%; left: 12%; }
+  .cloud::after  { width: 45%; height: 130%; top: -45%; right: 10%; }
+
+  .barn {
+    position: absolute; top: 58px; right: 40px;
+    width: 118px; height: 92px;
+  }
+  .barn-body {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 62px;
+    background: #C62828; border: 2px solid #8E1F1F; border-radius: 3px;
+  }
+  .barn-roof {
+    position: absolute; top: 0; left: -8px; right: -8px; height: 44px;
+    background: #8D6E63;
+    clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+    border-bottom: 2px solid #5D4037;
+  }
+  .barn-door {
+    position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 34px; height: 42px; background: #5D4037; border-radius: 4px 4px 0 0;
+  }
+  .barn-window {
+    position: absolute; bottom: 32px; left: 10px;
+    width: 20px; height: 20px; background: #FFF59D;
+    border: 2px solid #5D4037; border-radius: 3px;
+  }
+
+  /* --- Ô đất --- */
+  #plots {
+    position: absolute; top: 190px; left: 30px;
+    display: grid;
+    grid-template-columns: repeat(4, 148px);
+    grid-template-rows: repeat(3, 132px);
+    gap: 12px 14px;
+  }
+
+  .plot {
+    border-radius: 10px;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: transform .12s, box-shadow .12s;
+    border: 2px solid rgba(0,0,0,.45);
+    overflow: hidden;
+  }
+  .plot:hover { transform: scale(1.035); box-shadow: 0 0 16px rgba(255,255,255,.35); }
+
+  .plot .plus { font-size: 34px; color: rgba(255,255,255,.45); font-weight: bold; }
+
+  .plot .emoji { font-size: 40px; line-height: 1; filter: drop-shadow(0 2px 3px rgba(0,0,0,.5)); }
+
+  .plot .progress-track {
+    position: absolute; bottom: 10px; left: 12px; right: 12px;
+    height: 9px; background: rgba(0,0,0,.5); border-radius: 5px; overflow: hidden;
+  }
+  .plot .progress-fill {
+    height: 100%; background: #4CAF50; border-radius: 5px;
+    transition: width .2s linear;
+  }
+  .plot .progress-fill.done { background: #FFD54F; }
+
+  .plot.ready {
+    animation: pulse 1s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255,213,79,.8); }
+    50%      { box-shadow: 0 0 0 8px rgba(255,213,79,0); }
+  }
+
+  .plot .ready-tag {
+    position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
+    background: #FFD54F; color: #3E2723;
+    font-size: 9px; font-weight: bold; padding: 2px 8px; border-radius: 8px;
+    white-space: nowrap;
+  }
+
+  /* --- Panel bên phải --- */
+  #side-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .panel {
+    background: #263238;
+    border-radius: 12px;
+    padding: 12px;
+    border: 1px solid #37474F;
+  }
+
+  .panel h3 {
+    font-size: 13px;
+    color: #80CBC4;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    margin-bottom: 9px;
+  }
+
+  /* --- Cửa hàng --- */
+  .shop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+
+  .shop-btn {
+    background: #37474F;
+    color: #eceff1;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 6px;
+    font-size: 12px;
+    cursor: pointer;
+    text-align: left;
+    transition: background .15s, transform .1s;
+    display: flex; justify-content: space-between; gap: 4px;
+  }
+  .shop-btn:hover { background: #546E7A; transform: translateY(-1px); }
+  .shop-btn:active { transform: translateY(1px); }
+  .shop-btn .price { color: #FFD54F; font-weight: bold; }
+
+  .ad-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px; }
+  .ad-btn {
+    background: #5D4037; color: #fff; border: none;
+    border-radius: 8px; padding: 9px 6px; font-size: 12px;
+    cursor: pointer; transition: background .15s;
+  }
+  .ad-btn:hover { background: #795548; }
+
+  /* --- Kho --- */
+  #inventory-list {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    font-size: 12px; min-height: 22px;
+  }
+  .inv-chip {
+    background: #37474F; padding: 3px 10px; border-radius: 14px;
+    border: 1px solid #546E7A;
+  }
+  .inv-empty { color: #78909C; font-style: italic; font-size: 12px; }
+
+  .sell-btn {
+    width: 100%; margin-top: 9px;
+    background: #455A64; color: #fff; border: none;
+    border-radius: 8px; padding: 9px; font-size: 12px; cursor: pointer;
+    transition: background .15s;
+  }
+  .sell-btn:hover { background: #546E7A; }
+
+  /* --- Khách hàng --- */
+  #customer-panel { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+
+  #customer-list {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    max-height: 350px;
+    padding-right: 4px;
+  }
+  #customer-list::-webkit-scrollbar { width: 7px; }
+  #customer-list::-webkit-scrollbar-track { background: #1c262b; border-radius: 4px; }
+  #customer-list::-webkit-scrollbar-thumb { background: #455A64; border-radius: 4px; }
+
+  .customer {
+    background: #37474F;
+    border-radius: 10px;
+    padding: 9px 11px;
+    border-left: 4px solid #FFC107;
+    animation: slideIn .3s ease;
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(18px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  .cust-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .cust-name { font-size: 13px; font-weight: bold; color: #FFD54F; }
+  .cust-reward { font-size: 12px; font-weight: bold; color: #A5D6A7; white-space: nowrap; }
+
+  .cust-order { font-size: 11.5px; color: #CFD8DC; margin: 5px 0 6px; }
+
+  .cust-bottom { display: flex; align-items: center; gap: 8px; }
+
+  .patience-track {
+    flex: 1; height: 7px; background: #1c262b;
+    border-radius: 4px; overflow: hidden;
+  }
+  .patience-fill {
+    height: 100%; background: #66BB6A; border-radius: 4px;
+    transition: width .3s linear, background .3s;
+  }
+  .patience-fill.low { background: #EF5350; }
+
+  .deliver-btn {
+    background: #43A047; color: #fff; border: none;
+    border-radius: 7px; padding: 6px 16px;
+    font-size: 11.5px; font-weight: bold; cursor: pointer;
+    transition: background .15s;
+  }
+  .deliver-btn:hover { background: #4CAF50; }
+  .deliver-btn:disabled { background: #546E7A; cursor: not-allowed; opacity: .6; }
+
+  .empty-customers {
+    color: #78909C; font-size: 12.5px; text-align: center;
+    padding: 26px 10px; font-style: italic; line-height: 1.7;
+  }
+
+  /* --- Status bar --- */
+  #status-bar {
+    padding: 9px 16px;
+    background: #0d1418;
+    border-top: 2px solid #263238;
+    font-size: 13px;
+    color: #FFF59D;
+    min-height: 38px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* --- Modal chọn hạt/giống --- */
+  #modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.7);
+    z-index: 100;
+    align-items: center; justify-content: center;
+  }
+  #modal-overlay.show { display: flex; }
+
+  #modal {
+    background: #263238;
+    border-radius: 14px;
+    padding: 22px;
+    min-width: 320px;
+    max-width: 440px;
+    border: 2px solid #37474F;
+    box-shadow: 0 20px 50px rgba(0,0,0,.7);
+  }
+  #modal h3 { color: #80CBC4; font-size: 15px; margin-bottom: 14px; }
+
+  .modal-option {
+    display: flex; justify-content: space-between; align-items: center;
+    background: #37474F; color: #eceff1;
+    border: none; border-radius: 9px;
+    padding: 11px 14px; margin-bottom: 7px;
+    width: 100%; font-size: 13px; cursor: pointer;
+    transition: background .15s;
+  }
+  .modal-option:hover { background: #4CAF50; }
+  .modal-option .count { color: #FFD54F; font-weight: bold; }
+
+  .modal-close {
+    width: 100%; margin-top: 8px;
+    background: #455A64; color: #fff; border: none;
+    border-radius: 9px; padding: 10px; font-size: 13px; cursor: pointer;
+  }
+  .modal-close:hover { background: #546E7A; }
+
+  .modal-empty { color: #90A4AE; font-size: 13px; text-align: center; padding: 14px 0; }
+
+  /* --- Toast --- */
+  #toast-container {
+    position: fixed; top: 18px; right: 18px;
+    display: flex; flex-direction: column; gap: 8px;
+    z-index: 200; pointer-events: none;
+  }
+  .toast {
+    background: #2E7D32; color: #fff;
+    padding: 10px 18px; border-radius: 9px;
+    font-size: 13px; font-weight: 600;
+    box-shadow: 0 6px 20px rgba(0,0,0,.5);
+    animation: toastIn .3s ease, toastOut .3s ease 2.2s forwards;
+    border-left: 4px solid #FFD54F;
+  }
+  .toast.error { background: #C62828; border-left-color: #FF8A80; }
+  @keyframes toastIn { from { opacity:0; transform: translateX(50px); } to { opacity:1; transform: translateX(0); } }
+  @keyframes toastOut { to { opacity:0; transform: translateX(50px); } }
+
+  @media (max-width: 1180px) {
+    #main { flex-direction: column; }
+    #farm { width: 100%; max-width: 690px; }
+    #side-panel { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ MÀN HÌNH BẮT ĐẦU ============ -->
+<div id="start-screen">
+  <h1>🌾 NÔNG TRẠI VUI VẺ 🌾</h1>
+  <p class="subtitle">Trồng cây · Nuôi thú · Phục vụ khách hàng NPC</p>
+
+  <label class="field-label" for="farm-name-input">Tên nông trại của bạn</label>
+  <input id="farm-name-input" type="text" value="Đồi Gió" maxlength="20" />
+
+  <label class="field-label" style="margin-top:28px;">Chọn phông nền trang trại</label>
+  <div class="theme-grid" id="theme-grid"></div>
+
+  <button class="btn-primary" id="start-btn">▶ BẮT ĐẦU</button>
+
+  <p class="hint">💡 Quy mô càng lớn + chạy quảng cáo → khách NPC càng đông!</p>
+</div>
+
+<!-- ============ GAME ============ -->
+<div id="game-screen">
+  <div id="hud">
+    <span class="farm-title" id="hud-title">🌾 Nông trại</span>
+    <span class="stat money" id="hud-money">💰 0$</span>
+    <span class="stat scale" id="hud-scale">🏡 0/12</span>
+    <span class="stat rep"   id="hud-rep">⭐ 5.0/10</span>
+    <span class="spacer"></span>
+    <span class="stat ad inactive" id="hud-ad">📢 Không QC</span>
+  </div>
+
+  <div id="main">
+    <!-- Sân nông trại -->
+    <div id="farm-area">
+      <div id="farm">
+        <div id="sky"></div>
+        <div id="ground"></div>
+        <div class="sun"></div>
+        <div class="cloud" style="top:34px; left:220px; width:78px; height:26px;"></div>
+        <div class="cloud" style="top:70px; left:400px; width:60px; height:20px;"></div>
+        <div class="cloud" style="top:20px; left:530px; width:68px; height:22px;"></div>
+        <div class="barn">
+          <div class="barn-roof"></div>
+          <div class="barn-body"></div>
+          <div class="barn-door"></div>
+          <div class="barn-window"></div>
+        </div>
+        <div id="plots"></div>
+      </div>
+    </div>
+
+    <!-- Bảng điều khiển -->
+    <div id="side-panel">
+      <div class="panel">
+        <h3>🛒 Cửa hàng</h3>
+        <div class="shop-grid" id="shop-crops"></div>
+        <div class="shop-grid" id="shop-animals" style="margin-top:6px;"></div>
+        <div class="ad-row">
+          <button class="ad-btn" data-ad="flyer">📢 Tờ rơi · 100$ · 20s</button>
+          <button class="ad-btn" data-ad="radio">📻 Radio · 300$ · 45s</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>🎒 Kho hàng</h3>
+        <div id="inventory-list"></div>
+        <button class="sell-btn" id="sell-all-btn">🏪 Bán hết ở chợ (80% giá)</button>
+      </div>
+
+      <div class="panel" id="customer-panel">
+        <h3>👥 Khách hàng (<span id="cust-count">0</span>)</h3>
+        <div id="customer-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="status-bar">Chào mừng! Hãy mua hạt giống ở Cửa hàng.</div>
+</div>
+
+<!-- Modal -->
+<div id="modal-overlay">
+  <div id="modal">
+    <h3 id="modal-title">Chọn để trồng / nuôi</h3>
+    <div id="modal-body"></div>
+    <button class="modal-close" id="modal-close">Đóng</button>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+
+<script>
+/* ==================================================
+   DỮ LIỆU GAME
+   ================================================== */
+
+const CROPS = {
+  "Cà rốt":  { seed: 10,  grow: 6,  sell: 22,  color: "#FF8C42", emoji: "🥕" },
+  "Cà chua": { seed: 25,  grow: 10, sell: 55,  color: "#E63946", emoji: "🍅" },
+  "Bắp cải": { seed: 45,  grow: 15, sell: 100, color: "#7CB518", emoji: "🥬" },
+  "Dâu tây": { seed: 80,  grow: 22, sell: 180, color: "#D62828", emoji: "🍓" },
+  "Nho":     { seed: 140, grow: 30, sell: 320, color: "#6A4C93", emoji: "🍇" },
+};
+
+const ANIMALS = {
+  "Gà":  { cost: 60,  time: 7,  product: "Trứng",    sell: 28,  emoji: "🐔" },
+  "Heo": { cost: 160, time: 12, product: "Thịt heo", sell: 75,  emoji: "🐷" },
+  "Bò":  { cost: 340, time: 16, product: "Sữa",      sell: 150, emoji: "🐄" },
+  "Cừu": { cost: 600, time: 22, product: "Len",      sell: 260, emoji: "🐑" },
+};
+
+const PRODUCT_PRICE = {};
+for (const k in CROPS)   PRODUCT_PRICE[k] = CROPS[k].sell;
+for (const k in ANIMALS) PRODUCT_PRICE[ANIMALS[k].product] = ANIMALS[k].sell;
+
+const THEMES = {
+  "Đồng quê xanh": { sky: "#8ECAE6", ground: "#7CB342", slot: "#8D6E63", slotBorder: "#5D4037" },
+  "Hoàng hôn":     { sky: "#FF9E6D", ground: "#C2703B", slot: "#8D6E63", slotBorder: "#4E342E" },
+  "Núi tuyết":     { sky: "#CFE8F5", ground: "#E8EEF2", slot: "#90A4AE", slotBorder: "#546E7A" },
+  "Sa mạc":        { sky: "#FFD79A", ground: "#E8C07D", slot: "#C9A227", slotBorder: "#8D6E63" },
+  "Đêm sao":       { sky: "#1B2A4A", ground: "#2E4A3D", slot: "#4E342E", slotBorder: "#3E2723" },
+};
+
+const HO     = ["Nguyễn","Trần","Lê","Phạm","Hoàng","Huỳnh","Vũ","Võ","Đặng","Bùi","Đỗ","Hồ","Ngô","Dương","Lý","Đinh","Tạ","Trịnh","Cao","Mai"];
+const DEM    = ["Văn","Thị","Minh","Hữu","Thanh","Quốc","Ngọc","Kim","Anh","Đức","Xuân","Thu"];
+const TEN    = ["An","Bình","Châu","Dũng","Giang","Hà","Hùng","Lan","Mai","Nam","Oanh","Phúc","Quỳnh","Sơn","Trang","Tuấn","Vy","Yến","Khoa","Linh","My","Nhi","Phong","Thảo","Trâm","Kiệt","Hân","Lộc","Tú","Bảo"];
+const TITLES = ["Anh","Chị","Cô","Chú","Bác","Em","Ông","Bà","Cậu","Dì"];
+
+function randomNpcName() {
+  const pick = a => a[Math.floor(Math.random() * a.length)];
+  if (Math.random() < 0.5) return `${pick(TITLES)} ${pick(HO)} ${pick(TEN)}`;
+  return `${pick(TITLES)} ${pick(HO)} ${pick(DEM)} ${pick(TEN)}`;
 }
 
-# Vật nuôi: giá mua -> thời gian ra sản phẩm -> sản phẩm -> giá bán
-ANIMALS = {
-    "Gà":  {"cost": 60,  "time": 7,  "product": "Trứng",    "sell": 28},
-    "Heo": {"cost": 160, "time": 12, "product": "Thịt heo", "sell": 75},
-    "Bò":  {"cost": 340, "time": 16, "product": "Sữa",      "sell": 150},
-    "Cừu": {"cost": 600, "time": 22, "product": "Len",      "sell": 260},
+const COLS = 4, ROWS = 3, TOTAL_PLOTS = COLS * ROWS;
+
+/* ==================================================
+   TRẠNG THÁI GAME
+   ================================================== */
+const G = {
+  farmName: "Nông trại",
+  theme: THEMES["Đồng quê xanh"],
+  money: 500,
+  inventory: {},          // tên -> số lượng
+  plots: [],              // { kind, name, progress, ready }
+  customers: [],          // { id, name, order:{}, reward, patience, maxPatience }
+  reputation: 5.0,
+  adTime: 0,
+  spawnCooldown: 3,
+  running: false,
+  lastTime: 0,
+};
+
+/* ==================================================
+   TIỆN ÍCH
+   ================================================== */
+const $ = id => document.getElementById(id);
+
+function toast(msg, isError = false) {
+  const el = document.createElement('div');
+  el.className = 'toast' + (isError ? ' error' : '');
+  el.textContent = msg;
+  $('toast-container').appendChild(el);
+  setTimeout(() => el.remove(), 2600);
 }
 
-EMOJI = {
-    "Cà rốt": "🥕", "Cà chua": "🍅", "Bắp cải": "🥬", "Dâu tây": "🍓", "Nho": "🍇",
-    "Gà": "🐔", "Heo": "🐷", "Bò": "🐄", "Cừu": "🐑",
+function setStatus(msg) {
+  $('status-bar').textContent = msg;
 }
 
-# Bảng giá sản phẩm (dùng cho NPC trả tiền & bán ở chợ)
-PRODUCT_PRICE = {}
-for k, v in CROPS.items():
-    PRODUCT_PRICE[k] = v["sell"]
-for k, v in ANIMALS.items():
-    PRODUCT_PRICE[v["product"]] = v["sell"]
+/* ==================================================
+   MÀN HÌNH BẮT ĐẦU
+   ================================================== */
+let selectedTheme = Object.keys(THEMES)[0];
 
-# Phông nền trang trại
-THEMES = {
-    "Đồng quê xanh": {"sky": "#8ECAE6", "ground": "#7CB342", "slot": "#8D6E63", "slot_border": "#5D4037"},
-    "Hoàng hôn":     {"sky": "#FF9E6D", "ground": "#C2703B", "slot": "#8D6E63", "slot_border": "#4E342E"},
-    "Núi tuyết":     {"sky": "#CFE8F5", "ground": "#E8EEF2", "slot": "#90A4AE", "slot_border": "#546E7A"},
-    "Sa mạc":        {"sky": "#FFD79A", "ground": "#E8C07D", "slot": "#C9A227", "slot_border": "#8D6E63"},
-    "Đêm sao":       {"sky": "#1B2A4A", "ground": "#2E4A3D", "slot": "#4E342E", "slot_border": "#3E2723"},
+function buildThemeGrid() {
+  const grid = $('theme-grid');
+  grid.innerHTML = '';
+  for (const key in THEMES) {
+    const t = THEMES[key];
+    const card = document.createElement('div');
+    card.className = 'theme-card' + (key === selectedTheme ? ' active' : '');
+    card.dataset.theme = key;
+    card.innerHTML = `
+      <div class="theme-preview" style="background:linear-gradient(180deg, ${t.sky} 0 45%, ${t.ground} 45% 100%);"></div>
+      <div class="theme-name">${key}</div>`;
+    card.onclick = () => {
+      selectedTheme = key;
+      document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+    };
+    grid.appendChild(card);
+  }
 }
 
-# Tên NPC ngẫu nhiên
-HO = ["Nguyễn", "Trần", "Lê", "Phạm", "Hoàng", "Huỳnh", "Vũ", "Võ", "Đặng", "Bùi",
-      "Đỗ", "Hồ", "Ngô", "Dương", "Lý", "Đinh", "Tạ", "Trịnh", "Cao", "Mai"]
-DEM = ["Văn", "Thị", "Minh", "Hữu", "Thanh", "Quốc", "Ngọc", "Kim", "Anh", "Đức", "Xuân", "Thu"]
-TEN = ["An", "Bình", "Châu", "Dũng", "Giang", "Hà", "Hùng", "Lan", "Mai", "Nam", "Oanh",
-       "Phúc", "Quỳnh", "Sơn", "Trang", "Tuấn", "Vy", "Yến", "Khoa", "Linh", "My",
-       "Nhi", "Phong", "Thảo", "Trâm", "Kiệt", "Hân", "Lộc", "Tú", "Bảo"]
-TITLES = ["Anh", "Chị", "Cô", "Chú", "Bác", "Em", "Ông", "Bà", "Cậu", "Dì"]
-
-
-def random_npc_name():
-    """Sinh tên NPC ngẫu nhiên kiểu Việt Nam."""
-    if random.random() < 0.5:
-        return f"{random.choice(TITLES)} {random.choice(HO)} {random.choice(TEN)}"
-    return f"{random.choice(TITLES)} {random.choice(HO)} {random.choice(DEM)} {random.choice(TEN)}"
-
-
-# ==================== LỚP ĐỐI TƯỢNG ====================
-
-class Slot:
-    """Một ô đất trên nông trại: trống / cây trồng / chuồng vật nuôi."""
-    __slots__ = ("kind", "name", "progress", "ready")
-
-    def __init__(self):
-        self.kind = None       # None | 'crop' | 'animal'
-        self.name = None
-        self.progress = 0.0
-        self.ready = False
-
-
-class Customer:
-    """Khách NPC với một đơn hàng."""
-    def __init__(self, name, order, reward, patience):
-        self.name = name
-        self.order = order          # dict: tên_sản_phẩm -> số lượng
-        self.reward = reward
-        self.patience = patience
-        self.max_patience = patience
-
-
-# ==================== GAME ====================
-
-class FarmGame:
-    COLS, ROWS = 4, 3
-    SLOT_W, SLOT_H = 146, 130
-    GAP_X, GAP_Y = 12, 16
-    ORIGIN_X, ORIGIN_Y = 40, 200
-    CANVAS_W, CANVAS_H = 700, 660
-
-    def __init__(self, root, farm_name, theme_key):
-        self.root = root
-        self.farm_name = farm_name
-        self.theme = THEMES[theme_key]
-
-        self.money = 500
-        self.inventory = {}          # tên -> số lượng (hạt giống, con giống, sản phẩm)
-        self.slots = [Slot() for _ in range(self.COLS * self.ROWS)]
-        self.customers = []
-        self.reputation = 5.0        # 0..10
-        self.ad_time = 0.0           # giây quảng cáo còn hiệu lực
-        self.spawn_cd = 4.0
-        self.t = 0.0
-        self.last = time.time()
-        self.status = "Chào mừng đến với nông trại! Hãy mua hạt giống ở Cửa hàng."
-
-        self._build_ui()
-        self.tick()
-
-    # ---------------- GIAO DIỆN ----------------
-    def _build_ui(self):
-        root = self.root
-        root.configure(bg="#1B1B1B")
-
-        # ---- Thanh trên cùng ----
-        top = tk.Frame(root, bg="#2E7D32", height=54)
-        top.pack(fill="x")
-        top.pack_propagate(False)
-
-        tk.Label(top, text=f"🌾 {self.farm_name}", font=("Segoe UI", 16, "bold"),
-                 fg="#FFF9C4", bg="#2E7D32").pack(side="left", padx=16)
-
-        self.lbl_money = tk.Label(top, text="", font=("Segoe UI", 13, "bold"),
-                                  fg="#FFD54F", bg="#2E7D32")
-        self.lbl_money.pack(side="left", padx=12)
-
-        self.lbl_scale = tk.Label(top, text="", font=("Segoe UI", 11),
-                                  fg="white", bg="#2E7D32")
-        self.lbl_scale.pack(side="left", padx=12)
-
-        self.lbl_rep = tk.Label(top, text="", font=("Segoe UI", 11),
-                                fg="white", bg="#2E7D32")
-        self.lbl_rep.pack(side="left", padx=12)
-
-        self.lbl_ad = tk.Label(top, text="", font=("Segoe UI", 11, "bold"),
-                               fg="#FFAB91", bg="#2E7D32")
-        self.lbl_ad.pack(side="right", padx=16)
-
-        # ---- Khu vực chính ----
-        main = tk.Frame(root, bg="#1B1B1B")
-        main.pack(fill="both", expand=True)
-
-        # ----- Bên trái: sân nông trại -----
-        left = tk.Frame(main, bg="#1B1B1B")
-        left.pack(side="left", padx=(10, 5), pady=10)
-
-        self.canvas = tk.Canvas(left, width=self.CANVAS_W, height=self.CANVAS_H,
-                                highlightthickness=0, bg="#111111")
-        self.canvas.pack()
-        self.canvas.bind("<Button-1>", self.on_farm_click)
-
-        self.lbl_status = tk.Label(left, text=self.status, font=("Segoe UI", 10),
-                                   fg="#FFF59D", bg="#1B1B1B", anchor="w",
-                                   wraplength=self.CANVAS_W, justify="left")
-        self.lbl_status.pack(fill="x", pady=(6, 0))
-
-        # ----- Bên phải: bảng điều khiển -----
-        right = tk.Frame(main, bg="#263238", width=440)
-        right.pack(side="left", fill="both", expand=True, padx=(5, 10), pady=10)
-        right.pack_propagate(False)
-
-        # === Cửa hàng ===
-        shop = tk.Frame(right, bg="#263238")
-        shop.pack(fill="x", padx=8, pady=(8, 0))
-        shop.columnconfigure(0, weight=1)
-        shop.columnconfigure(1, weight=1)
-
-        tk.Label(shop, text="🛒 CỬA HÀNG", font=("Segoe UI", 11, "bold"),
-                 fg="#80CBC4", bg="#263238").grid(row=0, column=0, columnspan=2,
-                                                  sticky="w", pady=(0, 4))
-
-        r = 1
-        for crop, d in CROPS.items():
-            tk.Button(shop, text=f"🌱 {crop}  {d['seed']}$", font=("Segoe UI", 9),
-                      bg="#37474F", fg="white", activebackground="#546E7A",
-                      relief="flat", cursor="hand2",
-                      command=lambda c=crop: self.buy_seed(c)
-                      ).grid(row=r, column=0, sticky="ew", padx=2, pady=2)
-            r += 1
-
-        r = 1
-        for a, d in ANIMALS.items():
-            tk.Button(shop, text=f"🐾 {a}  {d['cost']}$", font=("Segoe UI", 9),
-                      bg="#37474F", fg="white", activebackground="#546E7A",
-                      relief="flat", cursor="hand2",
-                      command=lambda x=a: self.buy_animal(x)
-                      ).grid(row=r, column=1, sticky="ew", padx=2, pady=2)
-            r += 1
-
-        tk.Button(shop, text="📢 Tờ rơi (100$ · 20s)", font=("Segoe UI", 9),
-                  bg="#5D4037", fg="white", relief="flat", cursor="hand2",
-                  command=lambda: self.buy_ad(20, 100)
-                  ).grid(row=6, column=0, sticky="ew", padx=2, pady=(6, 2))
-
-        tk.Button(shop, text="📻 Radio (300$ · 45s)", font=("Segoe UI", 9),
-                  bg="#5D4037", fg="white", relief="flat", cursor="hand2",
-                  command=lambda: self.buy_ad(45, 300)
-                  ).grid(row=6, column=1, sticky="ew", padx=2, pady=(6, 2))
-
-        # === Kho ===
-        inv = tk.Frame(right, bg="#263238")
-        inv.pack(fill="x", padx=8, pady=(10, 0))
-
-        tk.Label(inv, text="🎒 KHO HÀNG", font=("Segoe UI", 11, "bold"),
-                 fg="#80CBC4", bg="#263238", anchor="w").pack(fill="x")
-
-        self.lbl_inv = tk.Label(inv, text="(trống)", font=("Segoe UI", 9),
-                                fg="#ECEFF1", bg="#263238", anchor="w",
-                                wraplength=420, justify="left")
-        self.lbl_inv.pack(fill="x", pady=2)
-
-        tk.Button(inv, text="🏪 Bán hết ở chợ (80% giá)", font=("Segoe UI", 9),
-                  bg="#455A64", fg="white", relief="flat", cursor="hand2",
-                  command=self.sell_all).pack(fill="x", pady=2)
-
-        # === Khách hàng ===
-        cust = tk.Frame(right, bg="#263238")
-        cust.pack(fill="both", expand=True, padx=8, pady=(10, 8))
-
-        tk.Label(cust, text="👥 KHÁCH HÀNG", font=("Segoe UI", 11, "bold"),
-                 fg="#80CBC4", bg="#263238", anchor="w").pack(fill="x")
-
-        self.ccanvas = tk.Canvas(cust, width=428, height=380,
-                                 highlightthickness=0, bg="#1C262B")
-        self.ccanvas.pack(pady=4)
-        self.ccanvas.bind("<Button-1>", self.on_customer_click)
-
-    # ---------------- VỊ TRÍ Ô ĐẤT ----------------
-    def slot_rect(self, i):
-        r, c = divmod(i, self.COLS)
-        x = self.ORIGIN_X + c * (self.SLOT_W + self.GAP_X)
-        y = self.ORIGIN_Y + r * (self.SLOT_H + self.GAP_Y)
-        return x, y, x + self.SLOT_W, y + self.SLOT_H
-
-    def slot_at(self, px, py):
-        for i in range(len(self.slots)):
-            x1, y1, x2, y2 = self.slot_rect(i)
-            if x1 <= px <= x2 and y1 <= py <= y2:
-                return i
-        return None
-
-    # ---------------- MUA HÀNG ----------------
-    def buy_seed(self, crop):
-        cost = CROPS[crop]["seed"]
-        if self.money < cost:
-            self.status = "❌ Không đủ tiền mua hạt giống!"
-            return
-        self.money -= cost
-        key = "Hạt " + crop
-        self.inventory[key] = self.inventory.get(key, 0) + 1
-        self.status = f"🛒 Đã mua 1 hạt {crop} (-{cost}$). Bấm vào ô đất trống để trồng."
-
-    def buy_animal(self, animal):
-        cost = ANIMALS[animal]["cost"]
-        if self.money < cost:
-            self.status = "❌ Không đủ tiền mua con giống!"
-            return
-        self.money -= cost
-        self.inventory[animal] = self.inventory.get(animal, 0) + 1
-        self.status = f"🛒 Đã mua 1 con {animal} (-{cost}$). Bấm vào ô đất trống để nuôi."
-
-    def buy_ad(self, seconds, cost):
-        if self.money < cost:
-            self.status = "❌ Không đủ tiền chạy quảng cáo!"
-            return
-        self.money -= cost
-        self.ad_time += seconds
-        self.status = f"📢 Quảng cáo chạy {seconds}s! Khách sẽ kéo đến đông hơn."
-
-    # ---------------- TƯƠNG TÁC Ô ĐẤT ----------------
-    def on_farm_click(self, event):
-        i = self.slot_at(event.x, event.y)
-        if i is None:
-            return
-        s = self.slots[i]
-
-        if s.kind is None:
-            self.open_plant_menu(i)
-        elif s.kind == "crop":
-            if s.ready:
-                self.harvest(i)
-            else:
-                need = CROPS[s.name]["grow"]
-                self.status = f"🌱 {s.name} đang lớn... ({s.progress:.1f}/{need}s)"
-        else:
-            if s.ready:
-                self.collect(i)
-            else:
-                need = ANIMALS[s.name]["time"]
-                self.status = f"🐾 {s.name} đang sản xuất... ({s.progress:.1f}/{need}s)"
-
-    def open_plant_menu(self, i):
-        menu = tk.Menu(self.root, tearoff=0, font=("Segoe UI", 10))
-        has = False
-
-        for crop in CROPS:
-            key = "Hạt " + crop
-            n = self.inventory.get(key, 0)
-            if n > 0:
-                has = True
-                menu.add_command(label=f"Trồng {crop}   (còn {n} hạt)",
-                                 command=lambda c=crop: self.plant(i, c))
-
-        for a in ANIMALS:
-            n = self.inventory.get(a, 0)
-            if n > 0:
-                has = True
-                menu.add_command(label=f"Nuôi {a}   (còn {n} con)",
-                                 command=lambda x=a: self.place_animal(i, x))
-
-        if not has:
-            menu.add_command(label="(Chưa có hạt giống / con giống)", state="disabled")
-            menu.add_command(label="→ Mua ở Cửa hàng bên phải", state="disabled")
-
-        try:
-            menu.tk_popup(self.canvas.winfo_pointerx(), self.canvas.winfo_pointery())
-        finally:
-            menu.grab_release()
-
-    def plant(self, i, crop):
-        self.inventory["Hạt " + crop] -= 1
-        s = self.slots[i]
-        s.kind, s.name, s.progress, s.ready = "crop", crop, 0.0, False
-        self.status = f"🌱 Đã trồng {crop}!"
-
-    def place_animal(self, i, animal):
-        self.inventory[animal] -= 1
-        s = self.slots[i]
-        s.kind, s.name, s.progress, s.ready = "animal", animal, 0.0, False
-        self.status = f"🐾 Đã nuôi {animal}!"
-
-    def harvest(self, i):
-        s = self.slots[i]
-        name = s.name
-        self.inventory[name] = self.inventory.get(name, 0) + 1
-        s.kind = s.name = None
-        s.progress, s.ready = 0.0, False
-        self.status = f"🌾 Thu hoạch được 1 {name}!"
-
-    def collect(self, i):
-        s = self.slots[i]
-        prod = ANIMALS[s.name]["product"]
-        self.inventory[prod] = self.inventory.get(prod, 0) + 1
-        s.ready, s.progress = False, 0.0
-        self.status = f"📦 Thu được 1 {prod} từ {s.name}!"
-
-    def sell_all(self):
-        total = 0
-        for k in list(self.inventory.keys()):
-            if k in PRODUCT_PRICE and self.inventory[k] > 0:
-                total += PRODUCT_PRICE[k] * self.inventory[k]
-                self.inventory[k] = 0
-        total = int(total * 0.8)
-        self.money += total
-        self.status = f"🏪 Bán ở chợ được {total}$ (80% giá trị)."
-
-    # ---------------- KHÁCH HÀNG ----------------
-    def producible_items(self):
-        items = set()
-        for s in self.slots:
-            if s.kind == "crop":
-                items.add(s.name)
-            elif s.kind == "animal":
-                items.add(ANIMALS[s.name]["product"])
-        return list(items)
-
-    def farm_scale(self):
-        return sum(1 for s in self.slots if s.kind)
-
-    def max_customers(self):
-        return min(6, 2 + self.farm_scale() // 3 + (2 if self.ad_time > 0 else 0))
-
-    def spawn_interval(self):
-        scale = self.farm_scale()
-        rate = 0.05 + scale * 0.025 + (0.35 if self.ad_time > 0 else 0) + self.reputation * 0.01
-        base = 1.0 / max(rate, 0.02)
-        return random.uniform(base * 0.7, base * 1.3)
-
-    def spawn_customer(self):
-        pool = self.producible_items()
-        if not pool:
-            return
-
-        kinds = random.sample(pool, min(len(pool), random.choice([1, 1, 2])))
-        order = {}
-        total_value = 0
-        for it in kinds:
-            qty = random.randint(1, 3)
-            order[it] = qty
-            total_value += PRODUCT_PRICE.get(it, 10) * qty
-
-        reward = int(total_value * random.uniform(1.25, 1.65))
-        patience = random.uniform(28, 45)
-
-        self.customers.append(Customer(random_npc_name(), order, reward, patience))
-
-    def deliver(self, idx):
-        cu = self.customers[idx]
-        for item, qty in cu.order.items():
-            if self.inventory.get(item, 0) < qty:
-                self.status = f"❌ Không đủ {item} để giao cho {cu.name}!"
-                return
-        for item, qty in cu.order.items():
-            self.inventory[item] -= qty
-        self.money += cu.reward
-        self.reputation = min(10.0, self.reputation + 0.2)
-        self.status = f"✅ Giao hàng cho {cu.name} — nhận {cu.reward}$!"
-        self.customers.pop(idx)
-
-    def on_customer_click(self, event):
-        idx = event.y // 60
-        if idx < 0 or idx >= len(self.customers):
-            return
-        cy = idx * 60
-        if 330 <= event.x <= 422 and cy + 14 <= event.y <= cy + 44:
-            self.deliver(idx)
-
-    # ---------------- VÒNG LẶP ----------------
-    def update(self, dt):
-        # Cây trồng & vật nuôi
-        for s in self.slots:
-            if s.kind == "crop" and not s.ready:
-                s.progress += dt
-                if s.progress >= CROPS[s.name]["grow"]:
-                    s.progress = CROPS[s.name]["grow"]
-                    s.ready = True
-            elif s.kind == "animal" and not s.ready:
-                s.progress += dt
-                if s.progress >= ANIMALS[s.name]["time"]:
-                    s.progress = ANIMALS[s.name]["time"]
-                    s.ready = True
-
-        # Quảng cáo
-        if self.ad_time > 0:
-            self.ad_time = max(0.0, self.ad_time - dt)
-
-        # Kiên nhẫn của khách
-        for cu in self.customers[:]:
-            cu.patience -= dt
-            if cu.patience <= 0:
-                self.customers.remove(cu)
-                self.reputation = max(0.0, self.reputation - 0.4)
-                self.status = f"😠 {cu.name} bỏ đi vì chờ quá lâu!"
-
-        # Sinh khách mới
-        self.spawn_cd -= dt
-        if self.spawn_cd <= 0:
-            self.spawn_cd = self.spawn_interval()
-            if len(self.customers) < self.max_customers():
-                self.spawn_customer()
-
-    def tick(self):
-        if not self.root.winfo_exists():
-            return
-        now = time.time()
-        dt = min(now - self.last, 0.5)
-        self.last = now
-        self.t += dt
-
-        self.update(dt)
-        self.draw_farm()
-        self.draw_customers()
-        self.update_hud()
-
-        self.root.after(60, self.tick)
-
-    # ---------------- VẼ ----------------
-    def draw_farm(self):
-        c = self.canvas
-        c.delete("all")
-        th = self.theme
-        W, H = self.CANVAS_W, self.CANVAS_H
-
-        c.create_rectangle(0, 0, W, 160, fill=th["sky"], outline="")
-        c.create_rectangle(0, 160, W, H, fill=th["ground"], outline="")
-
-        # Mặt trời
-        c.create_oval(40, 30, 110, 100, fill="#FFE082", outline="")
-
-        # Mây
-        for (cx, cy, sc) in [(250, 60, 1.0), (430, 40, 0.7), (620, 95, 0.85)]:
-            self.draw_cloud(c, cx, cy, sc)
-
-        # Chuồng trại
-        self.draw_barn(c, 520, 75)
-
-        # Các ô đất
-        for i, s in enumerate(self.slots):
-            self.draw_slot(c, i, s)
-
-    def draw_cloud(self, c, x, y, s):
-        col = "#FFFFFF"
-        c.create_oval(x, y, x + 50 * s, y + 26 * s, fill=col, outline="")
-        c.create_oval(x + 25 * s, y - 14 * s, x + 82 * s, y + 26 * s, fill=col, outline="")
-        c.create_oval(x + 58 * s, y + 2 * s, x + 104 * s, y + 26 * s, fill=col, outline="")
-
-    def draw_barn(self, c, x, y):
-        c.create_rectangle(x, y + 40, x + 130, y + 120, fill="#C62828", outline="#8E1F1F", width=2)
-        c.create_polygon(x - 12, y + 42, x + 65, y - 15, x + 142, y + 42,
-                         fill="#8D6E63", outline="#5D4037", width=2)
-        c.create_rectangle(x + 48, y + 72, x + 88, y + 120, fill="#5D4037", outline="")
-        c.create_line(x + 68, y + 72, x + 68, y + 120, fill="#3E2723", width=2)
-        c.create_rectangle(x + 15, y + 60, x + 38, y + 84, fill="#FFF59D", outline="#5D4037", width=2)
-
-    def draw_slot(self, c, i, s):
-        x1, y1, x2, y2 = self.slot_rect(i)
-        th = self.theme
-        cx = (x1 + x2) / 2
-
-        c.create_rectangle(x1, y1, x2, y2, fill=th["slot"], outline=th["slot_border"], width=2)
-
-        if s.kind is None:
-            c.create_text(cx, (y1 + y2) / 2, text="+", font=("Segoe UI", 30, "bold"), fill="#D7CCC8")
-            return
-
-        if s.kind == "crop":
-            data = CROPS[s.name]
-            c.create_oval(cx - 36, y1 + 12, cx + 36, y1 + 84, fill=data["color"], outline="")
-            c.create_text(cx, y1 + 48, text=EMOJI.get(s.name, "🌱"),
-                          font=("Segoe UI Emoji", 28))
-            p = s.progress / data["grow"]
-        else:
-            data = ANIMALS[s.name]
-            c.create_text(cx, y1 + 52, text=EMOJI.get(s.name, "🐾"),
-                          font=("Segoe UI Emoji", 40))
-            p = s.progress / data["time"]
-
-        # Thanh tiến độ
-        bw = (x2 - x1) - 24
-        bx, by = x1 + 12, y2 - 18
-        c.create_rectangle(bx, by, bx + bw, by + 8, fill="#3E2723", outline="")
-
-        if s.ready:
-            c.create_rectangle(bx, by, bx + bw, by + 8, fill="#FFD54F", outline="")
-            if int(self.t * 4) % 2 == 0:
-                c.create_rectangle(x1 + 2, y1 + 2, x2 - 2, y2 - 2, outline="#FFD54F", width=3)
-            txt = "THU HOẠCH" if s.kind == "crop" else "LẤY SẢN PHẨM"
-            c.create_text(cx, y2 - 30, text=txt, font=("Segoe UI", 8, "bold"), fill="#FFF9C4")
-        else:
-            c.create_rectangle(bx, by, bx + bw * max(0.0, min(1.0, p)), by + 8,
-                               fill="#4CAF50", outline="")
-
-    def draw_customers(self):
-        c = self.ccanvas
-        c.delete("all")
-
-        if not self.customers:
-            c.create_text(214, 40, text="Chưa có khách nào...\nHãy trồng trọt & nuôi thú!",
-                          font=("Segoe UI", 10), fill="#78909C", justify="center")
-            return
-
-        for i, cu in enumerate(self.customers[:6]):
-            y = i * 60
-            c.create_rectangle(0, y, 428, y + 54, fill="#37474F", outline="#546E7A")
-
-            c.create_text(10, y + 14, text=cu.name, anchor="w",
-                          fill="#FFD54F", font=("Segoe UI", 10, "bold"))
-
-            order_txt = ", ".join(f"{q}× {it}" for it, q in cu.order.items())
-            c.create_text(10, y + 32, text="Cần: " + order_txt, anchor="w",
-                          fill="#ECEFF1", font=("Segoe UI", 9))
-
-            # Thanh kiên nhẫn
-            p = max(0.0, cu.patience / cu.max_patience)
-            c.create_rectangle(10, y + 44, 200, y + 50, fill="#263238", outline="")
-            col = "#EF5350" if p < 0.3 else "#66BB6A"
-            c.create_rectangle(10, y + 44, 10 + 190 * p, y + 50, fill=col, outline="")
-
-            c.create_text(212, y + 14, text=f"💰 {cu.reward}$", anchor="w",
-                          fill="#A5D6A7", font=("Segoe UI", 10, "bold"))
-
-            c.create_rectangle(330, y + 14, 422, y + 44, fill="#43A047", outline="#2E7D32")
-            c.create_text(376, y + 29, text="GIAO", fill="white",
-                          font=("Segoe UI", 10, "bold"))
-
-    def inv_text(self):
-        parts = [f"{k} ×{v}" for k, v in self.inventory.items() if v > 0]
-        return " • ".join(parts) if parts else "(trống)"
-
-    def update_hud(self):
-        self.lbl_money.config(text=f"💰 {self.money}$")
-        self.lbl_scale.config(text=f"🏡 Quy mô: {self.farm_scale()}/12")
-        self.lbl_rep.config(text=f"⭐ Uy tín: {self.reputation:.1f}/10")
-        self.lbl_ad.config(text=f"📢 QC: {self.ad_time:.0f}s" if self.ad_time > 0 else "📢 Không QC")
-        self.lbl_status.config(text=self.status)
-        self.lbl_inv.config(text=self.inv_text())
-
-
-# ==================== MÀN HÌNH BẮT ĐẦU ====================
-
-class App:
-    def __init__(self):
-        self.root = tk.Tk()
-        self.root.title("🌾 Nông Trại Vui Vẻ 🌾")
-        self.root.geometry("1200x820")
-        self.root.resizable(False, False)
-        self.show_start()
-        self.root.mainloop()
-
-    def show_start(self):
-        f = tk.Frame(self.root, bg="#1B5E20")
-        f.pack(fill="both", expand=True)
-
-        tk.Label(f, text="🌾 NÔNG TRẠI VUI VẺ 🌾", font=("Segoe UI", 32, "bold"),
-                 fg="#FFEB3B", bg="#1B5E20").pack(pady=(60, 10))
-
-        tk.Label(f, text="Trồng cây – Nuôi thú – Phục vụ khách hàng NPC",
-                 font=("Segoe UI", 14), fg="white", bg="#1B5E20").pack(pady=(0, 34))
-
-        tk.Label(f, text="Tên nông trại của bạn:", font=("Segoe UI", 13),
-                 fg="white", bg="#1B5E20").pack()
-
-        name_var = tk.StringVar(value="Đồi Gió")
-        tk.Entry(f, textvariable=name_var, font=("Segoe UI", 15), width=26,
-                 justify="center").pack(pady=10, ipady=4)
-
-        tk.Label(f, text="Chọn phông nền trang trại:", font=("Segoe UI", 13),
-                 fg="white", bg="#1B5E20").pack(pady=(26, 10))
-
-        theme_var = tk.StringVar(value=list(THEMES.keys())[0])
-        tf = tk.Frame(f, bg="#1B5E20")
-        tf.pack()
-        for k in THEMES:
-            tk.Radiobutton(tf, text=k, variable=theme_var, value=k,
-                           font=("Segoe UI", 11), fg="white", bg="#1B5E20",
-                           selectcolor="#2E7D32", activebackground="#1B5E20",
-                           activeforeground="white", cursor="hand2").pack(side="left", padx=8)
-
-        tk.Label(f, text="💡 Mẹo: Quy mô càng lớn + chạy quảng cáo → khách NPC càng đông!",
-                 font=("Segoe UI", 11), fg="#C8E6C9", bg="#1B5E20").pack(pady=(34, 0))
-
-        def go():
-            name = name_var.get().strip() or "Nông trại"
-            self.start_game(name, theme_var.get())
-
-        tk.Button(f, text="▶   BẮT ĐẦU", font=("Segoe UI", 16, "bold"),
-                  bg="#FFC107", fg="#1B5E20", activebackground="#FFD54F",
-                  padx=36, pady=12, relief="flat", cursor="hand2",
-                  command=go).pack(pady=38)
-
-    def start_game(self, name, theme_key):
-        for w in self.root.winfo_children():
-            w.destroy()
-        FarmGame(self.root, name, theme_key)
-
-
-# ==================== CHẠY ====================
-if __name__ == "__main__":
-    App()
+$('start-btn').onclick = () => {
+  const name = $('farm-name-input').value.trim() || 'Nông trại';
+  startGame(name, selectedTheme);
+};
+
+/* ==================================================
+   KHỞI ĐỘNG GAME
+   ================================================== */
+function startGame(name, themeKey) {
+  G.farmName = name;
+  G.theme = THEMES[themeKey];
+  G.money = 500;
+  G.inventory = {};
+  G.customers = [];
+  G.reputation = 5.0;
+  G.adTime = 0;
+  G.spawnCooldown = 3;
+  G.plots = Array.from({ length: TOTAL_PLOTS }, () => ({
+    kind: null, name: null, progress: 0, ready: false
+  }));
+
+  $('start-screen').style.display = 'none';
+  $('game-screen').style.display = 'block';
+  $('hud-title').textContent = `🌾 ${G.farmName}`;
+
+  applyTheme();
+  buildShop();
+  buildPlots();
+  renderAll();
+
+  G.running = true;
+  G.lastTime = performance.now();
+  requestAnimationFrame(gameLoop);
+
+  setStatus('Chào mừng đến với nông trại! Mua hạt giống ở Cửa hàng bên phải.');
+}
+
+function applyTheme() {
+  const t = G.theme;
+  $('sky').style.background = t.sky;
+  $('ground').style.background = t.ground;
+  document.querySelectorAll('.plot').forEach(p => {
+    p.style.background = t.slot;
+    p.style.borderColor = t.slotBorder;
+  });
+}
+
+/* ==================================================
+   CỬA HÀNG
+   ================================================== */
+function buildShop() {
+  const cropBox = $('shop-crops');
+  const animalBox = $('shop-animals');
+  cropBox.innerHTML = '';
+  animalBox.innerHTML = '';
+
+  for (const name in CROPS) {
+    const d = CROPS[name];
+    const btn = document.createElement('button');
+    btn.className = 'shop-btn';
+    btn.innerHTML = `<span>🌱 ${name}</span><span class="price">${d.seed}$</span>`;
+    btn.onclick = () => buySeed(name);
+    cropBox.appendChild(btn);
+  }
+
+  for (const name in ANIMALS) {
+    const d = ANIMALS[name];
+    const btn = document.createElement('button');
+    btn.className = 'shop-btn';
+    btn.innerHTML = `<span>${d.emoji} ${name}</span><span class="price">${d.cost}$</span>`;
+    btn.onclick = () => buyAnimal(name);
+    animalBox.appendChild(btn);
+  }
+
+  document.querySelectorAll('.ad-btn').forEach(btn => {
+    btn.onclick = () => {
+      if (btn.dataset.ad === 'flyer') buyAd(20, 100, 'Tờ rơi');
+      else buyAd(45, 300, 'Radio');
+    };
+  });
+}
+
+function buySeed(crop) {
+  const cost = CROPS[crop].seed;
+  if (G.money < cost) { toast('Không đủ tiền mua hạt giống!', true); return; }
+  G.money -= cost;
+  const key = 'Hạt ' + crop;
+  G.inventory[key] = (G.inventory[key] || 0) + 1;
+  setStatus(`🛒 Đã mua 1 hạt ${crop} (-${cost}$). Bấm vào ô đất trống để trồng.`);
+  renderAll();
+}
+
+function buyAnimal(animal) {
+  const cost = ANIMALS[animal].cost;
+  if (G.money < cost) { toast('Không đủ tiền mua con giống!', true); return; }
+  G.money -= cost;
+  G.inventory[animal] = (G.inventory[animal] || 0) + 1;
+  setStatus(`🛒 Đã mua 1 con ${animal} (-${cost}$). Bấm vào ô đất trống để nuôi.`);
+  renderAll();
+}
+
+function buyAd(seconds, cost, label) {
+  if (G.money < cost) { toast('Không đủ tiền chạy quảng cáo!', true); return; }
+  G.money -= cost;
+  G.adTime += seconds;
+  setStatus(`📢 ${label} đang chạy ${seconds}s! Khách sẽ kéo đến đông hơn.`);
+  toast(`📢 Quảng cáo ${label} kích hoạt!`);
+  renderAll();
+}
+
+/* ==================================================
+   Ô ĐẤT
+   ================================================== */
+function buildPlots() {
+  const container = $('plots');
+  container.innerHTML = '';
+  for (let i = 0; i < TOTAL_PLOTS; i++) {
+    const el = document.createElement('div');
+    el.className = 'plot';
+    el.dataset.index = i;
+    el.onclick = () => onPlotClick(i);
+    container.appendChild(el);
+  }
+  applyTheme();
+}
+
+function renderPlots() {
+  const container = $('plots');
+  const t = G.theme;
+
+  for (let i = 0; i < TOTAL_PLOTS; i++) {
+    const el = container.children[i];
+    const p = G.plots[i];
+
+    el.style.background = t.slot;
+    el.style.borderColor = t.slotBorder;
+    el.classList.toggle('ready', p.ready);
+
+    if (!p.kind) {
+      el.innerHTML = `<span class="plus">+</span>`;
+      continue;
+    }
+
+    const isCrop = p.kind === 'crop';
+    const data = isCrop ? CROPS[p.name] : ANIMALS[p.name];
+    const total = isCrop ? data.grow : data.time;
+    const emoji = isCrop ? data.emoji : data.emoji;
+    const pct = Math.min(100, (p.progress / total) * 100);
+
+    let html = '';
+    if (p.ready) {
+      const tag = isCrop ? 'THU HOẠCH' : 'LẤY SẢN PHẨM';
+      html += `<div class="ready-tag">${tag}</div>`;
+    }
+    html += `<div class="emoji">${emoji}</div>`;
+    html += `
+      <div class="progress-track">
+        <div class="progress-fill ${p.ready ? 'done' : ''}" style="width:${p.ready ? 100 : pct}%"></div>
+      </div>`;
+    el.innerHTML = html;
+  }
+}
+
+function onPlotClick(i) {
+  const p = G.plots[i];
+
+  if (!p.kind) { openPlantModal(i); return; }
+
+  if (p.kind === 'crop') {
+    if (p.ready) {
+      G.inventory[p.name] = (G.inventory[p.name] || 0) + 1;
+      setStatus(`🌾 Thu hoạch được 1 ${p.name}!`);
+      p.kind = p.name = null;
+      p.progress = 0; p.ready = false;
+      renderAll();
+    } else {
+      const need = CROPS[p.name].grow;
+      setStatus(`🌱 ${p.name} đang lớn... (${p.progress.toFixed(1)}/${need}s)`);
+    }
+  } else {
+    if (p.ready) {
+      const prod = ANIMALS[p.name].product;
+      G.inventory[prod] = (G.inventory[prod] || 0) + 1;
+      setStatus(`📦 Thu được 1 ${prod} từ ${p.name}!`);
+      p.ready = false; p.progress = 0;
+      renderAll();
+    } else {
+      const need = ANIMALS[p.name].time;
+      setStatus(`🐾 ${p.name} đang sản xuất... (${p.progress.toFixed(1)}/${need}s)`);
+    }
+  }
+}
+
+/* ==================================================
+   MODAL CHỌN HẠT / CON GIỐNG
+   ================================================== */
+function openPlantModal(plotIndex) {
+  const body = $('modal-body');
+  body.innerHTML = '';
+  let hasAny = false;
+
+  for (const crop in CROPS) {
+    const key = 'Hạt ' + crop;
+    const n = G.inventory[key] || 0;
+    if (n > 0) {
+      hasAny = true;
+      const b = document.createElement('button');
+      b.className = 'modal-option';
+      b.innerHTML = `<span>🌱 Trồng ${crop}</span><span class="count">còn ${n}</span>`;
+      b.onclick = () => { plantCrop(plotIndex, crop); closeModal(); };
+      body.appendChild(b);
+    }
+  }
+
+  for (const animal in ANIMALS) {
+    const n = G.inventory[animal] || 0;
+    if (n > 0) {
+      hasAny = true;
+      const b = document.createElement('button');
+      b.className = 'modal-option';
+      b.innerHTML = `<span>${ANIMALS[animal].emoji} Nuôi ${animal}</span><span class="count">còn ${n}</span>`;
+      b.onclick = () => { placeAnimal(plotIndex, animal); closeModal(); };
+      body.appendChild(b);
+    }
+  }
+
+  if (!hasAny) {
+    body.innerHTML = `<div class="modal-empty">Chưa có hạt giống / con giống.<br>→ Mua ở Cửa hàng bên phải!</div>`;
+  }
+
+  $('modal-overlay').classList.add('show');
+}
+
+function closeModal() { $('modal-overlay').classList.remove('show'); }
+$('modal-close').onclick = closeModal;
+$('modal-overlay').onclick = e => { if (e.target.id === 'modal-overlay') closeModal(); };
+
+function plantCrop(i, crop) {
+  const key = 'Hạt ' + crop;
+  if ((G.inventory[key] || 0) <= 0) return;
+  G.inventory[key]--;
+  if (G.inventory[key] === 0) delete G.inventory[key];
+  const p = G.plots[i];
+  p.kind = 'crop'; p.name = crop; p.progress = 0; p.ready = false;
+  setStatus(`🌱 Đã trồng ${crop}!`);
+  renderAll();
+}
+
+function placeAnimal(i, animal) {
+  if ((G.inventory[animal] || 0) <= 0) return;
+  G.inventory[animal]--;
+  if (G.inventory[animal] === 0) delete G.inventory[animal];
+  const p = G.plots[i];
+  p.kind = 'animal'; p.name = animal; p.progress = 0; p.ready = false;
+  setStatus(`🐾 Đã nuôi ${animal}!`);
+  renderAll();
+}
+
+/* ==================================================
+   KHO HÀNG / BÁN
+   ================================================== */
+function renderInventory() {
+  const box = $('inventory-list');
+  const keys = Object.keys(G.inventory).filter(k => G.inventory[k] > 0);
+  if (!keys.length) {
+    box.innerHTML = `<span class="inv-empty">(trống)</span>`;
+    return;
+  }
+  box.innerHTML = keys.map(k =>
+    `<span class="inv-chip">${k} ×${G.inventory[k]}</span>`
+  ).join('');
+}
+
+$('sell-all-btn').onclick = () => {
+  let total = 0;
+  for (const k in G.inventory) {
+    if (PRODUCT_PRICE[k] && G.inventory[k] > 0) {
+      total += PRODUCT_PRICE[k] * G.inventory[k];
+      G.inventory[k] = 0;
+    }
+  }
+  total = Math.floor(total * 0.8);
+  if (total === 0) { setStatus('🏪 Không có sản phẩm nào để bán.'); return; }
+  G.money += total;
+  setStatus(`🏪 Bán ở chợ được ${total}$ (80% giá trị).`);
+  renderAll();
+};
+
+/* ==================================================
+   KHÁCH HÀNG NPC
+   ================================================== */
+let customerIdSeq = 0;
+
+function producibleItems() {
+  const set = new Set();
+  for (const p of G.plots) {
+    if (p.kind === 'crop') set.add(p.name);
+    else if (p.kind === 'animal') set.add(ANIMALS[p.name].product);
+  }
+  return [...set];
+}
+
+function farmScale() {
+  return G.plots.filter(p => p.kind).length;
+}
+
+function maxCustomers() {
+  return Math.min(6, 2 + Math.floor(farmScale() / 3) + (G.adTime > 0 ? 2 : 0));
+}
+
+function spawnInterval() {
+  const scale = farmScale();
+  const rate = 0.05 + scale * 0.025 + (G.adTime > 0 ? 0.35 : 0) + G.reputation * 0.01;
+  const base = 1 / Math.max(rate, 0.02);
+  return base * (0.7 + Math.random() * 0.6);
+}
+
+function spawnCustomer() {
+  const pool = producibleItems();
+  if (!pool.length) return;
+
+  const nKinds = Math.min(pool.length, Math.random() < 0.65 ? 1 : 2);
+  const shuffled = [...pool].sort(() => Math.random() - 0.5);
+  const chosen = shuffled.slice(0, nKinds);
+
+  const order = {};
+  let totalValue = 0;
+  for (const item of chosen) {
+    const qty = 1 + Math.floor(Math.random() * 3);
+    order[item] = qty;
+    totalValue += (PRODUCT_PRICE[item] || 10) * qty;
+  }
+
+  const reward = Math.floor(totalValue * (1.25 + Math.random() * 0.4));
+  const patience = 28 + Math.random() * 17;
+
+  G.customers.push({
+    id: ++customerIdSeq,
+    name: randomNpcName(),
+    order, reward,
+    patience,
+    maxPatience: patience
+  });
+}
+
+function canDeliver(cu) {
+  for (const item in cu.order) {
+    if ((G.inventory[item] || 0) < cu.order[item]) return false;
+  }
+  return true;
+}
+
+function deliver(customerId) {
+  const idx = G.customers.findIndex(c => c.id === customerId);
+  if (idx === -1) return;
+  const cu = G.customers[idx];
+
+  if (!canDeliver(cu)) {
+    toast(`Không đủ hàng để giao cho ${cu.name}!`, true);
+    return;
+  }
+  for (const item in cu.order) {
+    G.inventory[item] -= cu.order[item];
+    if (G.inventory[item] <= 0) delete G.inventory[item];
+  }
+  G.money += cu.reward;
+  G.reputation = Math.min(10, G.reputation + 0.2);
+  setStatus(`✅ Giao hàng cho ${cu.name} — nhận ${cu.reward}$!`);
+  toast(`+${cu.reward}$ từ ${cu.name}`);
+  G.customers.splice(idx, 1);
+  renderAll();
+}
+
+function renderCustomers() {
+  const list = $('customer-list');
+  $('cust-count').textContent = G.customers.length;
+
+  if (!G.customers.length) {
+    list.innerHTML = `<div class="empty-customers">Chưa có khách nào...<br>Hãy trồng trọt & nuôi thú!</div>`;
+    return;
+  }
+
+  list.innerHTML = '';
+  for (const cu of G.customers) {
+    const pct = Math.max(0, (cu.patience / cu.maxPatience) * 100);
+    const low = pct < 30;
+    const orderTxt = Object.entries(cu.order)
+      .map(([item, qty]) => `${qty}× ${item}`).join(', ');
+    const ok = canDeliver(cu);
+
+    const div = document.createElement('div');
+    div.className = 'customer';
+    div.innerHTML = `
+      <div class="cust-top">
+        <span class="cust-name">${cu.name}</span>
+        <span class="cust-reward">💰 ${cu.reward}$</span>
+      </div>
+      <div class="cust-order">Cần: ${orderTxt}</div>
+      <div class="cust-bottom">
+        <div class="patience-track">
+          <div class="patience-fill ${low ? 'low' : ''}" style="width:${pct}%"></div>
+        </div>
+        <button class="deliver-btn" ${ok ? '' : 'disabled'}>GIAO</button>
+      </div>`;
+
+    div.querySelector('.deliver-btn').onclick = () => deliver(cu.id);
+    list.appendChild(div);
+  }
+}
+
+/* ==================================================
+   HUD
+   ================================================== */
+function renderHUD() {
+  $('hud-money').textContent = `💰 ${G.money}$`;
+  $('hud-scale').textContent = `🏡 ${farmScale()}/${TOTAL_PLOTS}`;
+  $('hud-rep').textContent   = `⭐ ${G.reputation.toFixed(1)}/10`;
+
+  const adEl = $('hud-ad');
+  if (G.adTime > 0) {
+    adEl.textContent = `📢 QC: ${Math.ceil(G.adTime)}s`;
+    adEl.classList.remove('inactive');
+  } else {
+    adEl.textContent = '📢 Không QC';
+    adEl.classList.add('inactive');
+  }
+}
+
+function renderAll() {
+  renderPlots();
+  renderInventory();
+  renderCustomers();
+  renderHUD();
+}
+
+/* ==================================================
+   VÒNG LẶP GAME
+   ================================================== */
+function gameLoop(now) {
+  if (!G.running) return;
+
+  let dt = (now - G.lastTime) / 1000;
+  G.lastTime = now;
+  dt = Math.min(dt, 0.5);
+
+  // Cập nhật cây trồng & vật nuôi
+  for (const p of G.plots) {
+    if (p.kind === 'crop' && !p.ready) {
+      p.progress += dt;
+      if (p.progress >= CROPS[p.name].grow) {
+        p.progress = CROPS[p.name].grow;
+        p.ready = true;
+      }
+    } else if (p.kind === 'animal' && !p.ready) {
+      p.progress += dt;
+      if (p.progress >= ANIMALS[p.name].time) {
+        p.progress = ANIMALS[p.name].time;
+        p.ready = true;
+      }
+    }
+  }
+
+  // Quảng cáo
+  if (G.adTime > 0) G.adTime = Math.max(0, G.adTime - dt);
+
+  // Kiên nhẫn khách
+  for (let i = G.customers.length - 1; i >= 0; i--) {
+    const cu = G.customers[i];
+    cu.patience -= dt;
+    if (cu.patience <= 0) {
+      G.customers.splice(i, 1);
+      G.reputation = Math.max(0, G.reputation - 0.4);
+      setStatus(`😠 ${cu.name} bỏ đi vì chờ quá lâu!`);
+    }
+  }
+
+  // Sinh khách mới
+  G.spawnCooldown -= dt;
+  if (G.spawnCooldown <= 0) {
+    G.spawnCooldown = spawnInterval();
+    if (G.customers.length < maxCustomers()) spawnCustomer();
+  }
+
+  // Render
+  renderPlots();
+  renderCustomers();
+  renderInventory();
+  renderHUD();
+
+  requestAnimationFrame(gameLoop);
+}
+
+/* ==================================================
+   KHỞI TẠO
+   ================================================== */
+buildThemeGrid();
+</script>
+</body>
+</html>
