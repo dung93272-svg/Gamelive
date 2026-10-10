@@ -3,60 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-<title>Nhịp Đời Online</title>
+<title>Nhịp Đời Online 2D</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(135deg,#1a1a2e,#16213e);color:#eaeaea;min-height:100vh;padding:8px;display:flex;justify-content:center;touch-action:manipulation}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(135deg,#1a1a2e,#16213e);color:#eaeaea;min-height:100vh;padding:8px;display:flex;justify-content:center;overflow-x:hidden}
 .game{width:100%;max-width:1050px;background:#0f172a;border-radius:16px;padding:12px}
-h1{font-size:20px;text-align:center;background:linear-gradient(90deg,#f472b6,#a78bfa,#38bdf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:2px}
-.sub{text-align:center;font-size:11px;color:#94a3b8;margin-bottom:8px}
-.top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px;margin-bottom:8px}
-.tag{font-size:11px;background:#1e293b;padding:4px 8px;border-radius:20px}
+h1{font-size:18px;text-align:center;background:linear-gradient(90deg,#f472b6,#a78bfa,#38bdf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:2px}
+.top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px;margin:8px 0}
+.tag{font-size:11px;background:#1e293b;padding:3px 8px;border-radius:20px}
 .tag.m{background:linear-gradient(135deg,#064e3b,#065f46);color:#6ee7b7;font-weight:bold}
-.tag.w{color:#facc15;font-weight:bold}.tag.j{color:#38bdf8}.tag.r{color:#a78bfa}.tag.k{color:#f472b6;font-weight:bold}.tag.u{color:#a78bfa}
-.tag.sv{font-size:10px;color:#64748b}.tag.sv.saving{color:#facc15}.tag.sv.saved{color:#22c55e}.tag.sv.err{color:#ef4444}
-/* WORLD 2D */
-.world-wrap{position:relative;margin-bottom:8px;border-radius:12px;overflow:hidden;background:#14532d}
-#world{width:100%;display:block;max-height:340px;object-fit:cover}
-.dpad{position:absolute;bottom:10px;left:10px;display:grid;grid-template-columns:repeat(3,44px);grid-template-rows:repeat(3,44px);gap:3px}
-.dpad button{background:rgba(30,41,59,0.85);border:1px solid #475569;color:#e2e8f0;border-radius:8px;font-size:16px;cursor:pointer;user-select:none;font-family:inherit}
-.dpad button:active{background:#8b5cf6}
-.dpad button[data-dir="up"]{grid-column:2;grid-row:1}
-.dpad button[data-dir="left"]{grid-column:1;grid-row:2}
-.dpad button[data-dir="down"]{grid-column:2;grid-row:3}
-.dpad button[data-dir="right"]{grid-column:3;grid-row:2}
-.interact{position:absolute;bottom:14px;right:14px;background:linear-gradient(135deg,#8b5cf6,#ec4899);color:#fff;padding:10px 14px;border:none;border-radius:22px;font-weight:bold;font-size:12px;cursor:pointer;display:none;box-shadow:0 4px 12px rgba(236,72,153,0.4);font-family:inherit}
-.interact.on{display:block;animation:pulse 1.5s infinite}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
-.world-badge{position:absolute;top:8px;left:8px;background:rgba(15,23,42,0.85);border-radius:6px;padding:4px 8px;font-size:10px;color:#facc15;border:1px solid #334155}
-.world-help{position:absolute;top:8px;right:8px;background:rgba(15,23,42,0.85);border-radius:6px;padding:4px 8px;font-size:10px;color:#94a3b8;border:1px solid #334155}
-/* END WORLD */
-.dtrack{display:flex;gap:3px;padding:6px;background:#1e293b;border-radius:10px;margin-bottom:8px}
-.day{flex:1;text-align:center;font-size:9px;color:#64748b}
-.day.now{color:#facc15;font-weight:bold}
-.day .dots{display:flex;gap:2px;justify-content:center;margin-top:3px}
-.dot{width:5px;height:5px;border-radius:50%;background:#334155}.dot.on{background:#38bdf8}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:5px;margin-bottom:10px}
-.stat{background:#1e293b;border-radius:10px;padding:6px 8px}
+.tag.w{color:#facc15;font-weight:bold}
+.tag.j{color:#38bdf8}.tag.r{color:#a78bfa}.tag.k{color:#f472b6;font-weight:bold}
+.tag.sv{font-size:10px;color:#64748b}
+.tag.sv.saving{color:#facc15}.tag.sv.saved{color:#22c55e}.tag.sv.err{color:#ef4444}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:4px;margin-bottom:8px}
+.stat{background:#1e293b;border-radius:8px;padding:5px 8px}
 .stat .lbl{font-size:10px;color:#94a3b8;display:flex;justify-content:space-between}
 .bar{height:5px;background:#0f172a;border-radius:4px;margin-top:4px;overflow:hidden}
 .fill{height:100%;transition:.4s;border-radius:4px}
+#worldWrap{position:relative;background:#0f172a;border-radius:12px;overflow:hidden;margin-bottom:6px;border:2px solid #1e293b}
+#world{display:block;width:100%;height:auto;cursor:pointer;touch-action:none}
+#hud{position:absolute;top:6px;left:6px;right:6px;display:flex;justify-content:space-between;pointer-events:none}
+#locName{background:rgba(15,23,42,.85);padding:4px 10px;border-radius:8px;font-size:11px;color:#facc15;font-weight:bold;border:1px solid #334155}
+#timeHud{background:rgba(15,23,42,.85);padding:4px 10px;border-radius:8px;font-size:11px;color:#38bdf8;font-weight:bold;border:1px solid #334155}
+#interactBtn{position:absolute;bottom:8px;right:8px;background:linear-gradient(135deg,#8b5cf6,#ec4899);border:none;color:#fff;padding:8px 14px;border-radius:20px;font-weight:bold;font-size:12px;display:none;cursor:pointer;box-shadow:0 4px 12px rgba(139,92,246,.5);z-index:5;font-family:inherit}
+#interactBtn.on{display:block;animation:pulse 1.2s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+#dpad{position:absolute;bottom:8px;left:8px;width:120px;height:120px;z-index:5;opacity:.75}
+#dpad button{position:absolute;width:38px;height:38px;background:rgba(51,65,85,.85);border:2px solid #475569;color:#e2e8f0;border-radius:10px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit;touch-action:none}
+#dpad button:active{background:rgba(139,92,246,.7)}
+#dpad .up{top:0;left:41px}#dpad .dn{top:82px;left:41px}
+#dpad .lf{top:41px;left:0}#dpad .rt{top:41px;left:82px}
+#dpad .ct{top:41px;left:41px;background:rgba(139,92,246,.35);border-color:#8b5cf6;font-size:11px;font-weight:bold}
+.travelbar{display:flex;gap:4px;overflow-x:auto;padding:4px 2px;margin-bottom:6px;scrollbar-width:thin}
+.travelbar button{background:#1e293b;border:1px solid #334155;color:#e2e8f0;padding:5px 9px;border-radius:8px;font-size:10px;font-family:inherit;cursor:pointer;white-space:nowrap;transition:.15s}
+.travelbar button:hover{background:#334155;border-color:#8b5cf6;color:#facc15}
 .panels{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 @media(max-width:700px){.panels{grid-template-columns:1fr}}
-.panel{background:#1e293b;border-radius:12px;padding:10px}
+.panel{background:#1e293b;border-radius:10px;padding:10px}
 .panel h3{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#94a3b8;margin-bottom:6px}
-.acts{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:4px;max-height:300px;overflow-y:auto}
+.acts{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:4px;max-height:280px;overflow-y:auto}
 .act{background:#334155;border:none;color:#e2e8f0;padding:7px 9px;border-radius:8px;cursor:pointer;font-size:11px;text-align:left;font-family:inherit}
-.act:hover:not(:disabled){background:#475569}.act:disabled{opacity:.35;cursor:not-allowed}
+.act:hover:not(:disabled){background:#475569}
+.act:disabled{opacity:.35;cursor:not-allowed}
 .act .cost{font-size:9px;color:#94a3b8;display:block;margin-top:2px}
-.act.ent{background:#3b2f52}.act.ent:hover:not(:disabled){background:#52406f}
-.log{max-height:300px;overflow-y:auto;font-size:11px}
+.act.ent{background:#3b2f52}
+.log{max-height:280px;overflow-y:auto;font-size:11px}
 .e{padding:5px 7px;border-radius:6px;margin-bottom:3px;background:#0f172a;border-left:3px solid #334155}
-.e.good{border-left-color:#22c55e}.e.bad{border-left-color:#ef4444}.e.love{border-left-color:#ec4899}
-.e.info{border-left-color:#38bdf8}.e.npc{border-left-color:#f59e0b;background:#1a1206}
-.e.child{border-left-color:#fbbf24;background:#2a1f0a}.e.money{border-left-color:#6ee7b7;background:#052e16}
+.e.good{border-left-color:#22c55e}.e.bad{border-left-color:#ef4444}
+.e.love{border-left-color:#ec4899}.e.info{border-left-color:#38bdf8}
+.e.npc{border-left-color:#f59e0b;background:#1a1206}
+.e.child{border-left-color:#fbbf24;background:#2a1f0a}
+.e.money{border-left-color:#6ee7b7;background:#052e16}
 .e.day{background:#1e293b;color:#facc15;text-align:center;font-weight:bold}
-.bottom{display:flex;gap:5px;margin-top:10px;flex-wrap:wrap}
+.bottom{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap}
 .btn{flex:1;min-width:70px;padding:9px 10px;border:none;border-radius:8px;cursor:pointer;font-weight:bold;font-size:12px;font-family:inherit;transition:.15s}
 .btn:hover:not(:disabled){transform:translateY(-1px)}
 .btn.pri{background:linear-gradient(135deg,#8b5cf6,#ec4899);color:#fff}
@@ -64,17 +64,17 @@ h1{font-size:20px;text-align:center;background:linear-gradient(90deg,#f472b6,#a7
 .btn.gold{background:linear-gradient(135deg,#f59e0b,#facc15);color:#1c1917}
 .btn.danger{background:#7f1d1d;color:#fecaca}
 .btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;padding:12px;z-index:10}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;padding:12px;z-index:100}
 .modal.on{display:flex}
 .mbox{background:#1e293b;border-radius:14px;padding:16px;max-width:680px;width:100%;max-height:92vh;overflow-y:auto}
-.mbox h2{font-size:17px;margin-bottom:8px;color:#f472b6}
-.mbox h3{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#94a3b8;margin:10px 0 5px}
+.mbox h2{font-size:16px;margin-bottom:8px;color:#f472b6}
+.mbox h3{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#94a3b8;margin:10px 0 5px}
 .mbox p{font-size:12px;color:#cbd5e1;line-height:1.5;margin-bottom:8px}
 .mbox .btn{width:100%;margin-top:5px}
-.opt{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
-.opt button{flex:1;min-width:70px;padding:8px 9px;background:#334155;border:2px solid transparent;color:#e2e8f0;border-radius:8px;cursor:pointer;font-size:12px;font-family:inherit}
+.opt{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px}
+.opt button{flex:1;min-width:70px;padding:7px 9px;background:#334155;border:2px solid transparent;color:#e2e8f0;border-radius:8px;cursor:pointer;font-size:11px;font-family:inherit}
 .opt button.sel{border-color:#8b5cf6;background:#4c1d95}
-.inp{width:100%;padding:10px;background:#0f172a;border:1px solid #334155;color:#eaeaea;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:8px}
+.inp{width:100%;padding:9px 10px;background:#0f172a;border:1px solid #334155;color:#eaeaea;border-radius:8px;font-size:13px;font-family:inherit;margin-bottom:6px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px}
 .card{background:#0f172a;border:2px solid #1e293b;border-radius:10px;padding:9px}
 .card .av{font-size:30px;text-align:center}
@@ -82,15 +82,12 @@ h1{font-size:20px;text-align:center;background:linear-gradient(90deg,#f472b6,#a7
 .card .s2{font-size:10px;color:#94a3b8;text-align:center;margin-bottom:5px}
 .ln{display:flex;justify-content:space-between;font-size:10px;color:#cbd5e1;margin:2px 0}
 .ln span:last-child{color:#facc15;font-weight:bold}
-.bar-w{height:4px;background:#1e293b;border-radius:2px;overflow:hidden;margin-top:3px}
-.fill-w{height:100%;background:linear-gradient(90deg,#f59e0b,#facc15)}
-.chat{background:#0f172a;border-radius:10px;padding:10px;height:250px;overflow-y:auto;display:flex;flex-direction:column;gap:5px;margin-bottom:8px}
-.msg{max-width:78%;padding:7px 11px;border-radius:12px;font-size:12px;line-height:1.4}
+.chat{background:#0f172a;border-radius:10px;padding:10px;height:250px;overflow-y:auto;display:flex;flex-direction:column;gap:5px;margin-bottom:6px}
+.msg{max-width:78%;padding:7px 11px;border-radius:12px;font-size:11px;line-height:1.4}
 .msg.you{align-self:flex-end;background:linear-gradient(135deg,#8b5cf6,#ec4899);color:#fff}
 .msg.them{align-self:flex-start;background:#1e293b;color:#e2e8f0}
 .msg.sys{align-self:center;font-size:10px;color:#94a3b8;font-style:italic;background:transparent}
-.topic{background:#1e3a5f;border:none;color:#e2e8f0;padding:6px 9px;border-radius:8px;cursor:pointer;font-size:11px;font-family:inherit;margin:2px}
-.topic:hover:not(:disabled){background:#2d4f77}
+.topic{background:#1e3a5f;border:none;color:#e2e8f0;padding:6px 9px;border-radius:8px;cursor:pointer;font-size:10px;font-family:inherit;margin:2px}
 .npc-card{background:#0f172a;border-radius:10px;padding:9px;margin-bottom:6px;border-left:3px solid #8b5cf6}
 .npc-card.p{border-left-color:#ec4899;background:linear-gradient(135deg,#1f0a1e,#2a0f30)}
 .npc-card.m{border-left-color:#22c55e;background:linear-gradient(135deg,#052e16,#0a3d1f)}
@@ -106,58 +103,54 @@ h1{font-size:20px;text-align:center;background:linear-gradient(90deg,#f472b6,#a7
 .bond-f.neg{background:linear-gradient(90deg,#991b1b,#dc2626)}
 .npc-a{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px}
 .npc-a .btn{padding:5px 7px;font-size:10px;flex:1;min-width:0;margin:0}
-.view{font-size:11px;font-style:italic;color:#c4b5fd;background:#1a1330;border-left:2px solid #8b5cf6;padding:4px 7px;border-radius:4px;margin:4px 0}
+.view{font-size:10px;font-style:italic;color:#c4b5fd;background:#1a1330;border-left:2px solid #8b5cf6;padding:3px 7px;border-radius:4px;margin:4px 0}
 .warn{font-size:10px;color:#fca5a5;font-weight:bold;background:#2a0505;padding:3px 7px;border-radius:4px;margin:4px 0}
-.info{font-size:10px;color:#f59e0b;padding:2px 0}
+.info{font-size:9px;color:#f59e0b;padding:2px 0}
 .asset-card{background:#0f172a;border:1px solid #334155;border-radius:10px;padding:10px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center}
-.asset-info h4{color:#facc15;font-size:13px;margin-bottom:3px}
+.asset-info h4{color:#facc15;font-size:12px;margin-bottom:3px}
 .asset-info p{font-size:10px;color:#94a3b8;margin:0}
-::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:#475569;border-radius:4px}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-thumb{background:#475569;border-radius:4px}
 </style>
 </head>
 <body>
 <div class="game">
-<h1>NHỊP ĐỜI ONLINE</h1>
-<div class="sub">Một cuộc đời — nhiều lựa chọn</div>
-
-<!-- WORLD 2D -->
-<div class="world-wrap">
-  <canvas id="world" width="900" height="400"></canvas>
-  <div class="world-badge" id="worldBadge">🌍 Thành phố Nhịp Đời</div>
-  <div class="world-help">WASD / D-pad để đi</div>
-  <div class="dpad">
-    <button data-dir="up">▲</button>
-    <button data-dir="left">◀</button>
-    <button data-dir="down">▼</button>
-    <button data-dir="right">▶</button>
-  </div>
-  <button class="interact" id="interactBtn">💬 Nói chuyện</button>
-</div>
-
+<h1>NHỊP ĐỜI ONLINE 2D</h1>
 <div class="top">
-<div class="tag w">Tuần <span id="w">1</span> · <span id="d">Thứ Hai</span> · <span id="p">Sáng</span></div>
+<div class="tag w">Tuần <span id="w">1</span> · <span id="d">T2</span> · <span id="p">Sáng</span></div>
 <div class="tag m" id="money">3.000đ</div>
 <div class="tag j" id="job">🎓 Sinh viên</div>
 <div class="tag r" id="edu">📗 Cấp 3</div>
 <div class="tag k" id="partnerTag" style="display:none">💗 —</div>
-<div class="tag u" id="userTag">👤</div>
 <div class="tag sv" id="sv">☁️</div>
-<div class="tag" id="pnum">21 buổi</div>
 </div>
-<div class="dtrack" id="dtrack"></div>
 <div class="stats" id="stats"></div>
+<div id="worldWrap">
+  <canvas id="world" width="640" height="480"></canvas>
+  <div id="hud">
+    <div id="locName">🏠 Nhà</div>
+    <div id="timeHud">Sáng</div>
+  </div>
+  <button id="interactBtn">💬 Nói chuyện</button>
+  <div id="dpad">
+    <button class="up" data-dir="up">▲</button>
+    <button class="dn" data-dir="down">▼</button>
+    <button class="lf" data-dir="left">◄</button>
+    <button class="rt" data-dir="right">►</button>
+    <button class="ct">OK</button>
+  </div>
+</div>
+<div class="travelbar" id="travelbar"></div>
 <div class="panels">
 <div class="panel"><h3>Hành động</h3><div class="acts" id="acts"></div></div>
 <div class="panel"><h3>Nhật ký</h3><div class="log" id="log"></div></div>
 </div>
 <div class="bottom">
-<button class="btn pri" id="endBtn">Kết thúc tuần →</button>
-<button class="btn sec" id="meetBtn">🌐 Gặp</button>
+<button class="btn pri" id="endBtn">Kết tuần →</button>
 <button class="btn sec" id="relBtn">🤝 Quan hệ</button>
 <button class="btn sec" id="childBtn">👶 Con</button>
 <button class="btn sec" id="jobBtn">💼 Nghề</button>
 <button class="btn gold" id="assetsBtn">🏠 Tài sản</button>
-<button class="btn gold" id="lbBtn">🏆 BXH</button>
 <button class="btn danger" id="logoutBtn">🚪 Thoát</button>
 </div>
 </div>
@@ -165,38 +158,116 @@ h1{font-size:20px;text-align:center;background:linear-gradient(90deg,#f472b6,#a7
 <script type="module">
 // ═══════════ API ═══════════
 const API = {
-  me: async () => ({user:{username:'Người chơi'}}),
-  logout: async () => localStorage.removeItem('nhipdoi_save'),
-  loadSave: async () => { const raw=localStorage.getItem('nhipdoi_save'); return {save:raw?JSON.parse(raw):null}; },
-  writeSave: async (save) => { localStorage.setItem('nhipdoi_save', JSON.stringify(save)); return {success:true}; },
-  leaderboard: async () => ({leaders:[]})
+  me: async () => ({ user: { username: 'Người chơi' } }),
+  logout: async () => { localStorage.removeItem('nhipdoi3d_save'); },
+  loadSave: async () => { const raw = localStorage.getItem('nhipdoi3d_save'); return { save: raw ? JSON.parse(raw) : null }; },
+  writeSave: async (save) => { localStorage.setItem('nhipdoi3d_save', JSON.stringify(save)); return { success: true }; },
 };
+
+// ═══════════ WORLD MAP ═══════════
+const TILE = 32;
+const MAP_W = 24, MAP_H = 18;
+// 0=grass 1=road 2=water 3=sand 4=flower 5=path
+const MAP_DATA = [];
+for(let y=0;y<MAP_H;y++){ MAP_DATA.push([]); for(let x=0;x<MAP_W;x++){ MAP_DATA[y].push(0);} }
+// Horizontal roads
+for(let x=0;x<MAP_W;x++){ MAP_DATA[8][x]=1; MAP_DATA[9][x]=1; }
+// Vertical roads
+for(let y=0;y<MAP_H;y++){ MAP_DATA[y][11]=1; MAP_DATA[y][12]=1; }
+// Lake
+for(let y=13;y<17;y++) for(let x=18;x<23;x++) MAP_DATA[y][x]=2;
+for(let y=17;y<18;y++) for(let x=19;x<22;x++) MAP_DATA[y][x]=3;
+// Flowers scattered
+[[2,5],[3,6],[15,4],[16,5],[5,11],[6,12],[19,6],[20,7],[1,15],[2,16]].forEach(([x,y])=>{ if(MAP_DATA[y][x]===0) MAP_DATA[y][x]=4; });
+
+const LOCATIONS = {
+  home:    {x:1,  y:1,  w:5, h:4, name:'Nhà',        emoji:'🏠', color:'#8b5cf6', roof:'#6d28d9'},
+  gym:     {x:7,  y:1,  w:3, h:3, name:'Gym',         emoji:'🏋️', color:'#ef4444', roof:'#b91c1c'},
+  work:    {x:14, y:1,  w:6, h:4, name:'Công ty',     emoji:'🏢', color:'#38bdf8', roof:'#0284c7'},
+  bank:    {x:21, y:1,  w:3, h:3, name:'Ngân hàng',   emoji:'🏦', color:'#eab308', roof:'#a16207'},
+  school:  {x:14, y:5,  w:5, h:3, name:'Trường học',  emoji:'🏫', color:'#22c55e', roof:'#15803d'},
+  cafe:    {x:1,  y:5,  w:4, h:3, name:'Quán Cafe',   emoji:'☕', color:'#f59e0b', roof:'#b45309'},
+  park:    {x:6,  y:5,  w:6, h:3, name:'Công viên',   emoji:'🌳', color:'#10b981', roof:'#047857'},
+  restaurant:{x:21,y:5, w:3, h:3, name:'Nhà hàng',    emoji:'🍜', color:'#dc2626', roof:'#7f1d1d'},
+  market:  {x:1,  y:11, w:5, h:4, name:'Chợ',         emoji:'🛒', color:'#a78bfa', roof:'#6d28d9'},
+  hospital:{x:14, y:11, w:5, h:4, name:'Bệnh viện',   emoji:'🏥', color:'#f472b6', roof:'#be185d'},
+  library: {x:7,  y:11, w:4, h:3, name:'Thư viện',    emoji:'📚', color:'#78716c', roof:'#44403c'},
+  cinema:  {x:21, y:11, w:3, h:4, name:'Rạp phim',    emoji:'🎬', color:'#7c3aed', roof:'#5b21b6'},
+};
+
 // ═══════════ CONSTANTS ═══════════
-const JOBS = { student:{n:'Sinh viên',i:'🎓',w:300,s:0}, shipper:{n:'Shipper',i:'🛵',w:700,s:7}, worker:{n:'Công nhân',i:'🔧',w:600,s:10}, waitress:{n:'Phục vụ',i:'🍽️',w:550,s:8}, chef:{n:'Đầu bếp',i:'👨‍🍳',w:900,s:12}, barber:{n:'Thợ cắt tóc',i:'💈',w:700,s:7}, office:{n:'Nhân viên VP',i:'💼',w:900,s:8,edu:'c3'}, cashier:{n:'Thu ngân',i:'💵',w:800,s:6,edu:'c3'}, reception:{n:'Lễ tân',i:'📞',w:850,s:7,edu:'c3'}, freelancer:{n:'Freelancer',i:'✏️',w:1100,s:10,edu:'c3'}, streamer:{n:'Streamer',i:'🎮',w:700,s:8,edu:'c3'}, musician:{n:'Nhạc sĩ',i:'🎸',w:600,s:5,edu:'c3'}, teacher:{n:'Giáo viên',i:'📚',w:1000,s:6,edu:'dh'}, accountant:{n:'Kế toán',i:'📊',w:1200,s:7,edu:'dh'}, nurse:{n:'Y tá',i:'💉',w:1100,s:12,edu:'dh'}, designer:{n:'Thiết kế',i:'🎨',w:1300,s:10,edu:'dh'}, dev:{n:'Lập trình viên',i:'💻',w:1600,s:14,edu:'dh'}, engineer:{n:'Kỹ sư',i:'⚙️',w:1500,s:12,edu:'dh'}, banker:{n:'Nhân viên NH',i:'🏦',w:1400,s:11,edu:'dh'}, pilot:{n:'Phi công',i:'✈️',w:2000,s:15,edu:'dh'}, doctor:{n:'Bác sĩ',i:'🩺',w:2400,s:20,edu:'ths'}, lawyer:{n:'Luật sư',i:'⚖️',w:2000,s:15,edu:'ths'}, architect:{n:'Kiến trúc sư',i:'🏛️',w:1700,s:13,edu:'ths'}, manager:{n:'Quản lý',i:'📈',w:1800,s:14,edu:'ths'}, professor:{n:'Giáo sư',i:'🎩',w:2600,s:10,edu:'ts'}, scientist:{n:'Nhà khoa học',i:'🔬',w:2300,s:12,edu:'ts'}, ceo:{n:'Giám đốc',i:'🏢',w:3500,s:18,edu:'ts'}, diplomat:{n:'Nhà ngoại giao',i:'🌍',w:2500,s:13,edu:'ts'}};
+const JOBS = { student:{n:'Sinh viên',i:'🎓',w:300,s:0}, shipper:{n:'Shipper',i:'🛵',w:700,s:7}, worker:{n:'Công nhân',i:'🔧',w:600,s:10}, waitress:{n:'Phục vụ',i:'🍽️',w:550,s:8}, chef:{n:'Đầu bếp',i:'👨‍🍳',w:900,s:12}, barber:{n:'Thợ cắt tóc',i:'💈',w:700,s:7}, office:{n:'Nhân viên VP',i:'💼',w:900,s:8,edu:'c3'}, cashier:{n:'Thu ngân',i:'💵',w:800,s:6,edu:'c3'}, reception:{n:'Lễ tân',i:'📞',w:850,s:7,edu:'c3'}, freelancer:{n:'Freelancer',i:'✏️',w:1100,s:10,edu:'c3'}, streamer:{n:'Streamer',i:'🎮',w:700,s:8,edu:'c3'}, musician:{n:'Nhạc sĩ',i:'🎸',w:600,s:5,edu:'c3'}, teacher:{n:'Giáo viên',i:'📚',w:1000,s:6,edu:'dh'}, accountant:{n:'Kế toán',i:'📊',w:1200,s:7,edu:'dh'}, nurse:{n:'Y tá',i:'💉',w:1100,s:12,edu:'dh'}, designer:{n:'Thiết kế',i:'🎨',w:1300,s:10,edu:'dh'}, dev:{n:'Lập trình viên',i:'💻',w:1600,s:14,edu:'dh'}, engineer:{n:'Kỹ sư',i:'⚙️',w:1500,s:12,edu:'dh'}, banker:{n:'Nhân viên NH',i:'🏦',w:1400,s:11,edu:'dh'}, pilot:{n:'Phi công',i:'✈️',w:2000,s:15,edu:'dh'}, doctor:{n:'Bác sĩ',i:'🩺',w:2400,s:20,edu:'ths'}, lawyer:{n:'Luật sư',i:'⚖️',w:2000,s:15,edu:'ths'}, architect:{n:'Kiến trúc sư',i:'🏛️',w:1700,s:13,edu:'ths'}, manager:{n:'Quản lý',i:'📈',w:1800,s:14,edu:'ths'}, professor:{n:'Giáo sư',i:'🎩',w:2600,s:10,edu:'ts'}, scientist:{n:'Nhà khoa học',i:'🔬',w:2300,s:12,edu:'ts'}, ceo:{n:'Giám đốc',i:'🏢',w:3500,s:18,edu:'ts'}, diplomat:{n:'Nhà ngoại giao',i:'🌍',w:2500,s:13,edu:'ts'} };
 const EDU_RANK={c3:1,dh:2,ths:3,ts:4};
 const EDU_LABEL={c3:'📗 Cấp 3',dh:'📘 Đại học',ths:'📙 Thạc sĩ',ts:'📕 Tiến sĩ'};
-const ACTIONS=[ {id:'work',n:'💼 Đi làm',c:2,once:true,ef:{money:'wage',energy:-12,mental:-6,skill:.5}}, {id:'overtime',n:'🔥 Làm thêm',c:1,afterWork:true,ef:{money:'half',energy:-15,mental:-12}}, {id:'study',n:'📖 Học nâng cao',c:2,once:true,ef:{money:-300,energy:-14,mental:-4},edu:true}, {id:'skill',n:'📚 Học kỹ năng',c:2,ef:{energy:-10,money:-100,skill:3,mental:-2}}, {id:'gym',n:'🏋️ Tập thể dục',c:1,ef:{energy:-8,health:8,mental:6}}, {id:'sleep',n:'😴 Nghỉ ngơi',c:2,ef:{energy:35,mental:8,health:3}}, {id:'family',n:'📞 Gọi gia đình',c:1,ef:{mental:8}}, {id:'hobby',n:'🎨 Đam mê',c:2,ef:{energy:-8,money:-50,passion:10,mental:5}}, {id:'invest',n:'📈 Đầu tư',c:1,gamble:true,minMoney:1000}, {id:'movie',n:'🎬 Xem phim',c:1,transport:50,ef:{money:-150,mental:10,energy:5},ent:true}, {id:'game',n:'🎮 Chơi game',c:1,ef:{money:-200,mental:12},ent:true}, {id:'shopping',n:'🛍️ Mua sắm',c:2,transport:60,ef:{money:-500,mental:15},ent:true}, {id:'spa',n:'💆 Spa',c:2,transport:70,ef:{money:-400,mental:12,health:8,energy:10},ent:true}, {id:'travel',n:'✈️ Du lịch',c:3,transport:400,ef:{money:-2000,mental:25,energy:-8,passion:5},ent:true}];
-const HOBBIES={ doc_sach:{n:'Đọc sách',e:'📚'},am_nhac:{n:'Âm nhạc',e:'🎵'}, the_thao:{n:'Thể thao',e:'⚽'},game:{n:'Game',e:'🎮'}, du_lich:{n:'Du lịch',e:'✈️'},nau_an:{n:'Nấu ăn',e:'🍳'}, nghe_thuat:{n:'Nghệ thuật',e:'🎨'},ca_phe:{n:'Cà phê',e:'☕'}};
-const TRAITS={ chamchi:'💪 Chăm chỉ',vuitinh:'😄 Vui tính',tramtinh:'🌙 Trầm tính', langman:'🌹 Lãng mạn',noilo:'😰 Lo lắng',thucte:'📐 Thực tế', hoatbat:'⚡ Hoạt bát',sautam:'💭 Sâu tâm',doclap:'🦅 Độc lập', quantam:'💞 Quan tâm',galant:'🎩 Ga lăng',stingy:'💰 Bủn xỉn', lanhlung:'❄️ Lạnh lùng',thamvong:'🏆 Tham vọng'};
-const HOUSES = [{id:'none',n:'Không có',p:0,m:0},{id:'tro',n:'Phòng trọ',p:500000,m:5},{id:'nha_nho',n:'Nhà nhỏ',p:2000000,m:15},{id:'biet_thu',n:'Biệt thự',p:10000000,m:40}];
-const CARS = [{id:'none',n:'Xe bus',p:0,tr:0},{id:'xe_may',n:'Xe máy',p:1000000,tr:-20},{id:'oto',n:'Ô tô',p:5000000,tr:-50},{id:'sieu_xe',n:'Siêu xe',p:20000000,tr:-100}];
-const BUSINESS = [{id:'none',n:'Không có',p:0,inc:0},{id:'tap_hoa',n:'Tạp hóa',p:3000000,inc:500000},{id:'quan_cafe',n:'Quán Cafe',p:8000000,inc:1500000},{id:'cong_ty',n:'Công ty',p:20000000,inc:5000000}];
-const NPC_POOL=[ {id:'duong',n:'Dương',av:'👨‍💻',g:'nam',age:22,job:'dev',ap:6,wl:25,edu:'dh',bg:'trungluu', per:['vuitinh','hoatbat','chamchi'],likes:['vuitinh','langman'],dis:['lanhlung'], hob:['game','am_nhac','ca_phe'],att:['nu'], views:{love:'"Yêu nên bắt đầu từ tình bạn."',career:'"Code là đam mê."',money:'"Tiết kiệm là tự do."',family:'"Gia đình là chỗ dựa."'}, bio:'IT vui tính, mọt game.'}, {id:'truong',n:'Trường',av:'👨‍🔬',g:'nam',age:26,job:'scientist',ap:6,wl:45,edu:'ts',bg:'khagia', per:['tramtinh','chamchi','sautam'],likes:['tramtinh','sautam'],dis:['hoatbat'], hob:['doc_sach','am_nhac','ca_phe'],att:['nu'], views:{love:'"Yêu là hiểu, không chiếm hữu."',career:'"Khoa học cần kiên nhẫn."',money:'"Tri thức quý hơn vàng."',family:'"Tôi trân trọng sự yên tĩnh."'}, bio:'Nhà khoa học trầm tính.'}, {id:'quang',n:'Quang',av:'👨‍💼',g:'nam',age:30,job:'ceo',ap:8,wl:85,edu:'ths',bg:'gia', per:['lanhlung','thamvong','thucte','stingy'],likes:['doclap','thamvong'],dis:['noilo','vuitinh'], hob:['doc_sach','the_thao','du_lich'],att:['nu'], views:{love:'"Hôn nhân là hợp tác."',career:'"Thành công không chờ ai."',money:'"Tiền không tự sinh ra."',family:'"Con cái cần nền tảng."'}, bio:'Giám đốc lạnh lùng, bủn xỉn.'}, {id:'hieu',n:'Hiếu',av:'👨‍🎤',g:'nam',age:24,job:'musician',ap:7,wl:8,edu:'c3',bg:'ngheo', per:['langman','sautam','doclap'],likes:['langman','sautam'],dis:['thucte','stingy'], hob:['am_nhac','nghe_thuat','ca_phe'],att:['nu','khac'], views:{love:'"Yêu là sống hết mình."',career:'"Nghệ thuật không gò bó."',money:'"Tiền không mua được cảm xúc."',family:'"Tôi cần tự do."'}, bio:'Nghệ sĩ đường phố.'}, {id:'khang',n:'Khang',av:'👨‍⚕️',g:'nam',age:28,job:'doctor',ap:7,wl:55,edu:'ths',bg:'khagia', per:['quantam','chamchi','noilo'],likes:['quantam','chamchi'],dis:['doclap'], hob:['doc_sach','the_thao','nau_an'],att:['nu'], views:{love:'"Tôi cần người biết quan tâm."',career:'"Cứu người là sứ mệnh."',money:'"Đủ sống là được."',family:'"Tôi muốn có con."'}, bio:'Bác sĩ ấm áp.'}, {id:'nam',n:'Nam',av:'👨‍⚖️',g:'nam',age:32,job:'lawyer',ap:8,wl:90,edu:'ths',bg:'gia', per:['thucte','galant','doclap'],likes:['thucte','doclap','langman'],dis:['noilo'], hob:['doc_sach','ca_phe','du_lich'],att:['nu'], views:{love:'"Đàn ông phải ga lăng."',career:'"Công lý không thiên vị."',money:'"Tiền là công cụ."',family:'"Tôi lo cho vợ con."'}, bio:'Luật sư ga lăng.'}, {id:'tuan',n:'Tuấn',av:'👨‍🍳',g:'nam',age:25,job:'chef',ap:6,wl:35,edu:'c3',bg:'trungluu', per:['vuitinh','hoatbat','galant'],likes:['vuitinh','quantam'],dis:['lanhlung','stingy'], hob:['nau_an','am_nhac','ca_phe'],att:['nu','khac'], views:{love:'"Yêu là chiều người mình thương."',career:'"Đầu bếp là nghệ sĩ."',money:'"Tiền để tiêu cho người thân."',family:'"Tôi mê trẻ con."'}, bio:'Đầu bếp vui vẻ.'}, {id:'linh',n:'Linh',av:'👩‍🎨',g:'nu',age:22,job:'designer',ap:7,wl:30,edu:'dh',bg:'trungluu', per:['langman','sautam','doclap'],likes:['langman','sautam'],dis:['thucte','stingy'], hob:['nghe_thuat','am_nhac','ca_phe'],att:['nam','khac'], views:{love:'"Yêu là khi tim rung động."',career:'"Sáng tạo là hơi thở."',money:'"Tôi không quan tâm tiền."',family:'"Tự do trước."'}, bio:'Họa sĩ mơ mộng.'}, {id:'my',n:'My',av:'👩‍💼',g:'nu',age:24,job:'accountant',ap:7,wl:32,edu:'dh',bg:'trungluu', per:['quantam','chamchi','vuitinh'],likes:['quantam','chamchi'],dis:['doclap'], hob:['ca_phe','du_lich'],att:['nam'], views:{love:'"Yêu là cùng vun đắp."',career:'"Ổn định hơn mơ mộng."',money:'"Tiết kiệm cho tương lai."',family:'"Gia đình là ưu tiên."'}, bio:'Kế toán thân thiện.'}, {id:'trang',n:'Trang',av:'👩‍🏫',g:'nu',age:26,job:'teacher',ap:8,wl:48,edu:'dh',bg:'khagia', per:['tramtinh','quantam','chamchi'],likes:['tramtinh','quantam'],dis:['hoatbat','stingy'], hob:['doc_sach','am_nhac','nau_an'],att:['nam'], views:{love:'"Tình yêu cần kiên nhẫn."',career:'"Dạy học là sứ mệnh."',money:'"Đủ sống là hạnh phúc."',family:'"Tôi yêu trẻ con."'}, bio:'Giáo viên dịu dàng.'}, {id:'vy',n:'Vy',av:'👩‍⚕️',g:'nu',age:28,job:'doctor',ap:8,wl:75,edu:'ths',bg:'gia', per:['quantam','chamchi','noilo'],likes:['quantam','chamchi'],dis:['doclap','stingy'], hob:['doc_sach','nau_an','ca_phe'],att:['nam'], views:{love:'"Tôi muốn chồng chu đáo."',career:'"Bệnh nhân là số một."',money:'"Tiền chăm sóc người thân."',family:'"Con cái là món quà."'}, bio:'Nữ bác sĩ xinh đẹp.'}, {id:'mai',n:'Mai',av:'👩‍💼',g:'nu',age:30,job:'manager',ap:8,wl:95,edu:'ths',bg:'gia', per:['doclap','thamvong','lanhlung'],likes:['doclap','thamvong'],dis:['noilo','vuitinh'], hob:['doc_sach','du_lich','ca_phe'],att:['nam'], views:{love:'"Tôi không cần đàn ông."',career:'"Tham vọng là bản năng."',money:'"Độc lập tài chính."',family:'"Sự nghiệp trước."'}, bio:'Nữ giám đốc độc lập.'}, {id:'thao',n:'Thảo',av:'👩‍💰',g:'nu',age:25,job:'accountant',ap:6,wl:38,edu:'dh',bg:'trungluu', per:['thucte','chamchi','stingy'],likes:['thucte','chamchi'],dis:['hoatbat','langman'], hob:['doc_sach','nau_an'],att:['nam'], views:{love:'"Yêu phải có trách nhiệm."',career:'"Công việc trên hết."',money:'"Tiền không tự sinh."',family:'"Tôi lo cho bố mẹ."'}, bio:'Kế toán tiết kiệm.'}, {id:'ngoc',n:'Ngọc',av:'👩‍⚖️',g:'nu',age:27,job:'lawyer',ap:8,wl:88,edu:'ths',bg:'gia', per:['lanhlung','thucte','doclap'],likes:['thucte','doclap'],dis:['noilo','stingy'], hob:['doc_sach','ca_phe','du_lich'],att:['nam'], views:{love:'"Tôi cần người ngang tầm."',career:'"Chiến thắng là tất cả."',money:'"Tiền mua được quyền lực."',family:'"Chưa nghĩ đến."'}, bio:'Nữ luật sư sắc sảo.'}, {id:'nhi',n:'Nhi',av:'👩‍🎤',g:'nu',age:23,job:'streamer',ap:7,wl:55,edu:'c3',bg:'khagia', per:['hoatbat','vuitinh','quantam'],likes:['hoatbat','vuitinh'],dis:['tramtinh','lanhlung'], hob:['game','am_nhac'],att:['nam','khac'], views:{love:'"Yêu là cười cùng nhau."',career:'"Đam mê hơn lương."',money:'"Kiếm tiền để sống vui."',family:'"Tôi còn trẻ."'}, bio:'Streamer xinh xắn.'}];
-const CHAT_TOPICS=[ {id:'greet',n:'👋 Chào hỏi',f:2,l:1,r:{vuitinh:'"Ơ cậu đến rồi!"',hoatbat:'"Hi cậu!"',tramtinh:'"Ừ, chào cậu."',lanhlung:'"...Chào."',def:'"Chào cậu!"'}}, {id:'ask',n:'❓ Hỏi thăm',f:3,l:2,r:{quantam:'"Ngày tớ bình thường. Còn cậu?"',noilo:'"Hôm nay tớ hơi lo..."',def:'"Cũng được."'}}, {id:'khen',n:'💐 Khen ngợi',f:3,l:4,r:{langman:'"Cậu làm tớ ngại quá..."',lanhlung:'"Ừ, biết rồi."',def:'"Cảm ơn cậu!"'}}, {id:'share',n:'💭 Chia sẻ',f:4,l:5,r:{sautam:'"...Cảm ơn cậu."',langman:'"Tớ thích người dám nói."',def:'"Ừ, tớ hiểu."'}}, {id:'view_love',n:'💗 Tình yêu',f:3,l:4,view:'love',r:{langman:'"Yêu là cảm xúc."',thucte:'"Yêu phải thực tế."',def:'"Chủ đề khó."'}}, {id:'view_career',n:'💼 Sự nghiệp',f:3,l:3,view:'career',r:{thamvong:'"Sự nghiệp là ưu tiên."',doclap:'"Cần tự do."',def:'"Mỗi người có hướng."'}}, {id:'view_money',n:'💰 Tiền bạc',f:3,l:3,view:'money',r:{stingy:'"Phải tiết kiệm."',thucte:'"Tiền không tự sinh."',def:'"Tiền là công cụ."'}}, {id:'view_family',n:'👨‍👩‍👧 Gia đình',f:4,l:5,view:'family',r:{quantam:'"Tớ muốn gia đình ấm."',doclap:'"Cần không gian riêng."',def:'"Gia đình quan trọng."'}}, {id:'flirt',n:'😘 Thả thính',f:0,l:8,stage:['crush','dating'],r:{langman:'"Tim tớ đập nhanh..."',galant:'"Cậu muốn gì tớ chiều."',def:'"Cậu lạ lắm nha."'}}];
+const ACTIONS=[ {id:'work',n:'💼 Đi làm',c:2,once:true,ef:{money:'wage',energy:-12,mental:-6,skill:.5}}, {id:'overtime',n:'🔥 Làm thêm',c:1,afterWork:true,ef:{money:'half',energy:-15,mental:-12}}, {id:'study',n:'📖 Học nâng cao',c:2,once:true,ef:{money:-300,energy:-14,mental:-4},edu:true}, {id:'skill',n:'📚 Học kỹ năng',c:2,ef:{energy:-10,money:-100,skill:3,mental:-2}}, {id:'gym',n:'🏋️ Tập thể dục',c:1,ef:{energy:-8,health:8,mental:6}}, {id:'sleep',n:'😴 Nghỉ ngơi',c:2,ef:{energy:35,mental:8,health:3}}, {id:'family',n:'📞 Gọi gia đình',c:1,ef:{mental:8}}, {id:'hobby',n:'🎨 Đam mê',c:2,ef:{energy:-8,money:-50,passion:10,mental:5}}, {id:'invest',n:'📈 Đầu tư',c:1,gamble:true,minMoney:1000}, {id:'movie',n:'🎬 Xem phim',c:1,transport:50,ef:{money:-150,mental:10,energy:5},ent:true}, {id:'game',n:'🎮 Chơi game',c:1,ef:{money:-200,mental:12},ent:true}, {id:'shopping',n:'🛍️ Mua sắm',c:2,transport:60,ef:{money:-500,mental:15},ent:true}, {id:'spa',n:'💆 Spa',c:2,transport:70,ef:{money:-400,mental:12,health:8,energy:10},ent:true}, {id:'travel',n:'✈️ Du lịch',c:3,transport:400,ef:{money:-2000,mental:25,energy:-8,passion:5},ent:true} ];
+const HOBBIES={ doc_sach:{n:'Đọc sách',e:'📚'},am_nhac:{n:'Âm nhạc',e:'🎵'}, the_thao:{n:'Thể thao',e:'⚽'},game:{n:'Game',e:'🎮'}, du_lich:{n:'Du lịch',e:'✈️'},nau_an:{n:'Nấu ăn',e:'🍳'}, nghe_thuat:{n:'Nghệ thuật',e:'🎨'},ca_phe:{n:'Cà phê',e:'☕'} };
+const TRAITS={ chamchi:'💪 Chăm chỉ',vuitinh:'😄 Vui tính',tramtinh:'🌙 Trầm tính', langman:'🌹 Lãng mạn',noilo:'😰 Lo lắng',thucte:'📐 Thực tế', hoatbat:'⚡ Hoạt bát',sautam:'💭 Sâu tâm',doclap:'🦅 Độc lập', quantam:'💞 Quan tâm',galant:'🎩 Ga lăng',stingy:'💰 Bủn xỉn', lanhlung:'❄️ Lạnh lùng',thamvong:'🏆 Tham vọng' };
+const HOUSES = [ {id:'none', n:'Không có', p:0, m:0}, {id:'tro', n:'Phòng trọ', p:500000, m:5}, {id:'nha_nho', n:'Nhà nhỏ', p:2000000, m:15}, {id:'biet_thu', n:'Biệt thự', p:10000000, m:40} ];
+const CARS = [ {id:'none', n:'Xe bus', p:0, tr:0}, {id:'xe_may', n:'Xe máy', p:1000000, tr:-20}, {id:'oto', n:'Ô tô', p:5000000, tr:-50}, {id:'sieu_xe', n:'Siêu xe', p:20000000, tr:-100} ];
+const BUSINESS = [ {id:'none', n:'Không có', p:0, inc:0}, {id:'tap_hoa', n:'Tạp hóa', p:3000000, inc:500000}, {id:'quan_cafe', n:'Quán Cafe', p:8000000, inc:1500000}, {id:'cong_ty', n:'Công ty', p:20000000, inc:5000000} ];
+
+const NPC_POOL=[ 
+{id:'duong',n:'Dương',av:'👨‍💻',g:'nam',age:22,job:'dev',ap:6,wl:25,edu:'dh',bg:'trungluu', per:['vuitinh','hoatbat','chamchi'],likes:['vuitinh','langman'],dis:['lanhlung'], hob:['game','am_nhac','ca_phe'],att:['nu'], views:{love:'"Yêu nên bắt đầu từ tình bạn."',career:'"Code là đam mê."',money:'"Tiết kiệm là tự do."',family:'"Gia đình là chỗ dựa."'}, bio:'IT vui tính, mọt game.', hair:'#1f2937', hairStyle:'short', shirt:'#3b82f6', pants:'#1e293b', skin:'#fcd5b5'}, 
+{id:'truong',n:'Trường',av:'👨‍🔬',g:'nam',age:26,job:'scientist',ap:6,wl:45,edu:'ts',bg:'khagia', per:['tramtinh','chamchi','sautam'],likes:['tramtinh','sautam'],dis:['hoatbat'], hob:['doc_sach','am_nhac','ca_phe'],att:['nu'], views:{love:'"Yêu là hiểu, không chiếm hữu."',career:'"Khoa học cần kiên nhẫn."',money:'"Tri thức quý hơn vàng."',family:'"Tôi trân trọng sự yên tĩnh."'}, bio:'Nhà khoa học trầm tính.', hair:'#4b5563', hairStyle:'messy', shirt:'#f1f5f9', pants:'#374151', skin:'#fcd5b5'}, 
+{id:'quang',n:'Quang',av:'👨‍💼',g:'nam',age:30,job:'ceo',ap:8,wl:85,edu:'ths',bg:'gia', per:['lanhlung','thamvong','thucte','stingy'],likes:['doclap','thamvong'],dis:['noilo','vuitinh'], hob:['doc_sach','the_thao','du_lich'],att:['nu'], views:{love:'"Hôn nhân là hợp tác."',career:'"Thành công không chờ ai."',money:'"Tiền không tự sinh ra."',family:'"Con cái cần nền tảng."'}, bio:'Giám đốc lạnh lùng, bủn xỉn.', hair:'#111827', hairStyle:'slick', shirt:'#0f172a', pants:'#111827', skin:'#fcd5b5'}, 
+{id:'hieu',n:'Hiếu',av:'👨‍🎤',g:'nam',age:24,job:'musician',ap:7,wl:8,edu:'c3',bg:'ngheo', per:['langman','sautam','doclap'],likes:['langman','sautam'],dis:['thucte','stingy'], hob:['am_nhac','nghe_thuat','ca_phe'],att:['nu','khac'], views:{love:'"Yêu là sống hết mình."',career:'"Nghệ thuật không gò bó."',money:'"Tiền không mua được cảm xúc."',family:'"Tôi cần tự do."'}, bio:'Nghệ sĩ đường phố.', hair:'#7c3aed', hairStyle:'long', shirt:'#1f2937', pants:'#374151', skin:'#fcd5b5'}, 
+{id:'khang',n:'Khang',av:'👨‍⚕️',g:'nam',age:28,job:'doctor',ap:7,wl:55,edu:'ths',bg:'khagia', per:['quantam','chamchi','noilo'],likes:['quantam','chamchi'],dis:['doclap'], hob:['doc_sach','the_thao','nau_an'],att:['nu'], views:{love:'"Tôi cần người biết quan tâm."',career:'"Cứu người là sứ mệnh."',money:'"Đủ sống là được."',family:'"Tôi muốn có con."'}, bio:'Bác sĩ ấm áp.', hair:'#1f2937', hairStyle:'short', shirt:'#f0f9ff', pants:'#334155', skin:'#fcd5b5'}, 
+{id:'nam',n:'Nam',av:'👨‍⚖️',g:'nam',age:32,job:'lawyer',ap:8,wl:90,edu:'ths',bg:'gia', per:['thucte','galant','doclap'],likes:['thucte','doclap','langman'],dis:['noilo'], hob:['doc_sach','ca_phe','du_lich'],att:['nu'], views:{love:'"Đàn ông phải ga lăng."',career:'"Công lý không thiên vị."',money:'"Tiền là công cụ."',family:'"Tôi lo cho vợ con."'}, bio:'Luật sư ga lăng.', hair:'#1f2937', hairStyle:'slick', shirt:'#0f172a', pants:'#111827', skin:'#fcd5b5'}, 
+{id:'tuan',n:'Tuấn',av:'👨‍🍳',g:'nam',age:25,job:'chef',ap:6,wl:35,edu:'c3',bg:'trungluu', per:['vuitinh','hoatbat','galant'],likes:['vuitinh','quantam'],dis:['lanhlung','stingy'], hob:['nau_an','am_nhac','ca_phe'],att:['nu','khac'], views:{love:'"Yêu là chiều người mình thương."',career:'"Đầu bếp là nghệ sĩ."',money:'"Tiền để tiêu cho người thân."',family:'"Tôi mê trẻ con."'}, bio:'Đầu bếp vui vẻ.', hair:'#1f2937', hairStyle:'short', shirt:'#f97316', pants:'#1e293b', skin:'#fcd5b5'}, 
+{id:'linh',n:'Linh',av:'👩‍🎨',g:'nu',age:22,job:'designer',ap:7,wl:30,edu:'dh',bg:'trungluu', per:['langman','sautam','doclap'],likes:['langman','sautam'],dis:['thucte','stingy'], hob:['nghe_thuat','am_nhac','ca_phe'],att:['nam','khac'], views:{love:'"Yêu là khi tim rung động."',career:'"Sáng tạo là hơi thở."',money:'"Tôi không quan tâm tiền."',family:'"Tự do trước."'}, bio:'Họa sĩ mơ mộng.', hair:'#ec4899', hairStyle:'long', shirt:'#a855f7', pants:'#4c1d95', skin:'#fcd5b5'}, 
+{id:'my',n:'My',av:'👩‍💼',g:'nu',age:24,job:'accountant',ap:7,wl:32,edu:'dh',bg:'trungluu', per:['quantam','chamchi','vuitinh'],likes:['quantam','chamchi'],dis:['doclap'], hob:['ca_phe','du_lich'],att:['nam'], views:{love:'"Yêu là cùng vun đắp."',career:'"Ổn định hơn mơ mộng."',money:'"Tiết kiệm cho tương lai."',family:'"Gia đình là ưu tiên."'}, bio:'Kế toán thân thiện.', hair:'#7c2d12', hairStyle:'ponytail', shirt:'#ec4899', pants:'#1e293b', skin:'#fcd5b5'}, 
+{id:'trang',n:'Trang',av:'👩‍🏫',g:'nu',age:26,job:'teacher',ap:8,wl:48,edu:'dh',bg:'khagia', per:['tramtinh','quantam','chamchi'],likes:['tramtinh','quantam'],dis:['hoatbat','stingy'], hob:['doc_sach','am_nhac','nau_an'],att:['nam'], views:{love:'"Tình yêu cần kiên nhẫn."',career:'"Dạy học là sứ mệnh."',money:'"Đủ sống là hạnh phúc."',family:'"Tôi yêu trẻ con."'}, bio:'Giáo viên dịu dàng.', hair:'#1e293b', hairStyle:'long', shirt:'#22c55e', pants:'#374151', skin:'#fcd5b5'}, 
+{id:'vy',n:'Vy',av:'👩‍⚕️',g:'nu',age:28,job:'doctor',ap:8,wl:75,edu:'ths',bg:'gia', per:['quantam','chamchi','noilo'],likes:['quantam','chamchi'],dis:['doclap','stingy'], hob:['doc_sach','nau_an','ca_phe'],att:['nam'], views:{love:'"Tôi muốn chồng chu đáo."',career:'"Bệnh nhân là số một."',money:'"Tiền chăm sóc người thân."',family:'"Con cái là món quà."'}, bio:'Nữ bác sĩ xinh đẹp.', hair:'#7f1d1d', hairStyle:'bun', shirt:'#f0f9ff', pants:'#334155', skin:'#fcd5b5'}, 
+{id:'mai',n:'Mai',av:'👩‍💼',g:'nu',age:30,job:'manager',ap:8,wl:95,edu:'ths',bg:'gia', per:['doclap','thamvong','lanhlung'],likes:['doclap','thamvong'],dis:['noilo','vuitinh'], hob:['doc_sach','du_lich','ca_phe'],att:['nam'], views:{love:'"Tôi không cần đàn ông."',career:'"Tham vọng là bản năng."',money:'"Độc lập tài chính."',family:'"Sự nghiệp trước."'}, bio:'Nữ giám đốc độc lập.', hair:'#111827', hairStyle:'slick', shirt:'#0f172a', pants:'#111827', skin:'#fcd5b5'}, 
+{id:'thao',n:'Thảo',av:'👩‍💰',g:'nu',age:25,job:'accountant',ap:6,wl:38,edu:'dh',bg:'trungluu', per:['thucte','chamchi','stingy'],likes:['thucte','chamchi'],dis:['hoatbat','langman'], hob:['doc_sach','nau_an'],att:['nam'], views:{love:'"Yêu phải có trách nhiệm."',career:'"Công việc trên hết."',money:'"Tiền không tự sinh."',family:'"Tôi lo cho bố mẹ."'}, bio:'Kế toán tiết kiệm.', hair:'#3f3f46', hairStyle:'ponytail', shirt:'#a78bfa', pants:'#1e293b', skin:'#fcd5b5'}, 
+{id:'ngoc',n:'Ngọc',av:'👩‍⚖️',g:'nu',age:27,job:'lawyer',ap:8,wl:88,edu:'ths',bg:'gia', per:['lanhlung','thucte','doclap'],likes:['thucte','doclap'],dis:['noilo','stingy'], hob:['doc_sach','ca_phe','du_lich'],att:['nam'], views:{love:'"Tôi cần người ngang tầm."',career:'"Chiến thắng là tất cả."',money:'"Tiền mua được quyền lực."',family:'"Chưa nghĩ đến."'}, bio:'Nữ luật sư sắc sảo.', hair:'#111827', hairStyle:'bun', shirt:'#0f172a', pants:'#1f2937', skin:'#fcd5b5'}, 
+{id:'nhi',n:'Nhi',av:'👩‍🎤',g:'nu',age:23,job:'streamer',ap:7,wl:55,edu:'c3',bg:'khagia', per:['hoatbat','vuitinh','quantam'],likes:['hoatbat','vuitinh'],dis:['tramtinh','lanhlung'], hob:['game','am_nhac'],att:['nam','khac'], views:{love:'"Yêu là cười cùng nhau."',career:'"Đam mê hơn lương."',money:'"Kiếm tiền để sống vui."',family:'"Tôi còn trẻ."'}, bio:'Streamer xinh xắn.', hair:'#ec4899', hairStyle:'long', shirt:'#fbbf24', pants:'#4c1d95', skin:'#fcd5b5'} 
+];
+
+const SCHEDULE_PREF = {
+  vuitinh: {sang:'cafe', chieu:'park', toi:'cinema'},
+  hoatbat: {sang:'gym', chieu:'park', toi:'cafe'},
+  tramtinh: {sang:'library', chieu:'library', toi:'home'},
+  sautam: {sang:'home', chieu:'cafe', toi:'library'},
+  chamchi: {sang:'gym', chieu:'work', toi:'home'},
+  thamvong: {sang:'work', chieu:'work', toi:'restaurant'},
+  langman: {sang:'cafe', chieu:'park', toi:'park'},
+  doclap: {sang:'home', chieu:'park', toi:'home'},
+  quantam: {sang:'cafe', chieu:'school', toi:'home'},
+  lanhlung: {sang:'bank', chieu:'work', toi:'home'},
+  thucte: {sang:'work', chieu:'market', toi:'home'},
+  stingy: {sang:'market', chieu:'market', toi:'home'},
+  galant: {sang:'cafe', chieu:'restaurant', toi:'cinema'},
+  noilo: {sang:'home', chieu:'hospital', toi:'home'},
+  default: {sang:'cafe', chieu:'park', toi:'home'}
+};
 
 // ═══════════ STATE ═══════════
 let S, _user;
-function newState(){ return {gender:null,name:'',hobbies:[],week:1,periods:0,job:'student',edu:'c3',eduProgress:0, st:{health:80,energy:100,mental:70,money:3000,skill:0,love:0,passion:0}, rels:{},npcRels:{},partnerId:null,children:[],log:[],ended:false,_worked:false,_schooled:false,_dated:false,currentProfiles:[],chats:{}, assets:{house:'none',car:'none',business:'none'}}; }
+function newState(){
+  return{ gender:null,name:'',hobbies:[], week:1,periods:0, job:'student',edu:'c3',eduProgress:0,
+    st:{health:80,energy:100,mental:70,money:3000,skill:0,love:0,passion:0},
+    rels:{},npcRels:{},partnerId:null,children:[], log:[],ended:false,
+    _worked:false,_schooled:false,_dated:false,
+    currentProfiles:[],chats:{}, assets:{ house:'none', car:'none', business:'none' },
+    playerPos:{x:8*TILE, y:7*TILE},
+    npcPositions:{}, npcStates:{},
+    playerAppearance: {hair:'#1f2937', hairStyle:'short', shirt:'#8b5cf6', pants:'#1e293b', skin:'#fcd5b5'},
+    moveTarget: null
+  };
+}
 
-// ═══════════ SAVE ═══════════
+// ═══════════ CLOUD SAVE ═══════════
 let _saveTimer=null;
 function setSv(s){ const el=document.getElementById('sv');if(!el)return; el.className='tag sv '+s; el.textContent={idle:'☁️',saving:'💾...',saved:'✓ Lưu',err:'⚠️ Lỗi'}[s]||'☁️'; }
-function save(){ clearTimeout(_saveTimer); setSv('saving'); _saveTimer=setTimeout(async()=>{ try{ await API.writeSave(S); setSv('saved'); try{localStorage.setItem('nhipdoi_backup_v12',JSON.stringify(S));}catch{} }catch(e){ setSv('err'); } },1500); }
-async function load(){ try{ const {save:cloud}=await API.loadSave(); if(cloud){S=cloud;return true;} }catch(e){} try{ const raw=localStorage.getItem('nhipdoi_backup_v12'); if(raw){S=JSON.parse(raw);return true;} }catch{} return false; }
+function save(){ clearTimeout(_saveTimer); setSv('saving'); _saveTimer=setTimeout(async()=>{ try{ await API.writeSave(S); setSv('saved'); }catch(e){ setSv('err'); } },1500); }
+async function load(){ try{ const {save:cloud}=await API.loadSave(); if(cloud){S=cloud;return true;} }catch(e){} return false; }
 
 // ═══════════ HELPERS ═══════════
-const clamp=(v,a=0,b=100)=>Math.max(a,Math.min(b,v)); const clampInt=v=>Math.max(-100,Math.min(100,v)); const fmt=v=>(v<0?'-':'')+Math.abs(Math.round(v)).toLocaleString('vi-VN')+'đ';
-const time=()=>{ const u=S.periods,d=Math.min(6,Math.floor(u/3)),p=u>=21?2:u%3; return{d,p,dw:['Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy','Chủ Nhật'][d],pn:['Sáng','Chiều','Tối'][p]}; };
+const clamp=(v,a=0,b=100)=>Math.max(a,Math.min(b,v));
+const clampInt=v=>Math.max(-100,Math.min(100,v));
+const fmt=v=>(v<0?'-':'')+Math.abs(Math.round(v)).toLocaleString('vi-VN')+'đ';
+const time=()=>{ const u=S.periods,d=Math.min(6,Math.floor(u/3)),p=u>=21?2:u%3; return{d,p,dw:['T2','T3','T4','T5','T6','T7','CN'][d],dwFull:['Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy','Chủ Nhật'][d],pn:['Sáng','Chiều','Tối'][p],per:p}; };
 function addLog(m,t='info'){ const tt=time(); S.log.unshift({m,t,w:S.week,d:tt.dw}); if(S.log.length>120)S.log.pop(); }
 function apply(k,v){ if(k==='money'){S.st.money=Math.round(S.st.money+v);return;} if(['skill','love','passion'].includes(k)){S.st[k]=clamp(S.st[k]+v);return;} S.st[k]=clamp(S.st[k]+v); }
 function getPartner(){return S.partnerId?S.rels[S.partnerId]:null;}
@@ -205,505 +276,796 @@ function difficulty(p){return Math.round(p.ap*3+p.wl*0.4+(EDU_RANK[p.edu]||1)*15
 function prestige(){ const assetVal = (HOUSES.find(h=>h.id===S.assets.house)?.p||0) + (CARS.find(c=>c.id===S.assets.car)?.p||0) + (BUSINESS.find(b=>b.id===S.assets.business)?.p||0); return Math.round((S.st.money + assetVal)/1200 + EDU_RANK[S.edu]*15 + S.st.skill*0.6); }
 function rejectChance(p){ const need=difficulty(p)*1.2,pre=prestige(); if(pre>=need)return 0; return Math.min(0.9,(need-pre)/need*0.9); }
 
-// ═══════════ WORLD 2D ═══════════
-const CV = document.getElementById('world');
-const CX = CV.getContext('2d');
-const WORLD_BUILDINGS = [
-  {id:'home', x:40, y:30, w:120, h:80, label:'🏠 Nhà', color:'#4c1d95'},
-  {id:'work', x:200, y:30, w:130, h:80, label:'🏢 Công ty', color:'#1e40af'},
-  {id:'cafe', x:370, y:30, w:120, h:80, label:'☕ Cafe', color:'#78350f'},
-  {id:'park', x:530, y:30, w:150, h:80, label:'🌳 Công viên', color:'#065f46'},
-  {id:'gym', x:720, y:30, w:130, h:80, label:'🏋️ Gym', color:'#7f1d1d'},
-  {id:'shop', x:40, y:200, w:130, h:80, label:'🛍️ Shop', color:'#831843'},
-  {id:'school', x:210, y:200, w:140, h:80, label:'🎓 Trường', color:'#1e3a8a'},
-  {id:'hospital', x:390, y:200, w:140, h:80, label:'🏥 Bệnh viện', color:'#991b1b'},
-  {id:'bank', x:570, y:200, w:130, h:80, label:'🏦 Ngân hàng', color:'#065f46'},
-  {id:'mall', x:740, y:200, w:120, h:80, label:'🏬 Mall', color:'#7c2d12'},
-  {id:'restaurant', x:40, y:320, w:140, h:60, label:'🍽️ Nhà hàng', color:'#831843'},
-  {id:'cinema', x:220, y:320, w:130, h:60, label:'🎬 Rạp phim', color:'#1e293b'},
-  {id:'library', x:390, y:320, w:140, h:60, label:'📚 Thư viện', color:'#78350f'},
-  {id:'plaza', x:570, y:320, w:290, h:60, label:'🏛️ Quảng trường', color:'#334155'},
-];
-const WORLD_PATHS = [
-  {x:0, y:110, w:900, h:90},
-  {x:0, y:280, w:900, h:40},
-];
-const world = {
-  player: {x:450, y:270, r:15, speed:2.6, dir:'down', bob:0, emoji:'🧑'},
-  npcs: [],
-  keys: {up:false, down:false, left:false, right:false},
-  nearNpc: null,
-  lastTime: 0,
-  initialized: false
-};
+// ═══════════ CANVAS ═══════════
+const canvas = document.getElementById('world');
+const ctx = canvas.getContext('2d');
+let camera = {x:0, y:0};
 
-function getNpcBehavior(r) {
-  const per = r.per || [];
-  let b = {roam: 100, speed: 1.2, social: 0.4, avoid: false, preferredArea: null};
-  if (per.includes('hoatbat') || per.includes('vuitinh')) b = {roam: 220, speed: 2.0, social: 0.85, avoid: false, preferredArea: 'plaza'};
-  else if (per.includes('tramtinh') || per.includes('sautam')) b = {roam: 60, speed: 0.7, social: 0.15, avoid: false, preferredArea: 'library'};
-  else if (per.includes('lanhlung')) b = {roam: 100, speed: 1.0, social: 0.05, avoid: true, preferredArea: 'park'};
-  else if (per.includes('langman')) b = {roam: 160, speed: 1.5, social: 0.95, avoid: false, preferredArea: 'cafe'};
-  else if (per.includes('noilo')) b = {roam: 140, speed: 2.2, social: 0.5, avoid: false, preferredArea: 'hospital'};
-  else if (per.includes('thamvong')) b = {roam: 130, speed: 1.6, social: 0.3, avoid: false, preferredArea: 'work'};
-  else if (per.includes('stingy')) b = {roam: 90, speed: 1.1, social: 0.3, avoid: false, preferredArea: 'bank'};
-  else if (per.includes('chamchi')) b = {roam: 130, speed: 1.4, social: 0.5, avoid: false, preferredArea: 'work'};
-  else if (per.includes('galant')) b = {roam: 150, speed: 1.5, social: 0.7, avoid: false, preferredArea: 'restaurant'};
-  else if (per.includes('quantam')) b = {roam: 130, speed: 1.3, social: 0.7, avoid: false, preferredArea: 'home'};
-  return b;
-}
-
-function findBuilding(id) { return WORLD_BUILDINGS.find(b => b.id === id); }
-
-function initWorldFromRels() {
-  world.npcs = [];
-  const rels = Object.values(S.rels);
-  rels.forEach((r, i) => {
-    const behavior = getNpcBehavior(r);
-    const prefB = behavior.preferredArea ? findBuilding(behavior.preferredArea) : null;
-    let homeX, homeY;
-    if (prefB) {
-      homeX = prefB.x + prefB.w/2 + (Math.random()-0.5)*30;
-      homeY = prefB.y + prefB.h + 40;
-    } else {
-      homeX = 100 + (i % 6) * 130;
-      homeY = 150 + Math.floor(i/6) * 100;
+// ═══════════ TILE DRAWING ═══════════
+function drawTile(x, y, type, t){
+  const px = x*TILE, py = y*TILE;
+  if(type===0){ // grass
+    ctx.fillStyle = '#2d6a4f'; ctx.fillRect(px,py,TILE,TILE);
+    ctx.fillStyle = '#40916c';
+    ctx.fillRect(px+2,py+2,TILE-4,2); ctx.fillRect(px+2,py+TILE-4,TILE-4,2);
+    // Grass blades
+    ctx.strokeStyle = '#52b788'; ctx.lineWidth = 1;
+    for(let i=0;i<3;i++){
+      const gx = px + 4 + (i*10)%24;
+      const gy = py + 8 + (i*7)%16;
+      ctx.beginPath(); ctx.moveTo(gx,gy); ctx.lineTo(gx-1,gy-3); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(gx+3,gy); ctx.lineTo(gx+4,gy-2); ctx.stroke();
     }
-    world.npcs.push({
-      relId: r.id, av: r.av, n: r.n, g: r.g,
-      x: homeX, y: homeY, homeX, homeY,
-      tx: homeX, ty: homeY,
-      dir: 'down', bob: Math.random()*6,
-      behavior,
-      idleTime: Math.random() * 3,
-      mood: r.angry ? 'angry' : (r.love > 60 ? 'happy' : 'neutral')
-    });
-  });
-}
-
-function addNpcToWorld(r) {
-  const behavior = getNpcBehavior(r);
-  const prefB = behavior.preferredArea ? findBuilding(behavior.preferredArea) : null;
-  let homeX, homeY;
-  if (prefB) {
-    homeX = prefB.x + prefB.w/2;
-    homeY = prefB.y + prefB.h + 40;
-  } else {
-    homeX = 450; homeY = 250;
+  } else if(type===1){ // road
+    ctx.fillStyle = '#3d3d3d'; ctx.fillRect(px,py,TILE,TILE);
+    ctx.fillStyle = '#4a4a4a'; ctx.fillRect(px+1,py+1,TILE-2,TILE-2);
+    ctx.fillStyle = '#6b6b6b';
+    ctx.fillRect(px+4,py+TILE/2-1,10,2); ctx.fillRect(px+20,py+TILE/2-1,10,2);
+  } else if(type===2){ // water
+    ctx.fillStyle = '#1e40af'; ctx.fillRect(px,py,TILE,TILE);
+    const w = Math.sin(t/500 + x*0.5 + y*0.3)*2;
+    ctx.fillStyle = '#3b82f6';
+    ctx.beginPath(); ctx.ellipse(px+8+w,py+10,8,2,0,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(px+22-w,py+22,6,1.5,0,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#60a5fa';
+    ctx.beginPath(); ctx.ellipse(px+14,py+18+w,4,1,0,0,Math.PI*2); ctx.fill();
+  } else if(type===3){ // sand
+    ctx.fillStyle = '#d4a574'; ctx.fillRect(px,py,TILE,TILE);
+    ctx.fillStyle = '#b8935f';
+    ctx.fillRect(px+4,py+6,2,2); ctx.fillRect(px+20,py+18,2,2);
+  } else if(type===4){ // flower grass
+    ctx.fillStyle = '#2d6a4f'; ctx.fillRect(px,py,TILE,TILE);
+    ctx.fillStyle = '#40916c'; ctx.fillRect(px+2,py+2,TILE-4,2);
+    const colors = ['#f472b6','#facc15','#fb923c','#a78bfa'];
+    for(let i=0;i<4;i++){
+      const fx = px+4+(i*8)%24, fy = py+6+(i*5)%20;
+      ctx.fillStyle = colors[i%4];
+      ctx.beginPath(); ctx.arc(fx,fy,2,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#fff';
+      ctx.beginPath(); ctx.arc(fx,fy,0.8,0,Math.PI*2); ctx.fill();
+    }
+  } else if(type===5){ // path
+    ctx.fillStyle = '#a16207'; ctx.fillRect(px,py,TILE,TILE);
+    ctx.fillStyle = '#ca8a04';
+    ctx.fillRect(px+1,py+1,TILE-2,TILE-2);
   }
-  world.npcs.push({
-    relId: r.id, av: r.av, n: r.n, g: r.g,
-    x: homeX, y: homeY, homeX, homeY,
-    tx: homeX, ty: homeY,
-    dir: 'down', bob: Math.random()*6,
-    behavior, idleTime: Math.random()*3,
-    mood: 'neutral'
-  });
 }
 
-function removeNpcFromWorld(relId) {
-  world.npcs = world.npcs.filter(n => n.relId !== relId);
+// ═══════════ BUILDING DRAWING ═══════════
+function drawBuilding(loc, t){
+  const px = loc.x*TILE, py = loc.y*TILE, w = loc.w*TILE, h = loc.h*TILE;
+  const roofH = 14;
+  const bodyY = py + roofH;
+  const bodyH = h - roofH;
+  
+  // Shadow
+  ctx.fillStyle = 'rgba(0,0,0,.35)';
+  ctx.fillRect(px+4, py+6, w, h);
+  
+  // Body
+  ctx.fillStyle = loc.color;
+  ctx.fillRect(px, bodyY, w, bodyH);
+  // Body border
+  ctx.strokeStyle = 'rgba(0,0,0,.5)'; ctx.lineWidth = 2;
+  ctx.strokeRect(px+1, bodyY+1, w-2, bodyH-2);
+  // Windows
+  const winCols = Math.max(2, Math.floor(w/22));
+  for(let i=0;i<winCols;i++){
+    const wx = px + 6 + i*(w-12)/winCols;
+    const wy = bodyY + 8;
+    ctx.fillStyle = 'rgba(255,255,220,.85)';
+    ctx.fillRect(wx, wy, 8, 8);
+    ctx.strokeStyle = 'rgba(0,0,0,.4)'; ctx.lineWidth = 1;
+    ctx.strokeRect(wx+0.5, wy+0.5, 7, 7);
+  }
+  // Door
+  const doorW = 12, doorH = Math.min(16, bodyH-18);
+  const dx = px + w/2 - doorW/2;
+  const dy = bodyY + bodyH - doorH - 2;
+  ctx.fillStyle = '#3f2314';
+  ctx.fillRect(dx, dy, doorW, doorH);
+  ctx.fillStyle = '#facc15';
+  ctx.beginPath(); ctx.arc(dx+doorW-3, dy+doorH/2, 1.2, 0, Math.PI*2); ctx.fill();
+  
+  // Roof
+  ctx.fillStyle = loc.roof;
+  ctx.beginPath();
+  ctx.moveTo(px-3, bodyY);
+  ctx.lineTo(px + w/2, py);
+  ctx.lineTo(px + w + 3, bodyY);
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(0,0,0,.5)'; ctx.lineWidth = 2;
+  ctx.stroke();
+  // Roof tiles lines
+  ctx.strokeStyle = 'rgba(0,0,0,.25)'; ctx.lineWidth = 1;
+  for(let i=1;i<4;i++){
+    const rx = px + i*w/4;
+    ctx.beginPath(); ctx.moveTo(rx, bodyY); ctx.lineTo(px + w/2 + (i-2)*w/8, py + roofH*i/4); ctx.stroke();
+  }
+  
+  // Sign board
+  ctx.fillStyle = 'rgba(15,23,42,.9)';
+  const signW = Math.min(w-8, ctx.measureText(loc.name).width + 40);
+  ctx.fillRect(px + w/2 - signW/2, bodyY + 2, signW, 12);
+  ctx.fillStyle = '#facc15';
+  ctx.font = 'bold 9px sans-serif';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText(loc.emoji + ' ' + loc.name, px + w/2, bodyY + 8);
 }
 
-function inBuilding(x, y, pad=10) {
-  for (const b of WORLD_BUILDINGS) {
-    if (x > b.x - pad && x < b.x + b.w + pad && y > b.y - pad && y < b.y + b.h + pad) return true;
+// ═══════════ CHARACTER DRAWING ═══════════
+function drawCharacter(char, px, py, facing, walking, frame){
+  const cx = px + TILE/2;
+  const bob = walking ? Math.sin(frame*0.35)*1.2 : Math.sin(Date.now()/500)*0.4;
+  const legSwing = walking ? Math.sin(frame*0.35)*3.5 : 0;
+  const armSwing = walking ? Math.sin(frame*0.35)*3 : 0;
+  const cy = py + TILE/2 + bob;
+  
+  // Shadow
+  ctx.fillStyle = 'rgba(0,0,0,.4)';
+  ctx.beginPath();
+  ctx.ellipse(cx, py+TILE-2, 9, 3, 0, 0, Math.PI*2);
+  ctx.fill();
+  
+  // ---- LEGS ----
+  // Back leg
+  ctx.fillStyle = shade(char.pants, -20);
+  ctx.strokeStyle = 'rgba(0,0,0,.55)'; ctx.lineWidth = 1.2;
+  ctx.beginPath(); ctx.roundRect(cx-5, cy+6+legSwing, 4, 9, 1); ctx.fill(); ctx.stroke();
+  // Front leg
+  ctx.fillStyle = char.pants;
+  ctx.beginPath(); ctx.roundRect(cx+1, cy+6-legSwing, 4, 9, 1); ctx.fill(); ctx.stroke();
+  // Shoes
+  ctx.fillStyle = '#1e1b17';
+  ctx.beginPath(); ctx.roundRect(cx-5.5, cy+13+legSwing, 5, 3, 1); ctx.fill();
+  ctx.beginPath(); ctx.roundRect(cx+0.5, cy+13-legSwing, 5, 3, 1); ctx.fill();
+  
+  // ---- BODY ----
+  ctx.fillStyle = char.shirt;
+  ctx.beginPath(); ctx.roundRect(cx-7, cy-4, 14, 11, 3); ctx.fill();
+  ctx.strokeStyle = 'rgba(0,0,0,.55)'; ctx.lineWidth = 1.2; ctx.stroke();
+  
+  // ---- ARMS ----
+  // Back arm
+  ctx.fillStyle = shade(char.shirt, -20);
+  ctx.beginPath(); ctx.roundRect(cx-9, cy-3+armSwing, 3.5, 9, 1.5); ctx.fill(); ctx.stroke();
+  // Front arm
+  ctx.fillStyle = char.shirt;
+  ctx.beginPath(); ctx.roundRect(cx+5.5, cy-3-armSwing, 3.5, 9, 1.5); ctx.fill(); ctx.stroke();
+  // Hands (skin)
+  ctx.fillStyle = char.skin;
+  ctx.beginPath(); ctx.arc(cx-7.2, cy+6+armSwing, 1.8, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+  ctx.beginPath(); ctx.arc(cx+7.2, cy+6-armSwing, 1.8, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+  
+  // ---- HEAD ----
+  ctx.fillStyle = char.skin;
+  ctx.beginPath(); ctx.arc(cx, cy-11, 8, 0, Math.PI*2); ctx.fill();
+  ctx.strokeStyle = 'rgba(0,0,0,.55)'; ctx.lineWidth = 1.2; ctx.stroke();
+  
+  // ---- HAIR ----
+  drawHair(char, cx, cy-11, facing);
+  
+  // ---- FACE ----
+  if(facing !== 'up'){
+    // Eyes
+    const eyeY = cy-12;
+    let eyeOffsetX = 0;
+    if(facing === 'left') eyeOffsetX = -1.5;
+    if(facing === 'right') eyeOffsetX = 1.5;
+    
+    ctx.fillStyle = '#1f2937';
+    // Left eye
+    ctx.beginPath(); ctx.ellipse(cx-3+eyeOffsetX, eyeY, 1.1, 1.4, 0, 0, Math.PI*2); ctx.fill();
+    // Right eye
+    ctx.beginPath(); ctx.ellipse(cx+3+eyeOffsetX, eyeY, 1.1, 1.4, 0, 0, Math.PI*2); ctx.fill();
+    // Eye highlight
+    ctx.fillStyle = '#fff';
+    ctx.beginPath(); ctx.arc(cx-3.3+eyeOffsetX, eyeY-0.5, 0.4, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(cx+2.7+eyeOffsetX, eyeY-0.5, 0.4, 0, Math.PI*2); ctx.fill();
+    
+    // Blush
+    ctx.fillStyle = 'rgba(244,114,182,.35)';
+    ctx.beginPath(); ctx.arc(cx-5, cy-9, 1.5, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(cx+5, cy-9, 1.5, 0, Math.PI*2); ctx.fill();
+    
+    // Mouth
+    ctx.strokeStyle = '#7c2d12'; ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.arc(cx, cy-9, 1.5, 0.15*Math.PI, 0.85*Math.PI);
+    ctx.stroke();
+  } else {
+    // Back of head (just hair, no face)
+  }
+}
+
+function drawHair(char, cx, cy, facing){
+  ctx.fillStyle = char.hair;
+  ctx.strokeStyle = 'rgba(0,0,0,.6)'; ctx.lineWidth = 1.2;
+  
+  const style = char.hairStyle || 'short';
+  if(style === 'short'){
+    ctx.beginPath();
+    ctx.arc(cx, cy-1, 8, Math.PI, 0);
+    ctx.lineTo(cx+8, cy+1);
+    ctx.lineTo(cx-8, cy+1);
+    ctx.closePath();
+    ctx.fill(); ctx.stroke();
+    // Side tuft
+    ctx.beginPath(); ctx.arc(cx-6, cy-1, 2.5, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(cx+6, cy-1, 2.5, 0, Math.PI*2); ctx.fill();
+  } else if(style === 'long'){
+    ctx.beginPath();
+    ctx.arc(cx, cy-1, 8, Math.PI, 0);
+    ctx.lineTo(cx+9, cy+8);
+    ctx.lineTo(cx-9, cy+8);
+    ctx.closePath();
+    ctx.fill(); ctx.stroke();
+  } else if(style === 'ponytail'){
+    ctx.beginPath();
+    ctx.arc(cx, cy-1, 8, Math.PI, 0);
+    ctx.lineTo(cx+8, cy+1); ctx.lineTo(cx-8, cy+1);
+    ctx.closePath(); ctx.fill(); ctx.stroke();
+    // Ponytail
+    ctx.beginPath();
+    ctx.ellipse(cx+9, cy+2, 3, 5, 0.3, 0, Math.PI*2);
+    ctx.fill(); ctx.stroke();
+  } else if(style === 'bun'){
+    ctx.beginPath();
+    ctx.arc(cx, cy-1, 8, Math.PI, 0);
+    ctx.lineTo(cx+8, cy+1); ctx.lineTo(cx-8, cy+1);
+    ctx.closePath(); ctx.fill(); ctx.stroke();
+    // Bun on top
+    ctx.beginPath(); ctx.arc(cx, cy-8, 4, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+  } else if(style === 'messy'){
+    ctx.beginPath();
+    ctx.arc(cx, cy-1, 8, Math.PI, 0);
+    ctx.lineTo(cx+8, cy+1); ctx.lineTo(cx-8, cy+1);
+    ctx.closePath(); ctx.fill(); ctx.stroke();
+    // Messy spikes
+    ctx.beginPath(); ctx.moveTo(cx-5,cy-8); ctx.lineTo(cx-3,cy-11); ctx.lineTo(cx-1,cy-8); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(cx+1,cy-8); ctx.lineTo(cx+4,cy-11); ctx.lineTo(cx+6,cy-8); ctx.fill();
+  } else if(style === 'slick'){
+    ctx.beginPath();
+    ctx.arc(cx, cy-1, 8, Math.PI, 0);
+    ctx.lineTo(cx+8, cy+1); ctx.lineTo(cx-8, cy+1);
+    ctx.closePath(); ctx.fill(); ctx.stroke();
+    // Part line
+    ctx.strokeStyle = 'rgba(255,255,255,.2)'; ctx.lineWidth = 0.8;
+    ctx.beginPath(); ctx.moveTo(cx-2, cy-8); ctx.lineTo(cx-3, cy-4); ctx.stroke();
+  }
+}
+
+function shade(hex, amt){
+  const num = parseInt(hex.slice(1),16);
+  let r = (num>>16) + amt, g = ((num>>8)&0xff) + amt, b = (num&0xff) + amt;
+  r = Math.max(0, Math.min(255, r)); g = Math.max(0, Math.min(255, g)); b = Math.max(0, Math.min(255, b));
+  return '#' + ((r<<16)|(g<<8)|b).toString(16).padStart(6,'0');
+}
+
+function drawEmotionBubble(px, py, emoji){
+  if(!emoji) return;
+  const cx = px + TILE/2;
+  const cy = py - 10;
+  ctx.fillStyle = 'rgba(255,255,255,.95)';
+  ctx.strokeStyle = 'rgba(0,0,0,.5)'; ctx.lineWidth = 1.2;
+  ctx.beginPath(); ctx.arc(cx, cy, 10, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(cx-4, cy+8); ctx.lineTo(cx, cy+14); ctx.lineTo(cx+4, cy+8);
+  ctx.fill(); ctx.stroke();
+  ctx.font = '12px serif';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText(emoji, cx, cy);
+}
+
+function drawNameTag(px, py, name, color){
+  ctx.font = 'bold 9px sans-serif';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  const w = ctx.measureText(name).width + 10;
+  ctx.fillStyle = color || 'rgba(15,23,42,.9)';
+  ctx.strokeStyle = 'rgba(255,255,255,.2)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.roundRect(px + TILE/2 - w/2, py - 24, w, 13, 3); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#fff';
+  ctx.fillText(name, px + TILE/2, py - 17);
+}
+
+function drawWorld(t){
+  const W = canvas.width, H = canvas.height;
+  const targetX = S.playerPos.x - W/2 + TILE/2;
+  const targetY = S.playerPos.y - H/2 + TILE/2;
+  camera.x += (targetX - camera.x) * 0.15;
+  camera.y += (targetY - camera.y) * 0.15;
+  camera.x = Math.max(0, Math.min(MAP_W*TILE - W, camera.x));
+  camera.y = Math.max(0, Math.min(MAP_H*TILE - H, camera.y));
+  
+  ctx.fillStyle = '#0b1220';
+  ctx.fillRect(0,0,W,H);
+  
+  ctx.save();
+  ctx.translate(-camera.x, -camera.y);
+  
+  // Tiles
+  for(let y=0;y<MAP_H;y++) for(let x=0;x<MAP_W;x++) drawTile(x,y,MAP_DATA[y][x],t);
+  
+  // Move target marker
+  if(S.moveTarget){
+    const mx = S.moveTarget.x + TILE/2, my = S.moveTarget.y + TILE/2;
+    ctx.strokeStyle = 'rgba(250,204,21,' + (0.4 + Math.sin(t/200)*0.3) + ')';
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(mx, my, 8 + Math.sin(t/200)*2, 0, Math.PI*2); ctx.stroke();
+    ctx.fillStyle = 'rgba(250,204,21,.6)';
+    ctx.beginPath(); ctx.arc(mx, my, 2, 0, Math.PI*2); ctx.fill();
+  }
+  
+  // Buildings (background layer)
+  for(const loc of Object.values(LOCATIONS)) drawBuilding(loc, t);
+  
+  // NPCs (chỉ những đã kết bạn)
+  const npcsToDraw = [];
+  for(const r of Object.values(S.rels)){
+    const pos = S.npcPositions[r.id];
+    if(!pos) continue;
+    const npcData = NPC_POOL.find(p=>p.id===r.pid);
+    if(!npcData) continue;
+    npcsToDraw.push({r, pos, npcData, y: pos.y});
+  }
+  // Sắp xếp theo y để NPC ở dưới vẽ sau
+  npcsToDraw.sort((a,b)=>a.y-b.y);
+  for(const {r, pos, npcData} of npcsToDraw){
+    const st = S.npcStates[r.id] || {};
+    const facing = st.facing || 'down';
+    const walking = st.walking || false;
+    const frame = st.frame || 0;
+    drawCharacter(npcData, pos.x, pos.y, facing, walking, frame);
+    
+    let emo = '';
+    if(r.angry) emo = '😡';
+    else if(r.expecting) emo = '🤰';
+    else if(r.stage === 'married' && S.partnerId === r.id) emo = '💗';
+    else if(r.love > 70) emo = '😊';
+    else if(r.love < 20) emo = '😔';
+    else if(r.stage === 'crush' || r.stage === 'dating') emo = '💕';
+    if(emo) drawEmotionBubble(pos.x, pos.y, emo);
+    
+    drawNameTag(pos.x, pos.y, r.n, r.angry ? 'rgba(127,29,29,.9)' : 'rgba(15,23,42,.9)');
+  }
+  
+  // Player
+  drawCharacter(S.playerAppearance, S.playerPos.x, S.playerPos.y, playerState.facing, playerState.walking, playerState.frame);
+  drawNameTag(S.playerPos.x, S.playerPos.y, S.name || 'Bạn', 'rgba(139,92,246,.95)');
+  
+  ctx.restore();
+}
+
+// ═══════════ PLAYER MOVEMENT ═══════════
+const playerState = {facing:'down', walking:false, frame:0, speed:2.4};
+const keys = {up:false, down:false, left:false, right:false};
+
+function updatePlayer(){
+  // Nếu có lệnh auto-move và không có phím nào bấm
+  const anyKey = keys.up || keys.down || keys.left || keys.right;
+  if(S.moveTarget && !anyKey){
+    const dx = S.moveTarget.x - S.playerPos.x;
+    const dy = S.moveTarget.y - S.playerPos.y;
+    const dist = Math.hypot(dx, dy);
+    if(dist < 4){
+      S.moveTarget = null;
+      playerState.walking = false;
+      playerState.frame = 0;
+    } else {
+      const vx = dx/dist * playerState.speed;
+      const vy = dy/dist * playerState.speed;
+      const newX = S.playerPos.x + vx;
+      const newY = S.playerPos.y + vy;
+      if(!isBlocked(newX, S.playerPos.y)) S.playerPos.x = newX;
+      if(!isBlocked(S.playerPos.x, newY)) S.playerPos.y = newY;
+      playerState.walking = true;
+      playerState.frame++;
+      if(Math.abs(dx) > Math.abs(dy)) playerState.facing = dx > 0 ? 'right' : 'left';
+      else playerState.facing = dy > 0 ? 'down' : 'up';
+    }
+    return;
+  }
+  
+  let dx=0, dy=0;
+  if(keys.up){dy-=1; playerState.facing='up';}
+  if(keys.down){dy+=1; playerState.facing='down';}
+  if(keys.left){dx-=1; playerState.facing='left';}
+  if(keys.right){dx+=1; playerState.facing='right';}
+  
+  if(dx!==0 || dy!==0){
+    S.moveTarget = null; // hủy auto-move khi bấm phím
+    const len = Math.hypot(dx,dy);
+    dx = dx/len * playerState.speed;
+    dy = dy/len * playerState.speed;
+    playerState.walking = true;
+    playerState.frame++;
+  } else {
+    playerState.walking = false;
+    playerState.frame = 0;
+  }
+  
+  const newX = S.playerPos.x + dx;
+  const newY = S.playerPos.y + dy;
+  if(!isBlocked(newX, S.playerPos.y)) S.playerPos.x = newX;
+  if(!isBlocked(S.playerPos.x, newY)) S.playerPos.y = newY;
+  
+  S.playerPos.x = Math.max(0, Math.min(MAP_W*TILE - TILE, S.playerPos.x));
+  S.playerPos.y = Math.max(0, Math.min(MAP_H*TILE - TILE, S.playerPos.y));
+}
+
+function isBlocked(x, y){
+  const tx = Math.floor((x + TILE/2) / TILE);
+  const ty = Math.floor((y + TILE/2) / TILE);
+  if(tx<0 || tx>=MAP_W || ty<0 || ty>=MAP_H) return true;
+  if(MAP_DATA[ty][tx] === 2) return true;
+  // Building collision
+  for(const loc of Object.values(LOCATIONS)){
+    if(tx >= loc.x && tx < loc.x+loc.w && ty >= loc.y && ty < loc.y+loc.h) return true;
   }
   return false;
 }
 
-function updateWorld(dt) {
-  const p = world.player;
-  if (!S || !S.gender) { p.emoji = '🧑'; return; }
-  if (S.gender === 'nu') p.emoji = '👩';
-  else if (S.gender === 'khac') p.emoji = '🧑‍🎤';
-  else p.emoji = '👨';
-
-  // Player movement
-  let dx = 0, dy = 0;
-  if (world.keys.up) dy -= 1;
-  if (world.keys.down) dy += 1;
-  if (world.keys.left) dx -= 1;
-  if (world.keys.right) dx += 1;
-  if (dx && dy) { dx *= 0.707; dy *= 0.707; }
-  const nx = p.x + dx * p.speed;
-  const ny = p.y + dy * p.speed;
-  if (!inBuilding(nx, p.y, 5)) p.x = Math.max(20, Math.min(880, nx));
-  if (!inBuilding(p.x, ny, 5)) p.y = Math.max(20, Math.min(380, ny));
-  if (dx || dy) {
-    p.bob += 0.25;
-    if (Math.abs(dx) > Math.abs(dy)) p.dir = dx > 0 ? 'right' : 'left';
-    else p.dir = dy > 0 ? 'down' : 'up';
-  } else p.bob *= 0.9;
-
-  // NPCs
-  let nearest = null, nearestDist = 75;
-  for (const npc of world.npcs) {
-    const pdx = p.x - npc.x, pdy = p.y - npc.y;
-    const pd = Math.hypot(pdx, pdy);
-    if (pd < nearestDist) { nearestDist = pd; nearest = npc; }
-
-    const b = npc.behavior;
-    let targetX = npc.tx, targetY = npc.ty;
-
-    // Personality-driven interaction with player
-    if (pd < 200) {
-      if (b.avoid) {
-        targetX = npc.x - pdx * 3;
-        targetY = npc.y - pdy * 3;
-      } else if (pd < 130 && Math.random() < b.social * 0.03) {
-        targetX = p.x + (Math.random()-0.5)*30;
-        targetY = p.y + (Math.random()-0.5)*30;
-      }
+function getPlayerLocation(){
+  const px = S.playerPos.x + TILE/2;
+  const py = S.playerPos.y + TILE/2;
+  // Kiểm tra xem có đứng gần building không (bán kính 1 ô)
+  for(const [key, loc] of Object.entries(LOCATIONS)){
+    if(px >= (loc.x-1)*TILE && px <= (loc.x+loc.w+1)*TILE && py >= (loc.y-1)*TILE && py <= (loc.y+loc.h+1)*TILE){
+      return {key, loc};
     }
+  }
+  return {key:'road', loc:{name:'Ngoài đường', emoji:'🛣️'}};
+}
 
-    const dtx = targetX - npc.x, dty = targetY - npc.y;
-    const dtd = Math.hypot(dtx, dty);
+// Click on canvas to move
+function canvasClick(e){
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
+  let clientX, clientY;
+  if(e.touches && e.touches[0]){
+    clientX = e.touches[0].clientX - rect.left;
+    clientY = e.touches[0].clientY - rect.top;
+  } else {
+    clientX = e.clientX - rect.left;
+    clientY = e.clientY - rect.top;
+  }
+  const worldX = clientX * scaleX + camera.x;
+  const worldY = clientY * scaleY + camera.y;
+  const tx = Math.floor(worldX / TILE) * TILE;
+  const ty = Math.floor(worldY / TILE) * TILE;
+  // Kiểm tra vị trí có đi được không
+  if(!isBlocked(tx, ty)){
+    S.moveTarget = {x: tx, y: ty};
+  }
+}
+canvas.addEventListener('click', canvasClick);
+canvas.addEventListener('touchstart', (e)=>{ e.preventDefault(); canvasClick(e); }, {passive:false});
 
-    if (dtd < 4) {
-      npc.idleTime -= dt;
-      if (npc.idleTime <= 0) {
-        const ang = Math.random() * Math.PI * 2;
-        const rad = Math.random() * b.roam;
-        npc.tx = npc.homeX + Math.cos(ang) * rad;
-        npc.ty = npc.homeY + Math.sin(ang) * rad;
-        npc.tx = Math.max(20, Math.min(880, npc.tx));
-        npc.ty = Math.max(20, Math.min(380, npc.ty));
-        npc.idleTime = 1.5 + Math.random() * 3;
-      }
+// ═══════════ NPC AI ═══════════
+function getNpcTargetLocation(npcData, period){
+  const traits = npcData.per || [];
+  const prefs = [];
+  for(const t of traits){ if(SCHEDULE_PREF[t]) prefs.push(SCHEDULE_PREF[t]); }
+  if(prefs.length === 0) prefs.push(SCHEDULE_PREF.default);
+  const pref = prefs[Math.floor(Math.random()*prefs.length)];
+  const locKey = period === 0 ? pref.sang : period === 1 ? pref.chieu : pref.toi;
+  return LOCATIONS[locKey] || LOCATIONS.home;
+}
+
+function initNpcPositions(){
+  for(const r of Object.values(S.rels)){
+    if(!S.npcPositions[r.id]){
+      // Random spawn gần lối vào của building (ngoài chút)
+      const locs = Object.values(LOCATIONS);
+      const loc = locs[Math.floor(Math.random()*locs.length)];
+      S.npcPositions[r.id] = {
+        x: (loc.x + Math.random()*loc.w) * TILE,
+        y: (loc.y + loc.h + 1 + Math.random()) * TILE
+      };
+    }
+    if(!S.npcStates[r.id]){
+      S.npcStates[r.id] = {facing:'down', walking:false, frame:0, target:null, idleTimer:0};
+    }
+  }
+}
+
+function updateNpcs(){
+  const t = time();
+  const period = t.per;
+  for(const r of Object.values(S.rels)){
+    const pos = S.npcPositions[r.id];
+    const state = S.npcStates[r.id];
+    const npcData = NPC_POOL.find(p=>p.id===r.pid);
+    if(!pos || !state || !npcData) continue;
+    
+    if(!state.target){
+      if(state.idleTimer > 0){ state.idleTimer--; state.walking = false; continue; }
+      const targetLoc = getNpcTargetLocation(npcData, period);
+      // Di chuyển đến trước cửa building
+      let tx, ty, tries = 0;
+      do {
+        tx = (targetLoc.x + Math.random()*targetLoc.w) * TILE;
+        ty = (targetLoc.y + targetLoc.h + 0.5 + Math.random()*1.5) * TILE;
+        tries++;
+      } while(isBlocked(tx, ty) && tries < 10);
+      state.target = {x: tx, y: ty};
+    }
+    
+    const dx = state.target.x - pos.x;
+    const dy = state.target.y - pos.y;
+    const dist = Math.hypot(dx, dy);
+    
+    if(dist < 6){
+      state.target = null;
+      state.walking = false;
+      state.idleTimer = 120 + Math.random()*240;
     } else {
-      const spd = b.speed * 45 * dt;
-      const nx2 = npc.x + (dtx / dtd) * spd;
-      const ny2 = npc.y + (dty / dtd) * spd;
-      if (!inBuilding(nx2, npc.y, 5)) npc.x = Math.max(20, Math.min(880, nx2));
-      if (!inBuilding(npc.x, ny2, 5)) npc.y = Math.max(20, Math.min(380, ny2));
-      npc.bob += 0.2;
-      if (Math.abs(dtx) > Math.abs(dty)) npc.dir = dtx > 0 ? 'right' : 'left';
-      else npc.dir = dty > 0 ? 'down' : 'up';
-    }
-
-    // Update mood based on rel
-    const rel = S.rels[npc.relId];
-    if (rel) npc.mood = rel.angry ? 'angry' : (rel.love > 60 ? 'happy' : (rel.love < 0 ? 'sad' : 'neutral'));
-  }
-
-  world.nearNpc = nearest;
-  const ib = document.getElementById('interactBtn');
-  if (nearest) {
-    ib.classList.add('on');
-    ib.textContent = '💬 Nói với ' + nearest.n;
-  } else {
-    ib.classList.remove('on');
-  }
-}
-
-function drawWorld() {
-  const w = CV.width, h = CV.height;
-  // Grass
-  CX.fillStyle = '#14532d';
-  CX.fillRect(0, 0, w, h);
-  // Grass pattern
-  CX.fillStyle = 'rgba(255,255,255,0.03)';
-  for (let x = 0; x < w; x += 24) {
-    for (let y = 0; y < h; y += 24) {
-      if ((x/24 + y/24) % 2 === 0) CX.fillRect(x, y, 24, 24);
+      const speed = 1.1 + Math.random()*0.5;
+      pos.x += (dx/dist) * speed;
+      pos.y += (dy/dist) * speed;
+      state.walking = true;
+      state.frame++;
+      if(Math.abs(dx) > Math.abs(dy)) state.facing = dx > 0 ? 'right' : 'left';
+      else state.facing = dy > 0 ? 'down' : 'up';
     }
   }
-  // Paths
-  for (const pa of WORLD_PATHS) {
-    CX.fillStyle = '#78716c';
-    CX.fillRect(pa.x, pa.y, pa.w, pa.h);
-    CX.fillStyle = 'rgba(255,255,255,0.08)';
-    for (let x = pa.x; x < pa.x + pa.w; x += 30) {
-      CX.fillRect(x, pa.y + pa.h/2 - 2, 15, 4);
-    }
-  }
-  // Buildings
-  for (const b of WORLD_BUILDINGS) {
-    CX.fillStyle = 'rgba(0,0,0,0.35)';
-    CX.fillRect(b.x + 4, b.y + 4, b.w, b.h);
-    CX.fillStyle = b.color;
-    CX.fillRect(b.x, b.y, b.w, b.h);
-    CX.strokeStyle = 'rgba(255,255,255,0.25)';
-    CX.lineWidth = 2;
-    CX.strokeRect(b.x, b.y, b.w, b.h);
-    CX.fillStyle = '#fff';
-    CX.font = 'bold 13px system-ui';
-    CX.textAlign = 'center';
-    CX.textBaseline = 'middle';
-    CX.fillText(b.label, b.x + b.w/2, b.y + b.h/2);
-  }
-  // NPCs
-  for (const npc of world.npcs) {
-    let ringColor = '#38bdf8';
-    if (npc.mood === 'angry') ringColor = '#ef4444';
-    else if (npc.mood === 'happy') ringColor = '#22c55e';
-    else if (npc.mood === 'sad') ringColor = '#a78bfa';
-    drawChar(npc.x, npc.y, npc.av, npc.bob, ringColor, false);
-    // Name tag
-    CX.fillStyle = 'rgba(15,23,42,0.85)';
-    CX.font = 'bold 10px system-ui';
-    CX.textAlign = 'center';
-    const nw = CX.measureText(npc.n).width + 10;
-    CX.fillRect(npc.x - nw/2, npc.y - 42, nw, 14);
-    CX.fillStyle = npc.mood === 'angry' ? '#fca5a5' : '#facc15';
-    CX.fillText(npc.n, npc.x, npc.y - 35);
-  }
-  // Player
-  const p = world.player;
-  drawChar(p.x, p.y, p.emoji, p.bob, '#ec4899', true);
-  // Player name
-  CX.fillStyle = 'rgba(236,72,153,0.9)';
-  CX.font = 'bold 10px system-ui';
-  CX.textAlign = 'center';
-  CX.fillText(S && S.name ? S.name : 'Bạn', p.x, p.y - 35);
 }
 
-function drawChar(x, y, emoji, bob, ringColor, isPlayer) {
-  CX.fillStyle = 'rgba(0,0,0,0.4)';
-  CX.beginPath();
-  CX.ellipse(x, y + 14, 13, 5, 0, 0, Math.PI * 2);
-  CX.fill();
-  // Ring
-  CX.strokeStyle = ringColor;
-  CX.lineWidth = isPlayer ? 3 : 2;
-  CX.beginPath();
-  CX.arc(x, y, 17 + Math.sin(bob) * 1.5, 0, Math.PI * 2);
-  CX.stroke();
-  // Inner glow for player
-  if (isPlayer) {
-    CX.fillStyle = 'rgba(236,72,153,0.15)';
-    CX.beginPath();
-    CX.arc(x, y, 17, 0, Math.PI * 2);
-    CX.fill();
+// ═══════════ INTERACTION ═══════════
+let nearNpcId = null;
+function checkInteraction(){
+  nearNpcId = null;
+  let minDist = TILE * 1.8;
+  const px = S.playerPos.x + TILE/2;
+  const py = S.playerPos.y + TILE/2;
+  for(const r of Object.values(S.rels)){
+    const pos = S.npcPositions[r.id];
+    if(!pos) continue;
+    const d = Math.hypot((pos.x + TILE/2) - px, (pos.y + TILE/2) - py);
+    if(d < minDist){ minDist = d; nearNpcId = r.id; }
   }
-  // Emoji
-  CX.font = '24px system-ui';
-  CX.textAlign = 'center';
-  CX.textBaseline = 'middle';
-  CX.fillText(emoji, x, y - Math.abs(Math.sin(bob)) * 3);
+  const btn = document.getElementById('interactBtn');
+  if(nearNpcId){
+    const r = S.rels[nearNpcId];
+    btn.textContent = `💬 ${r.n}`;
+    btn.classList.add('on');
+  } else { btn.classList.remove('on'); }
 }
+document.getElementById('interactBtn').onclick = () => { if(nearNpcId) openChat(nearNpcId); };
 
-function worldLoop(t) {
-  const dt = Math.min(0.05, (t - world.lastTime) / 1000 || 0.016);
-  world.lastTime = t;
-  if (S && S.gender) {
-    updateWorld(dt);
-    drawWorld();
-  } else {
-    // Initial empty scene
-    CX.fillStyle = '#0f172a';
-    CX.fillRect(0, 0, CV.width, CV.height);
-    CX.fillStyle = '#64748b';
-    CX.font = 'bold 16px system-ui';
-    CX.textAlign = 'center';
-    CX.fillText('Tạo nhân vật để bắt đầu...', CV.width/2, CV.height/2);
-  }
-  requestAnimationFrame(worldLoop);
-}
-requestAnimationFrame(worldLoop);
-
-// Keyboard controls
-document.addEventListener('keydown', e => {
-  if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','w','a','s','d','W','A','S','D'].includes(e.key)) {
-    if (e.target.tagName !== 'INPUT') e.preventDefault();
-  }
-  if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') world.keys.up = true;
-  if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') world.keys.down = true;
-  if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') world.keys.left = true;
-  if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') world.keys.right = true;
-});
-document.addEventListener('keyup', e => {
-  if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') world.keys.up = false;
-  if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') world.keys.down = false;
-  if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') world.keys.left = false;
-  if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') world.keys.right = false;
-});
-
-// D-pad controls (mobile + desktop)
-document.querySelectorAll('.dpad button').forEach(b => {
-  const dir = b.dataset.dir;
-  const on = e => { e.preventDefault(); world.keys[dir] = true; };
-  const off = e => { e.preventDefault(); world.keys[dir] = false; };
-  b.addEventListener('touchstart', on, {passive:false});
-  b.addEventListener('touchend', off, {passive:false});
-  b.addEventListener('touchcancel', off, {passive:false});
-  b.addEventListener('mousedown', on);
-  b.addEventListener('mouseup', off);
-  b.addEventListener('mouseleave', off);
-});
-
-// Interact button
-document.getElementById('interactBtn').onclick = () => {
-  const npc = world.nearNpc;
-  if (!npc) return;
-  if (!S.rels[npc.relId]) return;
-  openChat(npc.relId);
-};
-
-// ═══════════ TIME ═══════════
-function consume(cost){ const prev=Math.floor(S.periods/3); S.periods=Math.min(21,S.periods+cost); const next=Math.floor(S.periods/3); for(let d=prev;d<next&&d<7;d++)endOfDay(d); if(S.periods>=21&&!S.ended)endOfWeek(); }
-function endOfDay(d){ apply('money',-150); addLog('🍚 Ăn uống: -150đ','info'); const cc=S.children.reduce((s,c)=>s+childCost(c),0); if(cc>0){apply('money',-cc);addLog(`👶 Nuôi con: -${fmt(cc)}`,'money');} addLog(`🌙 Hết ${['Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy','Chủ Nhật'][d]}.`,'day'); S._worked=false;S._schooled=false; const houseM = HOUSES.find(h=>h.id===S.assets.house)?.m || 0; apply('energy',8); apply('mental',-1 + houseM); checkHealth(); npcDailyTick(); }
-function childCost(c){ if(c.age<12)return 300; if(c.age<26)return 500; return 800; }
-function endOfWeek(){ addLog(`═══ Hết tuần ${S.week} ═══`,'day'); apply('money',-500); apply('mental',-JOBS[S.job].s*0.3); const bizInc = BUSINESS.find(b=>b.id===S.assets.business)?.inc || 0; if(bizInc>0){ apply('money', bizInc); addLog(`🏢 Kinh doanh sinh lời: +${fmt(bizInc)}`,'money'); } for(const r of Object.values(S.rels)){ if(r.angry){r.love=clampInt(r.love-5);r.angryDays--; if(r.angryDays<=0){r.angry=false;addLog(`${r.n} đã nguôi giận.`,'info');} } } if(S.partnerId&&!S._dated){ const p=S.rels[S.partnerId]; if(p){p.love=clampInt(p.love-6);syncLove(); if(p.love<30)addLog(`💔 ${p.n} cảm thấy bị bỏ rơi.`,'bad');} } S._dated=false; const partner=getPartner(); if(partner&&partner.stage==='married'){ const wage=JOBS[partner.job]?.w||500; let mul=1; if(partner.per.includes('galant'))mul=1.3; if(partner.per.includes('stingy'))mul=0.4; const inc=Math.round(wage*5*mul)+Math.round(partner.wl*20); apply('money',inc); addLog(`💼 ${partner.n} đóng góp ${fmt(inc)}`,'money'); } if(partner&&partner.expecting){ partner.expectingWeeks--; addLog(`🤰 ${partner.n} mang thai — còn ${partner.expectingWeeks} tuần.`,'love'); if(partner.expectingWeeks<=0)birthChild(); } for(const c of S.children){ c.age++; if(!c._played){c.bond=clamp(c.bond-5);apply('mental',-2);} c._played=false; } checkAutoUnfriend(); npcWeeklyTick(); S.week++;S.periods=0; if(S.st.money<-10000)return gameOver('Phá sản','Nợ nần nhấn chìm bạn.'); if(S.week>52)return gameOver('Một năm trôi qua',summary()); addLog(`── Tuần ${S.week} bắt đầu ──`,'day'); render(); }
-function checkHealth(){ if(S.st.health<=0||S.st.energy<=0){ apply('health',40-S.st.health);apply('energy',50-S.st.energy); apply('money',-2000);addLog('🏥 Nhập viện! (-2.000đ)','bad'); } if(S.st.mental<=0){S.st.mental=25;apply('money',-1000);addLog('😵 Suy nhược tinh thần!','bad');} }
-
-// ═══════════ NPC DAILY TICK ═══════════
-function npcDailyTick() {
-  if (S.ended) return;
-  const toRemove = [];
-  for (const r of Object.values(S.rels)) {
-    if (r.stage === 'married') continue;
-    if (r.love <= -50 || (r.angry && r.love <= -30)) toRemove.push(r);
-  }
-  toRemove.forEach(r => {
-    addLog(`💔 ${r.n} đã hủy kết bạn vì quá tức giận!`, 'bad');
-    if (S.partnerId === r.id) { S.partnerId = null; syncLove(); }
-    delete S.rels[r.id];
-    removeNpcFromWorld(r.id);
-    apply('mental', -15);
-    showModal(`<h2 style="color:#fca5a5">💔 Hủy kết bạn</h2><p style="text-align:center;font-size:50px">😢</p><p><b>${r.n}</b> đã chấm dứt mối quan hệ với bạn vì quá tức giận.</p><button class="btn sec" onclick="closeModal()">Buồn</button>`);
+// ═══════════ TRAVEL BAR ═══════════
+function buildTravelBar(){
+  const bar = document.getElementById('travelbar');
+  bar.innerHTML = Object.entries(LOCATIONS).map(([k, loc])=>{
+    return `<button data-loc="${k}">${loc.emoji} ${loc.name}</button>`;
+  }).join('');
+  bar.querySelectorAll('button').forEach(b=>{
+    b.onclick = () => {
+      const loc = LOCATIONS[b.dataset.loc];
+      // Đi đến trước cửa building
+      S.moveTarget = {x: (loc.x + loc.w/2) * TILE - TILE/2, y: (loc.y + loc.h + 1) * TILE};
+      // Nếu target bị chặn, chọn vị trí dưới
+      while(isBlocked(S.moveTarget.x, S.moveTarget.y)){
+        S.moveTarget.y += TILE;
+      }
+    };
   });
-  for (const r of Object.values(S.rels)) {
-    if (r.stage === 'married') continue;
-    if (Math.random() < 0.15) {
-      if (r.angry) { r.love = clampInt(r.love - 2); addLog(`📩 ${r.av} ${r.n} nhắn: "Tớ vẫn còn giận cậu!"`, 'bad'); }
-      else if (r.love > 70) { r.love = clampInt(r.love + 1); addLog(`📩 ${r.av} ${r.n} nhắn: "Nhớ cậu quá! Hôm nay thế nào?"`, 'love'); }
-      else if (r.love < 20) { addLog(`📩 ${r.av} ${r.n} nhắn: "Dạo này cậu bận lắm hả?"`, 'info'); }
-    }
-  }
-  if (S.gender === 'nu') {
-    const partner = getPartner();
-    for (const r of Object.values(S.rels)) {
-      if (r.g === 'nam' && r.stage === 'crush' && r.love >= 80 && Math.random() < 0.2) {
-        r.stage = 'dating';
-        addLog(`💗 ${r.av} ${r.n} đã tỏ tình với bạn!`, 'love');
-        showModal(`<h2>💗 Tỏ tình</h2><p style="text-align:center;font-size:40px">${r.av}</p><p><b>${r.n}</b>: "Tớ thích cậu! Làm người yêu tớ nhé?"</p><div style="display:flex;gap:6px"><button class="btn pri" onclick="closeModal();openRel();">Đồng ý</button><button class="btn sec" onclick="rejectNpcProposal('${r.id}')">Từ chối</button></div>`);
-      }
-      if (r.g === 'nam' && r.stage === 'dating' && r.love >= 90 && !partner && Math.random() < 0.1) {
-        r.stage = 'engaged'; S.partnerId = r.id; syncLove();
-        addLog(`💍 ${r.av} ${r.n} đã cầu hôn bạn!`, 'love');
-        showModal(`<h2>💍 Cầu hôn</h2><p style="text-align:center;font-size:40px">${r.av}</p><p><b>${r.n}</b>: "Em đồng ý làm vợ anh nhé?"</p><div style="display:flex;gap:6px"><button class="btn pri" onclick="closeModal();openRel();">Đồng ý</button><button class="btn sec" onclick="rejectNpcProposal('${r.id}')">Từ chối</button></div>`);
-      }
-    }
-  }
 }
-function rejectNpcProposal(id) { const r = S.rels[id]; if (!r) return; r.love = clampInt(r.love - 30); r.stage = 'friend'; if (S.partnerId === id) { S.partnerId = null; syncLove(); } addLog(`💔 Bạn đã từ chối ${r.n}.`, 'bad'); closeModal(); render(); }
 
-// ═══════════ UNFRIEND ═══════════
-function checkAutoUnfriend(){ const removed=[]; for(const r of Object.values(S.rels)){ if(r.stage==='married')continue; const s=r.love<=-30||(r.love<0&&r.bond<10)||(r.angry&&r.love<=-20); if(s){removed.push(r);} else if(r.love<=-15&&!r._warned){ addLog(`⚠️ ${r.n} đang rất không vui. Mối quan hệ có thể chấm dứt!`,'bad'); r._warned=true; } if(r.love>-10)r._warned=false; } for(const r of removed){ addLog(`💔 ${r.n} đã HỦY KẾT BẠN với bạn!`,'bad'); if(S.partnerId===r.id){S.partnerId=null;syncLove();} delete S.rels[r.id]; removeNpcFromWorld(r.id); apply('mental',-10); } }
-function makeAngry(r,amount=10,days=3){ r.angry=true;r.angryDays=days; r.love=clampInt(r.love-amount); addLog(`😡 ${r.n} tức giận! Thiện cảm -${amount}.`,'bad'); }
+// ═══════════ TIME & NPC TICKS ═══════════
+function consume(cost){ const prev=Math.floor(S.periods/3); S.periods=Math.min(21,S.periods+cost); const next=Math.floor(S.periods/3); for(let d=prev;d<next&&d<7;d++)endOfDay(d); if(S.periods>=21&&!S.ended)endOfWeek(); }
+function endOfDay(d){ apply('money',-150); addLog('🍚 Ăn uống: -150đ','info'); const cc=S.children.reduce((s,c)=>s+childCost(c),0); if(cc>0){apply('money',-cc);} addLog(`🌙 Hết ${['T2','T3','T4','T5','T6','T7','CN'][d]}.`,'day'); S._worked=false;S._schooled=false; 
+  const houseM = HOUSES.find(h=>h.id===S.assets.house)?.m || 0;
+  apply('energy',8); apply('mental',-1 + houseM); 
+  checkHealth(); npcDailyTick(); }
+function childCost(c){ if(c.age<12)return 300; if(c.age<26)return 500; return 800; }
+function endOfWeek(){ addLog(`═══ Hết tuần ${S.week} ═══`,'day'); apply('money',-500); apply('mental',-JOBS[S.job].s*0.3); 
+  const bizInc = BUSINESS.find(b=>b.id===S.assets.business)?.inc || 0;
+  if(bizInc>0){ apply('money', bizInc); addLog(`🏢 Kinh doanh: +${fmt(bizInc)}`,'money'); }
+  for(const r of Object.values(S.rels)){ if(r.angry){r.love=clampInt(r.love-5);r.angryDays--; if(r.angryDays<=0){r.angry=false;addLog(`${r.n} đã nguôi giận.`,'info');} } } 
+  if(S.partnerId&&!S._dated){ const p=S.rels[S.partnerId]; if(p){p.love=clampInt(p.love-6);syncLove(); if(p.love<30)addLog(`💔 ${p.n} cảm thấy bị bỏ rơi.`,'bad');} } 
+  S._dated=false; 
+  const partner=getPartner(); if(partner&&partner.stage==='married'){ const wage=JOBS[partner.job]?.w||500; let mul=1; if(partner.per.includes('galant'))mul=1.3; if(partner.per.includes('stingy'))mul=0.4; const inc=Math.round(wage*5*mul)+Math.round(partner.wl*20); apply('money',inc); addLog(`💼 ${partner.n} đóng góp ${fmt(inc)}`,'money'); } 
+  if(partner&&partner.expecting){ partner.expectingWeeks--; addLog(`🤰 ${partner.n} mang thai — còn ${partner.expectingWeeks} tuần.`,'love'); if(partner.expectingWeeks<=0)birthChild(); } 
+  for(const c of S.children){ c.age++; if(!c._played){c.bond=clamp(c.bond-5);apply('mental',-2);} c._played=false; } 
+  npcWeeklyTick(); S.week++;S.periods=0; if(S.st.money<-10000)return gameOver('Phá sản','Nợ nần nhấn chìm bạn.'); if(S.week>52)return gameOver('Một năm trôi qua',summary()); addLog(`── Tuần ${S.week} ──`,'day'); render(); }
+function checkHealth(){ if(S.st.health<=0||S.st.energy<=0){ apply('health',40-S.st.health);apply('energy',50-S.st.energy); apply('money',-2000);addLog('🏥 Nhập viện! (-2.000đ)','bad'); } if(S.st.mental<=0){S.st.mental=25;apply('money',-1000);addLog('😵 Suy nhược!','bad');} }
 
-// ═══════════ PREGNANCY / CHILD ═══════════
-function tryPregnant(){ const p=getPartner(); if(!p||p.stage!=='married'||p.expecting)return; const can=p.g==='nu'||S.gender==='nu'; if(!can){alert('Cả hai đều không thể mang thai.');return;} if(S.st.money<1000){alert('Không đủ tiền.');return;} apply('money',-1000); if(Math.random()<0.5){ p.expecting=true;p.expectingWeeks=3; addLog(`🤰 ${p.n} đã mang thai!`,'love'); apply('mental',15); }else{addLog('Chưa có tin vui. Thử lại sau.','info');} }
-function birthChild(){ const p=getPartner();if(!p)return; p.expecting=false; const gender=Math.random()<0.5?'nam':'nu'; const names=['An','Bình','Chi','Duy','Hân','Khang','Linh','Minh','Nam','Phúc','Quỳnh','Trang']; const name=names[Math.floor(Math.random()*names.length)]; S.children.push({id:'c'+Date.now(),name,gender,age:0,bond:60}); addLog(`👶 Bé ${name} (${gender==='nam'?'trai':'gái'}) chào đời!`,'child'); apply('mental',25); p.love=clampInt(p.love+15);syncLove(); }
+function npcDailyTick() {
+    if (S.ended) return;
+    const toRemove = [];
+    for (const r of Object.values(S.rels)) {
+        if (r.stage === 'married') continue;
+        if (r.love <= -50 || (r.angry && r.love <= -30)) toRemove.push(r);
+    }
+    toRemove.forEach(r => {
+        addLog(`💔 ${r.n} đã hủy kết bạn!`, 'bad');
+        if (S.partnerId === r.id) { S.partnerId = null; syncLove(); }
+        delete S.rels[r.id]; delete S.npcPositions[r.id]; delete S.npcStates[r.id];
+        apply('mental', -15);
+    });
+    for (const r of Object.values(S.rels)) {
+        if (r.stage === 'married') continue;
+        if (Math.random() < 0.15) {
+            if (r.angry) { r.love = clampInt(r.love - 2); addLog(`📩 ${r.n}: "Tớ vẫn còn giận cậu!"`, 'bad'); }
+            else if (r.love > 70) { r.love = clampInt(r.love + 1); addLog(`📩 ${r.n}: "Nhớ cậu quá!"`, 'love'); }
+            else if (r.love < 20) { addLog(`📩 ${r.n}: "Dạo này cậu bận lắm hả?"`, 'info'); }
+        }
+    }
+    if (S.gender === 'nu') {
+        const partner = getPartner();
+        for (const r of Object.values(S.rels)) {
+            if (r.g === 'nam' && r.stage === 'crush' && r.love >= 80 && Math.random() < 0.2) {
+                r.stage = 'dating';
+                addLog(`💗 ${r.n} đã tỏ tình!`, 'love');
+                showModal(`<h2>💗 Tỏ tình</h2><p style="text-align:center;font-size:40px">${r.av}</p><p><b>${r.n}</b>: "Tớ thích cậu! Làm người yêu tớ nhé?"</p><div style="display:flex;gap:6px"><button class="btn pri" onclick="closeModal();openRel();">Đồng ý</button><button class="btn sec" onclick="rejectNpcProposal('${r.id}')">Từ chối</button></div>`);
+            }
+            if (r.g === 'nam' && r.stage === 'dating' && r.love >= 90 && !partner && Math.random() < 0.1) {
+                r.stage = 'engaged'; S.partnerId = r.id; syncLove();
+                addLog(`💍 ${r.n} đã cầu hôn!`, 'love');
+                showModal(`<h2>💍 Cầu hôn</h2><p style="text-align:center;font-size:40px">${r.av}</p><p><b>${r.n}</b>: "Em đồng ý làm vợ anh nhé?"</p><div style="display:flex;gap:6px"><button class="btn pri" onclick="closeModal();openRel();">Đồng ý</button><button class="btn sec" onclick="rejectNpcProposal('${r.id}')">Từ chối</button></div>`);
+            }
+        }
+    }
+}
+
+function rejectNpcProposal(id) {
+    const r = S.rels[id]; if (!r) return;
+    r.love = clampInt(r.love - 30); r.stage = 'friend';
+    if (S.partnerId === id) { S.partnerId = null; syncLove(); }
+    addLog(`💔 Bạn đã từ chối ${r.n}.`, 'bad');
+    closeModal(); render();
+}
+function makeAngry(r,amount=10,days=3){ r.angry=true;r.angryDays=days; r.love=clampInt(r.love-amount); addLog(`😡 ${r.n} tức giận!`,'bad'); }
+
+// ═══════════ CHILD ═══════════
+function tryPregnant(){ const p=getPartner(); if(!p||p.stage!=='married'||p.expecting)return; const can=p.g==='nu'||S.gender==='nu'; if(!can){alert('Không thể mang thai.');return;} if(S.st.money<1000){alert('Không đủ tiền.');return;} apply('money',-1000); if(Math.random()<0.5){ p.expecting=true;p.expectingWeeks=3; addLog(`🤰 ${p.n} mang thai!`,'love'); apply('mental',15); }else{addLog('Chưa có tin vui.','info');} }
+function birthChild(){ const p=getPartner();if(!p)return; p.expecting=false; const gender=Math.random()<0.5?'nam':'nu'; const names=['An','Bình','Chi','Duy','Hân','Khang','Linh','Minh','Nam','Phúc','Quỳnh','Trang']; const name=names[Math.floor(Math.random()*names.length)]; S.children.push({id:'c'+Date.now(),name,gender,age:0,bond:60}); addLog(`👶 Bé ${name} chào đời!`,'child'); apply('mental',25); p.love=clampInt(p.love+15);syncLove(); }
 function playWithChild(id){ const c=S.children.find(x=>x.id===id);if(!c||S.periods+1>21)return; consume(1);c.bond=clamp(c.bond+10);c._played=true; apply('mental',8);addLog(`👶 Chơi với bé ${c.name}.`,'child'); render(); }
-function buyForChild(id){ const c=S.children.find(x=>x.id===id);if(!c||S.st.money<300)return; apply('money',-300);c.bond=clamp(c.bond+5); addLog(`🍼 Mua sữa bỉm cho bé ${c.name}. (-300đ)`,'money'); render(); }
-function sendChildToSchool(id){ const c=S.children.find(x=>x.id===id);if(!c)return; if(c.age<12){alert('Bé còn quá nhỏ.');return;} if(S.st.money<2000)return; apply('money',-2000);c.school=true;c.bond=clamp(c.bond+8); apply('mental',5);addLog(`🎓 Bé ${c.name} nhập học! (-2.000đ)`,'child'); render(); }
-function openChildren(){ if(S.children.length===0){ showModal(`<h2>👶 Con cái</h2><p>Bạn chưa có con.</p> <p style="font-size:12px;color:#94a3b8">Kết hôn rồi dùng nút "Thử có con" trong Quan hệ.</p> <button class="btn sec" onclick="closeModal()">Đóng</button>`); return; } showModal(` <h2>👶 Con cái (${S.children.length})</h2> ${S.children.map(c=>{ const emoji=c.age<12?'👶':c.gender==='nam'?'👦':'👧'; return `<div class="npc-card c"> <div class="npc-h"> <span class="av">${emoji}</span><span class="nm">Bé ${c.name}</span> <span class="bd">${c.gender==='nam'?'Trai':'Gái'}</span> <span class="bd blue">${c.age} tuần</span> ${c.school?'<span class="bd green">🎓 Đang học</span>':''} </div> <div style="font-size:11px;color:#94a3b8">Gắn bó: ${Math.round(c.bond)}/100 · Chi phí: ${fmt(childCost(c))}/tuần</div> <div class="bond"><div class="bond-f" style="width:${c.bond}%"></div></div> <div class="npc-a"> <button class="btn sec" ${S.periods+1>21?'disabled':''} onclick="playWithChild('${c.id}')">🎮 Chơi</button> <button class="btn sec" ${S.st.money<300?'disabled':''} onclick="buyForChild('${c.id}')">🍼 Sữa bỉm</button> ${c.age>=12&&!c.school?`<button class="btn gold" ${S.st.money<2000?'disabled':''} onclick="sendChildToSchool('${c.id}')">🎓 Đi học</button>`:''} </div> </div>`; }).join('')} <button class="btn sec" style="margin-top:10px" onclick="closeModal()">Đóng</button> `); }
+function buyForChild(id){ const c=S.children.find(x=>x.id===id);if(!c||S.st.money<300)return; apply('money',-300);c.bond=clamp(c.bond+5); addLog(`🍼 Sữa bỉm cho bé ${c.name}.`,'money'); render(); }
+function sendChildToSchool(id){ const c=S.children.find(x=>x.id===id);if(!c||c.age<12)return; if(S.st.money<2000)return; apply('money',-2000);c.school=true;c.bond=clamp(c.bond+8); addLog(`🎓 Bé ${c.name} nhập học!`,'child'); render(); }
+function openChildren(){ if(S.children.length===0){ showModal(`<h2>👶 Con cái</h2><p>Bạn chưa có con.</p><button class="btn sec" onclick="closeModal()">Đóng</button>`); return; } showModal(` <h2>👶 Con cái (${S.children.length})</h2> ${S.children.map(c=>{ const emoji=c.age<12?'👶':c.gender==='nam'?'👦':'👧'; return `<div class="npc-card c"><div class="npc-h"><span class="av">${emoji}</span><span class="nm">Bé ${c.name}</span><span class="bd">${c.gender==='nam'?'Trai':'Gái'}</span><span class="bd blue">${c.age} tuần</span>${c.school?'<span class="bd green">🎓</span>':''}</div><div style="font-size:10px;color:#94a3b8">Gắn bó: ${Math.round(c.bond)}/100</div><div class="bond"><div class="bond-f" style="width:${c.bond}%"></div></div><div class="npc-a"><button class="btn sec" ${S.periods+1>21?'disabled':''} onclick="playWithChild('${c.id}')">🎮 Chơi</button><button class="btn sec" ${S.st.money<300?'disabled':''} onclick="buyForChild('${c.id}')">🍼 Sữa</button>${c.age>=12&&!c.school?`<button class="btn gold" ${S.st.money<2000?'disabled':''} onclick="sendChildToSchool('${c.id}')">🎓 Học</button>`:''}</div></div>`; }).join('')} <button class="btn sec" onclick="closeModal()">Đóng</button> `); }
 
-// ═══════════ NPC-NPC ROMANCE ═══════════
-function compatibility(a,b){ if(!a.att.includes(b.g))return 0; if(!b.att.includes(a.g))return 0; let s=0;s+=Math.max(0,20-Math.abs(a.age-b.age)); const bgr={ngheo:0,trungluu:1,khagia:2,gia:3}; s+=10-Math.abs(bgr[a.bg]-bgr[b.bg])*3; for(const t of a.per){if(a.likes.includes(t))s+=8;if(a.dis.includes(t))s-=5;} s+=a.hob.filter(h=>b.hob.includes(h)).length*4; s+=10-Math.abs(EDU_RANK[a.edu]-EDU_RANK[b.edu])*2; return Math.max(0,s); }
-function npcWeeklyTick(){ const partner=getPartner(); for(const a of NPC_POOL){ if(!S.npcRels[a.id])S.npcRels[a.id]={}; for(const b of NPC_POOL){ if(a.id>=b.id)continue; if(!S.npcRels[a.id][b.id])S.npcRels[a.id][b.id]={aff:0,status:'none'}; if(partner&&(partner.pid===a.id||partner.pid===b.id))continue; const rel=S.npcRels[a.id][b.id]; if(rel.status==='married')continue; const comp=compatibility(a,b); if(comp<=10)continue; if(Math.random()<0.4)continue; let inc=comp>=40?2:comp>=25?1:0.5; if(Math.random()*50<comp)inc+=1; rel.aff=Math.min(100,rel.aff+inc); if(rel.status==='none'&&rel.aff>=30){ rel.status='interested'; addLog(`📢 ${a.av} ${a.n} để ý ${b.av} ${b.n}...`,'npc'); } if(rel.status==='interested'&&rel.aff>=55){ rel.status='dating'; addLog(`💕 ${a.av} ${a.n} và ${b.av} ${b.n} hẹn hò!`,'npc'); } if(rel.status==='dating'&&rel.aff>=85&&Math.random()<0.3){ rel.status='married'; addLog(`💒 ${a.av} ${a.n} và ${b.av} ${b.n} KẾT HÔN!`,'npc'); } } } }
+// ═══════════ NPC-NPC ═══════════
+function compatibility(a,b){ if(!a.att.includes(b.g))return 0; if(!b.att.includes(a.g))return 0; let s=0;s+=Math.max(0,20-Math.abs(a.age-b.age)); const bgr={ngheo:0,trungluu:1,khagia:2,gia:3}; s+=10-Math.abs(bgr[a.bg]-bgr[b.bg])*3; for(const t of b.per){if(a.likes.includes(t))s+=8;if(a.dis.includes(t))s-=5;} s+=a.hob.filter(h=>b.hob.includes(h)).length*4; return Math.max(0,s); }
+function npcWeeklyTick(){ const partner=getPartner(); for(const a of NPC_POOL){ if(!S.npcRels[a.id])S.npcRels[a.id]={}; for(const b of NPC_POOL){ if(a.id>=b.id)continue; if(!S.npcRels[a.id][b.id])S.npcRels[a.id][b.id]={aff:0,status:'none'}; if(partner&&(partner.pid===a.id||partner.pid===b.id))continue; const rel=S.npcRels[a.id][b.id]; if(rel.status==='married')continue; const comp=compatibility(a,b); if(comp<=10)continue; if(Math.random()<0.4)continue; let inc=comp>=40?2:comp>=25?1:0.5; rel.aff=Math.min(100,rel.aff+inc); if(rel.status==='none'&&rel.aff>=30){ rel.status='interested'; addLog(`📢 ${a.n} để ý ${b.n}...`,'npc'); } if(rel.status==='interested'&&rel.aff>=55){ rel.status='dating'; addLog(`💕 ${a.n} & ${b.n} hẹn hò!`,'npc'); } if(rel.status==='dating'&&rel.aff>=85&&Math.random()<0.3){ rel.status='married'; addLog(`💒 ${a.n} & ${b.n} KẾT HÔN!`,'npc'); } } } }
 function getNpcRomanceStatus(npc){ const out=[]; for(const other of NPC_POOL){ if(other.id===npc.id)continue; const a=npc.id<other.id?npc.id:other.id; const b=npc.id<other.id?other.id:npc.id; const rel=S.npcRels[a]?.[b]; if(rel&&rel.status!=='none')out.push({other,rel}); } return out; }
 
 // ═══════════ ACTIONS ═══════════
-function doAction(id){ if(S.ended)return; const a=ACTIONS.find(x=>x.id===id);if(!a)return; if(S.periods+a.c>21)return; if(a.once&&a.id==='work'&&S._worked){alert('Hôm nay đã đi làm.');return;} if(a.once&&a.id==='study'&&S._schooled){alert('Hôm nay đã học.');return;} if(a.afterWork&&!S._worked){alert('Phải đi làm trước.');return;} if(a.minMoney&&S.st.money<a.minMoney)return; let transCost = a.transport; if(transCost) { const carDisc = CARS.find(c=>c.id===S.assets.car)?.tr || 0; transCost = Math.max(0, Math.round(transCost * (1 + carDisc/100))); } if(transCost){apply('money',-transCost);addLog(`🚌 Đi lại: -${transCost}đ`,'info');} consume(a.c); if(S.ended)return; const job=JOBS[S.job]; if(a.ef)for(const[k,v]of Object.entries(a.ef)){ if(k==='money'){ let amt=v; if(v==='wage'){amt=job.w;if(id==='work')S._worked=true;} else if(v==='half')amt=Math.round(job.w*0.5); apply('money',amt); }else if(k==='skill'&&id==='work')apply('skill',v*1.3); else apply(k,v); } if(a.edu){ S.eduProgress++; const req={c3:5,dh:10,ths:14,ts:999}[S.edu]; if(S.eduProgress>=req){ S.edu={c3:'dh',dh:'ths',ths:'ts'}[S.edu]; S.eduProgress=0; addLog(`🎓 Tốt nghiệp ${EDU_LABEL[S.edu]}!`,'good'); apply('mental',15); }else{addLog(`📖 Học: ${S.eduProgress}/${req} buổi`,'info');S._schooled=true;} } if(a.gamble){ const win=Math.random()<0.4; apply('money',win?1200:-500); addLog(win?'📈 +1.200đ':'📉 -500đ',win?'good':'bad'); } const msgs={work:`Đi làm: +${fmt(job.w)}`,study:'Học nâng cao.',skill:'Học kỹ năng.', gym:'Tập thể dục.',sleep:'Nghỉ ngơi.',family:'Gọi gia đình.',hobby:'Đam mê.', movie:'Xem phim.',game:'Chơi game.',shopping:'Mua sắm.',spa:'Spa.',travel:'Du lịch.'}; if(msgs[id])addLog(msgs[id],id==='family'?'love':'good'); checkHealth();render(); }
+function doAction(id){ if(S.ended)return; const a=ACTIONS.find(x=>x.id===id);if(!a)return; if(S.periods+a.c>21)return; if(a.once&&a.id==='work'&&S._worked){alert('Hôm nay đã đi làm.');return;} if(a.once&&a.id==='study'&&S._schooled){alert('Hôm nay đã học.');return;} if(a.afterWork&&!S._worked){alert('Phải đi làm trước.');return;} if(a.minMoney&&S.st.money<a.minMoney)return; 
+let transCost = a.transport;
+if(transCost) { const carDisc = CARS.find(c=>c.id===S.assets.car)?.tr || 0; transCost = Math.max(0, Math.round(transCost * (1 + carDisc/100))); }
+if(transCost){apply('money',-transCost);addLog(`🚌 Đi lại: -${transCost}đ`,'info');} 
+consume(a.c); if(S.ended)return; const job=JOBS[S.job]; if(a.ef)for(const[k,v]of Object.entries(a.ef)){ if(k==='money'){ let amt=v; if(v==='wage'){amt=job.w;if(id==='work')S._worked=true;} else if(v==='half')amt=Math.round(job.w*0.5); apply('money',amt); }else if(k==='skill'&&id==='work')apply('skill',v*1.3); else apply(k,v); } 
+if(a.edu){ S.eduProgress++; const req={c3:5,dh:10,ths:14,ts:999}[S.edu]; if(S.eduProgress>=req){ S.edu={c3:'dh',dh:'ths',ths:'ts'}[S.edu]; S.eduProgress=0; addLog(`🎓 Tốt nghiệp ${EDU_LABEL[S.edu]}!`,'good'); apply('mental',15); }else{addLog(`📖 Học: ${S.eduProgress}/${req}`,'info');S._schooled=true;} } 
+if(a.gamble){ const win=Math.random()<0.4; apply('money',win?1200:-500); addLog(win?'📈 +1.200đ':'📉 -500đ',win?'good':'bad'); } 
+checkHealth();render(); }
 
 // ═══════════ ASSETS ═══════════
 function openAssets() {
-  const house = HOUSES.find(h=>h.id===S.assets.house) || HOUSES[0];
-  const car = CARS.find(c=>c.id===S.assets.car) || CARS[0];
-  const biz = BUSINESS.find(b=>b.id===S.assets.business) || BUSINESS[0];
-  const renderList = (title, list, current, type) => `
-    <h3 style="color:#f472b6;margin-top:12px;">${title}</h3>
-    ${list.map(item => {
-      const isOwned = item.id === current;
-      const canBuy = S.st.money >= item.p && !isOwned;
-      let stats = '';
-      if (type === 'house') stats = `+${item.m} Tinh thần/ngày`;
-      if (type === 'car') stats = `Giảm ${Math.abs(item.tr)}% chi phí đi lại`;
-      if (type === 'biz') stats = `+${fmt(item.inc)}/tuần`;
-      return `
-      <div class="asset-card">
-        <div class="asset-info">
-          <h4>${item.n} ${isOwned ? '✅' : ''}</h4>
-          <p>${stats}</p>
-        </div>
-        <div style="text-align:right">
-          <div style="font-size:12px;color:#facc15;font-weight:bold;margin-bottom:3px">${fmt(item.p)}</div>
-          ${isOwned ? '<span class="bd green">Đang dùng</span>' : 
-            `<button class="btn sec" style="padding:4px 8px;font-size:11px" ${canBuy?'':'disabled'} onclick="buyAsset('${type}','${item.id}',${item.p})">Mua</button>`}
-        </div>
-      </div>`;
-    }).join('')}`;
-  showModal(`
-    <h2>🏠 Tài sản & Kinh doanh</h2>
-    <p style="font-size:12px;color:#94a3b8">Số dư: <b>${fmt(S.st.money)}</b> · Prestige: ✨ ${prestige()}</p>
-    ${renderList('🏠 Nhà cửa', HOUSES, S.assets.house, 'house')}
-    ${renderList('🚗 Phương tiện', CARS, S.assets.car, 'car')}
-    ${renderList('🏢 Kinh doanh', BUSINESS, S.assets.business, 'biz')}
-    <button class="btn sec" style="margin-top:12px" onclick="closeModal()">Đóng</button>
-  `);
+    const renderList = (title, list, current, type) => `
+        <h3 style="color:#f472b6;margin-top:12px;">${title}</h3>
+        ${list.map(item => {
+            const isOwned = item.id === current;
+            const canBuy = S.st.money >= item.p && !isOwned;
+            let stats = '';
+            if (type === 'house') stats = `+${item.m} Tinh thần/ngày`;
+            if (type === 'car') stats = `Giảm ${Math.abs(item.tr)}% chi phí đi lại`;
+            if (type === 'biz') stats = `+${fmt(item.inc)}/tuần`;
+            return `<div class="asset-card"><div class="asset-info"><h4>${item.n} ${isOwned ? '✅' : ''}</h4><p>${stats}</p></div><div style="text-align:right"><div style="font-size:11px;color:#facc15;font-weight:bold;margin-bottom:3px">${fmt(item.p)}</div>${isOwned ? '<span class="bd green">Đang dùng</span>' : `<button class="btn sec" style="padding:3px 7px;font-size:10px" ${canBuy?'':'disabled'} onclick="buyAsset('${type}','${item.id}',${item.p})">Mua</button>`}</div></div>`;
+        }).join('')}`;
+    showModal(`<h2>🏠 Tài sản & Kinh doanh</h2><p style="font-size:11px;color:#94a3b8">Số dư: <b>${fmt(S.st.money)}</b> · Prestige: ✨ ${prestige()}</p>${renderList('🏠 Nhà cửa', HOUSES, S.assets.house, 'house')}${renderList('🚗 Phương tiện', CARS, S.assets.car, 'car')}${renderList('🏢 Kinh doanh', BUSINESS, S.assets.business, 'biz')}<button class="btn sec" style="margin-top:12px" onclick="closeModal()">Đóng</button>`);
 }
-function buyAsset(type, id, price) { if (S.st.money < price) return; apply('money', -price); S.assets[type] = id; addLog(`🛍️ Đã mua tài sản mới!`, 'good'); render(); openAssets(); }
+function buyAsset(type, id, price) { if (S.st.money < price) return; apply('money', -price); S.assets[type] = id; addLog(`🛍️ Đã mua tài sản!`, 'good'); render(); openAssets(); }
 
 // ═══════════ MEET ═══════════
 function rollProfiles(){ const met=new Set(Object.values(S.rels).map(r=>r.pid)); const avail=NPC_POOL.filter(p=>!met.has(p.id)); const sh=avail.sort(()=>Math.random()-0.5); S.currentProfiles=sh.slice(0,5).map(p=>p.id); }
-function openMeet(){ if(S.currentProfiles.length===0)rollProfiles(); const list=S.currentProfiles.map(id=>NPC_POOL.find(p=>p.id===id)).filter(Boolean); if(list.length===0){ showModal(`<h2>🌐 Gặp gỡ</h2><p>Bạn đã gặp tất cả!</p> <button class="btn sec" onclick="closeModal()">Đóng</button>`); return; } showModal(` <h2>🌐 Gặp gỡ — 5 hồ sơ</h2> <p>Prestige: ✨ ${prestige()}</p> <div class="grid"> ${list.map(p=>{ const rc=rejectChance(p); const isG=p.per.includes('galant'); const isS=p.per.includes('stingy'); return `<div class="card"> <div class="av">${p.av}</div> <div class="nm">${p.n}</div> <div class="s2">${p.age}t · ${JOBS[p.job]?.n||p.job}</div> <div class="ln"><span>Ngoại hình</span><span>${p.ap}/10</span></div> <div class="ln"><span>Tài sản</span><span>${p.wl}/100</span></div> <div class="bar-w"><div class="fill-w" style="width:${p.wl}%"></div></div> <div class="ln"><span>Học vấn</span><span>${EDU_LABEL[p.edu]}</span></div> ${isG?'<div class="info">🎩 Ga lăng — luôn trả tiền date</div>':''} ${isS?'<div class="info">💰 Bủn xỉn — bắt bạn trả gấp đôi</div>':''} ${rc>0?`<div class="warn">⚠️ Từ chối: ${Math.round(rc*100)}%</div>`:''} <div style="display:flex;gap:3px;flex-wrap:wrap;margin-top:5px"> ${p.per.slice(0,3).map(t=>`<span class="bd" style="font-size:9px">${TRAITS[t]||t}</span>`).join('')} </div> <div style="font-size:10px;color:#64748b;font-style:italic;margin-top:5px">${p.bio}</div> <div class="npc-a"> <button class="btn pri" onclick="tryMeet('${p.id}')">Kết bạn</button> <button class="btn sec" onclick="skip('${p.id}')">Bỏ</button> </div> </div>`; }).join('')} </div> <button class="btn sec" style="margin-top:10px" onclick="rollProfiles();openMeet();">🔄 Đổi (1.000đ)</button> <button class="btn sec" onclick="closeModal()">Đóng</button> `); }
+function openMeet(){ if(S.currentProfiles.length===0)rollProfiles(); const list=S.currentProfiles.map(id=>NPC_POOL.find(p=>p.id===id)).filter(Boolean); if(list.length===0){ showModal(`<h2>🌐 Gặp gỡ</h2><p>Bạn đã gặp tất cả!</p> <button class="btn sec" onclick="closeModal()">Đóng</button>`); return; } showModal(` <h2>🌐 Gặp gỡ — 5 hồ sơ</h2> <p>Prestige: ✨ ${prestige()}</p> <div class="grid"> ${list.map(p=>{ const rc=rejectChance(p); const isG=p.per.includes('galant'); const isS=p.per.includes('stingy'); return `<div class="card"> <div class="av">${p.av}</div> <div class="nm">${p.n}</div> <div class="s2">${p.age}t · ${JOBS[p.job]?.n||p.job}</div> <div class="ln"><span>Ngoại hình</span><span>${p.ap}/10</span></div> <div class="ln"><span>Tài sản</span><span>${p.wl}/100</span></div> <div class="ln"><span>Học vấn</span><span>${EDU_LABEL[p.edu]}</span></div> ${isG?'<div class="info">🎩 Ga lăng</div>':''} ${isS?'<div class="info">💰 Bủn xỉn</div>':''} ${rc>0?`<div class="warn">⚠️ Từ chối: ${Math.round(rc*100)}%</div>`:''} <div style="display:flex;gap:3px;flex-wrap:wrap;margin-top:4px"> ${p.per.slice(0,3).map(t=>`<span class="bd" style="font-size:9px">${TRAITS[t]||t}</span>`).join('')} </div> <div style="font-size:9px;color:#64748b;font-style:italic;margin-top:4px">${p.bio}</div> <div class="npc-a"> <button class="btn pri" onclick="tryMeet('${p.id}')">Kết bạn</button> <button class="btn sec" onclick="skip('${p.id}')">Bỏ</button> </div> </div>`; }).join('')} </div> <button class="btn sec" style="margin-top:8px" onclick="rollProfiles();openMeet();">🔄 Đổi</button> <button class="btn sec" onclick="closeModal()">Đóng</button> `); }
 function skip(id){S.currentProfiles=S.currentProfiles.filter(x=>x!==id);openMeet();}
-function tryMeet(pid){ const p=NPC_POOL.find(x=>x.id===pid);if(!p)return; const rc=rejectChance(p); if(Math.random()<rc){ addLog(`❌ ${p.n} từ chối kết bạn.`,'bad'); showModal(`<h2>❌ Bị từ chối</h2><p style="text-align:center;font-size:40px">${p.av}</p> <p><b>${p.n}</b>: "Xin lỗi, chúng ta không hợp."</p> <button class="btn sec" onclick="closeModal()">Buồn</button>`); S.currentProfiles=S.currentProfiles.filter(x=>x!==pid); return; } const rid='r'+pid+'_'+Date.now(); const shared=p.hob.filter(h=>S.hobbies.includes(h)); S.rels[rid]={ id:rid,pid:p.id,n:p.n,g:p.g,av:p.av,age:p.age, job:p.job,ap:p.ap,wl:p.wl,edu:p.edu,bg:p.bg, per:[...p.per],hob:[...p.hob],bio:p.bio,views:p.views, bond:10+shared.length*5,love:5+shared.length*3, stage:'friend',angry:false,angryDays:0, expecting:false,expectingWeeks:0, }; addLog(`🌐 Kết bạn với ${p.av} ${p.n}.`,'good'); addNpcToWorld(S.rels[rid]); showModal(`<h2>✅ Kết bạn!</h2><p style="text-align:center;font-size:40px">${p.av}</p> <p><b>${p.n}</b> đã trở thành người quen. Hãy tìm họ trên bản đồ!</p> <button class="btn pri" onclick="closeModal();openRel();">Tiếp tục</button>`); S.currentProfiles=S.currentProfiles.filter(x=>x!==pid); render(); }
+function tryMeet(pid){ const p=NPC_POOL.find(x=>x.id===pid);if(!p)return; const rc=rejectChance(p); if(Math.random()<rc){ addLog(`❌ ${p.n} từ chối.`,'bad'); showModal(`<h2>❌ Bị từ chối</h2><p style="text-align:center;font-size:40px">${p.av}</p><button class="btn sec" onclick="closeModal()">Buồn</button>`); S.currentProfiles=S.currentProfiles.filter(x=>x!==pid); return; } const rid='r'+pid+'_'+Date.now(); const shared=p.hob.filter(h=>S.hobbies.includes(h)); S.rels[rid]={ id:rid,pid:p.id,n:p.n,g:p.g,av:p.av,age:p.age, job:p.job,ap:p.ap,wl:p.wl,edu:p.edu,bg:p.bg, per:[...p.per],hob:[...p.hob],bio:p.bio,views:p.views, bond:10+shared.length*5,love:5+shared.length*3, stage:'friend',angry:false,angryDays:0, expecting:false,expectingWeeks:0 }; 
+const locs = Object.values(LOCATIONS); const loc = locs[Math.floor(Math.random()*locs.length)];
+S.npcPositions[rid] = { x:(loc.x+Math.random()*loc.w)*TILE, y:(loc.y+loc.h+1+Math.random())*TILE };
+S.npcStates[rid] = {facing:'down', walking:false, frame:0, target:null, idleTimer:0};
+addLog(`🌐 Kết bạn với ${p.n}!`,'good'); showModal(`<h2>✅ Kết bạn!</h2><p style="text-align:center;font-size:40px">${p.av}</p> <p><b>${p.n}</b> xuất hiện trên bản đồ! Đi lại gần để nói chuyện.</p><button class="btn pri" onclick="closeModal()">OK</button>`); S.currentProfiles=S.currentProfiles.filter(x=>x!==pid); render(); }
 
 // ═══════════ RELATIONS ═══════════
-function openRel(){ const list=Object.values(S.rels); let html=`<h2>🤝 Quan hệ (${list.length})</h2>`; const partner=getPartner(); if(partner){html+=`<h3>💗 Người thương</h3>`;html+=renderRelCard(partner,true);} html+=`<h3>🌐 Người quen (${list.length-(partner?1:0)})</h3>`; if(list.length===0){html+=`<p>Chưa quen ai. Bấm 🌐 Gặp.</p>`;} else{ for(const r of list){ if(r.id===S.partnerId)continue; html+=renderRelCard(r,false); } } const marriages=[]; for(const a of NPC_POOL){ for(const b of NPC_POOL){ if(a.id>=b.id)continue; const rel=S.npcRels[a.id]?.[b.id]; if(rel?.status==='married')marriages.push({a,b}); } } if(marriages.length>0){ html+=`<h3>💒 NPC kết hôn với nhau</h3>`; html+=marriages.map(m=>`<div class="npc-card m"><div class="npc-h"><span class="av">${m.a.av}</span><span class="nm">${m.a.n}</span>❤️<span class="av">${m.b.av}</span><span class="nm">${m.b.n}</span></div></div>`).join(''); } html+=`<button class="btn sec" style="margin-top:10px" onclick="openMeet()">🌐 Gặp người mới</button>`; html+=`<button class="btn sec" onclick="closeModal()">Đóng</button>`; showModal(html); }
-function renderRelCard(r,isPartner){ const shared=r.hob.filter(h=>S.hobbies.includes(h)); const isSameG=r.g===S.gender; const stageLabel={friend:'🤝 Bạn',close:'💛 Bạn thân',bestie:'💜 Bạn thân', brother:'🤜🤛 Chí cốt',crush:'💓 Để ý',dating:'💕 Hẹn hò',engaged:'💍 Đính hôn',married:'💒 Vợ chồng'}[r.stage]||r.stage; const isG=r.per.includes('galant'); const isS=r.per.includes('stingy'); let acts=`<button class="btn sec" onclick="openChat('${r.id}')">💬 Chat</button>`; acts+=`<button class="btn sec" onclick="hang('${r.id}')">Đi chơi</button>`; acts+=`<button class="btn sec" onclick="gift('${r.id}')">Quà</button>`; if(r.g!==S.gender&&r.stage!=='married'&&r.stage!=='engaged'){ acts+=`<button class="btn gold" onclick="dateWith('${r.id}')">Hẹn hò</button>`; } if(isPartner&&r.stage==='dating')acts+=`<button class="btn gold" onclick="openPropose()">💍 Cầu hôn</button>`; if(isPartner&&r.stage==='engaged')acts+=`<button class="btn gold" onclick="openWedding()">💒 Cưới</button>`; if(isPartner&&r.stage==='married'&&!r.expecting)acts+=`<button class="btn gold" onclick="tryPregnant()">👶 Thử có con</button>`; acts+=`<button class="btn danger" onclick="unfriend('${r.id}')">🚫 Hủy KB</button>`; const romances=getNpcRomanceStatus({id:r.pid}); const romInfo=romances.filter(x=>x.rel.status!=='none') .map(x=>`${x.other.av} ${x.other.n} (${x.rel.status==='married'?'💒':x.rel.status==='dating'?'💕':'💓'})`).join(', '); return `<div class="npc-card ${isPartner?'p':''} ${r.angry?'a':''}"> <div class="npc-h"> <span class="av">${r.av}</span><span class="nm">${r.n}</span> <span class="bd">${r.age}t</span> <span class="bd">${JOBS[r.job]?.n||r.job}</span> <span class="bd">💰${r.wl}</span> <span class="bd gold">${stageLabel}</span> ${r.angry?'<span class="bd red">😡 Giận</span>':''} ${isG?'<span class="bd gold">🎩</span>':''} ${isS?'<span class="bd red">💰</span>':''} </div> <div style="font-size:11px;color:#94a3b8">💗 ${Math.round(r.love)} · 🤝 ${Math.round(r.bond)}</div> <div class="bond"><div class="bond-f ${r.love<0?'neg':''}" style="width:${Math.abs(r.love)}%"></div></div> ${shared.length?`<div style="font-size:10px;color:#6ee7b7">Chung: ${shared.map(h=>HOBBIES[h].e).join(' ')}</div>`:''} ${r.love<=-15?`<div class="warn">⚠️ Nguy cơ bị hủy kết bạn!</div>`:''} ${!isSameG&&r.love>=90&&r.stage!=='dating'&&r.stage!=='engaged'&&r.stage!=='married'?'<div style="font-size:10px;color:#f472b6;font-weight:bold">💗 Có thể tỏ tình!</div>':''} ${r.expecting?`<div style="font-size:10px;color:#fbbf24">🤰 Mang thai — ${r.expectingWeeks} tuần</div>`:''} ${romInfo?`<div class="info">NPC khác: ${romInfo}</div>`:''} <div class="npc-a">${acts}</div> </div>`; }
+function openRel(){ const list=Object.values(S.rels); let html=`<h2>🤝 Quan hệ (${list.length})</h2>`; const partner=getPartner(); if(partner){html+=`<h3>💗 Người thương</h3>`;html+=renderRelCard(partner,true);} html+=`<h3>🌐 Người quen (${list.length-(partner?1:0)})</h3>`; if(list.length===0){html+=`<p>Chưa quen ai. Bấm 🌐 Gặp.</p>`;} else{ for(const r of list){ if(r.id===S.partnerId)continue; html+=renderRelCard(r,false); } } const marriages=[]; for(const a of NPC_POOL){ for(const b of NPC_POOL){ if(a.id>=b.id)continue; const rel=S.npcRels[a.id]?.[b.id]; if(rel?.status==='married')marriages.push({a,b}); } } if(marriages.length>0){ html+=`<h3>💒 NPC kết hôn</h3>`; html+=marriages.map(m=>`<div class="npc-card m"><div class="npc-h"><span class="av">${m.a.av}</span><span class="nm">${m.a.n}</span>❤️<span class="av">${m.b.av}</span><span class="nm">${m.b.n}</span></div></div>`).join(''); } html+=`<button class="btn sec" style="margin-top:8px" onclick="openMeet()">🌐 Gặp người mới</button>`; html+=`<button class="btn sec" onclick="closeModal()">Đóng</button>`; showModal(html); }
+function renderRelCard(r,isPartner){ const shared=r.hob.filter(h=>S.hobbies.includes(h)); const isSameG=r.g===S.gender; const stageLabel={friend:'🤝 Bạn',close:'💛 Bạn thân',bestie:'💜 Bạn thân', brother:'🤜🤛 Chí cốt',crush:'💓 Để ý',dating:'💕 Hẹn hò',engaged:'💍 Đính hôn',married:'💒 Vợ chồng'}[r.stage]||r.stage; const isG=r.per.includes('galant'); const isS=r.per.includes('stingy'); let acts=`<button class="btn sec" onclick="openChat('${r.id}')">💬 Chat</button>`; acts+=`<button class="btn sec" onclick="hang('${r.id}')">Đi chơi</button>`; acts+=`<button class="btn sec" onclick="gift('${r.id}')">Quà</button>`; if(r.g!==S.gender&&r.stage!=='married'&&r.stage!=='engaged'){ acts+=`<button class="btn gold" onclick="dateWith('${r.id}')">Hẹn hò</button>`; } if(isPartner&&r.stage==='dating')acts+=`<button class="btn gold" onclick="openPropose()">💍 Cầu hôn</button>`; if(isPartner&&r.stage==='engaged')acts+=`<button class="btn gold" onclick="openWedding()">💒 Cưới</button>`; if(isPartner&&r.stage==='married'&&!r.expecting)acts+=`<button class="btn gold" onclick="tryPregnant()">👶 Có con</button>`; acts+=`<button class="btn danger" onclick="unfriend('${r.id}')">🚫 Hủy</button>`; const romances=getNpcRomanceStatus({id:r.pid}); const romInfo=romances.filter(x=>x.rel.status!=='none').map(x=>`${x.other.av} ${x.other.n} (${x.rel.status==='married'?'💒':x.rel.status==='dating'?'💕':'💓'})`).join(', '); 
+const pos = S.npcPositions[r.id];
+let locName = '...';
+if(pos){ const px = pos.x+TILE/2, py = pos.y+TILE/2; for(const loc of Object.values(LOCATIONS)){ if(px >= (loc.x-1)*TILE && px <= (loc.x+loc.w+1)*TILE && py >= (loc.y-1)*TILE && py <= (loc.y+loc.h+1)*TILE){ locName = loc.emoji+' '+loc.name; break; } } }
+return `<div class="npc-card ${isPartner?'p':''} ${r.angry?'a':''}"> <div class="npc-h"> <span class="av">${r.av}</span><span class="nm">${r.n}</span> <span class="bd">${r.age}t</span> <span class="bd">${JOBS[r.job]?.n||r.job}</span> <span class="bd gold">${stageLabel}</span> ${r.angry?'<span class="bd red">😡</span>':''} ${isG?'<span class="bd gold">🎩</span>':''} ${isS?'<span class="bd red">💰</span>':''} </div> <div style="font-size:10px;color:#38bdf8">📍 ${locName}</div> <div style="font-size:10px;color:#94a3b8">💗 ${Math.round(r.love)} · 🤝 ${Math.round(r.bond)}</div> <div class="bond"><div class="bond-f ${r.love<0?'neg':''}" style="width:${Math.abs(r.love)}%"></div></div> ${shared.length?`<div style="font-size:9px;color:#6ee7b7">Chung: ${shared.map(h=>HOBBIES[h].e).join(' ')}</div>`:''} ${r.love<=-15?`<div class="warn">⚠️ Nguy cơ hủy kết bạn!</div>`:''} ${!isSameG&&r.love>=90&&r.stage!=='dating'&&r.stage!=='engaged'&&r.stage!=='married'?'<div style="font-size:10px;color:#f472b6;font-weight:bold">💗 Có thể tỏ tình!</div>':''} ${r.expecting?`<div style="font-size:10px;color:#fbbf24">🤰 Mang thai</div>`:''} ${romInfo?`<div class="info">NPC khác: ${romInfo}</div>`:''} <div class="npc-a">${acts}</div> </div>`; }
 function hang(id){ const r=S.rels[id];if(!r||S.periods+1>21)return; consume(1);r.bond=clamp(r.bond+5); if(r.g!==S.gender)r.love=clamp(r.love+3); apply('mental',5);updateStage(r); addLog(`🤝 Đi chơi với ${r.n}.`,'love'); render();openRel(); }
-function dateWith(id){ const r=S.rels[id];if(!r||S.periods+2>21)return; const isG=r.per.includes('galant'); const isS=r.per.includes('stingy'); let cost=300,msg=''; if(isG){cost=0;msg=' — Họ ga lăng trả hết 🎩';} else if(isS){cost=600;msg=' — Họ bắt bạn trả gấp đôi 💰';} if(S.st.money<cost){alert('Không đủ tiền.');return;} consume(2); if(cost)apply('money',-cost); r.love=clamp(r.love+12);r.bond=clamp(r.bond+4); apply('mental',10);updateStage(r);S._dated=true; addLog(`💗 Hẹn hò với ${r.n}${msg}`,'love'); render();openRel(); }
+function dateWith(id){ const r=S.rels[id];if(!r||S.periods+2>21)return; const isG=r.per.includes('galant'); const isS=r.per.includes('stingy'); let cost=300,msg=''; if(isG){cost=0;msg=' — Họ trả hết 🎩';} else if(isS){cost=600;msg=' — Bạn trả gấp đôi 💰';} if(S.st.money<cost){alert('Không đủ tiền.');return;} consume(2); if(cost)apply('money',-cost); r.love=clamp(r.love+12);r.bond=clamp(r.bond+4); apply('mental',10);updateStage(r);S._dated=true; addLog(`💗 Hẹn hò với ${r.n}${msg}`,'love'); render();openRel(); }
 function gift(id){ const r=S.rels[id];if(!r||S.periods+1>21)return; if(S.st.money<500){alert('Không đủ tiền.');return;} consume(1);apply('money',-500); r.love=clamp(r.love+15);r.bond=clamp(r.bond+3); apply('mental',3);updateStage(r); addLog(`🎁 Tặng quà cho ${r.n}.`,'love'); render();openRel(); }
-function unfriend(id){ const r=S.rels[id];if(!r)return; if(!confirm(`Hủy kết bạn với ${r.n}? Họ sẽ rất buồn.`))return; if(S.partnerId===id){S.partnerId=null;syncLove();} delete S.rels[id]; removeNpcFromWorld(id); apply('mental',-8); addLog(`💔 Bạn đã hủy kết bạn với ${r.n}.`,'bad'); closeModal();render(); }
+function unfriend(id){ const r=S.rels[id];if(!r)return; if(!confirm(`Hủy kết bạn với ${r.n}?`))return; if(S.partnerId===id){S.partnerId=null;syncLove();} delete S.rels[id]; delete S.npcPositions[id]; delete S.npcStates[id]; apply('mental',-8); addLog(`💔 Đã hủy kết bạn với ${r.n}.`,'bad'); closeModal();render(); }
 function updateStage(r){ if(['dating','engaged','married'].includes(r.stage))return; const same=r.g===S.gender; if(same){ if(r.bond>=90)r.stage=S.gender==='nam'?'brother':'bestie'; else if(r.bond>=70)r.stage='close'; else r.stage='friend'; }else{ if(r.love>=60)r.stage='crush'; else if(r.bond>=70)r.stage='close'; else r.stage='friend'; } }
 
 // ═══════════ CHAT ═══════════
 let _chatId=null;
+const CHAT_TOPICS_GLOBAL=[ {id:'greet',n:'👋 Chào',f:2,l:1,r:{vuitinh:'"Ơ cậu đến rồi!"',hoatbat:'"Hi cậu!"',tramtinh:'"Ừ, chào."',lanhlung:'"...Chào."',def:'"Chào cậu!"'}}, {id:'ask',n:'❓ Hỏi thăm',f:3,l:2,r:{quantam:'"Ngày tớ bình thường. Còn cậu?"',noilo:'"Hôm nay tớ hơi lo..."',def:'"Cũng được."'}}, {id:'khen',n:'💐 Khen',f:3,l:4,r:{langman:'"Cậu làm tớ ngại..."',lanhlung:'"Ừ, biết rồi."',def:'"Cảm ơn!"'}}, {id:'share',n:'💭 Chia sẻ',f:4,l:5,r:{sautam:'"...Cảm ơn cậu."',langman:'"Tớ thích người dám nói."',def:'"Ừ, tớ hiểu."'}}, {id:'view_love',n:'💗 Tình yêu',f:3,l:4,view:'love',r:{langman:'"Yêu là cảm xúc."',thucte:'"Yêu phải thực tế."',def:'"Chủ đề khó."'}}, {id:'view_career',n:'💼 Sự nghiệp',f:3,l:3,view:'career',r:{thamvong:'"Sự nghiệp là ưu tiên."',doclap:'"Cần tự do."',def:'"Mỗi người có hướng."'}}, {id:'view_money',n:'💰 Tiền',f:3,l:3,view:'money',r:{stingy:'"Phải tiết kiệm."',thucte:'"Tiền không tự sinh."',def:'"Tiền là công cụ."'}}, {id:'view_family',n:'👨‍👩‍👧 Gia đình',f:4,l:5,view:'family',r:{quantam:'"Tớ muốn gia đình ấm."',doclap:'"Cần không gian riêng."',def:'"Gia đình quan trọng."'}}, {id:'flirt',n:'😘 Thả thính',f:0,l:8,stage:['crush','dating'],r:{langman:'"Tim tớ đập nhanh..."',galant:'"Cậu muốn gì tớ chiều."',def:'"Cậu lạ lắm nha."'}} ];
 function openChat(id){ const r=S.rels[id];if(!r)return; _chatId=id; if(!S.chats[id])S.chats[id]=[]; renderChat(); }
-function renderChat(){ const r=S.rels[_chatId];if(!r)return; const log=S.chats[_chatId]; const viewsHtml=r.views?` <h3>Quan điểm của ${r.n}</h3> <div class="view">💗 ${r.views.love}</div> <div class="view">💼 ${r.views.career}</div> <div class="view">💰 ${r.views.money}</div> <div class="view">👨‍👩‍👧 ${r.views.family}</div> `:''; const romances=getNpcRomanceStatus({id:r.pid}); const romInfo=romances.filter(x=>x.rel.status!=='none'); const romHtml=romInfo.length?` <h3>Quan hệ với NPC khác</h3> ${romInfo.map(x=>`<div class="info"> ${x.other.av} ${x.other.n} — ${x.rel.status==='married'?'💒 Kết hôn':x.rel.status==='dating'?'💕 Hẹn hò':'💓 Để ý'} (${Math.round(x.rel.aff)}/100) </div>`).join('')} `:''; showModal(` <h2>💬 ${r.av} ${r.n}</h2> <p style="font-size:11px;color:#94a3b8">${r.age}t · ${JOBS[r.job]?.n||r.job} · ${r.per.join(', ')}</p> ${r.angry?'<div class="warn">😡 Đang giận bạn</div>':''} ${viewsHtml}${romHtml} <h3>Trò chuyện</h3> <div class="chat" id="chat"> ${log.length===0?'<div class="msg sys">Bắt đầu trò chuyện...</div>':''} ${log.map(m=>`<div class="msg ${m.who}">${m.t}</div>`).join('')} </div> <div style="margin-bottom:8px"> ${CHAT_TOPICS.filter(t=>!t.stage||t.stage.includes(r.stage)).map(t=> `<button class="topic" onclick="doChat('${t.id}')">${t.n}</button>` ).join('')} </div> <button class="btn sec" onclick="openRel()">← Quay lại</button> `); setTimeout(()=>{const c=document.getElementById('chat');if(c)c.scrollTop=c.scrollHeight;},50); }
-function doChat(tid){ const r=S.rels[_chatId];if(!r)return; const t=CHAT_TOPICS.find(x=>x.id===tid);if(!t)return; S.chats[_chatId].push({who:'you',t:t.n.replace(/^\S+\s/,'')}); if(t.view&&r.views&&r.views[t.view]){ S.chats[_chatId].push({who:'them',t:r.views[t.view]}); if(r.per.some(p=>t.r[p]))r.love=clamp(r.love+3); }else{ let mul=1; if(t.r&&r.per.some(p=>t.r[p]))mul=1.3; if(r.angry)mul=0.3; r.bond=clamp(r.bond+Math.round((t.f||0)*mul)); if(r.g!==S.gender)r.love=clamp(r.love+Math.round((t.l||0)*mul)); let resp=t.r.def; if(r.angry)resp='"..." (họ không muốn nói chuyện)'; else for(const p of r.per){if(t.r[p]){resp=t.r[p];break;}} S.chats[_chatId].push({who:'them',t:resp}); } apply('mental',2);updateStage(r); if(S.chats[_chatId].length>30)S.chats[_chatId].splice(0,S.chats[_chatId].length-30); addLog(`💬 Chat với ${r.n}.`,'love'); render();renderChat(); }
+function renderChat(){ const r=S.rels[_chatId];if(!r)return; const log=S.chats[_chatId]; const viewsHtml=r.views?` <h3>Quan điểm</h3> <div class="view">💗 ${r.views.love}</div> <div class="view">💼 ${r.views.career}</div> <div class="view">💰 ${r.views.money}</div> <div class="view">👨‍👩‍👧 ${r.views.family}</div> `:''; showModal(` <h2>💬 ${r.av} ${r.n}</h2> <p style="font-size:10px;color:#94a3b8">${r.age}t · ${JOBS[r.job]?.n||r.job} · ${r.per.map(t=>TRAITS[t]).join(' ')}</p> ${r.angry?'<div class="warn">😡 Đang giận bạn</div>':''} ${viewsHtml} <h3>Trò chuyện</h3> <div class="chat" id="chat"> ${log.length===0?'<div class="msg sys">Bắt đầu...</div>':''} ${log.map(m=>`<div class="msg ${m.who}">${m.t}</div>`).join('')} </div> <div style="margin-bottom:6px"> ${CHAT_TOPICS_GLOBAL.filter(t=>!t.stage||t.stage.includes(r.stage)).map(t=> `<button class="topic" onclick="doChat('${t.id}')">${t.n}</button>` ).join('')} </div> <button class="btn sec" onclick="openRel()">← Quay lại</button> `); setTimeout(()=>{const c=document.getElementById('chat');if(c)c.scrollTop=c.scrollHeight;},50); }
+function doChat(tid){ const r=S.rels[_chatId];if(!r)return; const t=CHAT_TOPICS_GLOBAL.find(x=>x.id===tid);if(!t)return; S.chats[_chatId].push({who:'you',t:t.n.replace(/^\S+\s/,'')}); if(t.view&&r.views&&r.views[t.view]){ S.chats[_chatId].push({who:'them',t:r.views[t.view]}); if(r.per.some(p=>t.r[p]))r.love=clamp(r.love+3); }else{ let mul=1; if(t.r&&r.per.some(p=>t.r[p]))mul=1.3; if(r.angry)mul=0.3; r.bond=clamp(r.bond+Math.round((t.f||0)*mul)); if(r.g!==S.gender)r.love=clamp(r.love+Math.round((t.l||0)*mul)); let resp=t.r.def; if(r.angry)resp='"..." (họ không muốn nói chuyện)'; else for(const p of r.per){if(t.r[p]){resp=t.r[p];break;}} S.chats[_chatId].push({who:'them',t:resp}); } apply('mental',2);updateStage(r); if(S.chats[_chatId].length>30)S.chats[_chatId].splice(0,S.chats[_chatId].length-30); addLog(`💬 Chat với ${r.n}.`,'love'); render();renderChat(); }
 
 // ═══════════ PROPOSE / WEDDING ═══════════
-function openPropose(){ const p=getPartner();if(!p||p.stage!=='dating')return; const love=p.love; let chance; if(love<70)chance=0; else if(love>=95)chance=1; else chance=(love-70)/25; const pct=Math.round(chance*100); showModal(` <h2>💍 Cầu hôn ${p.n}</h2> <div style="background:#0f172a;padding:10px;border-radius:8px;font-size:12px;color:#cbd5e1;margin:10px 0"> Tình cảm: ${Math.round(love)}/100<br>Nhẫn: 5.000đ<br> Cơ hội: <b style="color:${pct>=70?'#22c55e':pct>=30?'#facc15':'#ef4444'}">${pct}%</b> </div> <button class="btn gold" ${S.st.money>=5000?'':'disabled'} onclick="doPropose()">Cầu hôn (5.000đ)</button> <button class="btn sec" onclick="openRel()">Để sau</button> `); }
-function doPropose(){ const p=getPartner();if(!p||S.st.money<5000)return; let chance; if(p.love<70)chance=0; else if(p.love>=95)chance=1; else chance=(p.love-70)/25; apply('money',-5000); if(Math.random()<chance){ p.stage='engaged';p.love=clamp(p.love+15);syncLove(); apply('mental',20); addLog(`💍 ${p.n} đồng ý! Đã đính hôn.`,'love'); showModal(`<h2>💍 Đồng ý!</h2><p style="text-align:center;font-size:50px">${p.av}</p> <p><b>${p.n}</b> đã nhận lời!</p><button class="btn pri" onclick="openRel()">Tiếp tục</button>`); }else{ p.love=clamp(p.love-15);syncLove();makeAngry(p,5,2); addLog(`💔 ${p.n} từ chối.`,'bad'); showModal(`<h2>💔 Từ chối</h2><p style="text-align:center;font-size:50px">😢</p> <button class="btn sec" onclick="openRel()">Buồn</button>`); } render(); }
-function openWedding(){ const p=getPartner();if(!p||p.stage!=='engaged')return; const can=S.st.money>=10000&&S.periods+3<=21; const wage=JOBS[p.job]?.w||500; const weekIncome=Math.round(wage*5); showModal(` <h2>💒 Đám cưới</h2> <div style="background:#0f172a;padding:10px;border-radius:8px;font-size:12px;color:#cbd5e1;margin:10px 0"> Chi phí: 10.000đ + 3 buổi<br> Sau cưới, ${p.n} đóng góp <b>${fmt(weekIncome)}/tuần</b> </div> <button class="btn gold" ${can?'':'disabled'} onclick="doWedding()">Tổ chức</button> <button class="btn sec" onclick="openRel()">Để sau</button> `); }
-function doWedding(){ const p=getPartner(); if(!p||p.stage!=='engaged'||S.st.money<10000||S.periods+3>21)return; consume(3);if(S.ended)return; apply('money',-10000); p.stage='married';p.love=clamp(p.love+15);syncLove(); apply('mental',30); addLog(`💒 Kết hôn với ${p.n}!`,'love'); showModal(`<h2>💒 Đám cưới</h2><p style="text-align:center;font-size:50px">💍💐🎊</p> <p>Bạn và <b>${p.n}</b> chính thức là vợ chồng!</p> <button class="btn gold" onclick="openRel()">🎉</button>`); render(); }
+function openPropose(){ const p=getPartner();if(!p||p.stage!=='dating')return; const love=p.love; let chance; if(love<70)chance=0; else if(love>=95)chance=1; else chance=(love-70)/25; const pct=Math.round(chance*100); showModal(` <h2>💍 Cầu hôn ${p.n}</h2> <div style="background:#0f172a;padding:10px;border-radius:8px;font-size:11px;color:#cbd5e1;margin:10px 0"> Tình cảm: ${Math.round(love)}/100<br>Nhẫn: 5.000đ<br> Cơ hội: <b style="color:${pct>=70?'#22c55e':pct>=30?'#facc15':'#ef4444'}">${pct}%</b> </div> <button class="btn gold" ${S.st.money>=5000?'':'disabled'} onclick="doPropose()">Cầu hôn</button> <button class="btn sec" onclick="openRel()">Để sau</button> `); }
+function doPropose(){ const p=getPartner();if(!p||S.st.money<5000)return; let chance; if(p.love<70)chance=0; else if(p.love>=95)chance=1; else chance=(p.love-70)/25; apply('money',-5000); if(Math.random()<chance){ p.stage='engaged';p.love=clamp(p.love+15);syncLove(); apply('mental',20); addLog(`💍 ${p.n} đồng ý!`,'love'); showModal(`<h2>💍 Đồng ý!</h2><p style="text-align:center;font-size:50px">${p.av}</p><button class="btn pri" onclick="openRel()">OK</button>`); }else{ p.love=clamp(p.love-15);syncLove();makeAngry(p,5,2); addLog(`💔 ${p.n} từ chối.`,'bad'); showModal(`<h2>💔 Từ chối</h2><p style="text-align:center;font-size:50px">😢</p><button class="btn sec" onclick="openRel()">Buồn</button>`); } render(); }
+function openWedding(){ const p=getPartner();if(!p||p.stage!=='engaged')return; const can=S.st.money>=10000&&S.periods+3<=21; const wage=JOBS[p.job]?.w||500; showModal(` <h2>💒 Đám cưới</h2> <div style="background:#0f172a;padding:10px;border-radius:8px;font-size:11px;color:#cbd5e1;margin:10px 0"> Chi phí: 10.000đ + 3 buổi<br> Sau cưới, ${p.n} đóng góp <b>${fmt(Math.round(wage*5))}/tuần</b> </div> <button class="btn gold" ${can?'':'disabled'} onclick="doWedding()">Tổ chức</button> <button class="btn sec" onclick="openRel()">Để sau</button> `); }
+function doWedding(){ const p=getPartner(); if(!p||p.stage!=='engaged'||S.st.money<10000||S.periods+3>21)return; consume(3);if(S.ended)return; apply('money',-10000); p.stage='married';p.love=clamp(p.love+15);syncLove(); apply('mental',30); addLog(`💒 Kết hôn với ${p.n}!`,'love'); showModal(`<h2>💒 Đám cưới</h2><p style="text-align:center;font-size:50px">💍💐🎊</p><button class="btn gold" onclick="openRel()">🎉</button>`); render(); }
 
 // ═══════════ JOBS ═══════════
-function openJobs(){ const playerRank=EDU_RANK[S.edu]; const sorted=Object.entries(JOBS).sort((a,b)=>{ const ra=EDU_RANK[a[1].edu]||0,rb=EDU_RANK[b[1].edu]||0; return ra-rb||a[1].w-b[1].w; }); showModal(` <h2>💼 Chọn nghề</h2> <p style="font-size:12px;color:#94a3b8">Học vấn: <b>${EDU_LABEL[S.edu]}</b></p> ${sorted.map(([k,j])=>{ const reqRank=j.edu?EDU_RANK[j.edu]:0; const locked=playerRank<reqRank; const cur=S.job===k; return `<button class="btn ${cur?'pri':'sec'}" style="text-align:left;padding:8px 12px;margin-bottom:4px" ${locked||cur?'disabled':''} onclick="changeJob('${k}')"> ${j.i} ${j.n} — ${fmt(j.w)}/ngày ${locked?`<br><small style="color:#fca5a5">🔒 Cần ${EDU_LABEL[j.edu]}</small>`:''} ${cur?'<br><small>Đang làm</small>':''} </button>`; }).join('')} <button class="btn sec" style="margin-top:10px" onclick="closeModal()">Đóng</button> `); }
+function openJobs(){ const playerRank=EDU_RANK[S.edu]; const sorted=Object.entries(JOBS).sort((a,b)=>{ const ra=EDU_RANK[a[1].edu]||0,rb=EDU_RANK[b[1].edu]||0; return ra-rb||a[1].w-b[1].w; }); showModal(` <h2>💼 Chọn nghề</h2> <p style="font-size:11px;color:#94a3b8">Học vấn: <b>${EDU_LABEL[S.edu]}</b></p> ${sorted.map(([k,j])=>{ const reqRank=j.edu?EDU_RANK[j.edu]:0; const locked=playerRank<reqRank; const cur=S.job===k; return `<button class="btn ${cur?'pri':'sec'}" style="text-align:left;padding:7px 10px;margin-bottom:3px" ${locked||cur?'disabled':''} onclick="changeJob('${k}')"> ${j.i} ${j.n} — ${fmt(j.w)}/ngày ${locked?`<br><small style="color:#fca5a5">🔒 Cần ${EDU_LABEL[j.edu]}</small>`:''} ${cur?'<br><small>Đang làm</small>':''} </button>`; }).join('')} <button class="btn sec" style="margin-top:8px" onclick="closeModal()">Đóng</button> `); }
 function changeJob(k){ const j=JOBS[k];if(!j)return; const reqRank=j.edu?EDU_RANK[j.edu]:0; if(EDU_RANK[S.edu]<reqRank)return; S.job=k; addLog(`Chuyển sang: ${j.i} ${j.n}`,'info'); closeModal();render(); }
-
-// ═══════════ LEADERBOARD ═══════════
-async function openLeaderboard(){ showModal(`<h2>🏆 Bảng xếp hạng</h2><p style="font-size:13px;color:#94a3b8;text-align:center;padding:20px 0;">Tính năng BXH yêu cầu server trực tuyến.<br>Bạn đang chơi Offline trên GitHub Pages.</p><button class="btn sec" onclick="closeModal()">Đóng</button>`); }
 
 // ═══════════ MODAL ═══════════
 function showModal(h){document.getElementById('mbox').innerHTML=h;document.getElementById('modal').classList.add('on');}
 function closeModal(){document.getElementById('modal').classList.remove('on');}
 document.getElementById('modal').onclick=e=>{if(e.target.id==='modal')closeModal();};
 
-// ═══════════ RENDER ═══════════
-function render(){ if(!S||!S.gender)return; const t=time(); document.getElementById('w').textContent=S.week; document.getElementById('d').textContent=t.dw; document.getElementById('p').textContent=t.pn; document.getElementById('money').textContent=fmt(S.st.money); document.getElementById('job').textContent=JOBS[S.job].i+' '+JOBS[S.job].n; document.getElementById('edu').textContent=EDU_LABEL[S.edu]+(S.eduProgress?` (${S.eduProgress})`:''); document.getElementById('pnum').textContent=(21-S.periods)+' buổi'; if(_user)document.getElementById('userTag').textContent='👤 '+_user.username; const p=getPartner(); const pt=document.getElementById('partnerTag'); if(p){pt.style.display='';pt.textContent=`${p.av} ${p.n} ${p.expecting?'🤰':''}`;} else pt.style.display='none'; document.getElementById('dtrack').innerHTML=['T2','T3','T4','T5','T6','T7','CN'].map((wd,i)=>{ const start=i*3,cur=i===t.d; const dots=[0,1,2].map(j=>`<div class="dot ${start+j<S.periods?'on':''}"></div>`).join(''); return `<div class="day ${cur?'now':''}">${wd}<div class="dots">${dots}</div></div>`; }).join(''); const defs=[ {k:'health',l:'❤️ Sức khỏe',c:'#ef4444'},{k:'energy',l:'⚡ Năng lượng',c:'#facc15'}, {k:'mental',l:'🧠 Tinh thần',c:'#a78bfa'},{k:'skill',l:'📚 Kỹ năng',c:'#38bdf8'}, {k:'love',l:'💗 Tình cảm',c:'#ec4899'},{k:'passion',l:'🔥 Đam mê',c:'#fb923c'}, ]; document.getElementById('stats').innerHTML=defs.map(d=>{ const v=S.st[d.k]; return `<div class="stat"><div class="lbl"><span>${d.l}</span><span>${Math.round(v)}</span></div><div class="bar"><div class="fill" style="width:${v}%;background:${d.c}"></div></div></div>`; }).join(''); document.getElementById('acts').innerHTML=ACTIONS.map(a=>{ const dis=S.ended||S.periods+a.c>21 ||(a.once&&((a.id==='work'&&S._worked)||(a.id==='study'&&S._schooled))) ||(a.afterWork&&!S._worked) ||(a.minMoney&&S.st.money<a.minMoney); const lock=(a.afterWork&&!S._worked)?' 🔒':''; return `<button class="act ${a.ent?'ent':''}" data-id="${a.id}" ${dis?'disabled':''}>${a.n}${lock}<span class="cost">-${a.c} buổi${a.transport?' · +'+a.transport+'đ':''}</span></button>`; }).join(''); document.querySelectorAll('.act').forEach(b=>b.onclick=()=>doAction(b.dataset.id)); document.getElementById('log').innerHTML=S.log.map(e=> `<div class="e ${e.t}"><b>T${e.w} ${e.d}:</b> ${e.m}</div>`).join(''); save(); }
+// ═══════════ RENDER UI ═══════════
+function render(){ if(!S||!S.gender)return; const t=time(); document.getElementById('w').textContent=S.week; document.getElementById('d').textContent=t.dw; document.getElementById('p').textContent=t.pn; document.getElementById('money').textContent=fmt(S.st.money); document.getElementById('job').textContent=JOBS[S.job].i+' '+JOBS[S.job].n; document.getElementById('edu').textContent=EDU_LABEL[S.edu]+(S.eduProgress?` (${S.eduProgress})`:''); 
+document.getElementById('timeHud').textContent=t.pn+' · '+t.dwFull;
+const p=getPartner(); const pt=document.getElementById('partnerTag'); if(p){pt.style.display='';pt.textContent=`${p.av} ${p.n}`;} else pt.style.display='none'; 
+const defs=[ {k:'health',l:'❤️',c:'#ef4444'},{k:'energy',l:'⚡',c:'#facc15'}, {k:'mental',l:'🧠',c:'#a78bfa'},{k:'skill',l:'📚',c:'#38bdf8'}, {k:'love',l:'💗',c:'#ec4899'},{k:'passion',l:'🔥',c:'#fb923c'} ]; 
+document.getElementById('stats').innerHTML=defs.map(d=>{ const v=S.st[d.k]; return `<div class="stat"><div class="lbl"><span>${d.l} ${d.k}</span><span>${Math.round(v)}</span></div><div class="bar"><div class="fill" style="width:${v}%;background:${d.c}"></div></div></div>`; }).join(''); 
+document.getElementById('acts').innerHTML=ACTIONS.map(a=>{ const dis=S.ended||S.periods+a.c>21 ||(a.once&&((a.id==='work'&&S._worked)||(a.id==='study'&&S._schooled))) ||(a.afterWork&&!S._worked) ||(a.minMoney&&S.st.money<a.minMoney); const lock=(a.afterWork&&!S._worked)?' 🔒':''; return `<button class="act ${a.ent?'ent':''}" data-id="${a.id}" ${dis?'disabled':''}>${a.n}${lock}<span class="cost">-${a.c} buổi${a.transport?' · +'+a.transport+'đ':''}</span></button>`; }).join(''); 
+document.querySelectorAll('.act').forEach(b=>b.onclick=()=>doAction(b.dataset.id)); 
+document.getElementById('log').innerHTML=S.log.map(e=> `<div class="e ${e.t}"><b>T${e.w}:</b> ${e.m}</div>`).join(''); 
+save(); }
 
 // ═══════════ START ═══════════
-function showStart(){ window._g=null;window._h=[]; showModal(` <h2>Chào mừng đến Nhịp Đời</h2> <p>Tạo nhân vật của bạn.</p> <h3>Giới tính</h3> <div class="opt"> <button onclick="pickG(this,'nam')">👨 Nam</button> <button onclick="pickG(this,'nu')">👩 Nữ</button> <button onclick="pickG(this,'khac')">🧑 Khác</button> </div> <h3>Tên</h3> <input class="inp" id="nm" maxlength="20" placeholder="Nhập tên..."> <h3>Sở thích (2-3)</h3> <div class="opt" id="hobbies"> ${Object.entries(HOBBIES).map(([k,v])=>`<button onclick="pickH(this,'${k}')">${v.e} ${v.n}</button>`).join('')} </div> <button class="btn pri" style="margin-top:14px" onclick="startGame()">Bắt đầu cuộc đời</button> `); }
-function pickG(b,g){window._g=g;b.parentElement.querySelectorAll('button').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');} function pickH(b,h){ const i=window._h.indexOf(h); if(i>=0){window._h.splice(i,1);b.classList.remove('sel');} else if(window._h.length<3){window._h.push(h);b.classList.add('sel');} }
-function startGame(){ if(!window._g)return alert('Chọn giới tính.'); if(window._h.length<2)return alert('Chọn ít nhất 2 sở thích.'); S=newState(); S.gender=window._g; S.name=(document.getElementById('nm').value||'').trim()||'Bạn'; S.hobbies=[...window._h]; for(const npc of NPC_POOL)S.npcRels[npc.id]={}; rollProfiles(); initWorldFromRels(); addLog(`Chào ${S.name}! Hãy dùng WASD/D-pad để đi lại.`,'info'); addLog('Bấm 🌐 Gặp để gặp NPC.','info'); addLog('💡 NPC có tính cách riêng - họ sẽ tự đi lại!','npc'); addLog('💡 Lại gần NPC và bấm 💬 để nói chuyện.','info'); closeModal();render(); }
+function showStart(){ window._g=null;window._h=[]; showModal(` <h2>Chào mừng đến Nhịp Đời 2D</h2> <p>Tạo nhân vật và khám phá thị trấn!</p> <h3>Giới tính</h3> <div class="opt"> <button onclick="pickG(this,'nam')">👨 Nam</button> <button onclick="pickG(this,'nu')">👩 Nữ</button> <button onclick="pickG(this,'khac')">🧑 Khác</button> </div> <h3>Tên</h3> <input class="inp" id="nm" maxlength="20" placeholder="Nhập tên..."> <h3>Sở thích (2-3)</h3> <div class="opt" id="hobbies"> ${Object.entries(HOBBIES).map(([k,v])=>`<button onclick="pickH(this,'${k}')">${v.e} ${v.n}</button>`).join('')} </div> <button class="btn pri" style="margin-top:12px" onclick="startGame()">Bắt đầu cuộc đời</button> `); }
+function pickG(b,g){window._g=g;b.parentElement.querySelectorAll('button').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');} 
+function pickH(b,h){ const i=window._h.indexOf(h); if(i>=0){window._h.splice(i,1);b.classList.remove('sel');} else if(window._h.length<3){window._h.push(h);b.classList.add('sel');} }
+function startGame(){ if(!window._g)return alert('Chọn giới tính.'); if(window._h.length<2)return alert('Chọn ít nhất 2 sở thích.'); S=newState(); S.gender=window._g; S.name=(document.getElementById('nm').value||'').trim()||'Bạn'; S.hobbies=[...window._h]; 
+S.playerPos = {x:8*TILE, y:7*TILE};
+// Tùy chỉnh appearance theo giới tính
+if(window._g === 'nu'){ S.playerAppearance = {hair:'#7c2d12', hairStyle:'long', shirt:'#ec4899', pants:'#1e293b', skin:'#fcd5b5'}; }
+else if(window._g === 'nam'){ S.playerAppearance = {hair:'#1f2937', hairStyle:'short', shirt:'#3b82f6', pants:'#1e293b', skin:'#fcd5b5'}; }
+else { S.playerAppearance = {hair:'#a855f7', hairStyle:'messy', shirt:'#facc15', pants:'#4c1d95', skin:'#fcd5b5'}; }
+for(const npc of NPC_POOL)S.npcRels[npc.id]={}; 
+addLog(`Chào ${S.name}!`,'info'); addLog('Đi lang thang và gặp gỡ NPC!','info'); addLog('💡 Bấm vào bản đồ để tự động đi tới.','info');
+closeModal();render(); }
 
 // ═══════════ END ═══════════
-function gameOver(reason,detail){ S.ended=true; const marriages=[]; for(const a of NPC_POOL){ for(const b of NPC_POOL){ if(a.id>=b.id)continue; const rel=S.npcRels[a.id]?.[b.id]; if(rel?.status==='married')marriages.push(`${a.av}${a.n} ❤️ ${b.av}${b.n}`); } } const kids=S.children.map(c=>`👶 ${c.name} (${c.gender==='nam'?'trai':'gái'}, ${c.age} tuần)`).join('<br>')||'Chưa có con'; showModal(`<h2>🏁 ${reason}</h2><p>${detail}</p> <p><b>${S.name}</b> · ${S.gender==='nam'?'Nam':S.gender==='nu'?'Nữ':'Khác'}<br> Tuần: ${Math.min(S.week,52)}<br>Tiền: ${fmt(S.st.money)}<br> Nghề: ${JOBS[S.job].i} ${JOBS[S.job].n}<br> Học vấn: ${EDU_LABEL[S.edu]}<br> Người thương: ${getPartner()?getPartner().av+' '+getPartner().n:'Độc thân'}</p> <p><b>Con cái:</b><br>${kids}</p> ${marriages.length?`<p><b>NPC kết hôn:</b><br>${marriages.join('<br>')}</p>`:''} <button class="btn pri" onclick="hardReset()">Chơi lại</button> <button class="btn sec" onclick="closeModal();openLeaderboard()">🏆 Xem BXH</button>`); render(); }
-function summary(){ if(S.st.money>100000)return 'Bạn giàu có.'; if(S.children.length>0&&S.st.mental>70)return 'Gia đình hạnh phúc.'; if(S.st.mental>70&&S.st.love>60)return 'Bình yên hạnh phúc.'; if(S.st.mental>70)return 'Bình yên.'; return 'Một năm trôi qua.'; }
+function gameOver(reason,detail){ S.ended=true; const kids=S.children.map(c=>`👶 ${c.name} (${c.gender==='nam'?'trai':'gái'}, ${c.age} tuần)`).join('<br>')||'Chưa có con'; showModal(`<h2>🏁 ${reason}</h2><p>${detail}</p> <p><b>${S.name}</b><br> Tuần: ${Math.min(S.week,52)}<br>Tiền: ${fmt(S.st.money)}<br> Nghề: ${JOBS[S.job].i} ${JOBS[S.job].n}<br> Người thương: ${getPartner()?getPartner().n:'Độc thân'}</p> <p><b>Con cái:</b><br>${kids}</p> <button class="btn pri" onclick="hardReset()">Chơi lại</button>`); render(); }
+function summary(){ if(S.st.money>100000)return 'Bạn giàu có.'; if(S.children.length>0&&S.st.mental>70)return 'Gia đình hạnh phúc.'; if(S.st.mental>70)return 'Bình yên.'; return 'Một năm trôi qua.'; }
 function hardReset(){ S=newState();closeModal(); showStart();render(); }
 
 // ═══════════ WIRE ═══════════
 document.getElementById('endBtn').onclick=()=>{ if(S.ended)return; const left=21-S.periods; if(left>0&&!confirm(`Còn ${left} buổi. Kết thúc tuần?`))return; while(!S.ended&&S.periods<21)consume(Math.min(3,21-S.periods)); render(); };
-document.getElementById('meetBtn').onclick=openMeet; document.getElementById('relBtn').onclick=openRel; document.getElementById('childBtn').onclick=openChildren; document.getElementById('jobBtn').onclick=openJobs; document.getElementById('lbBtn').onclick=openLeaderboard; document.getElementById('assetsBtn').onclick=openAssets;
-document.getElementById('logoutBtn').onclick=()=>{ if(!confirm('Chơi lại từ đầu? Toàn bộ dữ liệu cũ sẽ bị xóa.'))return; localStorage.removeItem('nhipdoi_save'); localStorage.removeItem('nhipdoi_backup_v12'); location.reload(); };
+document.getElementById('relBtn').onclick=openRel; 
+document.getElementById('childBtn').onclick=openChildren; 
+document.getElementById('jobBtn').onclick=openJobs; 
+document.getElementById('assetsBtn').onclick=openAssets;
+document.getElementById('logoutBtn').onclick=()=>{ if(!confirm('Chơi lại từ đầu?'))return; localStorage.removeItem('nhipdoi3d_save'); location.reload(); };
+
+document.querySelectorAll('#dpad button[data-dir]').forEach(btn=>{
+  const dir = btn.dataset.dir;
+  const press = (e)=>{ e.preventDefault(); keys[dir]=true; };
+  const release = (e)=>{ e.preventDefault(); keys[dir]=false; };
+  btn.addEventListener('touchstart', press, {passive:false});
+  btn.addEventListener('touchend', release, {passive:false});
+  btn.addEventListener('touchcancel', release, {passive:false});
+  btn.addEventListener('mousedown', press);
+  btn.addEventListener('mouseup', release);
+  btn.addEventListener('mouseleave', release);
+});
+window.addEventListener('keydown', e=>{
+  if(e.key==='ArrowUp'||e.key==='w') keys.up=true;
+  if(e.key==='ArrowDown'||e.key==='s') keys.down=true;
+  if(e.key==='ArrowLeft'||e.key==='a') keys.left=true;
+  if(e.key==='ArrowRight'||e.key==='d') keys.right=true;
+});
+window.addEventListener('keyup', e=>{
+  if(e.key==='ArrowUp'||e.key==='w') keys.up=false;
+  if(e.key==='ArrowDown'||e.key==='s') keys.down=false;
+  if(e.key==='ArrowLeft'||e.key==='a') keys.left=false;
+  if(e.key==='ArrowRight'||e.key==='d') keys.right=false;
+});
 
 // ═══════════ INIT ═══════════
 async function init(){
@@ -714,12 +1076,50 @@ async function init(){
     if(!S.npcRels)S.npcRels={}; for(const npc of NPC_POOL)if(!S.npcRels[npc.id])S.npcRels[npc.id]={};
     if(!S.children)S.children=[];
     if(!S.assets)S.assets={ house:'none', car:'none', business:'none' };
+    if(!S.npcPositions)S.npcPositions={};
+    if(!S.npcStates)S.npcStates={};
+    if(!S.playerPos)S.playerPos={x:8*TILE, y:7*TILE};
+    if(!S.playerAppearance)S.playerAppearance={hair:'#1f2937', hairStyle:'short', shirt:'#8b5cf6', pants:'#1e293b', skin:'#fcd5b5'};
     for(const r of Object.values(S.rels)){ if(r.angry===undefined)r.angry=false; if(r.angryDays===undefined)r.angryDays=0; if(r.expecting===undefined){r.expecting=false;r.expectingWeeks=0;} }
-    initWorldFromRels();
+    initNpcPositions();
     setSv('saved'); render();
   }
+  buildTravelBar();
+  gameLoop();
 }
-Object.assign(window,{ pickG,pickH,startGame,showModal,closeModal,tryMeet,skip,rollProfiles, openChat,doChat,openRel,hang,gift,hardReset,openMeet,unfriend,openJobs, changeJob,openPropose,doPropose,openWedding,doWedding,dateWith, tryPregnant,openChildren,playWithChild,buyForChild,sendChildToSchool, openLeaderboard,openAssets,buyAsset,rejectNpcProposal });
+
+// ═══════════ GAME LOOP ═══════════
+let _gameLoopStarted = false;
+function gameLoop(){
+  if(_gameLoopStarted) return;
+  _gameLoopStarted = true;
+  function tick(now){
+    if(S && S.gender){
+      updatePlayer();
+      updateNpcs();
+      checkInteraction();
+      drawWorld(now || 0);
+      const locInfo = getPlayerLocation();
+      document.getElementById('locName').textContent = locInfo.loc.emoji + ' ' + locInfo.loc.name;
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+// Polyfill roundRect
+if(!CanvasRenderingContext2D.prototype.roundRect){
+  CanvasRenderingContext2D.prototype.roundRect = function(x,y,w,h,r){
+    if(w<2*r)r=w/2; if(h<2*r)r=h/2;
+    this.beginPath();
+    this.moveTo(x+r,y); this.arcTo(x+w,y,x+w,y+h,r);
+    this.arcTo(x+w,y+h,x,y+h,r); this.arcTo(x,y+h,x,y,r);
+    this.arcTo(x,y,x+w,y,r); this.closePath();
+    return this;
+  };
+}
+
+Object.assign(window,{ pickG,pickH,startGame,showModal,closeModal,tryMeet,skip,rollProfiles, openChat,doChat,openRel,hang,gift,hardReset,openMeet,unfriend,openJobs, changeJob,openPropose,doPropose,openWedding,doWedding,dateWith, tryPregnant,openChildren,playWithChild,buyForChild,sendChildToSchool, openAssets,buyAsset,rejectNpcProposal });
 init();
 </script>
 </body>
