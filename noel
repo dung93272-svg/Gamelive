@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎄 Thị Trấn Noel · Chibi v3</title>
+<style>
+:root{--red:#e53935;--red-d:#b71c1c;--green:#2e7d32;--green-l:#66bb6a;--gold:#ffc107;--gold-l:#ffe082;--ice:#8ecae6;--text:#eaf2ff}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:'Segoe UI',system-ui,sans-serif;color:var(--text);
+  background:radial-gradient(ellipse at 50% -20%,#1e3a5f 0%,#0a1626 55%,#04090f 100%);
+  min-height:100vh;overflow-x:hidden;padding-bottom:60px}
+#snow{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+.snowflake{position:absolute;top:-10vh;color:#fff;pointer-events:none;animation:fall linear infinite;text-shadow:0 0 8px rgba(255,255,255,.9)}
+@keyframes fall{0%{transform:translateY(-10vh) translateX(0) rotate(0);opacity:0}10%{opacity:.9}100%{transform:translateY(115vh) translateX(var(--drift,20px)) rotate(360deg);opacity:.2}}
+/* TOPBAR */
+.topbar{position:relative;z-index:5;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:14px 22px;background:linear-gradient(180deg,rgba(183,28,28,.35),rgba(10,22,38,.85));border-bottom:2px solid rgba(255,193,7,.35);backdrop-filter:blur(8px);box-shadow:0 6px 26px rgba(0,0,0,.5)}
+.logo{font-size:22px;font-weight:800;letter-spacing:.5px;background:linear-gradient(90deg,#ffd54f,#ff8a65,#81c784,#ffd54f);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite}
+@keyframes shine{to{background-position:300% 0}}
+.stats{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:7px 14px;font-weight:700;font-size:14px;display:flex;gap:7px;align-items:center}
+.stat.money{color:#ffd54f;border-color:rgba(255,213,79,.45)}
+.stat.level{color:#8ecae6;border-color:rgba(142,202,230,.45)}
+.speed{display:flex;gap:4px;background:rgba(0,0,0,.3);border-radius:12px;padding:4px}
+.speed button{background:transparent;border:none;color:#9fb3c8;font-weight:700;padding:5px 12px;border-radius:9px;cursor:pointer;font-size:13px;transition:.18s}
+.speed button.active{background:linear-gradient(180deg,#43a047,#2e7d32);color:#fff;box-shadow:0 0 14px rgba(67,160,71,.6)}
+/* TABS */
+.tabs{position:relative;z-index:5;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;padding:18px 16px 6px}
+.tabs button{font-family:inherit;font-size:14px;font-weight:700;padding:11px 20px;border-radius:14px;cursor:pointer;color:#cfe0f2;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);transition:.2s;position:relative}
+.tabs button:hover:not(.locked){transform:translateY(-2px);background:rgba(255,255,255,.12);color:#fff}
+.tabs button.active{color:#fff;background:linear-gradient(180deg,#e53935,#b71c1c);border-color:rgba(255,213,79,.6);box-shadow:0 6px 22px rgba(229,57,53,.5),inset 0 1px 0 rgba(255,255,255,.25)}
+.tabs button.locked{opacity:.45;cursor:not-allowed;filter:grayscale(.7)}
+.tabs button .lock{font-size:11px;color:#8fa3b8;margin-left:5px}
+.tabs button.new::after{content:'NEW';position:absolute;top:-8px;right:-6px;background:linear-gradient(180deg,#ffd54f,#ff8a65);color:#3e2723;font-size:9px;font-weight:800;padding:2px 6px;border-radius:8px;box-shadow:0 0 12px rgba(255,213,79,.8);animation:pulseN 1s infinite alternate}
+@keyframes pulseN{to{transform:scale(1.1)}}
+/* LAYOUT */
+main{position:relative;z-index:5;max-width:1240px;margin:0 auto;padding:16px}
+.area{display:none;animation:fade .35s ease}
+.area.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.shop-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:18px}
+@media(max-width:900px){.shop-grid{grid-template-columns:1fr}}
+.panel{background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.035));border:1px solid rgba(255,255,255,.16);border-radius:18px;padding:16px;backdrop-filter:blur(10px);box-shadow:0 10px 34px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.12)}
+.panel h2{font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:9px;justify-content:space-between;color:#ffe082;letter-spacing:.3px;border-bottom:1px dashed rgba(255,255,255,.18);padding-bottom:9px}
+.panel h2 .sub{font-size:12px;color:#9fb3c8;font-weight:500}
+/* CUSTOMERS */
+.customer-list{display:flex;flex-direction:column;gap:12px;max-height:540px;overflow-y:auto;padding-right:4px}
+.customer-list::-webkit-scrollbar{width:7px}.customer-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:6px}
+.customer{display:flex;gap:8px;align-items:center;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.11);border-left:4px solid var(--green-l);border-radius:14px;padding:8px 10px;animation:slideIn .45s cubic-bezier(.2,.9,.4,1.4)}
+@keyframes slideIn{from{opacity:0;transform:translateX(60px) scale(.85)}to{opacity:1;transform:none}}
+.chibi-wrap{width:66px;height:78px;flex:none;animation:idleBob 2.2s ease-in-out infinite}
+@keyframes idleBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.chibi-wrap svg{width:100%;height:100%;display:block;filter:drop-shadow(0 4px 8px rgba(0,0,0,.45))}
+.cust-body{flex:1;min-width:0}
+.cust-name{font-weight:800;font-size:14px;color:#fff;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.cust-age{font-size:10px;background:rgba(255,255,255,.12);padding:1px 7px;border-radius:6px;color:#cfe0f2;font-weight:600}
+.pers-tag{font-size:10.5px;padding:2px 8px;border-radius:8px;font-weight:700;background:rgba(142,202,230,.18);color:#8ecae6;border:1px solid rgba(142,202,230,.35)}
+.cust-want{font-size:12px;color:#b9cbe0;margin:3px 0 5px}
+.cust-want b{color:#ffd54f}
+.bar{height:6px;background:rgba(255,255,255,.12);border-radius:6px;overflow:hidden}
+.fill{height:100%;border-radius:6px;transition:width .25s linear}
+.fill.ok{background:linear-gradient(90deg,#66bb6a,#43a047)}
+.fill.warn{background:linear-gradient(90deg,#ffd54f,#ffb300)}
+.fill.danger{background:linear-gradient(90deg,#ef5350,#c62828);animation:pulseR .7s infinite alternate}
+@keyframes pulseR{to{opacity:.55}}
+.cust-time{font-size:12px;font-weight:700;color:#90a4ae;font-variant-numeric:tabular-nums;flex:none;min-width:42px;text-align:right}
+.empty{color:#7b8fa5;font-size:13px;text-align:center;padding:26px 8px;font-style:italic}
+/* MENU */
+.item-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:9px;max-height:580px;overflow-y:auto;padding-right:4px}
+.item-grid::-webkit-scrollbar{width:7px}.item-grid::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:6px}
+.item-btn{position:relative;font-family:inherit;color:var(--text);text-align:left;background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.14);border-radius:13px;padding:10px;cursor:pointer;transition:.16s;display:flex;flex-direction:column;gap:3px;overflow:hidden}
+.item-btn:hover{transform:translateY(-3px);border-color:rgba(255,213,79,.7);background:rgba(255,255,255,.14)}
+.item-btn:active{transform:scale(.96)}
+.item-btn .emo{font-size:26px;line-height:1}
+.item-btn .nm{font-size:12px;font-weight:600;line-height:1.25;color:#e3eefa}
+.item-btn .pr{font-size:12px;font-weight:800;color:#ffd54f}
+.item-btn.wanted{border-color:rgba(102,187,106,.9);box-shadow:0 0 0 2px rgba(102,187,106,.35),0 0 22px rgba(102,187,106,.35);animation:glowW 1.2s ease-in-out infinite alternate}
+@keyframes glowW{to{box-shadow:0 0 0 2px rgba(102,187,106,.6),0 0 30px rgba(102,187,106,.6)}}
+.badge{position:absolute;top:6px;right:6px;background:linear-gradient(180deg,#ef5350,#c62828);color:#fff;font-size:11px;font-weight:800;min-width:20px;height:20px;padding:0 5px;border-radius:10px;display:grid;place-items:center;box-shadow:0 0 12px rgba(239,83,80,.8)}
+/* MAP */
+.map-scene{position:relative;min-height:560px;border-radius:18px;overflow:hidden;
+  background:radial-gradient(ellipse at 50% 120%,#2a4a6a 0%,#0a1626 70%),linear-gradient(180deg,#0d1f33,#1a3352)}
+.map-scene::before{content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(circle at 10% 15%,rgba(255,255,255,.5) 1px,transparent 2px),
+    radial-gradient(circle at 80% 25%,rgba(255,255,255,.4) 1px,transparent 2px),
+    radial-gradient(circle at 35% 70%,rgba(255,255,255,.5) 1px,transparent 2px),
+    radial-gradient(circle at 65% 45%,rgba(255,255,255,.3) 1px,transparent 2px),
+    radial-gradient(circle at 90% 80%,rgba(255,255,255,.4) 1px,transparent 2px),
+    radial-gradient(circle at 25% 40%,rgba(255,255,255,.3) 1px,transparent 2px)}
+.map-snow-ground{position:absolute;bottom:0;left:0;right:0;height:100px;
+  background:radial-gradient(ellipse at 50% 100%,#e8f2ff 0%,#b8d5ee 40%,transparent 80%);opacity:.35}
+.map-node{position:absolute;transform:translate(-50%,-50%);background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.04));border:2px solid rgba(255,213,79,.4);border-radius:16px;padding:12px 16px;text-align:center;cursor:pointer;transition:.25s;min-width:120px;backdrop-filter:blur(4px);z-index:2}
+.map-node:hover:not(.locked){transform:translate(-50%,-50%) scale(1.08);box-shadow:0 0 30px rgba(255,213,79,.6);border-color:rgba(255,213,79,.9)}
+.map-node.locked{opacity:.5;cursor:not-allowed;filter:grayscale(.6);border-color:rgba(255,255,255,.15)}
+.map-node .node-emoji{font-size:34px;line-height:1}
+.map-node .node-name{font-weight:800;font-size:13px;margin-top:5px;color:#fff}
+.map-node .node-req{font-size:10.5px;color:#8fa3b8;margin-top:3px;line-height:1.3}
+.map-node.unlocked .node-status{font-size:10px;color:#81c784;margin-top:3px;font-weight:700}
+.map-path{position:absolute;background:repeating-linear-gradient(90deg,rgba(255,255,255,.15) 0 8px,transparent 8px 16px);height:2px;transform-origin:left center;pointer-events:none;z-index:1}
+@media(max-width:700px){.map-node{min-width:90px;padding:8px 10px}.map-node .node-emoji{font-size:26px}.map-node .node-name{font-size:11px}}
+/* TREE */
+.tree-wrap{display:grid;grid-template-columns:1fr 1.1fr;gap:18px}
+@media(max-width:900px){.tree-wrap{grid-template-columns:1fr}}
+.tree-scene{position:relative;width:100%;height:520px;margin:0 auto;max-width:460px;
+  background:radial-gradient(ellipse at 50% 45%,rgba(102,187,106,.18),transparent 68%);border-radius:20px;overflow:hidden}
+.tree-svg{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);width:88%;height:88%;
+  filter:drop-shadow(0 0 34px rgba(46,125,50,.95));transition:filter .5s}
+.tree-svg.sparkle-25{filter:drop-shadow(0 0 40px rgba(102,187,106,1)) drop-shadow(0 0 20px rgba(255,213,79,.4))}
+.tree-svg.sparkle-50{filter:drop-shadow(0 0 50px rgba(102,187,106,1)) drop-shadow(0 0 35px rgba(255,213,79,.6))}
+.tree-svg.sparkle-75{filter:drop-shadow(0 0 60px rgba(129,199,132,1)) drop-shadow(0 0 50px rgba(255,213,79,.8))}
+.tree-svg.sparkle-100{filter:drop-shadow(0 0 80px #ffd700) drop-shadow(0 0 50px #66bb6a);animation:legendPulse 1.6s ease-in-out infinite alternate}
+@keyframes legendPulse{to{filter:drop-shadow(0 0 100px #ffd700) drop-shadow(0 0 60px #66bb6a)}}
+.slot{position:absolute;transform:translate(-50%,-50%);font-size:22px;line-height:1;user-select:none;
+  filter:drop-shadow(0 0 8px rgba(255,255,255,.75));animation:twinkle 2.4s ease-in-out infinite alternate}
+@keyframes twinkle{from{transform:translate(-50%,-50%) scale(1)}to{transform:translate(-50%,-50%) scale(1.18)}}
+.slot.rar-rare{filter:drop-shadow(0 0 10px #4fc3f7)}
+.slot.rar-epic{filter:drop-shadow(0 0 13px #ba68c8);font-size:25px}
+.slot.rar-legend{filter:drop-shadow(0 0 16px #ffd700);font-size:27px}
+.sparkle-bar{height:14px;background:rgba(0,0,0,.4);border-radius:8px;overflow:hidden;position:relative;margin:8px 0}
+.sparkle-fill{height:100%;background:linear-gradient(90deg,#66bb6a,#ffd700,#ff8a65);border-radius:8px;transition:width .6s ease;
+  box-shadow:0 0 14px rgba(255,213,79,.7)}
+.sparkle-milestones{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,transparent 24.5%,#fff 24.5% 25.5%,transparent 25.5%,transparent 49.5%,#fff 49.5% 50.5%,transparent 50.5%,transparent 74.5%,#fff 74.5% 75.5%,transparent 75.5%)}
+.sparkle-label{display:flex;justify-content:space-between;font-size:11px;color:#9fb3c8;margin-top:4px}
+/* GIFT / COLLECTION */
+.gift-open-area{display:flex;flex-direction:column;align-items:center;gap:12px;padding:6px 0 14px}
+.gift-box-btn{font-family:inherit;font-size:17px;font-weight:800;color:#fff;padding:16px 32px;border-radius:16px;cursor:pointer;
+  background:linear-gradient(180deg,#ef5350,#b71c1c);border:2px solid rgba(255,213,79,.65);
+  box-shadow:0 8px 26px rgba(229,57,53,.55),inset 0 1px 0 rgba(255,255,255,.3);transition:.18s}
+.gift-box-btn:hover{transform:translateY(-3px) scale(1.03)}.gift-box-btn:active{transform:scale(.96)}
+.gift-box-btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.collection{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px;max-height:320px;overflow-y:auto;padding-right:4px}
+.collection::-webkit-scrollbar{width:7px}.collection::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:6px}
+.coll-item{position:relative;text-align:center;padding:9px 4px 7px;border-radius:12px;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.1);transition:.2s}
+.coll-item .e{font-size:24px;display:block;line-height:1.2}
+.coll-item .n{font-size:10px;color:#b9cbe0;line-height:1.2;margin-top:4px;display:block}
+.coll-item.locked{opacity:.32;filter:grayscale(1)}
+.coll-item.rar-rare{border-color:rgba(79,195,247,.6);box-shadow:0 0 14px rgba(79,195,247,.25)}
+.coll-item.rar-epic{border-color:rgba(186,104,200,.7);box-shadow:0 0 16px rgba(186,104,200,.3)}
+.coll-item.rar-legend{border-color:rgba(255,215,0,.85);box-shadow:0 0 20px rgba(255,215,0,.45);background:rgba(255,215,0,.09)}
+.coll-item .cnt{position:absolute;top:4px;right:5px;font-size:10px;font-weight:800;color:#fff;background:rgba(0,0,0,.6);border-radius:8px;padding:1px 5px}
+/* ELVES */
+.elf-list{display:flex;flex-direction:column;gap:10px;max-height:540px;overflow-y:auto;padding-right:4px}
+.elf-list::-webkit-scrollbar{width:7px}.elf-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:6px}
+.elf-card{display:flex;gap:10px;align-items:center;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(0,0,0,.25));border:1px solid rgba(255,255,255,.13);border-left:4px solid #66bb6a;border-radius:13px;padding:9px;animation:slideIn .4s ease}
+.elf-avatar{width:58px;height:70px;flex:none;animation:idleBob 2.6s ease-in-out infinite}
+.elf-avatar svg{width:100%;height:100%;display:block;filter:drop-shadow(0 4px 8px rgba(0,0,0,.4))}
+.elf-info{flex:1;min-width:0}
+.elf-name{font-weight:800;font-size:14px;color:#fff}
+.elf-trait{font-size:11.5px;color:#a5b8cc;margin:2px 0 5px;line-height:1.3}
+.elf-stats{display:flex;gap:6px;font-size:11px;font-weight:700;color:#cfe0f2;flex-wrap:wrap}
+.elf-stats span{background:rgba(0,0,0,.35);border-radius:8px;padding:2px 7px}
+.btn{font-family:inherit;font-weight:800;font-size:12.5px;color:#fff;padding:9px 14px;border-radius:11px;cursor:pointer;border:none;background:linear-gradient(180deg,#43a047,#2e7d32);box-shadow:0 4px 16px rgba(67,160,71,.45);transition:.16s;white-space:nowrap;flex:none}
+.btn:hover{transform:translateY(-2px)}.btn:active{transform:scale(.95)}.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.btn.gold{background:linear-gradient(180deg,#ffca28,#f9a825);color:#3e2723}
+/* MODAL + MINI-GAMES */
+.modal{position:fixed;inset:0;z-index:100;background:rgba(4,9,15,.85);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px}
+.modal.open{display:flex;animation:fade .25s ease}
+.modal-box{background:linear-gradient(180deg,#1e3050,#0f1a2c);border:2px solid rgba(255,213,79,.4);border-radius:22px;padding:22px;max-width:560px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.15);animation:popIn .4s cubic-bezier(.2,.9,.4,1.4)}
+@keyframes popIn{from{opacity:0;transform:scale(.85) translateY(20px)}to{opacity:1;transform:none}}
+.modal-box h2{font-size:19px;color:#ffe082;margin-bottom:6px;text-align:center}
+.modal-box .sub{text-align:center;font-size:12px;color:#9fb3c8;margin-bottom:10px}
+.craft-progress{text-align:center;font-size:13px;font-weight:700;color:#8ecae6;margin-bottom:14px;padding:7px;background:rgba(0,0,0,.3);border-radius:10px}
+.mini-game-container{min-height:280px;display:flex;flex-direction:column;gap:12px;justify-content:center;align-items:stretch;padding:8px}
+.mg-title{text-align:center;font-size:15px;font-weight:800;color:#ffd54f;margin-bottom:4px}
+.mg-hint{text-align:center;font-size:12px;color:#8fa3b8;margin-top:4px}
+/* RHYTHM */
+.mg-rhythm-track{position:relative;height:56px;background:rgba(0,0,0,.4);border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.15)}
+.mg-r-zone{position:absolute;top:0;bottom:0;opacity:.85}
+.mg-r-bad{background:linear-gradient(180deg,#5c1a1a,#7a2424)}
+.mg-r-good{background:linear-gradient(180deg,#7a5f1a,#a88024)}
+.mg-r-perfect{background:linear-gradient(180deg,#1a5c1a,#24a024);box-shadow:inset 0 0 22px rgba(255,255,255,.5)}
+.mg-r-pointer{position:absolute;top:-8px;bottom:-8px;width:5px;background:linear-gradient(180deg,#fff,#8ecae6);border-radius:4px;box-shadow:0 0 18px #fff,0 0 30px #8ecae6;transform:translateX(-50%);transition:transform .04s linear}
+.mg-r-pointer.frozen{animation:freezeFlash .3s ease 3;background:#ffd700;box-shadow:0 0 24px #ffd700,0 0 40px #ff8a65}
+@keyframes freezeFlash{50%{opacity:.4}}
+.mg-action{font-family:inherit;font-size:16px;font-weight:800;color:#fff;padding:14px;border-radius:14px;cursor:pointer;border:none;background:linear-gradient(180deg,#ef5350,#b71c1c);box-shadow:0 6px 22px rgba(229,57,53,.55),inset 0 1px 0 rgba(255,255,255,.25);transition:.16s;letter-spacing:.4px}
+.mg-action:hover{transform:translateY(-2px)}.mg-action:active{transform:scale(.97)}.mg-action:disabled{opacity:.5;cursor:not-allowed}
+/* TEMPERATURE */
+.mg-temp-bar{position:relative;height:38px;background:linear-gradient(90deg,#1a3352,#2a4a6a,#1a3352);border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.15)}
+.mg-temp-zone{position:absolute;top:0;bottom:0;left:68%;width:4%;background:linear-gradient(180deg,#ffe082,#f9a825);box-shadow:inset 0 0 18px rgba(255,213,79,.7),0 0 20px rgba(255,213,79,.5);border-radius:4px}
+.mg-temp-needle{position:absolute;top:-4px;bottom:-4px;width:4px;background:linear-gradient(180deg,#fff,#8ecae6);border-radius:3px;transform:translateX(-50%);box-shadow:0 0 14px #fff;transition:left .08s linear}
+.mg-temp-value{text-align:center;font-size:22px;font-weight:900;font-variant-numeric:tabular-nums;padding:6px}
+.mg-temp-progress{height:12px;background:rgba(0,0,0,.4);border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.12)}
+.mg-temp-prog-fill{height:100%;background:linear-gradient(90deg,#66bb6a,#ffd700);transition:width .1s linear;box-shadow:0 0 12px rgba(102,187,106,.7)}
+.mg-temp-controls{display:grid;grid-template-columns:1fr;gap:8px}
+.mg-btn{font-family:inherit;font-size:15px;font-weight:800;color:#fff;padding:14px;border-radius:14px;cursor:pointer;border:2px solid rgba(255,255,255,.2);transition:.15s;user-select:none;touch-action:none}
+.mg-btn.heat{background:linear-gradient(180deg,#ef5350,#b71c1c);box-shadow:0 0 22px rgba(239,83,80,.4)}
+.mg-btn.heat:active,.mg-btn.heat.holding{transform:scale(.97);box-shadow:0 0 34px rgba(255,138,101,.9)}
+.mg-btn.cool{background:linear-gradient(180deg,#4fc3f7,#0288d1);box-shadow:0 0 22px rgba(79,195,247,.4)}
+.mg-btn.cool:active{transform:scale(.97)}
+/* DECOR */
+.mg-decor-scene{position:relative;background:radial-gradient(ellipse at 50% 50%,rgba(255,213,79,.12),transparent 70%);border-radius:14px;padding:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;min-height:160px;align-items:center;justify-items:center}
+.mg-decor-slot{width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.08);border:2px dashed rgba(255,255,255,.3);display:grid;place-items:center;font-size:26px;cursor:pointer;transition:.2s;color:#8fa3b8;font-weight:300}
+.mg-decor-slot:hover{border-color:rgba(255,213,79,.8);transform:scale(1.08)}
+.mg-decor-slot.filled{border-style:solid;border-color:rgba(255,213,79,.9);background:rgba(255,213,79,.12);box-shadow:0 0 20px rgba(255,213,79,.4)}
+.mg-decor-tray{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.mg-decor-opt{width:50px;height:50px;border-radius:12px;background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.18);font-size:24px;cursor:pointer;transition:.15s}
+.mg-decor-opt:hover{transform:scale(1.1);background:rgba(255,255,255,.15)}
+.mg-decor-opt.active{border-color:#ffd54f;background:rgba(255,213,79,.25);box-shadow:0 0 18px rgba(255,213,79,.6);transform:scale(1.1)}
+/* CRAFT RESULT */
+.craft-result{text-align:center;padding:20px 10px;animation:popIn .5s ease}
+.craft-result-emoji{font-size:72px;line-height:1;filter:drop-shadow(0 0 22px rgba(255,213,79,.7));animation:idleBob 1.6s ease-in-out infinite}
+.craft-result-quality{font-size:26px;font-weight:900;margin:10px 0 4px;letter-spacing:1px}
+.craft-result-tip{font-size:14px;color:#cfe0f2;font-style:italic;margin-bottom:10px}
+.craft-result-money{font-size:22px;font-weight:900;color:#66bb6a;text-shadow:0 0 14px rgba(102,187,106,.6)}
+/* TOASTS */
+#toasts{position:fixed;right:16px;bottom:16px;z-index:200;display:flex;flex-direction:column;gap:8px;align-items:flex-end;pointer-events:none;max-width:340px}
+.toast{font-size:13px;font-weight:600;padding:10px 15px;border-radius:12px;background:rgba(10,22,38,.94);border:1px solid rgba(255,255,255,.18);border-left:4px solid #66bb6a;box-shadow:0 8px 28px rgba(0,0,0,.55);animation:toastIn .3s ease;backdrop-filter:blur(8px)}
+.toast.bad{border-left-color:#ef5350}.toast.gold{border-left-color:#ffd54f;color:#ffe082}
+.toast.levelup{border-left-color:#8ecae6;background:linear-gradient(90deg,rgba(142,202,230,.15),rgba(10,22,38,.94));color:#e3f2fd;font-size:14px}
+.toast.out{animation:toastOut .35s ease forwards}
+@keyframes toastIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
+@keyframes toastOut{to{opacity:0;transform:translateX(40px)}}
+.hint{font-size:12px;color:#8fa3b8;margin-top:9px;line-height:1.5}
+.rate-table{display:flex;gap:8px;flex-wrap:wrap;font-size:11.5px;margin-top:8px}
+.rate-table div{background:rgba(0,0,0,.3);padding:4px 9px;border-radius:8px;font-weight:700}
+.divider{height:1px;background:rgba(255,255,255,.12);margin:12px 0}
+</style>
+</head>
+<body>
+
+<div id="snow"></div>
+
+<header class="topbar">
+  <div class="logo">🎄 Thị Trấn Noel · Chibi</div>
+  <div class="stats">
+    <div class="stat level">🏘️ Cấp <span id="uiLevel">1</span> · Ngày <span id="uiDay">1</span></div>
+    <div class="stat money">💰 <span id="uiMoney">0</span></div>
+    <div class="stat">🧝 <span id="uiElves">0</span></div>
+    <div class="stat">🎁 <span id="uiDecor">0</span></div>
+    <div class="speed" id="speedBox">
+      <button data-speed="1" class="active">x1</button>
+      <button data-speed="5">x5</button>
+      <button data-speed="20">x20</button>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-tab="map" class="active">🗺️ Bản đồ</button>
+  <button data-tab="bakery" data-area="bakery">🥐 Tiệm bánh</button>
+  <button data-tab="clothes" data-area="clothes" class="locked">🎅 Tiệm may<span class="lock">🔒</span></button>
+  <button data-tab="tree" data-area="tree" class="locked">🎄 Quảng trường<span class="lock">🔒</span></button>
+  <button data-tab="elves" data-area="elves" class="locked">🧝 Xưởng Elf<span class="lock">🔒</span></button>
+</nav>
+
+<main>
+  <!-- ============ MAP ============ -->
+  <section class="area active" id="area-map">
+    <div class="panel">
+      <h2>🗺️ Bản đồ Thị Trấn Noel <span class="sub" id="mapSub"></span></h2>
+      <div class="map-scene" id="mapScene">
+        <div class="map-snow-ground"></div>
+        <!-- nodes filled by JS -->
+      </div>
+      <div class="hint">Bấm vào địa điểm đã mở khoá để vào. Điều kiện mở khoá được ghi dưới mỗi ô.</div>
+    </div>
+  </section>
+
+  <!-- ============ BAKERY ============ -->
+  <section class="area" id="area-bakery">
+    <div class="shop-grid">
+      <div class="panel">
+        <h2>🧒 Khách nhí đang chờ <span class="sub" id="bakeryQueueInfo"></span></h2>
+        <div class="customer-list" id="bakeryCustomers"></div>
+      </div>
+      <div class="panel">
+        <h2>🍪 Thực đơn tiệm bánh <span class="sub">Bấm món khách gọi để làm</span></h2>
+        <div class="item-grid" id="bakeryMenu"></div>
+        <div class="hint">💡 Mỗi món có 3 công đoạn mini-game: trộn → nướng → trang trí. Chất lượng từng bước quyết định giá bán cuối cùng.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CLOTHES ============ -->
+  <section class="area" id="area-clothes">
+    <div class="shop-grid">
+      <div class="panel">
+        <h2>🧑 Khách đang chờ <span class="sub" id="clothesQueueInfo"></span></h2>
+        <div class="customer-list" id="clothesCustomers"></div>
+      </div>
+      <div class="panel">
+        <h2>👗 Bộ sưu tập quần áo <span class="sub">Bấm để may đo</span></h2>
+        <div class="item-grid" id="clothesMenu"></div>
+        <div class="hint">💡 Quy trình: đo size → cắt vải → may → thử đồ. Bước cuối là trang trí phụ kiện.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TREE ============ -->
+  <section class="area" id="area-tree">
+    <div class="tree-wrap">
+      <div class="panel">
+        <h2>🎄 Cây thông của bạn <span class="sub" id="treeInfo"></span></h2>
+        <div class="tree-scene" id="treeScene">
+          <svg class="tree-svg" id="treeSvg" viewBox="0 0 200 260">
+            <defs>
+              <radialGradient id="tg" cx="50%" cy="30%"><stop offset="0%" stop-color="#4caf50"/><stop offset="100%" stop-color="#1b5e20"/></radialGradient>
+              <radialGradient id="snowG" cx="50%" cy="30%"><stop offset="0%" stop-color="#fff"/><stop offset="100%" stop-color="#cfe8ff"/></radialGradient>
+            </defs>
+            <rect x="92" y="215" width="16" height="30" rx="3" fill="#5d3a1a"/>
+            <polygon points="100,10 40,90 160,90" fill="url(#tg)" stroke="#1b5e20" stroke-width="1.5"/>
+            <polygon points="100,55 30,150 170,150" fill="url(#tg)" stroke="#1b5e20" stroke-width="1.5"/>
+            <polygon points="100,110 22,215 178,215" fill="url(#tg)" stroke="#1b5e20" stroke-width="1.5"/>
+            <path d="M 100,10 L 78,42 Q 100,36 122,42 Z" fill="url(#snowG)" opacity=".85"/>
+            <path d="M 100,55 L 68,95 Q 100,88 132,95 Z" fill="url(#snowG)" opacity=".7"/>
+            <path d="M 100,110 L 60,155 Q 100,148 140,155 Z" fill="url(#snowG)" opacity=".55"/>
+          </svg>
+        </div>
+        <div style="margin-top:10px">
+          <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700">
+            <span>✨ Độ lung linh</span>
+            <span><b id="sparkleVal" style="color:#ffd54f">0</b> / 100</span>
+          </div>
+          <div class="sparkle-bar"><div class="sparkle-fill" id="sparkleFill" style="width:0%"></div><div class="sparkle-milestones"></div></div>
+          <div class="sparkle-label"><span>25 Đẹp</span><span>50 Lung linh</span><span>75 Tuyệt</span><span>100 Huyền thoại</span></div>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>🎁 Mở hộp quà bí ẩn <span class="sub">100.000đ / hộp</span></h2>
+        <div class="gift-open-area">
+          <button class="gift-box-btn" id="openGiftBtn">🎁 MỞ HỘP QUÀ — 100.000đ</button>
+          <div class="rate-table">
+            <div style="color:#cfd8dc">Thường 60%</div><div style="color:#81d4fa">Hiếm 26%</div>
+            <div style="color:#e1bee7">Sử thi 10%</div><div style="color:#ffe082">Huyền thoại 4%</div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <h2>📖 Bộ sưu tập <span class="sub" id="collInfo"></span></h2>
+        <div class="collection" id="collection"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ELVES ============ -->
+  <section class="area" id="area-elves">
+    <div class="shop-grid">
+      <div class="panel">
+        <h2>🧝 Chợ yêu tinh <span class="sub">Làm mới mỗi 60s</span></h2>
+        <div class="elf-list" id="elfMarket"></div>
+        <div style="margin-top:12px;text-align:center">
+          <button class="btn gold" id="refreshElves">🔄 Đổi danh sách — 50.000đ</button>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>🏠 Đội yêu tinh của bạn <span class="sub" id="teamInfo">0/8</span></h2>
+        <div class="elf-list" id="elfTeam"></div>
+        <div class="hint">Yêu tinh tự động phục vụ khách. ⚡ tốc độ · 💖 duyên dáng · 🛠 kỹ năng.</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- CRAFTING MODAL -->
+<div class="modal" id="craftModal">
+  <div class="modal-box">
+    <h2 id="craftTitle">Đang làm bánh</h2>
+    <div class="sub" id="craftSub"></div>
+    <div class="craft-progress" id="craftProgress"></div>
+    <div class="mini-game-container" id="miniGameContainer"></div>
+  </div>
+</div>
+
+<div id="toasts"></div>
+
+<script>
+/* =========================================================
+   HELPERS
+   ========================================================= */
+const $ = id => document.getElementById(id);
+const pick = a => a[Math.floor(Math.random()*a.length)];
+const rand = (a,b) => a + Math.random()*(b-a);
+const randInt = (a,b) => Math.floor(rand(a,b+1));
+const fmt = n => Math.round(n).toLocaleString('vi-VN') + 'đ';
+
+/* =========================================================
+   CHIBI SVG (giữ nguyên từ v2)
+   ========================================================= */
+const SKINS = ['#ffe0c4','#ffd7b5','#f4c090','#d9a878','#a87a55','#8d5524'];
+const HAIRS = ['#2a1810','#5a3820','#8b5a2b','#d4a76a','#ffd700','#ff6b9d','#c9c9c9','#6b4423','#ff8c42','#4a9eff','#9d4edd','#1a1a1a','#ff4500','#b8860b'];
+const HAIR_STYLES = ['short','bob','long','twin','pony','messy','curly'];
+const OUTFITS = ['#e53935','#2e7d32','#1976d2','#7b1fa2','#c2185b','#f57c00','#00897b','#5d4037','#d32f2f','#388e3c'];
+
+function hairShape(style, hair){
+  const base = `<path d="M 22 44 Q 22 14 50 14 Q 78 14 78 44 Q 78 34 68 30 Q 58 26 50 28 Q 42 26 32 30 Q 22 34 22 44 Z" fill="${hair}"/>`;
+  switch(style){
+    case 'short': return base;
+    case 'bob': return `<path d="M 22 44 Q 22 14 50 14 Q 78 14 78 44 L 78 62 Q 72 58 70 50 Q 68 34 50 32 Q 32 34 30 50 Q 28 58 22 62 Z" fill="${hair}"/>`;
+    case 'long': return base + `<path d="M 20 48 Q 16 70 18 92 Q 26 88 30 78 L 30 52 Z" fill="${hair}"/><path d="M 80 48 Q 84 70 82 92 Q 74 88 70 78 L 70 52 Z" fill="${hair}"/>`;
+    case 'twin': return base + `<ellipse cx="16" cy="52" rx="9" ry="12" fill="${hair}"/><ellipse cx="84" cy="52" rx="9" ry="12" fill="${hair}"/><circle cx="16" cy="44" r="3" fill="#ff6b9d"/><circle cx="84" cy="44" r="3" fill="#ff6b9d"/>`;
+    case 'pony': return base + `<ellipse cx="82" cy="30" rx="8" ry="6" fill="${hair}"/><path d="M 82 26 Q 92 20 96 38 Q 94 46 88 46 Q 86 38 82 30 Z" fill="${hair}"/><circle cx="82" cy="28" r="2.5" fill="#e53935"/>`;
+    case 'messy': return `<path d="M 22 44 Q 22 12 50 12 L 52 6 L 56 12 L 62 8 L 64 14 L 74 12 L 72 20 L 80 20 L 76 32 L 82 40 L 78 46 Q 78 34 68 30 Q 58 26 50 28 Q 42 26 32 30 Q 22 34 22 44 Z" fill="${hair}"/>`;
+    case 'curly': return `<g fill="${hair}"><circle cx="50" cy="20" r="14"/><circle cx="30" cy="28" r="12"/><circle cx="70" cy="28" r="12"/><circle cx="22" cy="42" r="9"/><circle cx="78" cy="42" r="9"/><circle cx="38" cy="16" r="9"/><circle cx="62" cy="16" r="9"/></g>`;
+    default: return base;
+  }
+}
+
+function chibiSVG(o = {}){
+  const skin = o.skin || pick(SKINS);
+  const hair = o.hair || pick(HAIRS);
+  const style = o.hairStyle || pick(HAIR_STYLES);
+  const outfit = o.outfit || pick(OUTFITS);
+  const mood = o.mood || 'happy';
+  const accessory = o.accessory || '';
+  const eyeColor = pick(['#2b1810','#1a3a5c','#3d1f6b','#2d4a1e','#5a2d0c','#0d0d0d']);
+
+  let mouth = '<path d="M 44 59 Q 50 66 56 59 Q 50 62 44 59 Z" fill="#b71c1c"/>';
+  if(mood === 'sad') mouth = '<path d="M 46 63 Q 50 59 54 63" stroke="#b71c1c" stroke-width="1.8" fill="none" stroke-linecap="round"/>';
+  if(mood === 'surprise') mouth = '<ellipse cx="50" cy="62" rx="3" ry="4" fill="#b71c1c"/>';
+  if(mood === 'blink') mouth = '<path d="M 46 60 Q 50 64 54 60" stroke="#b71c1c" stroke-width="1.8" fill="none" stroke-linecap="round"/>';
+
+  let eyes = `
+    <ellipse cx="38" cy="47" rx="4.5" ry="6" fill="${eyeColor}"/>
+    <ellipse cx="62" cy="47" rx="4.5" ry="6" fill="${eyeColor}"/>
+    <circle cx="39.5" cy="45" r="1.6" fill="#fff"/>
+    <circle cx="63.5" cy="45" r="1.6" fill="#fff"/>
+    <circle cx="36.8" cy="49" r="1" fill="#fff" opacity=".7"/>
+    <circle cx="60.8" cy="49" r="1" fill="#fff" opacity=".7"/>
+    <path d="M 32 41 Q 38 38 44 41" stroke="#3a2a1a" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+    <path d="M 56 41 Q 62 38 68 41" stroke="#3a2a1a" stroke-width="1.3" fill="none" stroke-linecap="round"/>`;
+  if(mood === 'blink') eyes = `
+    <path d="M 34 47 Q 38 50 42 47" stroke="#2b1810" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M 58 47 Q 62 50 66 47" stroke="#2b1810" stroke-width="2" fill="none" stroke-linecap="round"/>`;
+  if(mood === 'sparkle') eyes = `
+    <circle cx="38" cy="47" r="5.5" fill="#ffd700" stroke="${eyeColor}" stroke-width="1.5"/>
+    <circle cx="62" cy="47" r="5.5" fill="#ffd700" stroke="${eyeColor}" stroke-width="1.5"/>
+    <circle cx="38" cy="47" r="2.8" fill="${eyeColor}"/>
+    <circle cx="62" cy="47" r="2.8" fill="${eyeColor}"/>
+    <circle cx="39.5" cy="45.5" r="1" fill="#fff"/>
+    <circle cx="63.5" cy="45.5" r="1" fill="#fff"/>`;
+  if(mood === 'annoyed') eyes = `
+    <path d="M 33 43 L 43 47" stroke="#2b1810" stroke-width="2" stroke-linecap="round"/>
+    <path d="M 57 47 L 67 43" stroke="#2b1810" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="38" cy="49" r="2" fill="${eyeColor}"/>
+    <circle cx="62" cy="49" r="2" fill="${eyeColor}"/>`;
+
+  return `<svg viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="50" cy="122" rx="20" ry="4" fill="rgba(0,0,0,.3)"/>
+    <rect x="42" y="100" width="6" height="16" rx="3" fill="${outfit}" opacity=".85"/>
+    <rect x="52" y="100" width="6" height="16" rx="3" fill="${outfit}" opacity=".85"/>
+    <rect x="40" y="114" width="10" height="6" rx="3" fill="#3e2723"/>
+    <rect x="50" y="114" width="10" height="6" rx="3" fill="#3e2723"/>
+    <rect x="34" y="72" width="32" height="32" rx="10" fill="${outfit}"/>
+    <rect x="34" y="80" width="32" height="3" fill="rgba(0,0,0,.15)"/>
+    <rect x="26" y="76" width="8" height="22" rx="4" fill="${outfit}"/>
+    <rect x="66" y="76" width="8" height="22" rx="4" fill="${outfit}"/>
+    <circle cx="30" cy="99" r="4" fill="${skin}"/>
+    <circle cx="70" cy="99" r="4" fill="${skin}"/>
+    <circle cx="50" cy="48" r="28" fill="${skin}"/>
+    <ellipse cx="22" cy="50" rx="3.5" ry="5" fill="${skin}"/>
+    <ellipse cx="78" cy="50" rx="3.5" ry="5" fill="${skin}"/>
+    ${hairShape(style, hair)}
+    ${eyes}
+    <ellipse cx="32" cy="56" rx="4.5" ry="2.8" fill="#ffb3b3" opacity=".75"/>
+    <ellipse cx="68" cy="56" rx="4.5" ry="2.8" fill="#ffb3b3" opacity=".75"/>
+    ${mouth}
+    ${accessory}
+  </svg>`;
+}
+
+const ACC = {
+  elfHat: `<path d="M 26 22 Q 50 -6 78 22 L 78 24 Q 50 24 22 24 Z" fill="#2e7d32"/><ellipse cx="22" cy="24" rx="6" ry="3" fill="#e53935"/><ellipse cx="78" cy="24" rx="6" ry="3" fill="#e53935"/><circle cx="50" cy="0" r="4" fill="#ffd700"/>`,
+  santa: `<path d="M 24 22 Q 50 -4 76 22 L 78 26 Q 50 22 22 26 Z" fill="#e53935"/><circle cx="50" cy="6" r="5" fill="#fff"/><rect x="20" y="22" width="60" height="4" rx="2" fill="#fff"/>`,
+};
+
+/* =========================================================
+   DATA
+   ========================================================= */
+const BAKERY = [
+  {id:'gingerbread', name:'Gingerbread Man', emoji:'🍪', price:20000, steps:['Nhào bột quế gừng','Nướng ở 175°C','Vẽ mặt & cúc áo']},
+  {id:'mincepie',    name:'Mince Pie',       emoji:'🥧', price:25000, steps:['Trộn nhân nho khô','Nướng vỏ bánh','Tạo hình hoa tuyết']},
+  {id:'fruitcake',   name:'Fruitcake',       emoji:'🍰', price:30000, steps:['Ngâm trái cây rum','Nướng bánh','Phết marzipan']},
+  {id:'candycane',   name:'Candy Cane',      emoji:'🍬', price:20000, steps:['Nấu siro bạc hà','Xoắn sọc đỏ trắng','Uốn cong']},
+  {id:'chocoball',   name:'Socola viên',     emoji:'🍫', price:22000, steps:['Temper socola','Vo viên nhân hạt','Lăn cacao']},
+  {id:'cookies',     name:'Christmas Cookies',emoji:'🥮',price:20000, steps:['Cán bột mỏng','Cắt hình Noel','Rắc đường bột']},
+  {id:'treechoco',   name:'Socola cây thông',emoji:'🌲', price:28000, steps:['Đổ khuôn nón','Phủ socola xanh','Rắc cốm tuyết']},
+  {id:'hotchoco',    name:'Hot Chocolate',   emoji:'☕', price:35000, steps:['Đun sữa nóng','Đánh tan socola','Thả marshmallow']},
+  {id:'eggnog',      name:'Eggnog',          emoji:'🥛', price:40000, steps:['Đánh lòng đỏ','Thêm sữa & kem','Rắc nhục đậu khấu']},
+  {id:'mulled',      name:'Mulled Cider',    emoji:'🍎', price:38000, steps:['Đun nước táo','Thêm quế đinh hương','Lọc & rót']},
+  {id:'spicedtea',   name:'Spiced Tea',      emoji:'🍵', price:30000, steps:['Hãm trà đen','Thêm quế hồi','Chưng mật ong']},
+  {id:'pudding',     name:'Christmas Pudding',emoji:'🍮',price:32000, steps:['Trộn nho khô','Hấp 3 tiếng','Tưới sốt brandy']},
+  {id:'macaron',     name:'Macaron tuyết',   emoji:'🍩', price:26000, steps:['Đánh bông lòng trắng','Nướng vỏ hạnh nhân','Kẹp kem vanilla']},
+  {id:'lollipop',    name:'Kẹo mút Noel',    emoji:'🍭', price:20000, steps:['Nấu đường siro','Xoáy màu Noel','Gắn que']},
+];
+
+const CLOTHES = [
+  {id:'santa',      name:'Bộ Santa',           emoji:'🎅', price:150000, steps:['Đo vòng ngực','Cắt vải đỏ','May viền trắng lông','Gắn nơ & thử']},
+  {id:'mrsclaus',   name:'Bộ Mrs. Claus',      emoji:'🧑‍🎄', price:150000, steps:['Đo vòng eo','Cắt váy đỏ','May viền trắng','Thêm tạp dề']},
+  {id:'elfsuit',    name:'Trang phục Elf',     emoji:'🧝', price:120000, steps:['Đo chiều cao','Cắt vải xanh','May mũ tai nhọn','Gắn chuông']},
+  {id:'reindeer',   name:'Bộ Tuần lộc',        emoji:'🦌', price:130000, steps:['Cắt vải nâu','May đuôi bông','Gắn sừng nỉ','Thêm mũi đỏ']},
+  {id:'snowman',    name:'Bộ Người tuyết',     emoji:'⛄', price:130000, steps:['Cắt vải trắng','May thân tròn','Thêm khăn quàng','Đội mũ xô']},
+  {id:'treesuit',   name:'Bộ Cây thông',       emoji:'🎄', price:140000, steps:['Đo vai & hông','Cắt vải xanh','Gắn tua rua','Treo quả châu']},
+  {id:'gingersuit', name:'Bộ Bánh gừng',       emoji:'🍪', price:140000, steps:['Nhuộm vải nâu','In họa tiết','May cúc trắng','Thêm nơ đỏ']},
+  {id:'giftsuit',   name:'Bộ Hộp quà',         emoji:'🎁', price:145000, steps:['Đo vòng đầu','Làm hộp đỏ','Thắt nơ lớn','Gắn nắp hộp']},
+  {id:'coat',       name:'Áo khoác Noel',      emoji:'🧥', price:90000,  steps:['Đo size','Cắt vải','May lớp lót','Gắn cúc']},
+  {id:'sweater',    name:'Áo len họa tiết',    emoji:'🧶', price:80000,  steps:['Chọn len','Đan họa tiết','Nối vai','Thử áo']},
+  {id:'scarf',      name:'Khăn quàng',         emoji:'🧣', price:45000,  steps:['Đo chiều dài','Đan sọc','Thắt tua rua']},
+  {id:'gloves',     name:'Găng tay len',       emoji:'🧤', price:40000,  steps:['Đo bàn tay','Đan găng','Thêm ngón cái']},
+  {id:'socks',      name:'Tất Noel',           emoji:'🧦', price:35000,  steps:['Chọn ren','Đan cổ tất','Trang trí viền']},
+  {id:'boots',      name:'Boots mùa đông',     emoji:'🥾', price:85000,  steps:['Đo cỡ chân','Cắt da lộn','May viền lông','Gắn đế']},
+  {id:'beanie',     name:'Mũ len pom-pom',     emoji:'🎀', price:50000,  steps:['Đan vành','Đan chỏm','Gắn pom-pom']},
+  {id:'hoodie',     name:'Hoodie tuần lộc',    emoji:'🐻', price:95000,  steps:['In hình tuần lộc','May thân áo','Gắn dây rút','Thêm túi']},
+  {id:'hairtree',   name:'Kẹp tóc cây thông',  emoji:'🎄', price:30000,  steps:['Cắt nỉ xanh','Xếp tầng cây','Gắn kẹp']},
+  {id:'hairsanta',  name:'Mũ Santa mini',      emoji:'🎅', price:30000,  steps:['Cắt nỉ đỏ','Cuộn hình chóp','Gắn pom trắng']},
+  {id:'horns',      name:'Sừng tuần lộc',      emoji:'🦌', price:32000,  steps:['Uốn dây nhôm','Bọc nỉ nâu','Gắn kẹp']},
+  {id:'hairsnow',   name:'Kẹp tóc bông tuyết', emoji:'❄️', price:28000,  steps:['Cắt nhựa trắng','Gắn pha lê','Gắn kẹp']},
+  {id:'bell',       name:'Chuông Noel',        emoji:'🔔', price:26000,  steps:['Đúc chuông vàng','Gắn nơ đỏ','Luồn dây']},
+  {id:'giftbag',    name:'Túi hộp quà',        emoji:'🎁', price:55000,  steps:['Gấp hộp giấy','Dán nơ','Gắn quai']},
+  {id:'candybag',   name:'Túi kẹo que',        emoji:'🍭', price:55000,  steps:['Cắt vải sọc','May miệng túi','Gắn kẹo trang trí']},
+  {id:'wings',      name:'Cánh tiên lấp lánh', emoji:'✨', price:120000, steps:['Uốn khung nhôm','Phủ voan trắng','Rắc kim tuyến','Gắn dây đeo']},
+];
+
+const DECOR = [
+  {id:'star',        name:'Ngôi sao đỉnh',       emoji:'⭐', rar:'common', spark:10},
+  {id:'lights',      name:'Dây đèn Noel',        emoji:'💡', rar:'common', spark:8},
+  {id:'ball_red',    name:'Quả châu đỏ',         emoji:'🔴', rar:'common', spark:3},
+  {id:'ball_green',  name:'Quả châu xanh',       emoji:'🟢', rar:'common', spark:3},
+  {id:'ball_gold',   name:'Quả châu vàng',       emoji:'🟡', rar:'common', spark:4},
+  {id:'snowflake',   name:'Bông tuyết',          emoji:'❄️', rar:'common', spark:3},
+  {id:'bow',         name:'Nơ',                  emoji:'🎀', rar:'common', spark:5},
+  {id:'bell',        name:'Chuông',              emoji:'🔔', rar:'common', spark:4},
+  {id:'candy',       name:'Kẹo que',             emoji:'🍭', rar:'common', spark:2},
+  {id:'ginger',      name:'Bánh gừng',           emoji:'🍪', rar:'common', spark:3},
+  {id:'gift',        name:'Hộp quà',             emoji:'🎁', rar:'common', spark:4},
+  {id:'sock',        name:'Tất Noel',            emoji:'🧦', rar:'common', spark:3},
+  {id:'tinsel',      name:'Dây kim tuyến',       emoji:'✨', rar:'common', spark:5},
+  {id:'bear',        name:'Gấu bông mini',       emoji:'🧸', rar:'rare',   spark:6},
+  {id:'deer',        name:'Tuần lộc',            emoji:'🦌', rar:'rare',   spark:7},
+  {id:'snowman',     name:'Người tuyết',         emoji:'⛄', rar:'rare',   spark:7},
+  {id:'santaface',   name:'Mặt Santa',           emoji:'🎅', rar:'rare',   spark:8},
+  {id:'gingerhouse', name:'Nhà bánh gừng',       emoji:'🏠', rar:'rare',   spark:8},
+  {id:'heart',       name:'Trái tim',            emoji:'❤️', rar:'rare',   spark:5},
+  {id:'moon',        name:'Mặt trăng',           emoji:'🌙', rar:'rare',   spark:6},
+  {id:'cloud',       name:'Mây tuyết',           emoji:'☁️', rar:'rare',   spark:5},
+  {id:'crown',       name:'Vương miện vàng',     emoji:'👑', rar:'epic',   spark:12},
+  {id:'crystal',     name:'Quả cầu pha lê',      emoji:'💎', rar:'epic',   spark:12},
+  {id:'glowstar',    name:'Ngôi sao phát sáng',  emoji:'🌟', rar:'epic',   spark:13},
+  {id:'angel',       name:'Thiên thần',          emoji:'🪽', rar:'epic',   spark:12},
+  {id:'goldgift',    name:'Hộp quà vàng',        emoji:'🎁', rar:'legend', spark:15},
+  {id:'diamond',     name:'Bông tuyết kim cương',emoji:'❄️', rar:'legend', spark:14},
+  {id:'snowglobe',   name:'Quả cầu tuyết',       emoji:'🔮', rar:'legend', spark:14},
+];
+
+const RARITY_LABEL = {common:'Thường',rare:'Hiếm',epic:'Sử thi',legend:'Huyền thoại'};
+const RARITY_WEIGHT = {common:60,rare:26,epic:10,legend:4};
+
+const KID_NAMES = ['Emma','Liam','Olivia','Noah','Ava','Ethan','Sophia','Mason','Isabella','Logan','Mia','Lucas','Charlotte','Jack','Amelia','Henry','Harper','Leo','Ella','Owen','Chloe','Ryan','Grace','Caleb','Zoe','Nathan','Lily','Dylan','Ruby','Oliver'];
+const ELF_NAMES = ['Jingle','Jangle','Sparkle','Tinsel','Frosty','Cocoa','Pepper','Sugarplum','Holly','Ivy','Mistletoe','Ginger','Nutmeg','Snowflake','Twinkle','Pip','Bix','Wren','Clove','Jolly'];
+const ELF_SURNAMES = ['McJingle','Snowboot','Frostbeard','Tinseltoes','Candycane','Winters','Holliday','Sugarplum','Northpole','Evergreen','Starlight','Bellring'];
+const TRAITS = [
+  {name:'Vui vẻ', desc:'Luôn cười tươi, nhanh hơn.', spd:1.15, charm:1.00},
+  {name:'Lười biếng', desc:'Thích ngủ trưa, làm chậm.', spd:0.80, charm:1.10},
+  {name:'Chăm chỉ', desc:'Cày như trâu.', spd:1.25, charm:0.95},
+  {name:'Duyên dáng', desc:'Khách tip thêm.', spd:1.00, charm:1.30},
+  {name:'Nhanh nhẹn', desc:'Chạy như bay.', spd:1.35, charm:0.95},
+  {name:'Tốt bụng', desc:'Hay tặng kèm bánh.', spd:1.00, charm:1.20},
+];
+
+/* TÍNH CÁCH KHÁCH HÀNG */
+const PERSONALITIES = [
+  {name:'Dễ thương', emoji:'🥰', patience:1.25, tip:1.10, mood:'happy',   line:{perfect:'Cảm ơn nhiều ạ!', bad:'Hic, hơi tệ...'}},
+  {name:'Khó tính',  emoji:'😤', patience:0.80, tip:1.30, mood:'annoyed', line:{perfect:'Cũng tạm được!', bad:'Tệ quá, không mua nữa!'}},
+  {name:'Háu ăn',    emoji:'😋', patience:1.00, tip:1.15, mood:'happy',   line:{perfect:'Ngon tuyệt!', bad:'Nhạt quá à...'}},
+  {name:'Kiên nhẫn', emoji:'😌', patience:1.50, tip:1.00, mood:'blink',   line:{perfect:'Rất hài lòng!', bad:'Không sao, lần sau nhé.'}},
+  {name:'Cầu toàn',  emoji:'🧐', patience:0.90, tip:1.50, mood:'annoyed', line:{perfect:'Hoàn hảo!', bad:'Chưa đạt yêu cầu!'}},
+  {name:'Nhút nhát', emoji:'🥺', patience:1.20, tip:1.05, mood:'blink',   line:{perfect:'C-cảm ơn ạ...', bad:'Ưm... thôi vậy...'}},
+];
+
+/* =========================================================
+   TOWN LEVELS & UNLOCKS
+   ========================================================= */
+const LEVELS = [
+  {lv:1, day:1,  area:'bakery',  name:'Tiệm bánh',        cond:null,                desc:'Khởi đầu'},
+  {lv:2, day:5,  area:'clothes', name:'Tiệm may',         cond:s=>s.totalEarned>=300000,  desc:'Kiếm 300k'},
+  {lv:3, day:10, area:'tree',    name:'Quảng trường',     cond:s=>s.served>=20,      desc:'Phục vụ 20 khách'},
+  {lv:4, day:15, area:'elves',   name:'Xưởng Elf',        cond:s=>s.totalEarned>=1000000, desc:'Kiếm 1 triệu'},
+];
+
+function currentLevel(){
+  let lv = 1;
+  for(const L of LEVELS){
+    if(L.cond && L.cond(state.stats)) lv = L.lv;
+  }
+  return lv;
+}
+function isUnlocked(area){
+  const L = LEVELS.find(x=>x.area===area);
+  if(!L) return true;
+  if(!L.cond) return true;
+  return L.cond(state.stats);
+}
+
+/* =========================================================
+   STATE
+   ========================================================= */
+let state = {
+  money: 500000, speed: 1,
+  bakeryCustomers: [], clothesCustomers: [],
+  spawnBakery: 3000, spawnClothes: 6000,
+  decor: {}, elves: [], elfMarket: [],
+  refreshTimer: 60000, uid: 1,
+  stats: { totalEarned: 0, served: 0 },
+  lastLevel: 1,
+};
+
+/* =========================================================
+   SNOW
+   ========================================================= */
+(function(){
+  const box = $('snow');
+  const glyphs = ['❄','❅','❆','•','*'];
+  for(let i=0;i<90;i++){
+    const s = document.createElement('div');
+    s.className = 'snowflake';
+    s.textContent = pick(glyphs);
+    s.style.left = Math.random()*100 + 'vw';
+    s.style.fontSize = rand(8,22) + 'px';
+    s.style.animationDuration = rand(7,18) + 's';
+    s.style.animationDelay = (-Math.random()*18) + 's';
+    s.style.opacity = rand(.35,.95);
+    s.style.setProperty('--drift', rand(-90,90) + 'px');
+    box.appendChild(s);
+  }
+})();
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+const toastBox = $('toasts');
+function toast(msg, type='good'){
+  const el = document.createElement('div');
+  el.className = 'toast ' + type;
+  el.textContent = msg;
+  toastBox.appendChild(el);
+  while(toastBox.children.length > 5) toastBox.firstChild.remove();
+  setTimeout(()=>{ el.classList.add('out'); setTimeout(()=>el.remove(), 360); }, 3200);
+}
+
+/* =========================================================
+   CREATE CUSTOMER / ELF
+   ========================================================= */
+function makeCustomer(area){
+  const pool = area === 'bakery' ? BAKERY : CLOTHES;
+  const item = pick(pool);
+  const personality = pick(PERSONALITIES);
+  const baseP = rand(180000, 300000);
+  return {
+    uid: state.uid++,
+    name: pick(KID_NAMES),
+    age: randInt(6, 14),
+    personality,
+    chibi: {
+      skin: pick(SKINS),
+      hair: pick(HAIRS),
+      hairStyle: pick(HAIR_STYLES),
+      outfit: pick(OUTFITS),
+      mood: personality.mood
+    },
+    item,
+    patience: baseP * personality.patience,
+    elapsed: 0,
+  };
+}
+
+function makeElf(){
+  const trait = pick(TRAITS);
+  const speed = randInt(1,5);
+  const charm = randInt(1,5);
+  const skill = randInt(1,5);
+  const name = pick(ELF_NAMES) + ' ' + pick(ELF_SURNAMES);
+  const price = Math.round((180000 + (speed + charm + skill) * 70000) / 1000) * 1000;
+  return {
+    uid: state.uid++,
+    name,
+    chibi: {
+      skin: pick(SKINS), hair: pick(['#ffd700','#ff6b9d','#4a9eff','#9d4edd','#ff8c42','#66bb6a']),
+      hairStyle: pick(['twin','pony','messy','bob','short']),
+      outfit: pick(['#2e7d32','#e53935','#1976d2','#7b1fa2']),
+      mood: 'sparkle', accessory: ACC.elfHat
+    },
+    trait, speed, charm, skill, price,
+    cooldown: 0,
+    interval: Math.max(2500, 35000 / (speed * trait.spd)),
+    served: 0, earned: 0,
+  };
+}
+
+/* =========================================================
+   SERVING
+   ========================================================= */
+function listOf(area){ return area === 'bakery' ? state.bakeryCustomers : state.clothesCustomers; }
+
+function completeServe(area, customer, elf = null, qualityMult = 1.0){
+  const list = listOf(area);
+  const idx = list.indexOf(customer);
+  if(idx < 0) return false;
+  list.splice(idx, 1);
+  const item = customer.item;
+  let earn;
+  if(elf){
+    earn = Math.round(item.price * (1 + elf.charm * 0.08) * elf.trait.charm);
+    elf.served++; elf.earned += earn;
+    toast(`✨ ${elf.name} phục vụ ${customer.name} +${fmt(earn)}`, 'good');
+  }else{
+    earn = Math.round(item.price * qualityMult * customer.personality.tip);
+    toast(`🎉 ${customer.name} hài lòng! +${fmt(earn)}`, 'gold');
+  }
+  state.money += earn;
+  state.stats.totalEarned += earn;
+  state.stats.served++;
+  return true;
+}
+
+function findUrgentCustomer(){
+  const all = [
+    ...state.bakeryCustomers.map(c => ({area:'bakery', c})),
+    ...state.clothesCustomers.map(c => ({area:'clothes', c}))
+  ];
+  if(!all.length) return null;
+  all.sort((a,b) => (a.c.patience - a.c.elapsed) - (b.c.patience - b.c.elapsed));
+  return all[0];
+}
+
+/* =========================================================
+   MINI-GAMES
+   ========================================================= */
+const MiniGames = {
+  raf: null,
+  cleanup(){ if(this.raf) cancelAnimationFrame(this.raf); this.raf = null; },
+
+  /* --- RHYTHM --- */
+  startRhythm(container, onDone, stepName){
+    container.innerHTML = `
+      <div class="mg-title">🎯 ${stepName}</div>
+      <div class="mg-rhythm-track">
+        <div class="mg-r-zone mg-r-bad" style="left:0%;width:20%"></div>
+        <div class="mg-r-zone mg-r-good" style="left:20%;width:20%"></div>
+        <div class="mg-r-zone mg-r-perfect" style="left:40%;width:20%"></div>
+        <div class="mg-r-zone mg-r-good" style="left:60%;width:20%"></div>
+        <div class="mg-r-zone mg-r-bad" style="left:80%;width:20%"></div>
+        <div class="mg-r-pointer" id="mgPointer"></div>
+      </div>
+      <button class="mg-action" id="mgBtn">👆 BẤM (hoặc SPACE)</button>
+      <div class="mg-hint">Canh con trỏ vào vùng xanh giữa để đạt ⭐ Perfect!</div>
+    `;
+    let pos = 0, dir = 1, speed = 105; // %/s
+    let last = performance.now();
+    let finished = false;
+    const pointer = container.querySelector('#mgPointer');
+    const btn = container.querySelector('#mgBtn');
+
+    const loop = (now) => {
+      if(finished) return;
+      const dt = Math.min((now - last)/1000, 0.1);
+      last = now;
+      pos += dir * speed * dt;
+      if(pos > 100){ pos = 100; dir = -1; }
+      if(pos < 0){ pos = 0; dir = 1; }
+      pointer.style.left = pos + '%';
+      this.raf = requestAnimationFrame(loop);
+    };
+
+    const finish = () => {
+      if(finished) return;
+      finished = true;
+      this.cleanup();
+      document.removeEventListener('keydown', keyHandler);
+      let score;
+      if(pos >= 42 && pos <= 58) score = 100;
+      else if((pos >= 22 && pos < 42) || (pos > 58 && pos <= 78)) score = 65;
+      else score = 25;
+      pointer.classList.add('frozen');
+      btn.disabled = true;
+      btn.textContent = score >= 100 ? '⭐ Perfect!' : score >= 65 ? '✨ Good' : '😐 Miss';
+      setTimeout(()=>onDone(score), 850);
+    };
+
+    const keyHandler = e => {
+      if(e.code === 'Space' || e.code === 'Enter'){ e.preventDefault(); finish(); }
+    };
+    btn.onclick = finish;
+    document.addEventListener('keydown', keyHandler);
+
+    this.raf = requestAnimationFrame(loop);
+  },
+
+  /* --- TEMPERATURE --- */
+  startTemp(container, onDone, stepName){
+    container.innerHTML = `
+      <div class="mg-title">🔥 ${stepName}</div>
+      <div class="mg-temp-bar">
+        <div class="mg-temp-zone"></div>
+        <div class="mg-temp-needle" id="mgNeedle"></div>
+      </div>
+      <div class="mg-temp-value" id="mgTempVal">20°C</div>
+      <div class="mg-temp-progress"><div class="mg-temp-prog-fill" id="mgProg" style="width:0%"></div></div>
+      <button class="mg-btn heat" id="mgHeat">🔥 GIỮ ĐỂ ĐUN NÓNG</button>
+      <div class="mg-hint">Giữ nhiệt trong vùng vàng (170-180°C) để thanh tiến độ đầy! Quá 220°C sẽ cháy.</div>
+    `;
+    const DISPLAY_MAX = 250;
+    const T_MIN = 170, T_MAX = 180;
+    let temp = 20, progress = 0, heating = false, finished = false;
+    let last = performance.now();
+    const needle = container.querySelector('#mgNeedle');
+    const valEl = container.querySelector('#mgTempVal');
+    const progEl = container.querySelector('#mgProg');
+    const heatBtn = container.querySelector('#mgHeat');
+
+    heatBtn.addEventListener('pointerdown', e=>{ e.preventDefault(); heating = true; heatBtn.classList.add('holding'); });
+    heatBtn.addEventListener('pointerup', ()=>{ heating = false; heatBtn.classList.remove('holding'); });
+    heatBtn.addEventListener('pointerleave', ()=>{ heating = false; heatBtn.classList.remove('holding'); });
+    heatBtn.addEventListener('pointercancel', ()=>{ heating = false; heatBtn.classList.remove('holding'); });
+
+    const loop = (now) => {
+      if(finished) return;
+      const dt = Math.min((now - last)/1000, 0.1);
+      last = now;
+      if(heating) temp = Math.min(DISPLAY_MAX, temp + 95 * dt);
+      else temp = Math.max(0, temp - 35 * dt);
+
+      const inRange = temp >= T_MIN && temp <= T_MAX;
+      if(inRange) progress = Math.min(100, progress + 42 * dt);
+      else progress = Math.max(0, progress - 8 * dt);
+
+      const pct = (temp / DISPLAY_MAX) * 100;
+      needle.style.left = Math.min(100, pct) + '%';
+      valEl.textContent = Math.round(temp) + '°C';
+      valEl.style.color = inRange ? '#66bb6a' : (temp > T_MAX ? '#ef5350' : '#8ecae6');
+      progEl.style.width = progress + '%';
+
+      if(temp > 220){
+        finished = true; this.cleanup();
+        valEl.textContent = '🔥 CHÁY RỒI!';
+        setTimeout(()=>onDone(15), 900);
+        return;
+      }
+      if(progress >= 100){
+        finished = true; this.cleanup();
+        valEl.textContent = '✅ HOÀN HẢO!';
+        setTimeout(()=>onDone(100), 900);
+        return;
+      }
+      this.raf = requestAnimationFrame(loop);
+    };
+    this.raf = requestAnimationFrame(loop);
+  },
+
+  /* --- DECORATION --- */
+  startDecor(container, onDone, stepName, area){
+    const EMOJIS = area === 'bakery'
+      ? ['🍬','🎀','⭐','❄️','🍫','🍪']
+      : ['🎀','⭐','❄️','🔔','🎁','✨'];
+    const SLOTS = 6;
+    const slots = new Array(SLOTS).fill(-1);
+
+    container.innerHTML = `
+      <div class="mg-title">🎨 ${stepName}</div>
+      <div class="mg-decor-scene">
+        ${Array.from({length:SLOTS},(_,i)=>`<div class="mg-decor-slot" data-i="${i}">➕</div>`).join('')}
+      </div>
+      <div class="mg-decor-tray">
+        ${EMOJIS.map((e,i)=>`<button class="mg-decor-opt" data-e="${i}">${e}</button>`).join('')}
+      </div>
+      <button class="mg-action" id="mgDecorDone">✅ XONG</button>
+      <div class="mg-hint">Chọn biểu tượng rồi bấm ô tròn để đặt. Càng nhiều & đa dạng càng đẹp!</div>
+    `;
+    let selected = null;
+
+    container.querySelectorAll('.mg-decor-opt').forEach(btn => {
+      btn.onclick = () => {
+        selected = Number(btn.dataset.e);
+        container.querySelectorAll('.mg-decor-opt').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+      };
+    });
+
+    container.querySelectorAll('.mg-decor-slot').forEach(slot => {
+      slot.onclick = () => {
+        const i = Number(slot.dataset.i);
+        if(selected !== null){ slots[i] = selected; }
+        else { slots[i] = -1; }
+        slot.textContent = slots[i] === -1 ? '➕' : EMOJIS[slots[i]];
+        slot.classList.toggle('filled', slots[i] !== -1);
+      };
+    });
+
+    container.querySelector('#mgDecorDone').onclick = () => {
+      const placed = slots.filter(v=>v!==-1).length;
+      const unique = new Set(slots.filter(v=>v!==-1)).size;
+      let score = (placed / SLOTS) * 55 + (unique / 4) * 45;
+      score = Math.min(100, Math.round(score));
+      onDone(score);
+    };
+  },
+};
+
+/* Chọn loại mini-game theo tên bước & khu vực */
+function pickMiniGameType(area, i, stepName, totalSteps){
+  const n = stepName.toLowerCase();
+  if(n.includes('nướng') || n.includes('hấp') || n.includes('đun') || n.includes('temper')) return 'temp';
+  if(n.includes('trang trí') || n.includes('vẽ') || n.includes('rắc') || n.includes('gắn nơ') ||
+     n.includes('gắn kẹp') || n.includes('thắt') || n.includes('phủ')) return 'decor';
+  if(area === 'clothes' && i === totalSteps - 1) return 'decor';
+  return 'rhythm';
+}
+
+/* =========================================================
+   CRAFTING
+   ========================================================= */
+const craft = { open:false, customer:null, area:null, item:null, stepIndex:0, scores:[] };
+
+function openCraft(area, customer){
+  craft.open = true;
+  craft.area = area;
+  craft.customer = customer;
+  craft.item = customer.item;
+  craft.stepIndex = 0;
+  craft.scores = [];
+  $('craftTitle').textContent = area === 'bakery' ? '🍪 Đang làm bánh' : '✂️ Đang may đo';
+  $('craftSub').textContent = `${customer.personality.emoji} ${customer.name} · ${craft.item.emoji} ${craft.item.name}`;
+  $('craftModal').classList.add('open');
+  runStep();
+}
+
+function runStep(){
+  if(craft.stepIndex >= craft.item.steps.length){
+    finishCraft();
+    return;
+  }
+  const total = craft.item.steps.length;
+  const stepName = craft.item.steps[craft.stepIndex];
+  $('craftProgress').textContent = `Bước ${craft.stepIndex+1}/${total}: ${stepName}`;
+
+  const container = $('miniGameContainer');
+  const type = pickMiniGameType(craft.area, craft.stepIndex, stepName, total);
+  const onDone = (score) => {
+    if(!craft.open) return;
+    craft.scores.push(score);
+    craft.stepIndex++;
+    // Đánh giá từng bước
+    const label = score >= 85 ? '⭐ Perfect' : score >= 60 ? '✨ Good' : score >= 40 ? '👍 OK' : '😐 Poor';
+    const stepName = craft.item.steps[craft.stepIndex-1];
+    toast(`${label} · ${stepName}`, score>=85?'gold':score>=60?'good':'bad');
+    setTimeout(runStep, 300);
+  };
+
+  if(type === 'rhythm') MiniGames.startRhythm(container, onDone, stepName);
+  else if(type === 'temp') MiniGames.startTemp(container, onDone, stepName);
+  else MiniGames.startDecor(container, onDone, stepName, craft
