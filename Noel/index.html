@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎄 Thị Trấn Noel · Chibi v3</title>
+<title>🎄 Thị Trấn Noel · Chibi Anime</title>
 <style>
-:root{--red:#e53935;--red-d:#b71c1c;--green:#2e7d32;--green-l:#66bb6a;--gold:#ffc107;--gold-l:#ffe082;--ice:#8ecae6;--text:#eaf2ff}
+:root{--red:#e53935;--green:#2e7d32;--gold:#ffc107;--ice:#8ecae6;--text:#eaf2ff;--pink:#ff9eb5}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
 body{font-family:'Segoe UI',system-ui,sans-serif;color:var(--text);
@@ -32,8 +32,6 @@ body{font-family:'Segoe UI',system-ui,sans-serif;color:var(--text);
 .tabs button.active{color:#fff;background:linear-gradient(180deg,#e53935,#b71c1c);border-color:rgba(255,213,79,.6);box-shadow:0 6px 22px rgba(229,57,53,.5),inset 0 1px 0 rgba(255,255,255,.25)}
 .tabs button.locked{opacity:.45;cursor:not-allowed;filter:grayscale(.7)}
 .tabs button .lock{font-size:11px;color:#8fa3b8;margin-left:5px}
-.tabs button.new::after{content:'NEW';position:absolute;top:-8px;right:-6px;background:linear-gradient(180deg,#ffd54f,#ff8a65);color:#3e2723;font-size:9px;font-weight:800;padding:2px 6px;border-radius:8px;box-shadow:0 0 12px rgba(255,213,79,.8);animation:pulseN 1s infinite alternate}
-@keyframes pulseN{to{transform:scale(1.1)}}
 /* LAYOUT */
 main{position:relative;z-index:5;max-width:1240px;margin:0 auto;padding:16px}
 .area{display:none;animation:fade .35s ease}
@@ -44,14 +42,33 @@ main{position:relative;z-index:5;max-width:1240px;margin:0 auto;padding:16px}
 .panel{background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.035));border:1px solid rgba(255,255,255,.16);border-radius:18px;padding:16px;backdrop-filter:blur(10px);box-shadow:0 10px 34px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.12)}
 .panel h2{font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:9px;justify-content:space-between;color:#ffe082;letter-spacing:.3px;border-bottom:1px dashed rgba(255,255,255,.18);padding-bottom:9px}
 .panel h2 .sub{font-size:12px;color:#9fb3c8;font-weight:500}
+/* WORKBENCH */
+.workbench{position:relative;display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:end;padding:14px 16px 10px;margin-bottom:12px;background:linear-gradient(180deg,rgba(80,50,20,.35),rgba(40,25,10,.55)),radial-gradient(ellipse at 50% 100%,rgba(255,193,7,.12),transparent 70%);border:1px solid rgba(255,193,7,.28);border-radius:16px;min-height:180px;overflow:hidden}
+.workbench::before{content:'';position:absolute;left:0;right:0;bottom:0;height:26px;background:repeating-linear-gradient(90deg,#5d3a1a 0 22px,#6d4620 22px 24px);border-top:2px solid #3e2723}
+.workbench::after{content:'';position:absolute;top:14px;right:24px;width:26px;height:26px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.5),transparent 70%);animation:smoke 3s ease-in-out infinite}
+@keyframes smoke{0%{transform:translateY(0) scale(.5);opacity:.5}100%{transform:translateY(-40px) scale(1.6);opacity:0}}
+.wb-side{display:flex;flex-direction:column;gap:6px;align-items:center;z-index:2;position:relative}
+.wb-chibi{width:70px;height:90px;filter:drop-shadow(0 6px 12px rgba(0,0,0,.6));animation:idleBob 2s ease-in-out infinite}
+.wb-chibi svg{width:100%;height:100%;display:block}
+.wb-chibi.busy{animation:chefWork .5s ease-in-out infinite alternate}
+@keyframes chefWork{to{transform:translateY(-6px) rotate(-4deg)}}
+.wb-title{font-size:10px;font-weight:800;color:#ffe082;letter-spacing:.5px;text-shadow:0 1px 3px rgba(0,0,0,.8)}
+.wb-center{z-index:2;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative}
+.wb-oven{width:66px;height:66px;border-radius:12px;background:linear-gradient(180deg,#4e342e,#2d1e1a);border:2px solid #1a1210;display:grid;place-items:center;font-size:30px;box-shadow:inset 0 0 20px rgba(255,120,40,.4);position:relative}
+.wb-oven.hot{box-shadow:inset 0 0 30px rgba(255,80,20,.9),0 0 24px rgba(255,120,40,.6)}
+.wb-counter{width:130px;height:56px;border-radius:10px;background:linear-gradient(180deg,#8d5524,#5d3a1a);border:2px solid #3e2723;box-shadow:inset 0 4px 0 rgba(255,255,255,.08),0 8px 16px rgba(0,0,0,.5);display:grid;place-items:center;font-size:28px;position:relative}
+.wb-counter .item-on-counter{animation:idleBob 1.4s ease-in-out infinite}
+.wb-ingredients{display:flex;gap:6px;font-size:20px;flex-wrap:wrap;justify-content:center}
+.wb-ing{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:8px;padding:4px 6px;line-height:1}
+.wb-status{z-index:2;grid-column:1/-1;text-align:center;font-size:12px;font-weight:700;color:#ffd54f;letter-spacing:.3px;text-shadow:0 1px 4px rgba(0,0,0,.8)}
 /* CUSTOMERS */
 .customer-list{display:flex;flex-direction:column;gap:12px;max-height:540px;overflow-y:auto;padding-right:4px}
 .customer-list::-webkit-scrollbar{width:7px}.customer-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:6px}
-.customer{display:flex;gap:8px;align-items:center;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.11);border-left:4px solid var(--green-l);border-radius:14px;padding:8px 10px;animation:slideIn .45s cubic-bezier(.2,.9,.4,1.4)}
+.customer{display:flex;gap:10px;align-items:center;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.11);border-left:4px solid var(--green);border-radius:14px;padding:10px;animation:slideIn .45s cubic-bezier(.2,.9,.4,1.4)}
 @keyframes slideIn{from{opacity:0;transform:translateX(60px) scale(.85)}to{opacity:1;transform:none}}
-.chibi-wrap{width:66px;height:78px;flex:none;animation:idleBob 2.2s ease-in-out infinite}
+.chibi-wrap{width:80px;height:100px;flex:none;animation:idleBob 2.2s ease-in-out infinite;position:relative}
 @keyframes idleBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-.chibi-wrap svg{width:100%;height:100%;display:block;filter:drop-shadow(0 4px 8px rgba(0,0,0,.45))}
+.chibi-wrap svg{width:100%;height:100%;display:block;filter:drop-shadow(0 6px 10px rgba(0,0,0,.5))}
 .cust-body{flex:1;min-width:0}
 .cust-name{font-weight:800;font-size:14px;color:#fff;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .cust-age{font-size:10px;background:rgba(255,255,255,.12);padding:1px 7px;border-radius:6px;color:#cfe0f2;font-weight:600}
@@ -79,58 +96,40 @@ main{position:relative;z-index:5;max-width:1240px;margin:0 auto;padding:16px}
 @keyframes glowW{to{box-shadow:0 0 0 2px rgba(102,187,106,.6),0 0 30px rgba(102,187,106,.6)}}
 .badge{position:absolute;top:6px;right:6px;background:linear-gradient(180deg,#ef5350,#c62828);color:#fff;font-size:11px;font-weight:800;min-width:20px;height:20px;padding:0 5px;border-radius:10px;display:grid;place-items:center;box-shadow:0 0 12px rgba(239,83,80,.8)}
 /* MAP */
-.map-scene{position:relative;min-height:560px;border-radius:18px;overflow:hidden;
-  background:radial-gradient(ellipse at 50% 120%,#2a4a6a 0%,#0a1626 70%),linear-gradient(180deg,#0d1f33,#1a3352)}
-.map-scene::before{content:'';position:absolute;inset:0;pointer-events:none;
-  background:
-    radial-gradient(circle at 10% 15%,rgba(255,255,255,.5) 1px,transparent 2px),
-    radial-gradient(circle at 80% 25%,rgba(255,255,255,.4) 1px,transparent 2px),
-    radial-gradient(circle at 35% 70%,rgba(255,255,255,.5) 1px,transparent 2px),
-    radial-gradient(circle at 65% 45%,rgba(255,255,255,.3) 1px,transparent 2px),
-    radial-gradient(circle at 90% 80%,rgba(255,255,255,.4) 1px,transparent 2px),
-    radial-gradient(circle at 25% 40%,rgba(255,255,255,.3) 1px,transparent 2px)}
-.map-snow-ground{position:absolute;bottom:0;left:0;right:0;height:100px;
-  background:radial-gradient(ellipse at 50% 100%,#e8f2ff 0%,#b8d5ee 40%,transparent 80%);opacity:.35}
-.map-node{position:absolute;transform:translate(-50%,-50%);background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.04));border:2px solid rgba(255,213,79,.4);border-radius:16px;padding:12px 16px;text-align:center;cursor:pointer;transition:.25s;min-width:120px;backdrop-filter:blur(4px);z-index:2}
+.map-scene{position:relative;min-height:560px;border-radius:18px;overflow:hidden;background:radial-gradient(ellipse at 50% 120%,#2a4a6a 0%,#0a1626 70%),linear-gradient(180deg,#0d1f33,#1a3352)}
+.map-scene::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 10% 15%,rgba(255,255,255,.5) 1px,transparent 2px),radial-gradient(circle at 80% 25%,rgba(255,255,255,.4) 1px,transparent 2px),radial-gradient(circle at 35% 70%,rgba(255,255,255,.5) 1px,transparent 2px),radial-gradient(circle at 65% 45%,rgba(255,255,255,.3) 1px,transparent 2px),radial-gradient(circle at 90% 80%,rgba(255,255,255,.4) 1px,transparent 2px)}
+.map-snow-ground{position:absolute;bottom:0;left:0;right:0;height:100px;background:radial-gradient(ellipse at 50% 100%,#e8f2ff 0%,#b8d5ee 40%,transparent 80%);opacity:.35}
+.map-node{position:absolute;transform:translate(-50%,-50%);background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.04));border:2px solid rgba(255,213,79,.4);border-radius:16px;padding:12px 16px;text-align:center;cursor:pointer;transition:.25s;min-width:120px;backdrop-filter:blur(4px);z-index:5}
 .map-node:hover:not(.locked){transform:translate(-50%,-50%) scale(1.08);box-shadow:0 0 30px rgba(255,213,79,.6);border-color:rgba(255,213,79,.9)}
 .map-node.locked{opacity:.5;cursor:not-allowed;filter:grayscale(.6);border-color:rgba(255,255,255,.15)}
 .map-node .node-emoji{font-size:34px;line-height:1}
 .map-node .node-name{font-weight:800;font-size:13px;margin-top:5px;color:#fff}
 .map-node .node-req{font-size:10.5px;color:#8fa3b8;margin-top:3px;line-height:1.3}
 .map-node.unlocked .node-status{font-size:10px;color:#81c784;margin-top:3px;font-weight:700}
-.map-path{position:absolute;background:repeating-linear-gradient(90deg,rgba(255,255,255,.15) 0 8px,transparent 8px 16px);height:2px;transform-origin:left center;pointer-events:none;z-index:1}
 @media(max-width:700px){.map-node{min-width:90px;padding:8px 10px}.map-node .node-emoji{font-size:26px}.map-node .node-name{font-size:11px}}
 /* TREE */
 .tree-wrap{display:grid;grid-template-columns:1fr 1.1fr;gap:18px}
 @media(max-width:900px){.tree-wrap{grid-template-columns:1fr}}
-.tree-scene{position:relative;width:100%;height:520px;margin:0 auto;max-width:460px;
-  background:radial-gradient(ellipse at 50% 45%,rgba(102,187,106,.18),transparent 68%);border-radius:20px;overflow:hidden}
-.tree-svg{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);width:88%;height:88%;
-  filter:drop-shadow(0 0 34px rgba(46,125,50,.95));transition:filter .5s}
+.tree-scene{position:relative;width:100%;height:520px;margin:0 auto;max-width:460px;background:radial-gradient(ellipse at 50% 45%,rgba(102,187,106,.18),transparent 68%);border-radius:20px;overflow:hidden}
+.tree-svg{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);width:88%;height:88%;filter:drop-shadow(0 0 34px rgba(46,125,50,.95));transition:filter .5s}
 .tree-svg.sparkle-25{filter:drop-shadow(0 0 40px rgba(102,187,106,1)) drop-shadow(0 0 20px rgba(255,213,79,.4))}
 .tree-svg.sparkle-50{filter:drop-shadow(0 0 50px rgba(102,187,106,1)) drop-shadow(0 0 35px rgba(255,213,79,.6))}
 .tree-svg.sparkle-75{filter:drop-shadow(0 0 60px rgba(129,199,132,1)) drop-shadow(0 0 50px rgba(255,213,79,.8))}
 .tree-svg.sparkle-100{filter:drop-shadow(0 0 80px #ffd700) drop-shadow(0 0 50px #66bb6a);animation:legendPulse 1.6s ease-in-out infinite alternate}
 @keyframes legendPulse{to{filter:drop-shadow(0 0 100px #ffd700) drop-shadow(0 0 60px #66bb6a)}}
-.slot{position:absolute;transform:translate(-50%,-50%);font-size:22px;line-height:1;user-select:none;
-  filter:drop-shadow(0 0 8px rgba(255,255,255,.75));animation:twinkle 2.4s ease-in-out infinite alternate}
+.slot{position:absolute;transform:translate(-50%,-50%);font-size:22px;line-height:1;user-select:none;filter:drop-shadow(0 0 8px rgba(255,255,255,.75));animation:twinkle 2.4s ease-in-out infinite alternate}
 @keyframes twinkle{from{transform:translate(-50%,-50%) scale(1)}to{transform:translate(-50%,-50%) scale(1.18)}}
 .slot.rar-rare{filter:drop-shadow(0 0 10px #4fc3f7)}
 .slot.rar-epic{filter:drop-shadow(0 0 13px #ba68c8);font-size:25px}
 .slot.rar-legend{filter:drop-shadow(0 0 16px #ffd700);font-size:27px}
 .sparkle-bar{height:14px;background:rgba(0,0,0,.4);border-radius:8px;overflow:hidden;position:relative;margin:8px 0}
-.sparkle-fill{height:100%;background:linear-gradient(90deg,#66bb6a,#ffd700,#ff8a65);border-radius:8px;transition:width .6s ease;
-  box-shadow:0 0 14px rgba(255,213,79,.7)}
-.sparkle-milestones{position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(90deg,transparent 24.5%,#fff 24.5% 25.5%,transparent 25.5%,transparent 49.5%,#fff 49.5% 50.5%,transparent 50.5%,transparent 74.5%,#fff 74.5% 75.5%,transparent 75.5%)}
+.sparkle-fill{height:100%;background:linear-gradient(90deg,#66bb6a,#ffd700,#ff8a65);border-radius:8px;transition:width .6s ease;box-shadow:0 0 14px rgba(255,213,79,.7)}
+.sparkle-milestones{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,transparent 24.5%,#fff 24.5% 25.5%,transparent 25.5%,transparent 49.5%,#fff 49.5% 50.5%,transparent 50.5%,transparent 74.5%,#fff 74.5% 75.5%,transparent 75.5%)}
 .sparkle-label{display:flex;justify-content:space-between;font-size:11px;color:#9fb3c8;margin-top:4px}
 /* GIFT / COLLECTION */
 .gift-open-area{display:flex;flex-direction:column;align-items:center;gap:12px;padding:6px 0 14px}
-.gift-box-btn{font-family:inherit;font-size:17px;font-weight:800;color:#fff;padding:16px 32px;border-radius:16px;cursor:pointer;
-  background:linear-gradient(180deg,#ef5350,#b71c1c);border:2px solid rgba(255,213,79,.65);
-  box-shadow:0 8px 26px rgba(229,57,53,.55),inset 0 1px 0 rgba(255,255,255,.3);transition:.18s}
-.gift-box-btn:hover{transform:translateY(-3px) scale(1.03)}.gift-box-btn:active{transform:scale(.96)}
-.gift-box-btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.gift-box-btn{font-family:inherit;font-size:17px;font-weight:800;color:#fff;padding:16px 32px;border-radius:16px;cursor:pointer;background:linear-gradient(180deg,#ef5350,#b71c1c);border:2px solid rgba(255,213,79,.65);box-shadow:0 8px 26px rgba(229,57,53,.55),inset 0 1px 0 rgba(255,255,255,.3);transition:.18s}
+.gift-box-btn:hover{transform:translateY(-3px) scale(1.03)}.gift-box-btn:active{transform:scale(.96)}.gift-box-btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
 .collection{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px;max-height:320px;overflow-y:auto;padding-right:4px}
 .collection::-webkit-scrollbar{width:7px}.collection::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:6px}
 .coll-item{position:relative;text-align:center;padding:9px 4px 7px;border-radius:12px;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.1);transition:.2s}
@@ -145,7 +144,7 @@ main{position:relative;z-index:5;max-width:1240px;margin:0 auto;padding:16px}
 .elf-list{display:flex;flex-direction:column;gap:10px;max-height:540px;overflow-y:auto;padding-right:4px}
 .elf-list::-webkit-scrollbar{width:7px}.elf-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:6px}
 .elf-card{display:flex;gap:10px;align-items:center;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(0,0,0,.25));border:1px solid rgba(255,255,255,.13);border-left:4px solid #66bb6a;border-radius:13px;padding:9px;animation:slideIn .4s ease}
-.elf-avatar{width:58px;height:70px;flex:none;animation:idleBob 2.6s ease-in-out infinite}
+.elf-avatar{width:72px;height:90px;flex:none;animation:idleBob 2.6s ease-in-out infinite}
 .elf-avatar svg{width:100%;height:100%;display:block;filter:drop-shadow(0 4px 8px rgba(0,0,0,.4))}
 .elf-info{flex:1;min-width:0}
 .elf-name{font-weight:800;font-size:14px;color:#fff}
@@ -155,7 +154,7 @@ main{position:relative;z-index:5;max-width:1240px;margin:0 auto;padding:16px}
 .btn{font-family:inherit;font-weight:800;font-size:12.5px;color:#fff;padding:9px 14px;border-radius:11px;cursor:pointer;border:none;background:linear-gradient(180deg,#43a047,#2e7d32);box-shadow:0 4px 16px rgba(67,160,71,.45);transition:.16s;white-space:nowrap;flex:none}
 .btn:hover{transform:translateY(-2px)}.btn:active{transform:scale(.95)}.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
 .btn.gold{background:linear-gradient(180deg,#ffca28,#f9a825);color:#3e2723}
-/* MODAL + MINI-GAMES */
+/* MODAL */
 .modal{position:fixed;inset:0;z-index:100;background:rgba(4,9,15,.85);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px}
 .modal.open{display:flex;animation:fade .25s ease}
 .modal-box{background:linear-gradient(180deg,#1e3050,#0f1a2c);border:2px solid rgba(255,213,79,.4);border-radius:22px;padding:22px;max-width:560px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.15);animation:popIn .4s cubic-bezier(.2,.9,.4,1.4)}
@@ -177,19 +176,16 @@ main{position:relative;z-index:5;max-width:1240px;margin:0 auto;padding:16px}
 @keyframes freezeFlash{50%{opacity:.4}}
 .mg-action{font-family:inherit;font-size:16px;font-weight:800;color:#fff;padding:14px;border-radius:14px;cursor:pointer;border:none;background:linear-gradient(180deg,#ef5350,#b71c1c);box-shadow:0 6px 22px rgba(229,57,53,.55),inset 0 1px 0 rgba(255,255,255,.25);transition:.16s;letter-spacing:.4px}
 .mg-action:hover{transform:translateY(-2px)}.mg-action:active{transform:scale(.97)}.mg-action:disabled{opacity:.5;cursor:not-allowed}
-/* TEMPERATURE */
+/* TEMP */
 .mg-temp-bar{position:relative;height:38px;background:linear-gradient(90deg,#1a3352,#2a4a6a,#1a3352);border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.15)}
 .mg-temp-zone{position:absolute;top:0;bottom:0;left:68%;width:4%;background:linear-gradient(180deg,#ffe082,#f9a825);box-shadow:inset 0 0 18px rgba(255,213,79,.7),0 0 20px rgba(255,213,79,.5);border-radius:4px}
 .mg-temp-needle{position:absolute;top:-4px;bottom:-4px;width:4px;background:linear-gradient(180deg,#fff,#8ecae6);border-radius:3px;transform:translateX(-50%);box-shadow:0 0 14px #fff;transition:left .08s linear}
 .mg-temp-value{text-align:center;font-size:22px;font-weight:900;font-variant-numeric:tabular-nums;padding:6px}
 .mg-temp-progress{height:12px;background:rgba(0,0,0,.4);border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.12)}
 .mg-temp-prog-fill{height:100%;background:linear-gradient(90deg,#66bb6a,#ffd700);transition:width .1s linear;box-shadow:0 0 12px rgba(102,187,106,.7)}
-.mg-temp-controls{display:grid;grid-template-columns:1fr;gap:8px}
 .mg-btn{font-family:inherit;font-size:15px;font-weight:800;color:#fff;padding:14px;border-radius:14px;cursor:pointer;border:2px solid rgba(255,255,255,.2);transition:.15s;user-select:none;touch-action:none}
 .mg-btn.heat{background:linear-gradient(180deg,#ef5350,#b71c1c);box-shadow:0 0 22px rgba(239,83,80,.4)}
 .mg-btn.heat:active,.mg-btn.heat.holding{transform:scale(.97);box-shadow:0 0 34px rgba(255,138,101,.9)}
-.mg-btn.cool{background:linear-gradient(180deg,#4fc3f7,#0288d1);box-shadow:0 0 22px rgba(79,195,247,.4)}
-.mg-btn.cool:active{transform:scale(.97)}
 /* DECOR */
 .mg-decor-scene{position:relative;background:radial-gradient(ellipse at 50% 50%,rgba(255,213,79,.12),transparent 70%);border-radius:14px;padding:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;min-height:160px;align-items:center;justify-items:center}
 .mg-decor-slot{width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.08);border:2px dashed rgba(255,255,255,.3);display:grid;place-items:center;font-size:26px;cursor:pointer;transition:.2s;color:#8fa3b8;font-weight:300}
@@ -199,7 +195,7 @@ main{position:relative;z-index:5;max-width:1240px;margin:0 auto;padding:16px}
 .mg-decor-opt{width:50px;height:50px;border-radius:12px;background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.18);font-size:24px;cursor:pointer;transition:.15s}
 .mg-decor-opt:hover{transform:scale(1.1);background:rgba(255,255,255,.15)}
 .mg-decor-opt.active{border-color:#ffd54f;background:rgba(255,213,79,.25);box-shadow:0 0 18px rgba(255,213,79,.6);transform:scale(1.1)}
-/* CRAFT RESULT */
+/* RESULT */
 .craft-result{text-align:center;padding:20px 10px;animation:popIn .5s ease}
 .craft-result-emoji{font-size:72px;line-height:1;filter:drop-shadow(0 0 22px rgba(255,213,79,.7));animation:idleBob 1.6s ease-in-out infinite}
 .craft-result-quality{font-size:26px;font-weight:900;margin:10px 0 4px;letter-spacing:1px}
@@ -247,34 +243,47 @@ main{position:relative;z-index:5;max-width:1240px;margin:0 auto;padding:16px}
 </nav>
 
 <main>
-  <!-- ============ MAP ============ -->
   <section class="area active" id="area-map">
     <div class="panel">
       <h2>🗺️ Bản đồ Thị Trấn Noel <span class="sub" id="mapSub"></span></h2>
-      <div class="map-scene" id="mapScene">
-        <div class="map-snow-ground"></div>
-        <!-- nodes filled by JS -->
-      </div>
-      <div class="hint">Bấm vào địa điểm đã mở khoá để vào. Điều kiện mở khoá được ghi dưới mỗi ô.</div>
+      <div class="map-scene" id="mapScene"><div class="map-snow-ground"></div></div>
+      <div class="hint">Bấm vào địa điểm đã mở khoá để vào. Điều kiện mở khoá ghi dưới mỗi ô.</div>
     </div>
   </section>
 
-  <!-- ============ BAKERY ============ -->
   <section class="area" id="area-bakery">
     <div class="shop-grid">
       <div class="panel">
         <h2>🧒 Khách nhí đang chờ <span class="sub" id="bakeryQueueInfo"></span></h2>
+        <div class="workbench" id="bakeryWorkbench">
+          <div class="wb-side">
+            <div class="wb-chibi" id="wbChef"></div>
+            <div class="wb-title">BẾP TRƯỞNG</div>
+          </div>
+          <div class="wb-center">
+            <div class="wb-oven" id="wbOven">🔥</div>
+            <div class="wb-counter"><span class="item-on-counter" id="wbItem">—</span></div>
+            <div class="wb-ingredients" id="wbIngredients">
+              <span class="wb-ing">🌾</span><span class="wb-ing">🥚</span>
+              <span class="wb-ing">🥛</span><span class="wb-ing">🍯</span>
+            </div>
+          </div>
+          <div class="wb-side">
+            <div class="wb-chibi" id="wbCustomer"></div>
+            <div class="wb-title" id="wbCustName">Đang chờ</div>
+          </div>
+          <div class="wb-status" id="wbStatus">🍪 Chọn món khách gọi để bắt đầu làm bánh</div>
+        </div>
         <div class="customer-list" id="bakeryCustomers"></div>
       </div>
       <div class="panel">
         <h2>🍪 Thực đơn tiệm bánh <span class="sub">Bấm món khách gọi để làm</span></h2>
         <div class="item-grid" id="bakeryMenu"></div>
-        <div class="hint">💡 Mỗi món có 3 công đoạn mini-game: trộn → nướng → trang trí. Chất lượng từng bước quyết định giá bán cuối cùng.</div>
+        <div class="hint">💡 Mỗi món 3 công đoạn mini-game: trộn → nướng → trang trí. Chất lượng từng bước quyết định giá bán cuối.</div>
       </div>
     </div>
   </section>
 
-  <!-- ============ CLOTHES ============ -->
   <section class="area" id="area-clothes">
     <div class="shop-grid">
       <div class="panel">
@@ -289,7 +298,6 @@ main{position:relative;z-index:5;max-width:1240px;margin:0 auto;padding:16px}
     </div>
   </section>
 
-  <!-- ============ TREE ============ -->
   <section class="area" id="area-tree">
     <div class="tree-wrap">
       <div class="panel">
@@ -334,7 +342,6 @@ main{position:relative;z-index:5;max-width:1240px;margin:0 auto;padding:16px}
     </div>
   </section>
 
-  <!-- ============ ELVES ============ -->
   <section class="area" id="area-elves">
     <div class="shop-grid">
       <div class="panel">
@@ -353,7 +360,6 @@ main{position:relative;z-index:5;max-width:1240px;margin:0 auto;padding:16px}
   </section>
 </main>
 
-<!-- CRAFTING MODAL -->
 <div class="modal" id="craftModal">
   <div class="modal-box">
     <h2 id="craftTitle">Đang làm bánh</h2>
@@ -374,95 +380,185 @@ const pick = a => a[Math.floor(Math.random()*a.length)];
 const rand = (a,b) => a + Math.random()*(b-a);
 const randInt = (a,b) => Math.floor(rand(a,b+1));
 const fmt = n => Math.round(n).toLocaleString('vi-VN') + 'đ';
-
-/* =========================================================
-   CHIBI SVG (giữ nguyên từ v2)
-   ========================================================= */
-const SKINS = ['#ffe0c4','#ffd7b5','#f4c090','#d9a878','#a87a55','#8d5524'];
-const HAIRS = ['#2a1810','#5a3820','#8b5a2b','#d4a76a','#ffd700','#ff6b9d','#c9c9c9','#6b4423','#ff8c42','#4a9eff','#9d4edd','#1a1a1a','#ff4500','#b8860b'];
-const HAIR_STYLES = ['short','bob','long','twin','pony','messy','curly'];
-const OUTFITS = ['#e53935','#2e7d32','#1976d2','#7b1fa2','#c2185b','#f57c00','#00897b','#5d4037','#d32f2f','#388e3c'];
-
-function hairShape(style, hair){
-  const base = `<path d="M 22 44 Q 22 14 50 14 Q 78 14 78 44 Q 78 34 68 30 Q 58 26 50 28 Q 42 26 32 30 Q 22 34 22 44 Z" fill="${hair}"/>`;
-  switch(style){
-    case 'short': return base;
-    case 'bob': return `<path d="M 22 44 Q 22 14 50 14 Q 78 14 78 44 L 78 62 Q 72 58 70 50 Q 68 34 50 32 Q 32 34 30 50 Q 28 58 22 62 Z" fill="${hair}"/>`;
-    case 'long': return base + `<path d="M 20 48 Q 16 70 18 92 Q 26 88 30 78 L 30 52 Z" fill="${hair}"/><path d="M 80 48 Q 84 70 82 92 Q 74 88 70 78 L 70 52 Z" fill="${hair}"/>`;
-    case 'twin': return base + `<ellipse cx="16" cy="52" rx="9" ry="12" fill="${hair}"/><ellipse cx="84" cy="52" rx="9" ry="12" fill="${hair}"/><circle cx="16" cy="44" r="3" fill="#ff6b9d"/><circle cx="84" cy="44" r="3" fill="#ff6b9d"/>`;
-    case 'pony': return base + `<ellipse cx="82" cy="30" rx="8" ry="6" fill="${hair}"/><path d="M 82 26 Q 92 20 96 38 Q 94 46 88 46 Q 86 38 82 30 Z" fill="${hair}"/><circle cx="82" cy="28" r="2.5" fill="#e53935"/>`;
-    case 'messy': return `<path d="M 22 44 Q 22 12 50 12 L 52 6 L 56 12 L 62 8 L 64 14 L 74 12 L 72 20 L 80 20 L 76 32 L 82 40 L 78 46 Q 78 34 68 30 Q 58 26 50 28 Q 42 26 32 30 Q 22 34 22 44 Z" fill="${hair}"/>`;
-    case 'curly': return `<g fill="${hair}"><circle cx="50" cy="20" r="14"/><circle cx="30" cy="28" r="12"/><circle cx="70" cy="28" r="12"/><circle cx="22" cy="42" r="9"/><circle cx="78" cy="42" r="9"/><circle cx="38" cy="16" r="9"/><circle cx="62" cy="16" r="9"/></g>`;
-    default: return base;
-  }
+function shade(hex, pct){
+  const n = parseInt(hex.slice(1),16);
+  let R = (n>>16)&255, G = (n>>8)&255, B = n&255;
+  R = Math.max(0,Math.min(255,R + Math.round(255*pct/100)));
+  G = Math.max(0,Math.min(255,G + Math.round(255*pct/100)));
+  B = Math.max(0,Math.min(255,B + Math.round(255*pct/100)));
+  return '#' + [R,G,B].map(x=>x.toString(16).padStart(2,'0')).join('');
 }
 
+/* =========================================================
+   🎨 CHIBI ANIME SVG (theo ảnh tham chiếu: tóc vàng 2 bím,
+   mắt xanh to tròn có highlight, má hồng, áo len hồng, chân váy)
+   ========================================================= */
+let chibiUID = 0;
+const CHIBI_PALETTE = {
+  hair:   ['#e8d4b0','#f0dcc0','#c9a87c','#8b5a2b','#5a3820','#2a1810','#ffb3c6','#ffd0e0','#a8c8e8','#c9b3e0','#d4a76a','#f5e6c8','#d0d0d0','#a87a55'],
+  eye:    ['#4a9d5f','#4a8ed9','#8b5a2b','#9d4edd','#ff6b9d','#d99a2b','#2a9d9d','#7fb87f','#5c8fd6','#c94f4f'],
+  outfit: ['#ff9eb5','#ffb3c6','#e53935','#66bb6a','#4a8ed9','#9d4edd','#f5c884','#a8e6cf','#d4b8e8','#ffcf8f','#f5f5f5','#2e7d32'],
+  skirt:  ['#3d2b1f','#1a1a1a','#5d3a1a','#1e3a5c','#5a1a1a','#2a2a2a','#3a1f3a'],
+  shoe:   ['#ff8fab','#e53935','#8b5a2b','#4a8ed9','#9d4edd','#1a1a1a','#ffffff'],
+};
+
 function chibiSVG(o = {}){
-  const skin = o.skin || pick(SKINS);
-  const hair = o.hair || pick(HAIRS);
-  const style = o.hairStyle || pick(HAIR_STYLES);
-  const outfit = o.outfit || pick(OUTFITS);
-  const mood = o.mood || 'happy';
-  const accessory = o.accessory || '';
-  const eyeColor = pick(['#2b1810','#1a3a5c','#3d1f6b','#2d4a1e','#5a2d0c','#0d0d0d']);
+  const uid = ++chibiUID;
+  const hair   = o.hair   || pick(CHIBI_PALETTE.hair);
+  const eyeC   = o.eye    || pick(CHIBI_PALETTE.eye);
+  const outfit = o.outfit || pick(CHIBI_PALETTE.outfit);
+  const skirt  = o.skirt  || pick(CHIBI_PALETTE.skirt);
+  const shoe   = o.shoe   || pick(CHIBI_PALETTE.shoe);
+  const skin   = o.skin   || '#ffe3d0';
+  const mood   = o.mood   || 'happy';
+  const acc    = o.accessory || '';
+  const braids = o.braids !== false;
 
-  let mouth = '<path d="M 44 59 Q 50 66 56 59 Q 50 62 44 59 Z" fill="#b71c1c"/>';
-  if(mood === 'sad') mouth = '<path d="M 46 63 Q 50 59 54 63" stroke="#b71c1c" stroke-width="1.8" fill="none" stroke-linecap="round"/>';
-  if(mood === 'surprise') mouth = '<ellipse cx="50" cy="62" rx="3" ry="4" fill="#b71c1c"/>';
-  if(mood === 'blink') mouth = '<path d="M 46 60 Q 50 64 54 60" stroke="#b71c1c" stroke-width="1.8" fill="none" stroke-linecap="round"/>';
+  const hairDark  = shade(hair,-22);
+  const hairLight = shade(hair, 18);
+  const outfitD   = shade(outfit,-15);
+  const eyeLight  = shade(eyeC, 25);
 
-  let eyes = `
-    <ellipse cx="38" cy="47" rx="4.5" ry="6" fill="${eyeColor}"/>
-    <ellipse cx="62" cy="47" rx="4.5" ry="6" fill="${eyeColor}"/>
-    <circle cx="39.5" cy="45" r="1.6" fill="#fff"/>
-    <circle cx="63.5" cy="45" r="1.6" fill="#fff"/>
-    <circle cx="36.8" cy="49" r="1" fill="#fff" opacity=".7"/>
-    <circle cx="60.8" cy="49" r="1" fill="#fff" opacity=".7"/>
-    <path d="M 32 41 Q 38 38 44 41" stroke="#3a2a1a" stroke-width="1.3" fill="none" stroke-linecap="round"/>
-    <path d="M 56 41 Q 62 38 68 41" stroke="#3a2a1a" stroke-width="1.3" fill="none" stroke-linecap="round"/>`;
-  if(mood === 'blink') eyes = `
-    <path d="M 34 47 Q 38 50 42 47" stroke="#2b1810" stroke-width="2" fill="none" stroke-linecap="round"/>
-    <path d="M 58 47 Q 62 50 66 47" stroke="#2b1810" stroke-width="2" fill="none" stroke-linecap="round"/>`;
-  if(mood === 'sparkle') eyes = `
-    <circle cx="38" cy="47" r="5.5" fill="#ffd700" stroke="${eyeColor}" stroke-width="1.5"/>
-    <circle cx="62" cy="47" r="5.5" fill="#ffd700" stroke="${eyeColor}" stroke-width="1.5"/>
-    <circle cx="38" cy="47" r="2.8" fill="${eyeColor}"/>
-    <circle cx="62" cy="47" r="2.8" fill="${eyeColor}"/>
-    <circle cx="39.5" cy="45.5" r="1" fill="#fff"/>
-    <circle cx="63.5" cy="45.5" r="1" fill="#fff"/>`;
-  if(mood === 'annoyed') eyes = `
-    <path d="M 33 43 L 43 47" stroke="#2b1810" stroke-width="2" stroke-linecap="round"/>
-    <path d="M 57 47 L 67 43" stroke="#2b1810" stroke-width="2" stroke-linecap="round"/>
-    <circle cx="38" cy="49" r="2" fill="${eyeColor}"/>
-    <circle cx="62" cy="49" r="2" fill="${eyeColor}"/>`;
+  // Mouth shapes
+  let mouth = `<path d="M 47 67 Q 50 70 53 67" stroke="#c25a6a" stroke-width="1.6" fill="none" stroke-linecap="round"/>`;
+  if(mood === 'sparkle' || mood === 'surprise')
+    mouth = `<ellipse cx="50" cy="68" rx="2.4" ry="2.8" fill="#c25a6a"/>`;
+  if(mood === 'sad' || mood === 'annoyed')
+    mouth = `<path d="M 47 70 Q 50 66 53 70" stroke="#c25a6a" stroke-width="1.6" fill="none" stroke-linecap="round"/>`;
 
-  return `<svg viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg">
-    <ellipse cx="50" cy="122" rx="20" ry="4" fill="rgba(0,0,0,.3)"/>
-    <rect x="42" y="100" width="6" height="16" rx="3" fill="${outfit}" opacity=".85"/>
-    <rect x="52" y="100" width="6" height="16" rx="3" fill="${outfit}" opacity=".85"/>
-    <rect x="40" y="114" width="10" height="6" rx="3" fill="#3e2723"/>
-    <rect x="50" y="114" width="10" height="6" rx="3" fill="#3e2723"/>
-    <rect x="34" y="72" width="32" height="32" rx="10" fill="${outfit}"/>
-    <rect x="34" y="80" width="32" height="3" fill="rgba(0,0,0,.15)"/>
-    <rect x="26" y="76" width="8" height="22" rx="4" fill="${outfit}"/>
-    <rect x="66" y="76" width="8" height="22" rx="4" fill="${outfit}"/>
-    <circle cx="30" cy="99" r="4" fill="${skin}"/>
-    <circle cx="70" cy="99" r="4" fill="${skin}"/>
-    <circle cx="50" cy="48" r="28" fill="${skin}"/>
-    <ellipse cx="22" cy="50" rx="3.5" ry="5" fill="${skin}"/>
-    <ellipse cx="78" cy="50" rx="3.5" ry="5" fill="${skin}"/>
-    ${hairShape(style, hair)}
-    ${eyes}
-    <ellipse cx="32" cy="56" rx="4.5" ry="2.8" fill="#ffb3b3" opacity=".75"/>
-    <ellipse cx="68" cy="56" rx="4.5" ry="2.8" fill="#ffb3b3" opacity=".75"/>
+  // Eye closing for blink
+  const closedEyes = mood === 'blink';
+
+  return `<svg viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="hairG_${uid}" cx="50%" cy="30%">
+        <stop offset="0%" stop-color="${hairLight}"/>
+        <stop offset="60%" stop-color="${hair}"/>
+        <stop offset="100%" stop-color="${hairDark}"/>
+      </radialGradient>
+      <radialGradient id="eyeG_${uid}" cx="50%" cy="35%">
+        <stop offset="0%" stop-color="${eyeLight}"/>
+        <stop offset="70%" stop-color="${eyeC}"/>
+        <stop offset="100%" stop-color="${shade(eyeC,-35)}"/>
+      </radialGradient>
+      <radialGradient id="blushG_${uid}" cx="50%" cy="50%">
+        <stop offset="0%" stop-color="#ff9eb5" stop-opacity=".85"/>
+        <stop offset="100%" stop-color="#ff9eb5" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+
+    <!-- Shadow -->
+    <ellipse cx="50" cy="144" rx="22" ry="3.5" fill="rgba(0,0,0,.28)"/>
+
+    <!-- Back hair mass -->
+    <ellipse cx="50" cy="52" rx="38" ry="44" fill="url(#hairG_${uid})"/>
+
+    <!-- Legs (white socks) -->
+    <rect x="41" y="112" width="7" height="22" rx="3.5" fill="#ffffff"/>
+    <rect x="52" y="112" width="7" height="22" rx="3.5" fill="#ffffff"/>
+    <rect x="41" y="120" width="7" height="1.6" fill="#e8e8e8"/>
+    <rect x="52" y="120" width="7" height="1.6" fill="#e8e8e8"/>
+
+    <!-- Shoes -->
+    <ellipse cx="44" cy="138" rx="7.5" ry="4.5" fill="${shoe}"/>
+    <ellipse cx="56" cy="138" rx="7.5" ry="4.5" fill="${shoe}"/>
+    <ellipse cx="44" cy="136.5" rx="4.5" ry="2" fill="#ffffff" opacity=".4"/>
+    <ellipse cx="56" cy="136.5" rx="4.5" ry="2" fill="#ffffff" opacity=".4"/>
+
+    <!-- Skirt -->
+    <path d="M 34 100 L 66 100 L 74 118 Q 50 121 26 118 Z" fill="${skirt}"/>
+    <path d="M 34 100 L 66 100" stroke="${shade(skirt,20)}" stroke-width="1.4"/>
+    <path d="M 50 100 L 50 118" stroke="${shade(skirt,10)}" stroke-width=".8" opacity=".6"/>
+    <path d="M 40 100 L 34 117" stroke="${shade(skirt,10)}" stroke-width=".8" opacity=".4"/>
+    <path d="M 60 100 L 66 117" stroke="${shade(skirt,10)}" stroke-width=".8" opacity=".4"/>
+
+    <!-- Sweater body (oversized) -->
+    <path d="M 27 72 Q 27 67 34 67 L 66 67 Q 73 67 73 72 L 76 100 L 24 100 Z" fill="${outfit}"/>
+    <path d="M 27 92 Q 50 96 73 92 L 76 100 L 24 100 Z" fill="${outfitD}" opacity=".55"/>
+    <path d="M 34 70 Q 50 73 66 70" stroke="${shade(outfit,25)}" stroke-width="1.2" fill="none" opacity=".7"/>
+
+    <!-- Arms (puffy sleeves) -->
+    <path d="M 28 74 Q 19 82 21 98 Q 26 99 30 98 Q 27 86 34 79 Z" fill="${outfit}"/>
+    <path d="M 72 74 Q 81 82 79 98 Q 74 99 70 98 Q 73 86 66 79 Z" fill="${outfit}"/>
+    <path d="M 30 78 Q 26 88 27 96" stroke="${outfitD}" stroke-width=".9" fill="none" opacity=".6"/>
+    <path d="M 70 78 Q 74 88 73 96" stroke="${outfitD}" stroke-width=".9" fill="none" opacity=".6"/>
+
+    <!-- Hands -->
+    <circle cx="24" cy="100" r="4.5" fill="${skin}"/>
+    <circle cx="76" cy="100" r="4.5" fill="${skin}"/>
+
+    <!-- Neck -->
+    <rect x="45" y="60" width="10" height="10" fill="${shade(skin,-8)}"/>
+
+    <!-- Head -->
+    <circle cx="50" cy="45" r="32" fill="${skin}"/>
+
+    <!-- Twin braids -->
+    ${braids ? `
+      <g fill="url(#hairG_${uid})">
+        <ellipse cx="20" cy="66" rx="9" ry="12"/>
+        <ellipse cx="19" cy="80" rx="8.5" ry="11"/>
+        <ellipse cx="21" cy="93" rx="7.5" ry="9"/>
+        <circle  cx="23" cy="103" r="5"/>
+        <ellipse cx="80" cy="66" rx="9" ry="12"/>
+        <ellipse cx="81" cy="80" rx="8.5" ry="11"/>
+        <ellipse cx="79" cy="93" rx="7.5" ry="9"/>
+        <circle  cx="77" cy="103" r="5"/>
+      </g>
+      <circle cx="20" cy="58" r="3" fill="#ff6b9d"/>
+      <circle cx="80" cy="58" r="3" fill="#ff6b9d"/>
+      <circle cx="20" cy="58" r="1.2" fill="#fff" opacity=".7"/>
+      <circle cx="80" cy="58" r="1.2" fill="#fff" opacity=".7"/>
+    ` : ''}
+
+    <!-- Front bangs (fluffy with center part) -->
+    <path d="M 18 44 Q 20 12 50 10 Q 80 12 82 44
+             Q 79 32 70 28
+             Q 66 22 60 24
+             L 55 16 L 52 22
+             L 48 16 L 45 22
+             Q 40 22 36 26
+             Q 22 30 18 44 Z" fill="url(#hairG_${uid})"/>
+    <path d="M 32 24 Q 36 34 40 46" stroke="${hairDark}" stroke-width=".9" fill="none" opacity=".55"/>
+    <path d="M 68 26 Q 64 34 60 46" stroke="${hairDark}" stroke-width=".9" fill="none" opacity=".55"/>
+    <path d="M 50 22 L 50 44" stroke="${hairDark}" stroke-width=".6" fill="none" opacity=".35"/>
+
+    <!-- Eyes -->
+    ${closedEyes ? `
+      <path d="M 29 47 Q 36 52 43 47" stroke="#3a2a1a" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      <path d="M 57 47 Q 64 52 71 47" stroke="#3a2a1a" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+    ` : `
+      <ellipse cx="36" cy="48" rx="8.5" ry="10.5" fill="#ffffff"/>
+      <ellipse cx="64" cy="48" rx="8.5" ry="10.5" fill="#ffffff"/>
+      <ellipse cx="36" cy="50" rx="7" ry="9.5" fill="url(#eyeG_${uid})"/>
+      <ellipse cx="64" cy="50" rx="7" ry="9.5" fill="url(#eyeG_${uid})"/>
+      <ellipse cx="36" cy="51" rx="3.2" ry="5" fill="#1a1a1a"/>
+      <ellipse cx="64" cy="51" rx="3.2" ry="5" fill="#1a1a1a"/>
+      <ellipse cx="33.5" cy="44.5" rx="3" ry="2.4" fill="#ffffff"/>
+      <ellipse cx="61.5" cy="44.5" rx="3" ry="2.4" fill="#ffffff"/>
+      <circle cx="40" cy="54" r="1.3" fill="#ffffff"/>
+      <circle cx="68" cy="54" r="1.3" fill="#ffffff"/>
+      <path d="M 27 41 Q 33 37 41 40" stroke="#3a2a1a" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <path d="M 59 40 Q 67 37 73 41" stroke="#3a2a1a" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <path d="M 29 35 Q 35 32 42 34" stroke="${shade(hair,-30)}" stroke-width="1" fill="none" opacity=".55"/>
+      <path d="M 58 34 Q 65 32 71 35" stroke="${shade(hair,-30)}" stroke-width="1" fill="none" opacity=".55"/>
+    `}
+
+    <!-- Blush -->
+    <ellipse cx="26" cy="58" rx="6" ry="3.4" fill="url(#blushG_${uid})"/>
+    <ellipse cx="74" cy="58" rx="6" ry="3.4" fill="url(#blushG_${uid})"/>
+
+    <!-- Nose + mouth -->
+    <circle cx="50" cy="63" r=".7" fill="#d9967a" opacity=".55"/>
     ${mouth}
-    ${accessory}
+
+    ${acc}
   </svg>`;
 }
 
 const ACC = {
   elfHat: `<path d="M 26 22 Q 50 -6 78 22 L 78 24 Q 50 24 22 24 Z" fill="#2e7d32"/><ellipse cx="22" cy="24" rx="6" ry="3" fill="#e53935"/><ellipse cx="78" cy="24" rx="6" ry="3" fill="#e53935"/><circle cx="50" cy="0" r="4" fill="#ffd700"/>`,
-  santa: `<path d="M 24 22 Q 50 -4 76 22 L 78 26 Q 50 22 22 26 Z" fill="#e53935"/><circle cx="50" cy="6" r="5" fill="#fff"/><rect x="20" y="22" width="60" height="4" rx="2" fill="#fff"/>`,
+  santa:  `<path d="M 24 22 Q 50 -4 76 22 L 78 26 Q 50 22 22 26 Z" fill="#e53935"/><circle cx="50" cy="6" r="5" fill="#fff"/><rect x="20" y="22" width="60" height="4" rx="2" fill="#fff"/>`,
 };
 
 /* =========================================================
@@ -546,7 +642,7 @@ const DECOR = [
 const RARITY_LABEL = {common:'Thường',rare:'Hiếm',epic:'Sử thi',legend:'Huyền thoại'};
 const RARITY_WEIGHT = {common:60,rare:26,epic:10,legend:4};
 
-const KID_NAMES = ['Emma','Liam','Olivia','Noah','Ava','Ethan','Sophia','Mason','Isabella','Logan','Mia','Lucas','Charlotte','Jack','Amelia','Henry','Harper','Leo','Ella','Owen','Chloe','Ryan','Grace','Caleb','Zoe','Nathan','Lily','Dylan','Ruby','Oliver'];
+const KID_NAMES = ['Emma','Liam','Olivia','Noah','Ava','Ethan','Sophia','Mason','Isabella','Logan','Mia','Lucas','Charlotte','Jack','Amelia','Henry','Harper','Leo','Ella','Owen','Chloe','Ryan','Grace','Caleb','Zoe','Nathan','Lily','Dylan','Ruby','Oliver','Sakura','Yuki','Mei','Hana','Sora'];
 const ELF_NAMES = ['Jingle','Jangle','Sparkle','Tinsel','Frosty','Cocoa','Pepper','Sugarplum','Holly','Ivy','Mistletoe','Ginger','Nutmeg','Snowflake','Twinkle','Pip','Bix','Wren','Clove','Jolly'];
 const ELF_SURNAMES = ['McJingle','Snowboot','Frostbeard','Tinseltoes','Candycane','Winters','Holliday','Sugarplum','Northpole','Evergreen','Starlight','Bellring'];
 const TRAITS = [
@@ -558,7 +654,6 @@ const TRAITS = [
   {name:'Tốt bụng', desc:'Hay tặng kèm bánh.', spd:1.00, charm:1.20},
 ];
 
-/* TÍNH CÁCH KHÁCH HÀNG */
 const PERSONALITIES = [
   {name:'Dễ thương', emoji:'🥰', patience:1.25, tip:1.10, mood:'happy',   line:{perfect:'Cảm ơn nhiều ạ!', bad:'Hic, hơi tệ...'}},
   {name:'Khó tính',  emoji:'😤', patience:0.80, tip:1.30, mood:'annoyed', line:{perfect:'Cũng tạm được!', bad:'Tệ quá, không mua nữa!'}},
@@ -568,27 +663,21 @@ const PERSONALITIES = [
   {name:'Nhút nhát', emoji:'🥺', patience:1.20, tip:1.05, mood:'blink',   line:{perfect:'C-cảm ơn ạ...', bad:'Ưm... thôi vậy...'}},
 ];
 
-/* =========================================================
-   TOWN LEVELS & UNLOCKS
-   ========================================================= */
 const LEVELS = [
-  {lv:1, day:1,  area:'bakery',  name:'Tiệm bánh',        cond:null,                desc:'Khởi đầu'},
-  {lv:2, day:5,  area:'clothes', name:'Tiệm may',         cond:s=>s.totalEarned>=300000,  desc:'Kiếm 300k'},
-  {lv:3, day:10, area:'tree',    name:'Quảng trường',     cond:s=>s.served>=20,      desc:'Phục vụ 20 khách'},
-  {lv:4, day:15, area:'elves',   name:'Xưởng Elf',        cond:s=>s.totalEarned>=1000000, desc:'Kiếm 1 triệu'},
+  {lv:1, day:1,  area:'bakery',  name:'Tiệm bánh',    cond:null,                    desc:'Khởi đầu'},
+  {lv:2, day:5,  area:'clothes', name:'Tiệm may',     cond:s=>s.totalEarned>=300000,desc:'Kiếm 300k'},
+  {lv:3, day:10, area:'tree',    name:'Quảng trường', cond:s=>s.served>=20,         desc:'Phục vụ 20 khách'},
+  {lv:4, day:15, area:'elves',   name:'Xưởng Elf',    cond:s=>s.totalEarned>=1000000,desc:'Kiếm 1 triệu'},
 ];
 
 function currentLevel(){
   let lv = 1;
-  for(const L of LEVELS){
-    if(L.cond && L.cond(state.stats)) lv = L.lv;
-  }
+  for(const L of LEVELS){ if(L.cond && L.cond(state.stats)) lv = L.lv; }
   return lv;
 }
 function isUnlocked(area){
   const L = LEVELS.find(x=>x.area===area);
-  if(!L) return true;
-  if(!L.cond) return true;
+  if(!L || !L.cond) return true;
   return L.cond(state.stats);
 }
 
@@ -652,11 +741,13 @@ function makeCustomer(area){
     age: randInt(6, 14),
     personality,
     chibi: {
-      skin: pick(SKINS),
-      hair: pick(HAIRS),
-      hairStyle: pick(HAIR_STYLES),
-      outfit: pick(OUTFITS),
-      mood: personality.mood
+      hair:   pick(CHIBI_PALETTE.hair),
+      eye:    pick(CHIBI_PALETTE.eye),
+      outfit: pick(CHIBI_PALETTE.outfit),
+      skirt:  pick(CHIBI_PALETTE.skirt),
+      shoe:   pick(CHIBI_PALETTE.shoe),
+      mood: personality.mood,
+      braids: Math.random() < 0.7,
     },
     item,
     patience: baseP * personality.patience,
@@ -675,10 +766,14 @@ function makeElf(){
     uid: state.uid++,
     name,
     chibi: {
-      skin: pick(SKINS), hair: pick(['#ffd700','#ff6b9d','#4a9eff','#9d4edd','#ff8c42','#66bb6a']),
-      hairStyle: pick(['twin','pony','messy','bob','short']),
-      outfit: pick(['#2e7d32','#e53935','#1976d2','#7b1fa2']),
-      mood: 'sparkle', accessory: ACC.elfHat
+      hair: pick(['#e8d4b0','#ff9eb5','#4a8ed9','#9d4edd','#d4a76a','#ffb3c6']),
+      eye: pick(CHIBI_PALETTE.eye),
+      outfit: pick(['#2e7d32','#e53935','#4a8ed9','#9d4edd']),
+      skirt: pick(['#1a1a1a','#3d2b1f','#1e3a5c']),
+      shoe: pick(['#3d2b1f','#1a1a1a']),
+      mood: 'sparkle',
+      braids: true,
+      accessory: ACC.elfHat,
     },
     trait, speed, charm, skill, price,
     cooldown: 0,
@@ -730,7 +825,6 @@ const MiniGames = {
   raf: null,
   cleanup(){ if(this.raf) cancelAnimationFrame(this.raf); this.raf = null; },
 
-  /* --- RHYTHM --- */
   startRhythm(container, onDone, stepName){
     container.innerHTML = `
       <div class="mg-title">🎯 ${stepName}</div>
@@ -743,118 +837,77 @@ const MiniGames = {
         <div class="mg-r-pointer" id="mgPointer"></div>
       </div>
       <button class="mg-action" id="mgBtn">👆 BẤM (hoặc SPACE)</button>
-      <div class="mg-hint">Canh con trỏ vào vùng xanh giữa để đạt ⭐ Perfect!</div>
-    `;
-    let pos = 0, dir = 1, speed = 105; // %/s
-    let last = performance.now();
-    let finished = false;
+      <div class="mg-hint">Canh con trỏ vào vùng xanh giữa để ⭐ Perfect!</div>`;
+    let pos = 0, dir = 1, speed = 105, last = performance.now(), finished = false;
     const pointer = container.querySelector('#mgPointer');
     const btn = container.querySelector('#mgBtn');
-
     const loop = (now) => {
       if(finished) return;
-      const dt = Math.min((now - last)/1000, 0.1);
-      last = now;
+      const dt = Math.min((now - last)/1000, 0.1); last = now;
       pos += dir * speed * dt;
       if(pos > 100){ pos = 100; dir = -1; }
       if(pos < 0){ pos = 0; dir = 1; }
       pointer.style.left = pos + '%';
       this.raf = requestAnimationFrame(loop);
     };
-
     const finish = () => {
       if(finished) return;
-      finished = true;
-      this.cleanup();
+      finished = true; this.cleanup();
       document.removeEventListener('keydown', keyHandler);
-      let score;
-      if(pos >= 42 && pos <= 58) score = 100;
-      else if((pos >= 22 && pos < 42) || (pos > 58 && pos <= 78)) score = 65;
-      else score = 25;
+      let score = pos >= 42 && pos <= 58 ? 100 : ((pos >= 22 && pos < 42) || (pos > 58 && pos <= 78) ? 65 : 25);
       pointer.classList.add('frozen');
       btn.disabled = true;
       btn.textContent = score >= 100 ? '⭐ Perfect!' : score >= 65 ? '✨ Good' : '😐 Miss';
       setTimeout(()=>onDone(score), 850);
     };
-
-    const keyHandler = e => {
-      if(e.code === 'Space' || e.code === 'Enter'){ e.preventDefault(); finish(); }
-    };
+    const keyHandler = e => { if(e.code === 'Space' || e.code === 'Enter'){ e.preventDefault(); finish(); } };
     btn.onclick = finish;
     document.addEventListener('keydown', keyHandler);
-
     this.raf = requestAnimationFrame(loop);
   },
 
-  /* --- TEMPERATURE --- */
   startTemp(container, onDone, stepName){
     container.innerHTML = `
       <div class="mg-title">🔥 ${stepName}</div>
-      <div class="mg-temp-bar">
-        <div class="mg-temp-zone"></div>
-        <div class="mg-temp-needle" id="mgNeedle"></div>
-      </div>
+      <div class="mg-temp-bar"><div class="mg-temp-zone"></div><div class="mg-temp-needle" id="mgNeedle"></div></div>
       <div class="mg-temp-value" id="mgTempVal">20°C</div>
       <div class="mg-temp-progress"><div class="mg-temp-prog-fill" id="mgProg" style="width:0%"></div></div>
       <button class="mg-btn heat" id="mgHeat">🔥 GIỮ ĐỂ ĐUN NÓNG</button>
-      <div class="mg-hint">Giữ nhiệt trong vùng vàng (170-180°C) để thanh tiến độ đầy! Quá 220°C sẽ cháy.</div>
-    `;
-    const DISPLAY_MAX = 250;
-    const T_MIN = 170, T_MAX = 180;
-    let temp = 20, progress = 0, heating = false, finished = false;
-    let last = performance.now();
+      <div class="mg-hint">Giữ nhiệt trong vùng vàng (170-180°C). Quá 220°C sẽ cháy.</div>`;
+    const DISPLAY_MAX = 250, T_MIN = 170, T_MAX = 180;
+    let temp = 20, progress = 0, heating = false, finished = false, last = performance.now();
     const needle = container.querySelector('#mgNeedle');
     const valEl = container.querySelector('#mgTempVal');
     const progEl = container.querySelector('#mgProg');
     const heatBtn = container.querySelector('#mgHeat');
-
-    heatBtn.addEventListener('pointerdown', e=>{ e.preventDefault(); heating = true; heatBtn.classList.add('holding'); });
-    heatBtn.addEventListener('pointerup', ()=>{ heating = false; heatBtn.classList.remove('holding'); });
-    heatBtn.addEventListener('pointerleave', ()=>{ heating = false; heatBtn.classList.remove('holding'); });
-    heatBtn.addEventListener('pointercancel', ()=>{ heating = false; heatBtn.classList.remove('holding'); });
-
+    const stop = () => { heating = false; heatBtn.classList.remove('holding'); };
+    heatBtn.addEventListener('pointerdown', e => { e.preventDefault(); heating = true; heatBtn.classList.add('holding'); });
+    heatBtn.addEventListener('pointerup', stop);
+    heatBtn.addEventListener('pointerleave', stop);
+    heatBtn.addEventListener('pointercancel', stop);
     const loop = (now) => {
       if(finished) return;
-      const dt = Math.min((now - last)/1000, 0.1);
-      last = now;
+      const dt = Math.min((now - last)/1000, 0.1); last = now;
       if(heating) temp = Math.min(DISPLAY_MAX, temp + 95 * dt);
       else temp = Math.max(0, temp - 35 * dt);
-
       const inRange = temp >= T_MIN && temp <= T_MAX;
       if(inRange) progress = Math.min(100, progress + 42 * dt);
       else progress = Math.max(0, progress - 8 * dt);
-
-      const pct = (temp / DISPLAY_MAX) * 100;
-      needle.style.left = Math.min(100, pct) + '%';
+      needle.style.left = Math.min(100, (temp/DISPLAY_MAX)*100) + '%';
       valEl.textContent = Math.round(temp) + '°C';
       valEl.style.color = inRange ? '#66bb6a' : (temp > T_MAX ? '#ef5350' : '#8ecae6');
       progEl.style.width = progress + '%';
-
-      if(temp > 220){
-        finished = true; this.cleanup();
-        valEl.textContent = '🔥 CHÁY RỒI!';
-        setTimeout(()=>onDone(15), 900);
-        return;
-      }
-      if(progress >= 100){
-        finished = true; this.cleanup();
-        valEl.textContent = '✅ HOÀN HẢO!';
-        setTimeout(()=>onDone(100), 900);
-        return;
-      }
+      if(temp > 220){ finished = true; this.cleanup(); valEl.textContent = '🔥 CHÁY RỒI!'; setTimeout(()=>onDone(15), 900); return; }
+      if(progress >= 100){ finished = true; this.cleanup(); valEl.textContent = '✅ HOÀN HẢO!'; setTimeout(()=>onDone(100), 900); return; }
       this.raf = requestAnimationFrame(loop);
     };
     this.raf = requestAnimationFrame(loop);
   },
 
-  /* --- DECORATION --- */
   startDecor(container, onDone, stepName, area){
-    const EMOJIS = area === 'bakery'
-      ? ['🍬','🎀','⭐','❄️','🍫','🍪']
-      : ['🎀','⭐','❄️','🔔','🎁','✨'];
+    const EMOJIS = area === 'bakery' ? ['🍬','🎀','⭐','❄️','🍫','🍪'] : ['🎀','⭐','❄️','🔔','🎁','✨'];
     const SLOTS = 6;
     const slots = new Array(SLOTS).fill(-1);
-
     container.innerHTML = `
       <div class="mg-title">🎨 ${stepName}</div>
       <div class="mg-decor-scene">
@@ -864,10 +917,8 @@ const MiniGames = {
         ${EMOJIS.map((e,i)=>`<button class="mg-decor-opt" data-e="${i}">${e}</button>`).join('')}
       </div>
       <button class="mg-action" id="mgDecorDone">✅ XONG</button>
-      <div class="mg-hint">Chọn biểu tượng rồi bấm ô tròn để đặt. Càng nhiều & đa dạng càng đẹp!</div>
-    `;
+      <div class="mg-hint">Chọn biểu tượng rồi bấm ô tròn. Càng nhiều & đa dạng càng đẹp!</div>`;
     let selected = null;
-
     container.querySelectorAll('.mg-decor-opt').forEach(btn => {
       btn.onclick = () => {
         selected = Number(btn.dataset.e);
@@ -875,28 +926,23 @@ const MiniGames = {
         btn.classList.add('active');
       };
     });
-
     container.querySelectorAll('.mg-decor-slot').forEach(slot => {
       slot.onclick = () => {
         const i = Number(slot.dataset.i);
-        if(selected !== null){ slots[i] = selected; }
-        else { slots[i] = -1; }
+        slots[i] = selected === null ? -1 : selected;
         slot.textContent = slots[i] === -1 ? '➕' : EMOJIS[slots[i]];
         slot.classList.toggle('filled', slots[i] !== -1);
       };
     });
-
     container.querySelector('#mgDecorDone').onclick = () => {
       const placed = slots.filter(v=>v!==-1).length;
       const unique = new Set(slots.filter(v=>v!==-1)).size;
-      let score = (placed / SLOTS) * 55 + (unique / 4) * 45;
-      score = Math.min(100, Math.round(score));
+      const score = Math.min(100, Math.round((placed/SLOTS)*55 + (unique/4)*45));
       onDone(score);
     };
   },
 };
 
-/* Chọn loại mini-game theo tên bước & khu vực */
 function pickMiniGameType(area, i, stepName, totalSteps){
   const n = stepName.toLowerCase();
   if(n.includes('nướng') || n.includes('hấp') || n.includes('đun') || n.includes('temper')) return 'temp';
@@ -925,27 +971,21 @@ function openCraft(area, customer){
 }
 
 function runStep(){
-  if(craft.stepIndex >= craft.item.steps.length){
-    finishCraft();
-    return;
-  }
+  if(craft.stepIndex >= craft.item.steps.length){ finishCraft(); return; }
   const total = craft.item.steps.length;
   const stepName = craft.item.steps[craft.stepIndex];
   $('craftProgress').textContent = `Bước ${craft.stepIndex+1}/${total}: ${stepName}`;
-
+  renderWorkbench();
   const container = $('miniGameContainer');
   const type = pickMiniGameType(craft.area, craft.stepIndex, stepName, total);
   const onDone = (score) => {
     if(!craft.open) return;
     craft.scores.push(score);
     craft.stepIndex++;
-    // Đánh giá từng bước
     const label = score >= 85 ? '⭐ Perfect' : score >= 60 ? '✨ Good' : score >= 40 ? '👍 OK' : '😐 Poor';
-    const stepName = craft.item.steps[craft.stepIndex-1];
     toast(`${label} · ${stepName}`, score>=85?'gold':score>=60?'good':'bad');
     setTimeout(runStep, 300);
   };
-
   if(type === 'rhythm') MiniGames.startRhythm(container, onDone, stepName);
   else if(type === 'temp') MiniGames.startTemp(container, onDone, stepName);
   else MiniGames.startDecor(container, onDone, stepName, craft.area);
@@ -963,15 +1003,11 @@ function finishCraft(){
   const c = craft.customer;
   const area = craft.area;
   const list = listOf(area);
-
   if(list.indexOf(c) < 0){
     toast('😢 Khách đã bỏ đi trước khi bạn làm xong!', 'bad');
-    closeCraft();
-    renderAll();
-    return;
+    closeCraft(); renderAll(); return;
   }
   list.splice(list.indexOf(c), 1);
-
   const earn = Math.round(c.item.price * mult * c.personality.tip);
   state.money += earn;
   state.stats.totalEarned += earn;
@@ -989,11 +1025,10 @@ function finishCraft(){
       <div class="craft-result-money">+${fmt(earn)} <span style="color:#9fb3c8;font-size:12px">(x${(mult*c.personality.tip).toFixed(2)})</span></div>
     </div>`;
   $('craftProgress').textContent = 'Hoàn thành!';
-
-  setTimeout(() => {
-    closeCraft();
-    renderAll();
-  }, 2000);
+  $('wbChef')?.classList.remove('busy');
+  $('wbOven')?.classList.remove('hot');
+  renderWorkbench();
+  setTimeout(() => { closeCraft(); renderAll(); }, 2000);
 }
 
 function closeCraft(){
@@ -1001,10 +1036,11 @@ function closeCraft(){
   craft.customer = null;
   MiniGames.cleanup();
   $('craftModal').classList.remove('open');
+  renderWorkbench();
 }
 
 /* =========================================================
-   UPDATE LOOP
+   UPDATE
    ========================================================= */
 function update(dt){
   state.spawnBakery -= dt;
@@ -1042,7 +1078,6 @@ function update(dt){
     state.elfMarket = [makeElf(),makeElf(),makeElf(),makeElf()];
     state.refreshTimer = 60000;
   }
-  // Level-up check
   const lv = currentLevel();
   if(lv > state.lastLevel){
     const L = LEVELS.find(x=>x.lv===lv);
@@ -1055,6 +1090,10 @@ function update(dt){
 /* =========================================================
    RENDER
    ========================================================= */
+function safe(fn, name){
+  try{ fn(); }
+  catch(err){ console.error('Render lỗi ở ' + name, err); }
+}
 function renderHeader(){
   $('uiMoney').textContent = fmt(state.money);
   $('uiElves').textContent = state.elves.length;
@@ -1063,7 +1102,6 @@ function renderHeader(){
   $('uiLevel').textContent = lv;
   $('uiDay').textContent = LEVELS.find(x=>x.lv===lv).day;
 }
-
 function renderTabs(){
   document.querySelectorAll('#tabs button').forEach(btn => {
     const a = btn.dataset.area;
@@ -1079,50 +1117,84 @@ function renderTabs(){
     }
   });
 }
-
 function renderMap(){
   const scene = $('mapScene');
+  if(!scene) return;
   scene.querySelectorAll('.map-node').forEach(n => n.remove());
   const nodes = [
-    {area:'bakery',  emoji:'🥐', name:'Tiệm bánh',  x:22, y:32},
-    {area:'clothes', emoji:'🎅', name:'Tiệm may',   x:52, y:22},
-    {area:'tree',    emoji:'🎄', name:'Quảng trường',x:78, y:38},
-    {area:'elves',   emoji:'🧝', name:'Xưởng Elf',  x:35, y:62},
-    {area:'reindeer',emoji:'🦌', name:'Chuồng tuần lộc', x:70, y:72, req:'Sưu tầm 10 decor', cond:s=>Object.keys(s.decor).length>=10},
+    {area:'bakery',   emoji:'🥐', name:'Tiệm bánh',       x:22, y:32},
+    {area:'clothes',  emoji:'🎅', name:'Tiệm may',        x:52, y:22},
+    {area:'tree',     emoji:'🎄', name:'Quảng trường',    x:78, y:38},
+    {area:'elves',    emoji:'🧝', name:'Xưởng Elf',       x:35, y:62},
+    {area:'reindeer', emoji:'🦌', name:'Chuồng tuần lộc', x:70, y:72,
+      req:'Sưu tầm 10 loại decor',
+      cond: () => Object.keys(state.decor).length >= 10},
   ];
-  nodes.forEach(n=>{
-    const div = document.createElement('div');
-    const L = LEVELS.find(x=>x.area===n.area);
-    const unlocked = L ? isUnlocked(n.area) : (n.cond ? n.cond(state.stats) : true);
-    div.className = 'map-node ' + (unlocked ? 'unlocked' : 'locked');
-    div.style.left = n.x + '%';
-    div.style.top = n.y + '%';
-    const reqText = L ? L.desc : (n.req || '');
-    div.innerHTML = `
-      <div class="node-emoji">${unlocked ? n.emoji : '🔒'}</div>
-      <div class="node-name">${n.name}</div>
-      ${unlocked
-        ? `<div class="node-status">✓ Đã mở</div>`
-        : `<div class="node-req">${reqText}</div>`}
-    `;
-    div.onclick = () => {
-      if(!unlocked){
-        toast(`🔒 ${n.name} chưa mở. Cần: ${reqText}`, 'bad');
-        return;
-      }
-      // Chuyển tab
-      document.querySelectorAll('#tabs button').forEach(b=>b.classList.remove('active'));
-      document.querySelectorAll('.area').forEach(a=>a.classList.remove('active'));
-      const tabBtn = document.querySelector(`#tabs button[data-tab="${n.area}"]`);
-      if(tabBtn) tabBtn.classList.add('active');
-      const areaEl = $('area-' + n.area);
-      if(areaEl) areaEl.classList.add('active');
-    };
-    scene.appendChild(div);
+  nodes.forEach(n => {
+    try{
+      const div = document.createElement('div');
+      const L = LEVELS.find(x => x.area === n.area);
+      const unlocked = L ? isUnlocked(n.area) : (typeof n.cond === 'function' ? n.cond() : true);
+      div.className = 'map-node ' + (unlocked ? 'unlocked' : 'locked');
+      div.style.left = n.x + '%';
+      div.style.top  = n.y + '%';
+      const reqText = L ? L.desc : (n.req || '');
+      div.innerHTML = `
+        <div class="node-emoji">${unlocked ? n.emoji : '🔒'}</div>
+        <div class="node-name">${n.name}</div>
+        ${unlocked ? `<div class="node-status">✓ Đã mở</div>`
+                   : `<div class="node-req">${reqText}</div>`}`;
+      div.onclick = () => {
+        if(!unlocked){ toast(`🔒 ${n.name} chưa mở. Cần: ${reqText}`, 'bad'); return; }
+        document.querySelectorAll('#tabs button').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.area').forEach(a => a.classList.remove('active'));
+        const tabBtn = document.querySelector(`#tabs button[data-tab="${n.area}"]`);
+        if(tabBtn) tabBtn.classList.add('active');
+        const areaEl = $('area-' + n.area);
+        if(areaEl) areaEl.classList.add('active');
+      };
+      scene.appendChild(div);
+    }catch(err){ console.error('Map node lỗi:', n.area, err); }
   });
-  $('mapSub').textContent = `Cấp ${currentLevel()} · ${LEVELS.filter(L=>isUnlocked(L.area)).length}/${LEVELS.length+1} địa điểm mở`;
+  try{
+    const lv = currentLevel();
+    const opened = LEVELS.filter(L => isUnlocked(L.area)).length;
+    $('mapSub').textContent = `Cấp ${lv} · ${opened}/${LEVELS.length + 1} địa điểm mở`;
+  }catch(e){}
 }
+function renderWorkbench(){
+  const wb = $('bakeryWorkbench'); if(!wb) return;
+  const chef = $('wbChef'), oven = $('wbOven'), itemEl = $('wbItem');
+  const custEl = $('wbCustomer'), nameEl = $('wbCustName');
+  const status = $('wbStatus'), ing = $('wbIngredients');
+  const isBaking = craft.open && craft.area === 'bakery';
 
+  if(isBaking){
+    chef.classList.add('busy'); oven.classList.add('hot');
+    itemEl.textContent = craft.item.emoji;
+    custEl.innerHTML = chibiSVG(craft.customer.chibi);
+    nameEl.textContent = craft.customer.name;
+    const stepName = craft.item.steps[craft.stepIndex] || 'Hoàn thành!';
+    const done = craft.stepIndex, total = craft.item.steps.length;
+    status.textContent = `🔨 Bước ${Math.min(done+1, total)}/${total}: ${stepName}`;
+    const ingByStep = [['🌾','🥚','🥛','🍯'],['🔥','⏱️','🌡️'],['🍬','🎀','⭐','❄️'],['✨','🎁']];
+    ing.innerHTML = ingByStep[Math.min(done, ingByStep.length-1)].map(e=>`<span class="wb-ing">${e}</span>`).join('');
+  } else {
+    chef.classList.remove('busy'); oven.classList.remove('hot');
+    itemEl.textContent = '—';
+    const firstCust = state.bakeryCustomers[0];
+    if(firstCust){
+      custEl.innerHTML = chibiSVG(firstCust.chibi);
+      nameEl.textContent = firstCust.name;
+      status.textContent = `⏳ ${firstCust.name} đang chờ ${firstCust.item.emoji} ${firstCust.item.name}`;
+    } else {
+      custEl.innerHTML = chibiSVG({ hair:'#e8d4b0', eye:'#4a9d5f', outfit:'#ff9eb5', skirt:'#3d2b1f', shoe:'#ff8fab', mood:'blink' });
+      nameEl.textContent = 'Chưa có khách';
+      status.textContent = '🍪 Chọn món khách gọi để bắt đầu làm bánh';
+    }
+    ing.innerHTML = ['🌾','🥚','🥛','🍯'].map(e=>`<span class="wb-ing">${e}</span>`).join('');
+  }
+}
 function customerHTML(c){
   const left = Math.max(0, c.patience - c.elapsed);
   const pct = (left / c.patience) * 100;
@@ -1143,21 +1215,18 @@ function customerHTML(c){
     <div class="cust-time">${mm}:${ss}</div>
   </div>`;
 }
-
 function renderCustomers(){
   const bEl = $('bakeryCustomers');
   bEl.innerHTML = state.bakeryCustomers.length
     ? state.bakeryCustomers.map(customerHTML).join('')
     : '<div class="empty">Chưa có khách nhí nào... ❄️</div>';
   $('bakeryQueueInfo').textContent = state.bakeryCustomers.length + '/5 khách';
-
   const cEl = $('clothesCustomers');
   cEl.innerHTML = state.clothesCustomers.length
     ? state.clothesCustomers.map(customerHTML).join('')
     : '<div class="empty">Chưa có khách nào... ❄️</div>';
   $('clothesQueueInfo').textContent = state.clothesCustomers.length + '/4 khách';
 }
-
 function renderMenu(){
   $('bakeryMenu').innerHTML = BAKERY.map(it => {
     const want = state.bakeryCustomers.filter(c => c.item.id === it.id).length;
@@ -1174,12 +1243,8 @@ function renderMenu(){
     </button>`;
   }).join('');
 }
-
-/* TREE */
 function buildTreeSlots(){
-  const rows = [
-    {y:14,n:1,w:0},{y:26,n:2,w:12},{y:38,n:3,w:20},{y:50,n:4,w:28},{y:62,n:5,w:36},{y:74,n:6,w:44},
-  ];
+  const rows = [{y:14,n:1,w:0},{y:26,n:2,w:12},{y:38,n:3,w:20},{y:50,n:4,w:28},{y:62,n:5,w:36},{y:74,n:6,w:44}];
   const out = [];
   for(const r of rows){
     if(r.n===1){ out.push([50,r.y]); continue; }
@@ -1191,15 +1256,11 @@ function buildTreeSlots(){
   return out;
 }
 const TREE_SLOTS = buildTreeSlots();
-
 function computeSparkle(){
   let s = 0;
-  for(const d of DECOR){
-    if((state.decor[d.id]||0) > 0) s += d.spark;
-  }
+  for(const d of DECOR){ if((state.decor[d.id]||0) > 0) s += d.spark; }
   return Math.min(100, s);
 }
-
 function renderTree(){
   const scene = $('treeScene');
   scene.querySelectorAll('.slot').forEach(n=>n.remove());
@@ -1225,7 +1286,6 @@ function renderTree(){
   else if(spark >= 50) svg.classList.add('sparkle-50');
   else if(spark >= 25) svg.classList.add('sparkle-25');
 }
-
 function renderCollection(){
   $('collection').innerHTML = DECOR.map(d=>{
     const cnt = state.decor[d.id] || 0;
@@ -1239,8 +1299,6 @@ function renderCollection(){
   const kinds = DECOR.filter(d=>(state.decor[d.id]||0)>0).length;
   $('collInfo').textContent = kinds + '/' + DECOR.length + ' loại';
 }
-
-/* ELVES */
 function elfCardHTML(elf, mode){
   let action = '';
   if(mode === 'market'){
@@ -1260,7 +1318,6 @@ function elfCardHTML(elf, mode){
     ${action}
   </div>`;
 }
-
 function renderElves(){
   $('elfMarket').innerHTML = state.elfMarket.length
     ? state.elfMarket.map(e=>elfCardHTML(e,'market')).join('')
@@ -1270,16 +1327,16 @@ function renderElves(){
     : '<div class="empty">Bạn chưa thuê yêu tinh nào.<br>Hãy chiêu mộ một trợ thủ! 🧝</div>';
   $('teamInfo').textContent = state.elves.length + '/8';
 }
-
 function renderAll(){
-  renderHeader();
-  renderTabs();
-  renderMap();
-  renderCustomers();
-  renderMenu();
-  renderTree();
-  renderCollection();
-  renderElves();
+  safe(renderHeader,'header');
+  safe(renderTabs,'tabs');
+  safe(renderMap,'map');
+  safe(renderWorkbench,'workbench');
+  safe(renderCustomers,'customers');
+  safe(renderMenu,'menu');
+  safe(renderTree,'tree');
+  safe(renderCollection,'collection');
+  safe(renderElves,'elves');
 }
 
 /* =========================================================
@@ -1312,10 +1369,8 @@ document.addEventListener('click', e => {
   }
 });
 
-/* Modal backdrop closes */
 $('craftModal').addEventListener('click', e => {
   if(e.target === $('craftModal')){
-    // Cancel: customer leaves disappointed
     if(craft.customer){
       const list = listOf(craft.area);
       const i = list.indexOf(craft.customer);
@@ -1324,12 +1379,10 @@ $('craftModal').addEventListener('click', e => {
         toast(`😡 ${craft.customer.name} bỏ đi vì bạn huỷ giữa chừng!`, 'bad');
       }
     }
-    closeCraft();
-    renderAll();
+    closeCraft(); renderAll();
   }
 });
 
-/* Gift box */
 $('openGiftBtn').addEventListener('click', ()=>{
   const COST = 100000;
   if(state.money < COST){ toast('Không đủ tiền! Cần 100.000đ.', 'bad'); return; }
@@ -1348,7 +1401,6 @@ $('openGiftBtn').addEventListener('click', ()=>{
   renderAll();
 });
 
-/* Refresh elves */
 $('refreshElves').addEventListener('click', ()=>{
   if(state.money<50000){ toast('Không đủ tiền!', 'bad'); return; }
   state.money -= 50000;
@@ -1358,7 +1410,6 @@ $('refreshElves').addEventListener('click', ()=>{
   renderAll();
 });
 
-/* Tabs */
 $('tabs').addEventListener('click', e => {
   const btn = e.target.closest('button[data-tab]');
   if(!btn) return;
@@ -1374,7 +1425,6 @@ $('tabs').addEventListener('click', e => {
   $('area-' + btn.dataset.tab).classList.add('active');
 });
 
-/* Speed */
 $('speedBox').addEventListener('click', e => {
   const btn = e.target.closest('button[data-speed]');
   if(!btn) return;
@@ -1390,11 +1440,8 @@ $('speedBox').addEventListener('click', e => {
 function save(){
   try{
     localStorage.setItem('xmasChibiV3', JSON.stringify({
-      money: state.money,
-      decor: state.decor,
-      elves: state.elves,
-      stats: state.stats,
-      lastLevel: state.lastLevel,
+      money: state.money, decor: state.decor, elves: state.elves,
+      stats: state.stats, lastLevel: state.lastLevel,
     }));
   }catch(e){}
 }
@@ -1422,7 +1469,7 @@ function init(){
   state.bakeryCustomers.push(makeCustomer('bakery'));
   renderAll();
   if(loaded) toast('💾 Đã tải lại tiến trình!', 'gold');
-  else toast('🎄 Chào mừng đến Thị Trấn Noel · v3!', 'gold');
+  else toast('🎄 Chào mừng đến Thị Trấn Noel!', 'gold');
   setInterval(save, 5000);
 }
 
@@ -1432,10 +1479,7 @@ function loop(now){
   const dt = Math.min(now - lastFrame, 120);
   lastFrame = now;
   update(dt * state.speed);
-  if(now - lastRender > 220){
-    renderAll();
-    lastRender = now;
-  }
+  if(now - lastRender > 220){ renderAll(); lastRender = now; }
   requestAnimationFrame(loop);
 }
 
