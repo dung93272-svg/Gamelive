@@ -3,114 +3,89 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-<title>Nhịp Đời Anime 2D</title>
+<title>Nhịp Đời Sticker</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(135deg,#1a1a2e,#16213e);color:#eaeaea;min-height:100vh;padding:8px;display:flex;justify-content:center;overflow-x:hidden}
-.game{width:100%;max-width:1050px;background:#0f172a;border-radius:16px;padding:12px}
-h1{font-size:18px;text-align:center;background:linear-gradient(90deg,#ff9eb5,#c4b5fd,#7dd3fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:2px}
+body{font-family:'Nunito',sans-serif;background:#2b2d42;color:#eaeaea;min-height:100vh;padding:8px;display:flex;justify-content:center;overflow-x:hidden}
+.game{width:100%;max-width:1050px;background:#1e2235;border-radius:20px;padding:12px;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+h1{font-size:22px;text-align:center;color:#fff;font-weight:900;letter-spacing:2px;text-shadow:3px 3px 0 #000;margin-bottom:8px}
 .top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px;margin:8px 0}
-.tag{font-size:11px;background:#1e293b;padding:3px 8px;border-radius:20px}
-.tag.m{background:linear-gradient(135deg,#064e3b,#065f46);color:#6ee7b7;font-weight:bold}
-.tag.w{color:#facc15;font-weight:bold}
-.tag.j{color:#7dd3fc}.tag.r{color:#c4b5fd}.tag.k{color:#ff9eb5;font-weight:bold}
-.tag.sv{font-size:10px;color:#64748b}
-.tag.sv.saving{color:#facc15}.tag.sv.saved{color:#22c55e}.tag.sv.err{color:#ef4444}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:4px;margin-bottom:8px}
-.stat{background:#1e293b;border-radius:8px;padding:5px 8px}
-.stat .lbl{font-size:10px;color:#94a3b8;display:flex;justify-content:space-between}
-.bar{height:5px;background:#0f172a;border-radius:4px;margin-top:4px;overflow:hidden}
+.tag{font-size:11px;background:#2d3748;padding:4px 10px;border-radius:20px;font-weight:bold;border:2px solid #000;color:#fff}
+.tag.m{background:#6ee7b7;color:#064e3b}.tag.w{background:#facc15;color:#78350f}
+.tag.j{background:#38bdf8;color:#0c4a6e}.tag.r{background:#a78bfa;color:#3b0764}
+.tag.k{background:#f472b6;color:#831843}.tag.sv{background:#64748b;font-size:10px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:6px;margin-bottom:8px}
+.stat{background:#2d3748;border-radius:12px;padding:6px 10px;border:2px solid #000}
+.stat .lbl{font-size:11px;color:#cbd5e1;display:flex;justify-content:space-between;font-weight:bold}
+.bar{height:6px;background:#1a202c;border-radius:4px;margin-top:4px;overflow:hidden;border:1px solid #000}
 .fill{height:100%;transition:.4s;border-radius:4px}
-#worldWrap{position:relative;background:#0f172a;border-radius:12px;overflow:hidden;margin-bottom:6px;border:2px solid #1e293b}
-#world{display:block;width:100%;height:auto;cursor:pointer;touch-action:none;image-rendering:auto}
-#hud{position:absolute;top:6px;left:6px;right:6px;display:flex;justify-content:space-between;pointer-events:none;gap:6px;flex-wrap:wrap}
-#locName{background:rgba(15,23,42,.9);padding:4px 10px;border-radius:8px;font-size:11px;color:#facc15;font-weight:bold;border:1px solid #334155}
-#timeHud{background:rgba(15,23,42,.9);padding:4px 10px;border-radius:8px;font-size:12px;color:#7dd3fc;font-weight:bold;border:1px solid #334155;font-variant-numeric:tabular-nums}
-#hint{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);background:rgba(15,23,42,.85);padding:4px 12px;border-radius:20px;font-size:10px;color:#94a3b8;pointer-events:none;border:1px solid #334155;transition:opacity .5s}
-#interactBtn{position:absolute;bottom:8px;right:8px;background:linear-gradient(135deg,#c084fc,#f472b6);border:none;color:#fff;padding:8px 14px;border-radius:20px;font-weight:bold;font-size:12px;display:none;cursor:pointer;box-shadow:0 4px 12px rgba(192,132,252,.5);z-index:5;font-family:inherit}
-#interactBtn.on{display:block;animation:pulse 1.2s infinite}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-.travelbar{display:flex;gap:4px;overflow-x:auto;padding:4px 2px;margin-bottom:6px;scrollbar-width:thin}
-.travelbar button{background:#1e293b;border:1px solid #334155;color:#e2e8f0;padding:5px 9px;border-radius:8px;font-size:10px;font-family:inherit;cursor:pointer;white-space:nowrap;transition:.15s}
-.travelbar button:hover{background:#334155;border-color:#c084fc;color:#facc15}
+#worldWrap{position:relative;background:#1a202c;border-radius:16px;overflow:hidden;margin-bottom:8px;border:4px solid #000;box-shadow:inset 0 0 20px rgba(0,0,0,.5)}
+#world{display:block;width:100%;height:auto;cursor:pointer;touch-action:none}
+#hud{position:absolute;top:8px;left:8px;right:8px;display:flex;justify-content:space-between;pointer-events:none;gap:6px}
+#locName{background:#fff;color:#000;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:900;border:3px solid #000;box-shadow:2px 2px 0 #000}
+#timeHud{background:#fff;color:#000;padding:4px 12px;border-radius:20px;font-size:13px;font-weight:900;border:3px solid #000;box-shadow:2px 2px 0 #000;font-variant-numeric:tabular-nums}
+#bubble{position:absolute;top:-40px;left:50%;transform:translateX(-50%);background:#fff;border:4px solid #000;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:900;color:#000;opacity:0;transition:opacity .3s;white-space:nowrap;box-shadow:3px 3px 0 #000}
+#bubble.on{opacity:1}
+.loc-menu{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:6px;margin-bottom:8px}
+.loc-btn{background:#fff;border:3px solid #000;border-radius:12px;padding:8px;font-family:inherit;font-weight:900;font-size:11px;color:#000;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:.15s;box-shadow:3px 3px 0 #000}
+.loc-btn:hover{transform:translateY(-2px);box-shadow:5px 5px 0 #000}
+.loc-btn .em{font-size:20px}
+.loc-btn:disabled{opacity:.5;cursor:not-allowed;box-shadow:none;transform:none}
+.act-panel{background:#2d3748;border-radius:16px;padding:12px;border:3px solid #000;margin-bottom:8px;display:none}
+.act-panel.on{display:block}
+.act-panel h3{font-size:14px;font-weight:900;color:#fff;margin-bottom:8px;display:flex;align-items:center;gap:6px;text-shadow:2px 2px 0 #000}
+.act-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px}
+.act-btn{background:#fff;border:3px solid #000;border-radius:12px;padding:8px;font-family:inherit;text-align:left;cursor:pointer;transition:.15s;box-shadow:3px 3px 0 #000}
+.act-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:5px 5px 0 #000}
+.act-btn:disabled{opacity:.5;cursor:not-allowed;box-shadow:none;transform:none}
+.act-btn .nm{font-weight:900;font-size:12px;color:#000;display:block}
+.act-btn .info{font-size:10px;color:#4a5568;font-weight:bold;margin-top:3px;display:block}
 .panels{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 @media(max-width:700px){.panels{grid-template-columns:1fr}}
-.panel{background:#1e293b;border-radius:10px;padding:10px}
-.panel h3{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#94a3b8;margin-bottom:6px}
-.acts{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:4px;max-height:280px;overflow-y:auto}
-.act{background:#334155;border:none;color:#e2e8f0;padding:7px 9px;border-radius:8px;cursor:pointer;font-size:11px;text-align:left;font-family:inherit}
-.act:hover:not(:disabled){background:#475569}
-.act:disabled{opacity:.35;cursor:not-allowed}
-.act .cost{font-size:9px;color:#94a3b8;display:block;margin-top:2px}
-.act.ent{background:#3b2f52}
-.log{max-height:280px;overflow-y:auto;font-size:11px}
-.e{padding:5px 7px;border-radius:6px;margin-bottom:3px;background:#0f172a;border-left:3px solid #334155}
-.e.good{border-left-color:#22c55e}.e.bad{border-left-color:#ef4444}
-.e.love{border-left-color:#ec4899}.e.info{border-left-color:#38bdf8}
-.e.npc{border-left-color:#f59e0b;background:#1a1206}
-.e.child{border-left-color:#fbbf24;background:#2a1f0a}
-.e.money{border-left-color:#6ee7b7;background:#052e16}
-.e.day{background:#1e293b;color:#facc15;text-align:center;font-weight:bold}
-.bottom{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap}
-.btn{flex:1;min-width:70px;padding:9px 10px;border:none;border-radius:8px;cursor:pointer;font-weight:bold;font-size:12px;font-family:inherit;transition:.15s}
-.btn:hover:not(:disabled){transform:translateY(-1px)}
-.btn.pri{background:linear-gradient(135deg,#c084fc,#f472b6);color:#fff}
-.btn.sec{background:#334155;color:#e2e8f0}.btn.sec:hover:not(:disabled){background:#475569}
-.btn.gold{background:linear-gradient(135deg,#f59e0b,#facc15);color:#1c1917}
-.btn.danger{background:#7f1d1d;color:#fecaca}
-.btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;padding:12px;z-index:100}
+.panel{background:#2d3748;border-radius:16px;padding:12px;border:3px solid #000}
+.panel h3{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:#cbd5e1;margin-bottom:8px;font-weight:900}
+.log{max-height:280px;overflow-y:auto;font-size:11px;font-weight:bold}
+.e{padding:6px 8px;border-radius:8px;margin-bottom:4px;background:#1a202c;border-left:4px solid #475569;color:#cbd5e1}
+.e.good{border-left-color:#22c55e;color:#86efac}.e.bad{border-left-color:#ef4444;color:#fca5a5}
+.e.love{border-left-color:#ec4899;color:#f9a8d4}.e.info{border-left-color:#38bdf8;color:#7dd3fc}
+.e.money{border-left-color:#6ee7b7;color:#6ee7b7}.e.day{background:#1e293b;color:#facc15;text-align:center;font-weight:900}
+.bottom{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.btn{flex:1;min-width:70px;padding:10px 12px;border:none;border-radius:12px;cursor:pointer;font-weight:900;font-size:12px;font-family:inherit;transition:.15s;border:3px solid #000;box-shadow:3px 3px 0 #000}
+.btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:5px 5px 0 #000}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+.btn.pri{background:#facc15;color:#000}.btn.sec{background:#fff;color:#000}
+.btn.gold{background:#6ee7b7;color:#000}.btn.danger{background:#f472b6;color:#000}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;padding:12px;z-index:100}
 .modal.on{display:flex}
-.mbox{background:#1e293b;border-radius:14px;padding:16px;max-width:680px;width:100%;max-height:92vh;overflow-y:auto}
-.mbox h2{font-size:16px;margin-bottom:8px;color:#f472b6}
-.mbox h3{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#94a3b8;margin:10px 0 5px}
-.mbox p{font-size:12px;color:#cbd5e1;line-height:1.5;margin-bottom:8px}
-.mbox .btn{width:100%;margin-top:5px}
-.opt{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px}
-.opt button{flex:1;min-width:70px;padding:7px 9px;background:#334155;border:2px solid transparent;color:#e2e8f0;border-radius:8px;cursor:pointer;font-size:11px;font-family:inherit}
-.opt button.sel{border-color:#c084fc;background:#4c1d95}
-.inp{width:100%;padding:9px 10px;background:#0f172a;border:1px solid #334155;color:#eaeaea;border-radius:8px;font-size:13px;font-family:inherit;margin-bottom:6px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px}
-.card{background:#0f172a;border:2px solid #1e293b;border-radius:10px;padding:9px}
-.card .av{font-size:30px;text-align:center}
-.card .nm{font-weight:bold;color:#facc15;text-align:center;font-size:13px;margin:3px 0}
-.card .s2{font-size:10px;color:#94a3b8;text-align:center;margin-bottom:5px}
-.ln{display:flex;justify-content:space-between;font-size:10px;color:#cbd5e1;margin:2px 0}
-.ln span:last-child{color:#facc15;font-weight:bold}
-.chat{background:#0f172a;border-radius:10px;padding:10px;height:250px;overflow-y:auto;display:flex;flex-direction:column;gap:5px;margin-bottom:6px}
-.msg{max-width:78%;padding:7px 11px;border-radius:12px;font-size:11px;line-height:1.4}
-.msg.you{align-self:flex-end;background:linear-gradient(135deg,#c084fc,#f472b6);color:#fff}
-.msg.them{align-self:flex-start;background:#1e293b;color:#e2e8f0}
-.msg.sys{align-self:center;font-size:10px;color:#94a3b8;font-style:italic;background:transparent}
-.topic{background:#1e3a5f;border:none;color:#e2e8f0;padding:6px 9px;border-radius:8px;cursor:pointer;font-size:10px;font-family:inherit;margin:2px}
-.npc-card{background:#0f172a;border-radius:10px;padding:9px;margin-bottom:6px;border-left:3px solid #c084fc}
-.npc-card.p{border-left-color:#ec4899;background:linear-gradient(135deg,#1f0a1e,#2a0f30)}
-.npc-card.m{border-left-color:#22c55e;background:linear-gradient(135deg,#052e16,#0a3d1f)}
-.npc-card.a{border-left-color:#ef4444;background:linear-gradient(135deg,#1a0505,#2a0808)}
-.npc-card.c{border-left-color:#fbbf24;background:linear-gradient(135deg,#2a1f0a,#3a2a0f)}
-.npc-h{display:flex;align-items:center;gap:5px;margin-bottom:5px;flex-wrap:wrap}
-.npc-h .av{font-size:20px}.npc-h .nm{font-weight:bold;color:#facc15;font-size:12px}
-.bd{font-size:9px;background:#1e293b;padding:2px 7px;border-radius:10px;color:#cbd5e1}
-.bd.gold{background:#78350f;color:#fde68a}.bd.red{background:#7f1d1d;color:#fecaca}
-.bd.blue{background:#1e3a8a;color:#93c5fd}.bd.green{background:#064e3b;color:#6ee7b7}
-.bond{height:5px;background:#1e293b;border-radius:4px;overflow:hidden;margin:5px 0}
-.bond-f{height:100%;background:linear-gradient(90deg,#ec4899,#c084fc);transition:.3s}
-.bond-f.neg{background:linear-gradient(90deg,#991b1b,#dc2626)}
-.npc-a{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px}
-.npc-a .btn{padding:5px 7px;font-size:10px;flex:1;min-width:0;margin:0}
-.view{font-size:10px;font-style:italic;color:#c4b5fd;background:#1a1330;border-left:2px solid #c084fc;padding:3px 7px;border-radius:4px;margin:4px 0}
-.warn{font-size:10px;color:#fca5a5;font-weight:bold;background:#2a0505;padding:3px 7px;border-radius:4px;margin:4px 0}
-.info{font-size:9px;color:#f59e0b;padding:2px 0}
-.asset-card{background:#0f172a;border:1px solid #334155;border-radius:10px;padding:10px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center}
-.asset-info h4{color:#facc15;font-size:12px;margin-bottom:3px}
-.asset-info p{font-size:10px;color:#94a3b8;margin:0}
-::-webkit-scrollbar{width:5px;height:5px}
-::-webkit-scrollbar-thumb{background:#475569;border-radius:4px}
+.mbox{background:#fff;border:4px solid #000;border-radius:20px;padding:20px;max-width:600px;width:100%;max-height:92vh;overflow-y:auto;color:#000;box-shadow:8px 8px 0 #000}
+.mbox h2{font-size:18px;font-weight:900;margin-bottom:10px;color:#000;display:flex;align-items:center;gap:6px}
+.mbox h3{font-size:12px;text-transform:uppercase;color:#4a5568;margin:12px 0 6px;font-weight:900}
+.mbox p{font-size:13px;color:#2d3748;line-height:1.5;margin-bottom:8px;font-weight:bold}
+.mbox .btn{width:100%;margin-top:6px;color:#000}
+.opt{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.opt button{flex:1;min-width:70px;padding:8px;background:#fff;border:3px solid #000;color:#000;border-radius:10px;cursor:pointer;font-size:12px;font-family:inherit;font-weight:900;transition:.15s}
+.opt button.sel{background:#facc15;transform:scale(0.95)}
+.inp{width:100%;padding:10px;background:#f7fafc;border:3px solid #000;color:#000;border-radius:10px;font-size:14px;font-family:inherit;font-weight:bold;margin-bottom:8px}
+.npc-card{background:#f7fafc;border:3px solid #000;border-radius:12px;padding:10px;margin-bottom:8px}
+.npc-card.p{border-left:8px solid #ec4899}.npc-card.a{border-left:8px solid #ef4444}
+.npc-card.m{border-left:8px solid #22c55e}.npc-card.c{border-left:8px solid #fbbf24}
+.npc-h{display:flex;align-items:center;gap:6px;margin-bottom:6px;flex-wrap:wrap}
+.npc-h .av{font-size:20px}.npc-h .nm{font-weight:900;color:#000;font-size:13px}
+.bd{font-size:9px;background:#e2e8f0;padding:2px 8px;border-radius:10px;color:#2d3748;font-weight:900;border:2px solid #000}
+.bd.gold{background:#fde68a}.bd.red{background:#fecaca}.bd.blue{background:#bae6fd}.bd.green{background:#bbf7d0}
+.bond{height:6px;background:#e2e8f0;border-radius:4px;overflow:hidden;margin:6px 0;border:2px solid #000}
+.bond-f{height:100%;background:#22c55e;transition:.3s}
+.bond-f.neg{background:#ef4444}
+.npc-a{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+.npc-a .btn{padding:5px 8px;font-size:10px;flex:1;min-width:0;margin:0;box-shadow:2px 2px 0 #000}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-thumb{background:#4a5568;border-radius:4px;border:1px solid #000}
 </style>
 </head>
 <body>
 <div class="game">
-<h1>NHỊP ĐỜI ANIME 2D</h1>
+<h1>NHỊP ĐỜI STICKER</h1>
 <div class="top">
 <div class="tag w" id="timeTag">📅 T2 · 08:00 · Ngày 1</div>
 <div class="tag m" id="money">3.000đ</div>
@@ -121,163 +96,174 @@ h1{font-size:18px;text-align:center;background:linear-gradient(90deg,#ff9eb5,#c4
 </div>
 <div class="stats" id="stats"></div>
 <div id="worldWrap">
-  <canvas id="world" width="704" height="528"></canvas>
+  <canvas id="world" width="640" height="480"></canvas>
   <div id="hud">
     <div id="locName">🏠 Nhà</div>
     <div id="timeHud">08:00</div>
   </div>
-  <div id="hint">💡 Bấm vào bản đồ hoặc dùng phím mũi tên để di chuyển</div>
-  <button id="interactBtn">💬 Nói chuyện</button>
 </div>
-<div class="travelbar" id="travelbar"></div>
+
+<div class="act-panel" id="actPanel">
+  <h3 id="actTitle">🏠 Nhà</h3>
+  <div class="act-grid" id="actGrid"></div>
+</div>
+
+<div class="loc-menu" id="locMenu"></div>
+
 <div class="panels">
-<div class="panel"><h3>Hành động</h3><div class="acts" id="acts"></div></div>
-<div class="panel"><h3>Nhật ký</h3><div class="log" id="log"></div></div>
+<div class="panel"><h3>📜 Nhật ký</h3><div class="log" id="log"></div></div>
+<div class="panel" style="display:flex;flex-direction:column;justify-content:space-between">
+  <div>
+    <h3>💗 Thông tin</h3>
+    <div id="infoPanel" style="font-size:11px;font-weight:bold;color:#cbd5e1;line-height:1.8"></div>
+  </div>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">
+    <button class="btn sec" id="relBtn">🤝</button>
+    <button class="btn sec" id="childBtn">👶</button>
+    <button class="btn sec" id="jobBtn">💼</button>
+    <button class="btn sec" id="assetsBtn">🏠</button>
+  </div>
+</div>
 </div>
 <div class="bottom">
-<button class="btn pri" id="sleepBtn">😴 Ngủ</button>
-<div class="bottom">
-<button class="btn pri" id="sleepBtn">😴 Ngủ</button>
-<button class="btn sec" id="relBtn">🤝 Quan hệ</button>
-<button class="btn sec" id="childBtn">👶 Con</button>
-<button class="btn sec" id="jobBtn">💼 Nghề</button>
-<button class="btn gold" id="assetsBtn">🏠 Tài sản</button>
-<button class="btn danger" id="logoutBtn">🚪 Thoát</button>
+<button class="btn gold" id="sleepBtn">😴 Ngủ đến sáng</button>
+<button class="btn danger" id="logoutBtn">🚪 Chơi lại</button>
 </div>
 </div>
 <div class="modal" id="modal"><div class="mbox" id="mbox"></div></div>
 <script>
-// ═══════════ TIME ═══════════
-const MIN_PER_SEC = 4;
-
-// ═══════════ WORLD MAP ═══════════
+// ═══════════ CONSTANTS ═══════════
 const TILE = 32;
-const MAP_W = 22, MAP_H = 16;
-// 0=grass 1=path 2=water 3=flower-grass 4=stone
+const MAP_W = 20, MAP_H = 14;
+const MIN_PER_SEC = 4; // 1s = 4 phút
+
+// Map layout: 0=grass, 1=path
 const MAP_DATA = [];
 for(let y=0;y<MAP_H;y++){ MAP_DATA.push([]); for(let x=0;x<MAP_W;x++){ MAP_DATA[y].push(0);} }
-// Horizontal road at y=7,8
-for(let x=0;x<MAP_W;x++){ MAP_DATA[7][x]=1; MAP_DATA[8][x]=1; }
-// Vertical road at x=10,11
-for(let y=0;y<MAP_H;y++){ MAP_DATA[y][10]=1; MAP_DATA[y][11]=1; }
-// Pond
-for(let y=11;y<15;y++) for(let x=16;x<21;x++) MAP_DATA[y][x]=2;
-MAP_DATA[11][15]=4; MAP_DATA[12][15]=4; MAP_DATA[11][21]=4; MAP_DATA[12][21]=4;
-// Flower grass
-[[1,1],[2,2],[4,1],[6,2],[3,5],[5,4],[14,4],[15,5],[18,4],[19,2],[1,12],[3,13],[5,11],[7,13],[13,12],[15,13],[1,14],[2,15]].forEach(([x,y])=>{ if(MAP_DATA[y] && MAP_DATA[y][x]===0) MAP_DATA[y][x]=3; });
+// Roads
+for(let x=0;x<MAP_W;x++){ MAP_DATA[6][x]=1; MAP_DATA[7][x]=1; }
+for(let y=0;y<MAP_H;y++){ MAP_DATA[y][9]=1; MAP_DATA[y][10]=1; }
 
 const LOCATIONS = {
-  home:    {x:0,  y:0,  w:4, h:3, name:'Nhà',        emoji:'🏠', color:'#f5e6d3', roof:'#c44b4b', accent:'#8b4513'},
-  gym:     {x:5,  y:0,  w:3, h:3, name:'Gym',         emoji:'🏋️', color:'#e8dcc8', roof:'#4a6fa5', accent:'#2c3e50'},
-  work:    {x:13, y:0,  w:5, h:3, name:'Công ty',     emoji:'🏢', color:'#dbeafe', roof:'#3b5998', accent:'#1e3a8a'},
-  bank:    {x:19, y:0,  w:3, h:3, name:'Ngân hàng',   emoji:'🏦', color:'#fef3c7', roof:'#b45309', accent:'#78350f'},
-  school:  {x:13, y:4,  w:4, h:3, name:'Trường',      emoji:'🏫', color:'#d1fae5', roof:'#059669', accent:'#065f46'},
-  cafe:    {x:0,  y:4,  w:3, h:3, name:'Cafe',        emoji:'☕', color:'#fce7f3', roof:'#be185d', accent:'#831843'},
-  park:    {x:5,  y:4,  w:4, h:3, name:'Công viên',   emoji:'🌸', color:'#bbf7d0', roof:'#16a34a', accent:'#15803d'},
-  market:  {x:0,  y:10, w:4, h:3, name:'Chợ',         emoji:'🛒', color:'#ede9fe', roof:'#7c3aed', accent:'#5b21b6'},
-  hospital:{x:13, y:10, w:4, h:3, name:'Bệnh viện',   emoji:'🏥', color:'#fce7f3', roof:'#db2777', accent:'#831843'},
-  library: {x:6,  y:10, w:3, h:3, name:'Thư viện',    emoji:'📚', color:'#f5f5dc', roof:'#78716c', accent:'#44403c'},
-  cinema:  {x:18, y:10, w:3, h:3, name:'Rạp phim',    emoji:'🎬', color:'#e0e7ff', roof:'#4338ca', accent:'#312e81'},
-  restaurant:{x:17,y:4, w:3, h:3, name:'Nhà hàng',    emoji:'🍜', color:'#fee2e2', roof:'#dc2626', accent:'#7f1d1d'},
+  home:       {x:1,  y:1,  w:4, h:3, name:'Nhà',        emoji:'🏠', color:'#fde68a', roof:'#f59e0b', door:'#b45309'},
+  cafe:       {x:6,  y:1,  w:3, h:3, name:'Cà phê',     emoji:'☕', color:'#fecaca', roof:'#ef4444', door:'#7f1d1d'},
+  gym:        {x:11, y:1,  w:3, h:3, name:'Gym',        emoji:'🏋️', color:'#bbf7d0', roof:'#22c55e', door:'#14532d'},
+  work:       {x:15, y:1,  w:4, h:3, name:'Công ty',    emoji:'🏢', color:'#bae6fd', roof:'#0ea5e9', door:'#0c4a6e'},
+  market:     {x:1,  y:4,  w:3, h:3, name:'Chợ',        emoji:'🛒', color:'#e9d5ff', roof:'#a855f7', door:'#4c1d95'},
+  park:       {x:5,  y:4,  w:4, h:3, name:'Công viên',  emoji:'🌸', color:'#bbf7d0', roof:'#10b981', door:'#065f46'},
+  school:     {x:11, y:4,  w:3, h:3, name:'Trường',     emoji:'🏫', color:'#fef08a', roof:'#eab308', door:'#713f12'},
+  restaurant: {x:15, y:4,  w:4, h:3, name:'Nhà hàng',   emoji:'🍜', color:'#fecaca', roof:'#dc2626', door:'#7f1d1d'},
+  cinema:     {x:1,  y:9,  w:4, h:3, name:'Rạp phim',   emoji:'🎬', color:'#c7d2fe', roof:'#6366f1', door:'#312e81'},
+  library:    {x:6,  y:9,  w:3, h:3, name:'Thư viện',   emoji:'📚', color:'#e5e7eb', roof:'#6b7280', door:'#374151'},
+  hospital:   {x:11, y:9,  w:3, h:3, name:'Bệnh viện',  emoji:'🏥', color:'#fbcfe8', roof:'#db2777', door:'#831843'},
+  bank:       {x:15, y:9,  w:4, h:3, name:'Ngân hàng',  emoji:'🏦', color:'#fef3c7', roof:'#f59e0b', door:'#78350f'},
 };
 
-// Trees (decorative)
+// Trees (decorative) - Thick outline style
 const TREES = [
-  {x:2, y:3}, {x:6, y:2}, {x:14, y:3}, {x:20, y:3},
-  {x:3, y:6}, {x:5, y:6}, {x:18, y:6}, {x:1, y:9},
-  {x:8, y:3}, {x:16, y:6}, {x:3, y:12}, {x:4, y:14},
-  {x:7, y:12}, {x:12, y:12}, {x:17, y:14}, {x:20, y:14}
+  {x:5, y:2}, {x:9, y:3}, {x:10, y:5}, {x:14, y:2}, {x:19, y:5},
+  {x:4, y:8}, {x:9, y:8}, {x:5, y:12}, {x:10, y:12}, {x:14, y:12}
 ];
 
-// ═══════════ CONSTANTS ═══════════
-const JOBS = { student:{n:'Sinh viên',i:'🎓',w:300,s:0}, shipper:{n:'Shipper',i:'🛵',w:700,s:7}, worker:{n:'Công nhân',i:'🔧',w:600,s:10}, waitress:{n:'Phục vụ',i:'🍽️',w:550,s:8}, chef:{n:'Đầu bếp',i:'👨‍🍳',w:900,s:12}, barber:{n:'Thợ cắt tóc',i:'💈',w:700,s:7}, office:{n:'Nhân viên VP',i:'💼',w:900,s:8,edu:'c3'}, cashier:{n:'Thu ngân',i:'💵',w:800,s:6,edu:'c3'}, reception:{n:'Lễ tân',i:'📞',w:850,s:7,edu:'c3'}, freelancer:{n:'Freelancer',i:'✏️',w:1100,s:10,edu:'c3'}, streamer:{n:'Streamer',i:'🎮',w:700,s:8,edu:'c3'}, musician:{n:'Nhạc sĩ',i:'🎸',w:600,s:5,edu:'c3'}, teacher:{n:'Giáo viên',i:'📚',w:1000,s:6,edu:'dh'}, accountant:{n:'Kế toán',i:'📊',w:1200,s:7,edu:'dh'}, nurse:{n:'Y tá',i:'💉',w:1100,s:12,edu:'dh'}, designer:{n:'Thiết kế',i:'🎨',w:1300,s:10,edu:'dh'}, dev:{n:'Lập trình viên',i:'💻',w:1600,s:14,edu:'dh'}, engineer:{n:'Kỹ sư',i:'⚙️',w:1500,s:12,edu:'dh'}, banker:{n:'Nhân viên NH',i:'🏦',w:1400,s:11,edu:'dh'}, pilot:{n:'Phi công',i:'✈️',w:2000,s:15,edu:'dh'}, doctor:{n:'Bác sĩ',i:'🩺',w:2400,s:20,edu:'ths'}, lawyer:{n:'Luật sư',i:'⚖️',w:2000,s:15,edu:'ths'}, architect:{n:'Kiến trúc sư',i:'🏛️',w:1700,s:13,edu:'ths'}, manager:{n:'Quản lý',i:'📈',w:1800,s:14,edu:'ths'}, professor:{n:'Giáo sư',i:'🎩',w:2600,s:10,edu:'ts'}, scientist:{n:'Nhà khoa học',i:'🔬',w:2300,s:12,edu:'ts'}, ceo:{n:'Giám đốc',i:'🏢',w:3500,s:18,edu:'ts'}, diplomat:{n:'Nhà ngoại giao',i:'🌍',w:2500,s:13,edu:'ts'} };
+// Activity definitions per location
+const LOCATION_ACTIVITIES = {
+  home: [
+    {id:'sleep', n:'😴 Ngủ', t:480, cost:0, ef:{energy:60, mental:15, health:5}},
+    {id:'cook', n:'🍳 Nấu ăn', t:60, cost:50, ef:{energy:20, mental:10}},
+    {id:'rest', n:'🛋️ Nghỉ ngơi', t:120, cost:0, ef:{energy:25, mental:8}},
+    {id:'call', n:'📞 Gọi gia đình', t:30, cost:0, ef:{mental:12}},
+  ],
+  cafe: [
+    {id:'coffee', n:'☕ Uống cà phê', t:60, cost:30, ef:{energy:20, mental:10}},
+    {id:'chat', n:'💬 Trò chuyện', t:60, cost:20, ef:{mental:15}},
+    {id:'read', n:'📖 Đọc sách', t:90, cost:0, ef:{skill:2, mental:5}},
+  ],
+  gym: [
+    {id:'workout', n:'🏋️ Tập thể dục', t:90, cost:50, ef:{energy:-15, health:15, mental:8}},
+    {id:'yoga', n:'🧘 Yoga', t:60, cost:40, ef:{energy:-5, health:10, mental:12}},
+  ],
+  work: [
+    {id:'work', n:'💼 Đi làm', t:240, cost:0, ef:{money:'wage', energy:-15, mental:-8, skill:1}},
+    {id:'overtime', n:'🔥 Làm thêm', t:120, cost:0, ef:{money:'half', energy:-18, mental:-12}},
+  ],
+  market: [
+    {id:'groceries', n:'🛒 Mua đồ ăn', t:60, cost:100, ef:{energy:15, mental:5}},
+    {id:'shop', n:'🛍️ Mua sắm', t:120, cost:200, ef:{mental:15, passion:5}},
+  ],
+  park: [
+    {id:'walk', n:'🚶 Dạo chơi', t:60, cost:0, ef:{mental:10, energy:5}},
+    {id:'picnic', n:'🧺 Dã ngoại', t:120, cost:80, ef:{mental:20, energy:10}},
+    {id:'photo', n:'📸 Chụp ảnh', t:45, cost:0, ef:{passion:8, mental:8}},
+  ],
+  school: [
+    {id:'study', n:'📖 Học nâng cao', t:180, cost:100, ef:{money:-100, energy:-14, mental:-5}, edu:true},
+    {id:'skill', n:'📚 Học kỹ năng', t:120, cost:80, ef:{energy:-10, skill:4, mental:-3}},
+  ],
+  restaurant: [
+    {id:'lunch', n:'🍜 Ăn trưa', t:60, cost:80, ef:{energy:25, mental:10}},
+    {id:'dinner', n:'🍽️ Ăn tối', t:90, cost:120, ef:{energy:30, mental:15}},
+  ],
+  cinema: [
+    {id:'movie', n:'🎬 Xem phim', t:120, cost:80, ef:{money:-80, mental:18, energy:5}},
+  ],
+  library: [
+    {id:'read_book', n:'📚 Đọc sách', t:120, cost:0, ef:{skill:3, mental:8}},
+    {id:'study_lib', n:'✏️ Tự học', t:180, cost:0, ef:{energy:-10, skill:5, mental:-2}},
+  ],
+  hospital: [
+    {id:'heal', n:'💊 Khám bệnh', t:120, cost:500, ef:{health:50, energy:10}},
+  ],
+  bank: [
+    {id:'save', n:'💰 Gửi tiết kiệm', t:30, cost:0, ef:{mental:5}},
+    {id:'invest', n:'📈 Đầu tư', t:60, cost:1000, ef:{money:'gamble'}},
+  ],
+};
+
+const JOBS = { student:{n:'Sinh viên',i:'🎓',w:300,s:0}, shipper:{n:'Shipper',i:'🛵',w:700,s:7}, worker:{n:'Công nhân',i:'🔧',w:600,s:10}, waitress:{n:'Phục vụ',i:'🍽️',w:550,s:8}, chef:{n:'Đầu bếp',i:'👨‍🍳',w:900,s:12}, barber:{n:'Thợ cắt tóc',i:'💈',w:700,s:7}, office:{n:'Nhân viên VP',i:'💼',w:900,s:8,edu:'c3'}, cashier:{n:'Thu ngân',i:'💵',w:800,s:6,edu:'c3'}, freelancer:{n:'Freelancer',i:'✏️',w:1100,s:10,edu:'c3'}, streamer:{n:'Streamer',i:'🎮',w:700,s:8,edu:'c3'}, teacher:{n:'Giáo viên',i:'📚',w:1000,s:6,edu:'dh'}, accountant:{n:'Kế toán',i:'📊',w:1200,s:7,edu:'dh'}, dev:{n:'Lập trình viên',i:'💻',w:1600,s:14,edu:'dh'}, doctor:{n:'Bác sĩ',i:'🩺',w:2400,s:20,edu:'ths'}, lawyer:{n:'Luật sư',i:'⚖️',w:2000,s:15,edu:'ths'}, manager:{n:'Quản lý',i:'📈',w:1800,s:14,edu:'ths'}, scientist:{n:'Nhà khoa học',i:'🔬',w:2300,s:12,edu:'ts'}, ceo:{n:'Giám đốc',i:'🏢',w:3500,s:18,edu:'ts'} };
 const EDU_RANK={c3:1,dh:2,ths:3,ts:4};
 const EDU_LABEL={c3:'📗 Cấp 3',dh:'📘 Đại học',ths:'📙 Thạc sĩ',ts:'📕 Tiến sĩ'};
-const ACTIONS=[
-  {id:'work',n:'💼 Đi làm',t:240,once:'day',ef:{money:'wage',energy:-12,mental:-6,skill:.5}},
-  {id:'overtime',n:'🔥 Làm thêm',t:120,afterWork:true,ef:{money:'half',energy:-15,mental:-12}},
-  {id:'study',n:'📖 Học nâng cao',t:180,once:'day',ef:{money:-300,energy:-14,mental:-4},edu:true},
-  {id:'skill',n:'📚 Học kỹ năng',t:120,ef:{energy:-10,money:-100,skill:3,mental:-2}},
-  {id:'gym',n:'🏋️ Tập thể dục',t:60,ef:{energy:-8,health:8,mental:6}},
-  {id:'family',n:'📞 Gọi gia đình',t:30,ef:{mental:8}},
-  {id:'hobby',n:'🎨 Đam mê',t:120,ef:{energy:-8,money:-50,passion:10,mental:5}},
-  {id:'invest',n:'📈 Đầu tư',t:30,gamble:true,minMoney:1000},
-  {id:'movie',n:'🎬 Xem phim',t:120,transport:50,ef:{money:-150,mental:10,energy:5},ent:true},
-  {id:'game',n:'🎮 Chơi game',t:60,ef:{money:-200,mental:12},ent:true},
-  {id:'shopping',n:'🛍️ Mua sắm',t:120,transport:60,ef:{money:-500,mental:15},ent:true},
-  {id:'spa',n:'💆 Spa',t:120,transport:70,ef:{money:-400,mental:12,health:8,energy:10},ent:true},
-  {id:'travel',n:'✈️ Du lịch',t:480,transport:400,ef:{money:-2000,mental:25,energy:-8,passion:5},ent:true}
-];
 const HOBBIES={ doc_sach:{n:'Đọc sách',e:'📚'},am_nhac:{n:'Âm nhạc',e:'🎵'}, the_thao:{n:'Thể thao',e:'⚽'},game:{n:'Game',e:'🎮'}, du_lich:{n:'Du lịch',e:'✈️'},nau_an:{n:'Nấu ăn',e:'🍳'}, nghe_thuat:{n:'Nghệ thuật',e:'🎨'},ca_phe:{n:'Cà phê',e:'☕'} };
 const TRAITS={ chamchi:'💪 Chăm chỉ',vuitinh:'😄 Vui tính',tramtinh:'🌙 Trầm tính', langman:'🌹 Lãng mạn',noilo:'😰 Lo lắng',thucte:'📐 Thực tế', hoatbat:'⚡ Hoạt bát',sautam:'💭 Sâu tâm',doclap:'🦅 Độc lập', quantam:'💞 Quan tâm',galant:'🎩 Ga lăng',stingy:'💰 Bủn xỉn', lanhlung:'❄️ Lạnh lùng',thamvong:'🏆 Tham vọng' };
-const HOUSES = [ {id:'none', n:'Không có', p:0, m:0}, {id:'tro', n:'Phòng trọ', p:500000, m:5}, {id:'nha_nho', n:'Nhà nhỏ', p:2000000, m:15}, {id:'biet_thu', n:'Biệt thự', p:10000000, m:40} ];
-const CARS = [ {id:'none', n:'Xe bus', p:0, tr:0}, {id:'xe_may', n:'Xe máy', p:1000000, tr:-20}, {id:'oto', n:'Ô tô', p:5000000, tr:-50}, {id:'sieu_xe', n:'Siêu xe', p:20000000, tr:-100} ];
-const BUSINESS = [ {id:'none', n:'Không có', p:0, inc:0}, {id:'tap_hoa', n:'Tạp hóa', p:3000000, inc:500000}, {id:'quan_cafe', n:'Quán Cafe', p:8000000, inc:1500000}, {id:'cong_ty', n:'Công ty', p:20000000, inc:5000000} ];
 
-// NPC Data - anime colors
 const NPC_POOL=[
-{id:'duong',n:'Dương',av:'👨‍💻',g:'nam',age:22,job:'dev',ap:6,wl:25,edu:'dh',bg:'trungluu', per:['vuitinh','hoatbat','chamchi'],likes:['vuitinh','langman'],dis:['lanhlung'], hob:['game','am_nhac','ca_phe'],att:['nu'], views:{love:'"Yêu nên bắt đầu từ tình bạn."',career:'"Code là đam mê."',money:'"Tiết kiệm là tự do."',family:'"Gia đình là chỗ dựa."'}, bio:'IT vui tính, mọt game.', hair:'#3b2e2a', hairStyle:'anime_spike', hairColor2:'#6b5248', shirt:'#4a7cff', shirtAccent:'#2d5fd9', pants:'#2d3748', skin:'#ffe0c4', skinShade:'#f5c5a0', eye:'#4a7cff'},
-{id:'truong',n:'Trường',av:'👨‍🔬',g:'nam',age:26,job:'scientist',ap:6,wl:45,edu:'ts',bg:'khagia', per:['tramtinh','chamchi','sautam'],likes:['tramtinh','sautam'],dis:['hoatbat'], hob:['doc_sach','am_nhac','ca_phe'],att:['nu'], views:{love:'"Yêu là hiểu, không chiếm hữu."',career:'"Khoa học cần kiên nhẫn."',money:'"Tri thức quý hơn vàng."',family:'"Tôi trân trọng sự yên tĩnh."'}, bio:'Nhà khoa học trầm tính.', hair:'#5c6b7a', hairStyle:'anime_long', hairColor2:'#8795a3', shirt:'#e8eef5', shirtAccent:'#c9d4e0', pants:'#4a5568', skin:'#ffe0c4', skinShade:'#f5c5a0', eye:'#87ceeb'},
-{id:'quang',n:'Quang',av:'👨‍💼',g:'nam',age:30,job:'ceo',ap:8,wl:85,edu:'ths',bg:'gia', per:['lanhlung','thamvong','thucte','stingy'],likes:['doclap','thamvong'],dis:['noilo','vuitinh'], hob:['doc_sach','the_thao','du_lich'],att:['nu'], views:{love:'"Hôn nhân là hợp tác."',career:'"Thành công không chờ ai."',money:'"Tiền không tự sinh ra."',family:'"Con cái cần nền tảng."'}, bio:'Giám đốc lạnh lùng.', hair:'#1a1a1a', hairStyle:'anime_slick', hairColor2:'#3d3d3d', shirt:'#2d3748', shirtAccent:'#1a202c', pants:'#1a202c', skin:'#ffe0c4', skinShade:'#f5c5a0', eye:'#c53030'},
-{id:'hieu',n:'Hiếu',av:'👨‍🎤',g:'nam',age:24,job:'musician',ap:7,wl:8,edu:'c3',bg:'ngheo', per:['langman','sautam','doclap'],likes:['langman','sautam'],dis:['thucte','stingy'], hob:['am_nhac','nghe_thuat','ca_phe'],att:['nu','khac'], views:{love:'"Yêu là sống hết mình."',career:'"Nghệ thuật không gò bó."',money:'"Tiền không mua được cảm xúc."',family:'"Tôi cần tự do."'}, bio:'Nghệ sĩ đường phố.', hair:'#9b7cf5', hairStyle:'anime_long', hairColor2:'#c9b3ff', shirt:'#3d2a5c', shirtAccent:'#5b3a8c', pants:'#2d2535', skin:'#ffe0c4', skinShade:'#f5c5a0', eye:'#c084fc'},
-{id:'khang',n:'Khang',av:'👨‍⚕️',g:'nam',age:28,job:'doctor',ap:7,wl:55,edu:'ths',bg:'khagia', per:['quantam','chamchi','noilo'],likes:['quantam','chamchi'],dis:['doclap'], hob:['doc_sach','the_thao','nau_an'],att:['nu'], views:{love:'"Tôi cần người biết quan tâm."',career:'"Cứu người là sứ mệnh."',money:'"Đủ sống là được."',family:'"Tôi muốn có con."'}, bio:'Bác sĩ ấm áp.', hair:'#2c1810', hairStyle:'anime_spike', hairColor2:'#4a2c1f', shirt:'#ffffff', shirtAccent:'#e0f0ff', pants:'#4a5568', skin:'#ffe0c4', skinShade:'#f5c5a0', eye:'#38bdf8'},
-{id:'nam',n:'Nam',av:'👨‍⚖️',g:'nam',age:32,job:'lawyer',ap:8,wl:90,edu:'ths',bg:'gia', per:['thucte','galant','doclap'],likes:['thucte','doclap','langman'],dis:['noilo'], hob:['doc_sach','ca_phe','du_lich'],att:['nu'], views:{love:'"Đàn ông phải ga lăng."',career:'"Công lý không thiên vị."',money:'"Tiền là công cụ."',family:'"Tôi lo cho vợ con."'}, bio:'Luật sư ga lăng.', hair:'#1a1a1a', hairStyle:'anime_slick', hairColor2:'#404040', shirt:'#1a202c', shirtAccent:'#2d3748', pants:'#1a202c', skin:'#ffe0c4', skinShade:'#f5c5a0', eye:'#7c3aed'},
-{id:'tuan',n:'Tuấn',av:'👨‍🍳',g:'nam',age:25,job:'chef',ap:6,wl:35,edu:'c3',bg:'trungluu', per:['vuitinh','hoatbat','galant'],likes:['vuitinh','quantam'],dis:['lanhlung','stingy'], hob:['nau_an','am_nhac','ca_phe'],att:['nu','khac'], views:{love:'"Yêu là chiều người mình thương."',career:'"Đầu bếp là nghệ sĩ."',money:'"Tiền để tiêu cho người thân."',family:'"Tôi mê trẻ con."'}, bio:'Đầu bếp vui vẻ.', hair:'#3d2817', hairStyle:'anime_spike', hairColor2:'#6b4a2a', shirt:'#ff9a3d', shirtAccent:'#e07d1a', pants:'#2d3748', skin:'#ffe0c4', skinShade:'#f5c5a0', eye:'#fb923c'},
-{id:'linh',n:'Linh',av:'👩‍🎨',g:'nu',age:22,job:'designer',ap:7,wl:30,edu:'dh',bg:'trungluu', per:['langman','sautam','doclap'],likes:['langman','sautam'],dis:['thucte','stingy'], hob:['nghe_thuat','am_nhac','ca_phe'],att:['nam','khac'], views:{love:'"Yêu là khi tim rung động."',career:'"Sáng tạo là hơi thở."',money:'"Tôi không quan tâm tiền."',family:'"Tự do trước."'}, bio:'Họa sĩ mơ mộng.', hair:'#ff9ec4', hairStyle:'anime_twin', hairColor2:'#ffc4dd', shirt:'#c084fc', shirtAccent:'#a855f7', pants:'#5b21b6', skin:'#ffe0c4', skinShade:'#f5c5a0', eye:'#ec4899'},
-{id:'my',n:'My',av:'👩‍💼',g:'nu',age:24,job:'accountant',ap:7,wl:32,edu:'dh',bg:'trungluu', per:['quantam','chamchi','vuitinh'],likes:['quantam','chamchi'],dis:['doclap'], hob:['ca_phe','du_lich'],att:['nam'], views:{love:'"Yêu là cùng vun đắp."',career:'"Ổn định hơn mơ mộng."',money:'"Tiết kiệm cho tương lai."',family:'"Gia đình là ưu tiên."'}, bio:'Kế toán thân thiện.', hair:'#8b3a1a', hairStyle:'anime_pony', hairColor2:'#c45a2a', shirt:'#f472b6', shirtAccent:'#db2777', pants:'#2d3748', skin:'#ffe0c4', skinShade:'#f5c5a0', eye:'#f472b6'},
-{id:'trang',n:'Trang',av:'👩‍🏫',g:'nu',age:26,job:'teacher',ap:8,wl:48,edu:'dh',bg:'khagia', per:['tramtinh','quantam','chamchi'],likes:['tramtinh','quantam'],dis:['hoatbat','stingy'], hob:['doc_sach','am_nhac','nau_an'],att:['nam'], views:{love:'"Tình yêu cần kiên nhẫn."',career:'"Dạy học là sứ mệnh."',money:'"Đủ sống là hạnh phúc."',family:'"Tôi yêu trẻ con."'}, bio:'Giáo viên dịu dàng.', hair:'#1a1a1a', hairStyle:'anime_long', hairColor2:'#3d3d3d', shirt:'#4ade80', shirtAccent:'#16a34a', pants:'#4a5568', skin:'#ffe0c4', skinShade:'#f5c5a0', eye:'#22c55e'},
-{id:'vy',n:'Vy',av:'👩‍⚕️',g:'nu',age:28,job:'doctor',ap:8,wl:75,edu:'ths',bg:'gia', per:['quantam','chamchi','noilo'],likes:['quantam','chamchi'],dis:['doclap','stingy'], hob:['doc_sach','nau_an','ca_phe'],att:['nam'], views:{love:'"Tôi muốn chồng chu đáo."',career:'"Bệnh nhân là số một."',money:'"Tiền chăm sóc người thân."',family:'"Con cái là món quà."'}, bio:'Nữ bác sĩ xinh đẹp.', hair:'#6b1a1a', hairStyle:'anime_bun', hairColor2:'#a03030', shirt:'#ffffff', shirtAccent:'#e0f0ff', pants:'#4a5568', skin:'#ffe0c4', skinShade:'#f5c5a0', eye:'#f472b6'},
-{id:'mai',n:'Mai',av:'👩‍💼',g:'nu',age:30,job:'manager',ap:8,wl:95,edu:'ths',bg:'gia', per:['doclap','thamvong','lanhlung'],likes:['doclap','thamvong'],dis:['noilo','vuitinh'], hob:['doc_sach','du_lich','ca_phe'],att:['nam'], views:{love:'"Tôi không cần đàn ông."',career:'"Tham vọng là bản năng."',money:'"Độc lập tài chính."',family:'"Sự nghiệp trước."'}, bio:'Nữ giám đốc độc lập.', hair:'#1a1a1a', hairStyle:'anime_bob', hairColor2:'#3d3d3d', shirt:'#1a202c', shirtAccent:'#2d3748', pants:'#0f1419', skin:'#ffe0c4', skinShade:'#f5c5a0', eye:'#a855f7'},
-{id:'thao',n:'Thảo',av:'👩‍💰',g:'nu',age:25,job:'accountant',ap:6,wl:38,edu:'dh',bg:'trungluu', per:['thucte','chamchi','stingy'],likes:['thucte','chamchi'],dis:['hoatbat','langman'], hob:['doc_sach','nau_an'],att:['nam'], views:{love:'"Yêu phải có trách nhiệm."',career:'"Công việc trên hết."',money:'"Tiền không tự sinh."',family:'"Tôi lo cho bố mẹ."'}, bio:'Kế toán tiết kiệm.', hair:'#3d3d3d', hairStyle:'anime_pony', hairColor2:'#606060', shirt:'#a78bfa', shirtAccent:'#8b5cf6', pants:'#2d3748', skin:'#ffe0c4', skinShade:'#f5c5a0', eye:'#a78bfa'},
-{id:'ngoc',n:'Ngọc',av:'👩‍⚖️',g:'nu',age:27,job:'lawyer',ap:8,wl:88,edu:'ths',bg:'gia', per:['lanhlung','thucte','doclap'],likes:['thucte','doclap'],dis:['noilo','stingy'], hob:['doc_sach','ca_phe','du_lich'],att:['nam'], views:{love:'"Tôi cần người ngang tầm."',career:'"Chiến thắng là tất cả."',money:'"Tiền mua được quyền lực."',family:'"Chưa nghĩ đến."'}, bio:'Nữ luật sư sắc sảo.', hair:'#1a1a1a', hairStyle:'anime_bun', hairColor2:'#404040', shirt:'#1a202c', shirtAccent:'#2d3748', pants:'#0f1419', skin:'#ffe0c4', skinShade:'#f5c5a0', eye:'#6366f1'},
-{id:'nhi',n:'Nhi',av:'👩‍🎤',g:'nu',age:23,job:'streamer',ap:7,wl:55,edu:'c3',bg:'khagia', per:['hoatbat','vuitinh','quantam'],likes:['hoatbat','vuitinh'],dis:['tramtinh','lanhlung'], hob:['game','am_nhac'],att:['nam','khac'], views:{love:'"Yêu là cười cùng nhau."',career:'"Đam mê hơn lương."',money:'"Kiếm tiền để sống vui."',family:'"Tôi còn trẻ."'}, bio:'Streamer xinh xắn.', hair:'#ff7cb0', hairStyle:'anime_twin', hairColor2:'#ffb0d0', shirt:'#fbbf24', shirtAccent:'#f59e0b', pants:'#5b21b6', skin:'#ffe0c4', skinShade:'#f5c5a0', eye:'#ec4899'}
+{id:'duong',n:'Dương',av:'👨‍💻',g:'nam',age:22,job:'dev',ap:6,wl:25,edu:'dh',bg:'trungluu', per:['vuitinh','hoatbat','chamchi'],likes:['vuitinh','langman'],dis:['lanhlung'], hob:['game','am_nhac','ca_phe'],att:['nu'], views:{love:'"Yêu nên bắt đầu từ tình bạn."',career:'"Code là đam mê."',money:'"Tiết kiệm là tự do."',family:'"Gia đình là chỗ dựa."'}, bio:'IT vui tính, mọt game.', color:'#4a7cff', skin:'#fff'},
+{id:'truong',n:'Trường',av:'👨‍🔬',g:'nam',age:26,job:'scientist',ap:6,wl:45,edu:'ts',bg:'khagia', per:['tramtinh','chamchi','sautam'],likes:['tramtinh','sautam'],dis:['hoatbat'], hob:['doc_sach','am_nhac','ca_phe'],att:['nu'], views:{love:'"Yêu là hiểu, không chiếm hữu."',career:'"Khoa học cần kiên nhẫn."',money:'"Tri thức quý hơn vàng."',family:'"Tôi trân trọng sự yên tĩnh."'}, bio:'Nhà khoa học trầm tính.', color:'#e8eef5', skin:'#fff'},
+{id:'quang',n:'Quang',av:'👨‍💼',g:'nam',age:30,job:'ceo',ap:8,wl:85,edu:'ths',bg:'gia', per:['lanhlung','thamvong','thucte','stingy'],likes:['doclap','thamvong'],dis:['noilo','vuitinh'], hob:['doc_sach','the_thao','du_lich'],att:['nu'], views:{love:'"Hôn nhân là hợp tác."',career:'"Thành công không chờ ai."',money:'"Tiền không tự sinh ra."',family:'"Con cái cần nền tảng."'}, bio:'Giám đốc lạnh lùng.', color:'#2d3748', skin:'#fff'},
+{id:'hieu',n:'Hiếu',av:'👨‍🎤',g:'nam',age:24,job:'musician',ap:7,wl:8,edu:'c3',bg:'ngheo', per:['langman','sautam','doclap'],likes:['langman','sautam'],dis:['thucte','stingy'], hob:['am_nhac','nghe_thuat','ca_phe'],att:['nu','khac'], views:{love:'"Yêu là sống hết mình."',career:'"Nghệ thuật không gò bó."',money:'"Tiền không mua được cảm xúc."',family:'"Tôi cần tự do."'}, bio:'Nghệ sĩ đường phố.', color:'#c084fc', skin:'#fff'},
+{id:'khang',n:'Khang',av:'👨‍⚕️',g:'nam',age:28,job:'doctor',ap:7,wl:55,edu:'ths',bg:'khagia', per:['quantam','chamchi','noilo'],likes:['quantam','chamchi'],dis:['doclap'], hob:['doc_sach','the_thao','nau_an'],att:['nu'], views:{love:'"Tôi cần người biết quan tâm."',career:'"Cứu người là sứ mệnh."',money:'"Đủ sống là được."',family:'"Tôi muốn có con."'}, bio:'Bác sĩ ấm áp.', color:'#38bdf8', skin:'#fff'},
+{id:'nam',n:'Nam',av:'👨‍⚖️',g:'nam',age:32,job:'lawyer',ap:8,wl:90,edu:'ths',bg:'gia', per:['thucte','galant','doclap'],likes:['thucte','doclap','langman'],dis:['noilo'], hob:['doc_sach','ca_phe','du_lich'],att:['nu'], views:{love:'"Đàn ông phải ga lăng."',career:'"Công lý không thiên vị."',money:'"Tiền là công cụ."',family:'"Tôi lo cho vợ con."'}, bio:'Luật sư ga lăng.', color:'#1a202c', skin:'#fff'},
+{id:'tuan',n:'Tuấn',av:'👨‍🍳',g:'nam',age:25,job:'chef',ap:6,wl:35,edu:'c3',bg:'trungluu', per:['vuitinh','hoatbat','galant'],likes:['vuitinh','quantam'],dis:['lanhlung','stingy'], hob:['nau_an','am_nhac','ca_phe'],att:['nu','khac'], views:{love:'"Yêu là chiều người mình thương."',career:'"Đầu bếp là nghệ sĩ."',money:'"Tiền để tiêu cho người thân."',family:'"Tôi mê trẻ con."'}, bio:'Đầu bếp vui vẻ.', color:'#ff9a3d', skin:'#fff'},
+{id:'linh',n:'Linh',av:'👩‍🎨',g:'nu',age:22,job:'designer',ap:7,wl:30,edu:'dh',bg:'trungluu', per:['langman','sautam','doclap'],likes:['langman','sautam'],dis:['thucte','stingy'], hob:['nghe_thuat','am_nhac','ca_phe'],att:['nam','khac'], views:{love:'"Yêu là khi tim rung động."',career:'"Sáng tạo là hơi thở."',money:'"Tôi không quan tâm tiền."',family:'"Tự do trước."'}, bio:'Họa sĩ mơ mộng.', color:'#ff9ec4', skin:'#fff'},
+{id:'my',n:'My',av:'👩‍💼',g:'nu',age:24,job:'accountant',ap:7,wl:32,edu:'dh',bg:'trungluu', per:['quantam','chamchi','vuitinh'],likes:['quantam','chamchi'],dis:['doclap'], hob:['ca_phe','du_lich'],att:['nam'], views:{love:'"Yêu là cùng vun đắp."',career:'"Ổn định hơn mơ mộng."',money:'"Tiết kiệm cho tương lai."',family:'"Gia đình là ưu tiên."'}, bio:'Kế toán thân thiện.', color:'#f472b6', skin:'#fff'},
+{id:'trang',n:'Trang',av:'👩‍🏫',g:'nu',age:26,job:'teacher',ap:8,wl:48,edu:'dh',bg:'khagia', per:['tramtinh','quantam','chamchi'],likes:['tramtinh','quantam'],dis:['hoatbat','stingy'], hob:['doc_sach','am_nhac','nau_an'],att:['nam'], views:{love:'"Tình yêu cần kiên nhẫn."',career:'"Dạy học là sứ mệnh."',money:'"Đủ sống là hạnh phúc."',family:'"Tôi yêu trẻ con."'}, bio:'Giáo viên dịu dàng.', color:'#4ade80', skin:'#fff'},
+{id:'vy',n:'Vy',av:'👩‍⚕️',g:'nu',age:28,job:'doctor',ap:8,wl:75,edu:'ths',bg:'gia', per:['quantam','chamchi','noilo'],likes:['quantam','chamchi'],dis:['doclap','stingy'], hob:['doc_sach','nau_an','ca_phe'],att:['nam'], views:{love:'"Tôi muốn chồng chu đáo."',career:'"Bệnh nhân là số một."',money:'"Tiền chăm sóc người thân."',family:'"Con cái là món quà."'}, bio:'Nữ bác sĩ xinh đẹp.', color:'#fbcfe8', skin:'#fff'},
+{id:'mai',n:'Mai',av:'👩‍💼',g:'nu',age:30,job:'manager',ap:8,wl:95,edu:'ths',bg:'gia', per:['doclap','thamvong','lanhlung'],likes:['doclap','thamvong'],dis:['noilo','vuitinh'], hob:['doc_sach','du_lich','ca_phe'],att:['nam'], views:{love:'"Tôi không cần đàn ông."',career:'"Tham vọng là bản năng."',money:'"Độc lập tài chính."',family:'"Sự nghiệp trước."'}, bio:'Nữ giám đốc độc lập.', color:'#2d3748', skin:'#fff'},
+{id:'thao',n:'Thảo',av:'👩‍💰',g:'nu',age:25,job:'accountant',ap:6,wl:38,edu:'dh',bg:'trungluu', per:['thucte','chamchi','stingy'],likes:['thucte','chamchi'],dis:['hoatbat','langman'], hob:['doc_sach','nau_an'],att:['nam'], views:{love:'"Yêu phải có trách nhiệm."',career:'"Công việc trên hết."',money:'"Tiền không tự sinh."',family:'"Tôi lo cho bố mẹ."'}, bio:'Kế toán tiết kiệm.', color:'#a78bfa', skin:'#fff'},
+{id:'ngoc',n:'Ngọc',av:'👩‍⚖️',g:'nu',age:27,job:'lawyer',ap:8,wl:88,edu:'ths',bg:'gia', per:['lanhlung','thucte','doclap'],likes:['thucte','doclap'],dis:['noilo','stingy'], hob:['doc_sach','ca_phe','du_lich'],att:['nam'], views:{love:'"Tôi cần người ngang tầm."',career:'"Chiến thắng là tất cả."',money:'"Tiền mua được quyền lực."',family:'"Chưa nghĩ đến."'}, bio:'Nữ luật sư sắc sảo.', color:'#6366f1', skin:'#fff'},
+{id:'nhi',n:'Nhi',av:'👩‍🎤',g:'nu',age:23,job:'streamer',ap:7,wl:55,edu:'c3',bg:'khagia', per:['hoatbat','vuitinh','quantam'],likes:['hoatbat','vuitinh'],dis:['tramtinh','lanhlung'], hob:['game','am_nhac'],att:['nam','khac'], views:{love:'"Yêu là cười cùng nhau."',career:'"Đam mê hơn lương."',money:'"Kiếm tiền để sống vui."',family:'"Tôi còn trẻ."'}, bio:'Streamer xinh xắn.', color:'#fbbf24', skin:'#fff'}
 ];
 
-const SCHEDULE_HOURLY = {
-  vuitinh: {work:'cafe', lunch:'restaurant', afternoon:'park', evening:'cafe', night:'cinema'},
-  hoatbat: {work:'gym', lunch:'restaurant', afternoon:'park', evening:'cafe', night:'cafe'},
-  tramtinh: {work:'library', lunch:'cafe', afternoon:'library', evening:'library', night:'home'},
-  sautam: {work:'home', lunch:'cafe', afternoon:'cafe', evening:'library', night:'home'},
-  chamchi: {work:'gym', lunch:'restaurant', afternoon:'work', evening:'home', night:'home'},
-  thamvong: {work:'work', lunch:'restaurant', afternoon:'work', evening:'restaurant', night:'home'},
-  langman: {work:'cafe', lunch:'restaurant', afternoon:'park', evening:'park', night:'cinema'},
-  doclap: {work:'home', lunch:'cafe', afternoon:'park', evening:'home', night:'home'},
-  quantam: {work:'cafe', lunch:'restaurant', afternoon:'school', evening:'home', night:'home'},
-  lanhlung: {work:'bank', lunch:'restaurant', afternoon:'work', evening:'home', night:'home'},
-  thucte: {work:'work', lunch:'restaurant', afternoon:'market', evening:'home', night:'home'},
-  stingy: {work:'market', lunch:'home', afternoon:'market', evening:'home', night:'home'},
-  galant: {work:'cafe', lunch:'restaurant', afternoon:'restaurant', evening:'cinema', night:'restaurant'},
-  noilo: {work:'home', lunch:'hospital', afternoon:'hospital', evening:'home', night:'home'},
-  default: {work:'cafe', lunch:'restaurant', afternoon:'park', evening:'home', night:'home'}
-};
-
 // ═══════════ STATE ═══════════
-let S, _user, _lastRealTime = Date.now();
+let S, _lastRealTime = Date.now(), _queuedActivity = null;
 function newState(){
-  return{ gender:null,name:'',hobbies:[], 
-    gameMinutes: 8*60, dayCount: 1,
+  return{ gender:null,name:'',hobbies:[], gameMinutes: 8*60, dayCount: 1,
     job:'student', edu:'c3', eduProgress:0,
     st:{health:80,energy:100,mental:70,money:3000,skill:0,love:0,passion:0},
     rels:{}, npcRels:{}, partnerId:null, children:[], log:[], ended:false,
     _worked:false, _schooled:false, _dated:false,
-    currentProfiles:[], chats:{}, assets:{ house:'none', car:'none', business:'none' },
-    playerPos:{x:5*TILE, y:6*TILE}, 
-    npcPositions:{}, npcStates:{},
-    playerAppearance: {hair:'#3b2e2a', hairStyle:'anime_spike', hairColor2:'#6b5248', shirt:'#c084fc', shirtAccent:'#a855f7', pants:'#2d3748', skin:'#ffe0c4', skinShade:'#f5c5a0', eye:'#4a7cff'},
+    chats:{}, 
+    playerPos:{x:5*TILE, y:5*TILE}, 
     moveTarget: null,
-    clickMark: null,
+    currentLoc: 'home',
     lastDayProcessed: 0,
-    lastWeekProcessed: 0,
-    petals: []
+    npcPositions:{}, npcStates:{}
   };
 }
 
 // ═══════════ HELPERS ═══════════
 const clamp=(v,a=0,b=100)=>Math.max(a,Math.min(b,v));
-const clampInt=v=>Math.max(-100,Math.min(100,v));
 const fmt=v=>(v<0?'-':'')+Math.abs(Math.round(v)).toLocaleString('vi-VN')+'đ';
 const pad2 = n => String(n).padStart(2, '0');
-
 function getGameTime(){
   const total = Math.floor(S.gameMinutes);
   const day = Math.floor(total / (24*60)) + 1;
@@ -287,1127 +273,465 @@ function getGameTime(){
   const dayOfWeek = (day - 1) % 7;
   return {day, hour, minute, dayOfWeek, dw:['T2','T3','T4','T5','T6','T7','CN'][dayOfWeek], dwFull:['Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy','Chủ Nhật'][dayOfWeek]};
 }
-function getScheduleSlot(){
-  const h = getGameTime().hour;
-  if(h >= 22 || h < 5) return 'night';
-  if(h >= 5 && h < 12) return 'work';
-  if(h >= 12 && h < 14) return 'lunch';
-  if(h >= 14 && h < 18) return 'afternoon';
-  if(h >= 18 && h < 22) return 'evening';
-  return 'home';
-}
-function addLog(m,t='info'){ const tt = getGameTime(); S.log.unshift({m,t,day:tt.day,dw:tt.dw,time:`${pad2(tt.hour)}:${pad2(tt.minute)}`}); if(S.log.length>120)S.log.pop(); }
+function addLog(m,t='info'){ const tt = getGameTime(); S.log.unshift({m,t,dw:tt.dw,time:`${pad2(tt.hour)}:${pad2(tt.minute)}`}); if(S.log.length>80)S.log.pop(); }
 function apply(k,v){ if(k==='money'){S.st.money=Math.round(S.st.money+v);return;} if(['skill','love','passion'].includes(k)){S.st[k]=clamp(S.st[k]+v);return;} S.st[k]=clamp(S.st[k]+v); }
 function getPartner(){return S.partnerId?S.rels[S.partnerId]:null;}
 function syncLove(){const p=getPartner();S.st.love=p?Math.max(0,p.love):0;}
-function difficulty(p){return Math.round(p.ap*3+p.wl*0.4+(EDU_RANK[p.edu]||1)*15);}
-function prestige(){ const assetVal = (HOUSES.find(h=>h.id===S.assets.house)?.p||0) + (CARS.find(c=>c.id===S.assets.car)?.p||0) + (BUSINESS.find(b=>b.id===S.assets.business)?.p||0); return Math.round((S.st.money + assetVal)/1200 + EDU_RANK[S.edu]*15 + S.st.skill*0.6); }
-function rejectChance(p){ const need=difficulty(p)*1.2,pre=prestige(); if(pre>=need)return 0; return Math.min(0.9,(need-pre)/need*0.9); }
+function prestige(){ return Math.round(S.st.money/1200 + EDU_RANK[S.edu]*15 + S.st.skill*0.6); }
 
 // ═══════════ CANVAS ═══════════
 const canvas = document.getElementById('world');
 const ctx = canvas.getContext('2d');
 let camera = {x:0, y:0};
 
-// Petals initialization
-function initPetals(){
-  if(S.petals && S.petals.length > 0) return;
-  S.petals = [];
-  for(let i=0;i<40;i++){
-    S.petals.push({
-      x: Math.random()*MAP_W*TILE,
-      y: Math.random()*MAP_H*TILE,
-      vx: -0.3 - Math.random()*0.4,
-      vy: 0.4 + Math.random()*0.6,
-      size: 2 + Math.random()*2,
-      rot: Math.random()*Math.PI*2,
-      rotSpeed: (Math.random()-0.5)*0.06
-    });
-  }
-}
-
-// ═══════════ TILE DRAWING ═══════════
-function drawTile(x, y, type, t){
+// ═══════════ DRAWING TILES ═══════════
+function drawTile(x, y, type){
   const px = x*TILE, py = y*TILE;
-  if(type===0){ // grass
-    const grad = ctx.createLinearGradient(px, py, px, py+TILE);
-    grad.addColorStop(0, '#7cbf5a');
-    grad.addColorStop(1, '#5da83e');
-    ctx.fillStyle = grad; ctx.fillRect(px,py,TILE,TILE);
-    // Grass tufts
-    ctx.strokeStyle = '#4a8f33'; ctx.lineWidth = 1;
-    for(let i=0;i<5;i++){
-      const gx = px + 3 + (i*7)%26, gy = py + 6 + (i*11)%22;
-      ctx.beginPath(); ctx.moveTo(gx, gy); ctx.lineTo(gx-1, gy-3); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(gx+2, gy); ctx.lineTo(gx+3, gy-2); ctx.stroke();
-    }
-  } else if(type===1){ // stone path
-    const grad = ctx.createLinearGradient(px, py, px, py+TILE);
-    grad.addColorStop(0, '#c9b8a0');
-    grad.addColorStop(1, '#a89478');
-    ctx.fillStyle = grad; ctx.fillRect(px,py,TILE,TILE);
-    // Stone pattern
-    ctx.strokeStyle = 'rgba(90,70,50,.3)'; ctx.lineWidth = 1;
-    ctx.strokeRect(px+2, py+2, 13, 13);
-    ctx.strokeRect(px+17, py+2, 13, 13);
-    ctx.strokeRect(px+2, py+17, 13, 13);
-    ctx.strokeRect(px+17, py+17, 13, 13);
-  } else if(type===2){ // water
-    const grad = ctx.createLinearGradient(px, py, px, py+TILE);
-    grad.addColorStop(0, '#4fc3f7');
-    grad.addColorStop(1, '#29b6f6');
-    ctx.fillStyle = grad; ctx.fillRect(px,py,TILE,TILE);
-    // Ripples
-    const w = Math.sin(t/400 + x*0.5 + y*0.3)*2;
-    ctx.fillStyle = 'rgba(255,255,255,.35)';
-    ctx.beginPath(); ctx.ellipse(px+8+w, py+10, 6, 1.5, 0, 0, Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.ellipse(px+22-w, py+22, 5, 1.2, 0, 0, Math.PI*2); ctx.fill();
-    ctx.fillStyle = 'rgba(255,255,255,.6)';
-    ctx.beginPath(); ctx.ellipse(px+16, py+16+w, 3, 1, 0, 0, Math.PI*2); ctx.fill();
-  } else if(type===3){ // flower grass
-    const grad = ctx.createLinearGradient(px, py, px, py+TILE);
-    grad.addColorStop(0, '#8ccf6e');
-    grad.addColorStop(1, '#6cb84a');
-    ctx.fillStyle = grad; ctx.fillRect(px,py,TILE,TILE);
-    // Flowers
-    const colors = ['#ff9ec4','#ffd93d','#ff8c42','#c084fc'];
-    for(let i=0;i<4;i++){
-      const fx = px+5+(i*7)%22, fy = py+7+(i*6)%20;
-      ctx.fillStyle = colors[i%4];
-      ctx.beginPath(); ctx.arc(fx, fy, 2.2, 0, Math.PI*2); ctx.fill();
-      ctx.fillStyle = '#fff59d';
-      ctx.beginPath(); ctx.arc(fx, fy, 0.9, 0, Math.PI*2); ctx.fill();
-    }
-  } else if(type===4){ // stone
-    const grad = ctx.createLinearGradient(px, py, px, py+TILE);
-    grad.addColorStop(0, '#b0a89a');
-    grad.addColorStop(1, '#8a8275');
-    ctx.fillStyle = grad; ctx.fillRect(px,py,TILE,TILE);
-    ctx.strokeStyle = 'rgba(60,50,40,.4)';
-    ctx.strokeRect(px+2, py+2, 28, 28);
-    ctx.fillStyle = 'rgba(255,255,255,.15)';
-    ctx.fillRect(px+4, py+4, 6, 2);
+  // Base grass with thick outline style
+  if(type===0){
+    ctx.fillStyle = '#a7f3d0'; ctx.fillRect(px,py,TILE,TILE);
+    // Grass doodles
+    ctx.strokeStyle = '#10b981'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(px+8,py+20); ctx.lineTo(px+8,py+24); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(px+12,py+22); ctx.lineTo(px+12,py+26); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(px+22,py+10); ctx.lineTo(px+22,py+14); ctx.stroke();
+  } else if(type===1){
+    ctx.fillStyle = '#fef3c7'; ctx.fillRect(px,py,TILE,TILE);
+    // Path dots
+    ctx.fillStyle = '#fcd34d';
+    ctx.beginPath(); ctx.arc(px+10, py+10, 2, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(px+22, py+20, 2, 0, Math.PI*2); ctx.fill();
   }
 }
 
-// ═══════════ CHERRY BLOSSOM TREE ═══════════
-function drawTree(tree, t){
-  const px = tree.x*TILE + TILE/2;
-  const py = tree.y*TILE + TILE - 4;
-  const sway = Math.sin(t/800 + tree.x)*1;
+// ═══════════ DRAWING BUILDINGS (Thick Sticker Style) ═══════════
+function drawBuilding(loc){
+  const px = loc.x*TILE, py = loc.y*TILE, w = loc.w*TILE, h = loc.h*TILE;
+  const bodyH = h * 0.55;
+  const roofH = h - bodyH;
   
   // Shadow
   ctx.fillStyle = 'rgba(0,0,0,.25)';
-  ctx.beginPath(); ctx.ellipse(px, py+2, 14, 4, 0, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.ellipse(px+w/2, py+h-2, w*0.5, 4, 0, 0, Math.PI*2); ctx.fill();
   
-  // Trunk
-  const trunkGrad = ctx.createLinearGradient(px-4, py-30, px+4, py);
-  trunkGrad.addColorStop(0, '#7a5230');
-  trunkGrad.addColorStop(1, '#4a2f18');
-  ctx.fillStyle = trunkGrad;
+  // Body
+  ctx.fillStyle = loc.color;
+  ctx.strokeStyle = '#000'; ctx.lineWidth = 4;
+  ctx.beginPath(); ctx.roundRect(px+2, py+roofH, w-4, bodyH, 8); ctx.fill(); ctx.stroke();
+  
+  // Roof
+  ctx.fillStyle = loc.roof;
   ctx.beginPath();
-  ctx.moveTo(px-4, py);
-  ctx.quadraticCurveTo(px-3, py-18, px-2+sway, py-32);
-  ctx.lineTo(px+2+sway, py-32);
-  ctx.quadraticCurveTo(px+3, py-18, px+4, py);
-  ctx.closePath();
-  ctx.fill();
-  ctx.strokeStyle = '#2d1a0a'; ctx.lineWidth = 0.8; ctx.stroke();
-  
-  // Branches
-  ctx.strokeStyle = '#5a3a1f'; ctx.lineWidth = 2; ctx.lineCap = 'round';
-  ctx.beginPath(); ctx.moveTo(px, py-22); ctx.lineTo(px-12+sway, py-30); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(px, py-26); ctx.lineTo(px+13+sway, py-34); ctx.stroke();
-  
-  // Canopy - cherry blossoms
-  const c1 = '#ffb3d1', c2 = '#ff8eb8', c3 = '#f56ba0';
-  const cx = px + sway, cy = py - 38;
-  // Shadow layer
-  ctx.fillStyle = c3;
-  ctx.beginPath(); ctx.arc(cx, cy+2, 16, 0, Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.arc(cx-12, cy, 12, 0, Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.arc(cx+12, cy, 12, 0, Math.PI*2); ctx.fill();
-  // Mid layer
-  ctx.fillStyle = c2;
-  ctx.beginPath(); ctx.arc(cx-2, cy-2, 14, 0, Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.arc(cx-11, cy-3, 10, 0, Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.arc(cx+11, cy-3, 10, 0, Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.arc(cx, cy-12, 11, 0, Math.PI*2); ctx.fill();
-  // Top highlights
-  ctx.fillStyle = c1;
-  ctx.beginPath(); ctx.arc(cx-4, cy-6, 8, 0, Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.arc(cx+6, cy-8, 7, 0, Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.arc(cx-10, cy-4, 6, 0, Math.PI*2); ctx.fill();
-  // Detail dots
-  ctx.fillStyle = '#ffffff';
-  for(let i=0;i<6;i++){
-    const dx = Math.sin(i*2.1)*10;
-    const dy = Math.cos(i*3.3)*8;
-    ctx.beginPath(); ctx.arc(cx+dx, cy+dy-4, 1.3, 0, Math.PI*2); ctx.fill();
-  }
-}
-
-// ═══════════ BUILDING ANIME STYLE ═══════════
-function drawBuilding(loc, t){
-  const px = loc.x*TILE, py = loc.y*TILE, w = loc.w*TILE, h = loc.h*TILE;
-  const hour = getGameTime().hour;
-  const isNight = hour >= 19 || hour < 6;
-  const roofH = 24;
-  const bodyY = py + roofH;
-  const bodyH = h - roofH;
-  
-  // Shadow
-  ctx.fillStyle = 'rgba(0,0,0,.3)';
-  ctx.beginPath();
-  ctx.ellipse(px+w/2, py+h-2, w*0.55, 5, 0, 0, Math.PI*2);
-  ctx.fill();
-  
-  // Body (paper wall)
-  const bodyGrad = ctx.createLinearGradient(px, bodyY, px, bodyY+bodyH);
-  bodyGrad.addColorStop(0, loc.color);
-  bodyGrad.addColorStop(1, shade(loc.color, -18));
-  ctx.fillStyle = bodyGrad;
-  ctx.fillRect(px, bodyY, w, bodyH);
-  
-  // Wooden frame
-  ctx.strokeStyle = loc.accent; ctx.lineWidth = 3;
-  ctx.strokeRect(px+1.5, bodyY+1.5, w-3, bodyH-3);
-  
-  // Vertical wood beams
-  const beams = Math.max(2, Math.floor(w/26));
-  ctx.lineWidth = 2;
-  for(let i=1;i<beams;i++){
-    const bx = px + i*w/beams;
-    ctx.beginPath(); ctx.moveTo(bx, bodyY); ctx.lineTo(bx, bodyY+bodyH); ctx.stroke();
-  }
-  
-  // Windows (paper sliding doors - shoji)
-  const winCols = Math.max(2, Math.floor(w/24));
-  for(let i=0;i<winCols;i++){
-    const wx = px + 8 + i*(w-16)/winCols;
-    const wy = bodyY + 12;
-    const ww = Math.max(8, (w-16)/winCols - 6);
-    const wh = 16;
-    // Window light
-    ctx.fillStyle = isNight ? 'rgba(255,230,140,.95)' : 'rgba(255,250,220,.7)';
-    ctx.fillRect(wx, wy, ww, wh);
-    // Shoji grid
-    ctx.strokeStyle = 'rgba(80,60,40,.7)'; ctx.lineWidth = 0.8;
-    ctx.strokeRect(wx+0.5, wy+0.5, ww-1, wh-1);
-    ctx.beginPath();
-    ctx.moveTo(wx, wy+wh/2); ctx.lineTo(wx+ww, wy+wh/2);
-    ctx.moveTo(wx+ww/2, wy); ctx.lineTo(wx+ww/2, wy+wh);
-    ctx.stroke();
-    // Night glow
-    if(isNight){
-      ctx.fillStyle = 'rgba(255,230,140,.2)';
-      ctx.beginPath(); ctx.arc(wx+ww/2, wy+wh/2, 18, 0, Math.PI*2); ctx.fill();
-    }
-  }
+  ctx.moveTo(px-2, py+roofH+2);
+  ctx.lineTo(px+w/2, py+2);
+  ctx.lineTo(px+w+2, py+roofH+2);
+  ctx.closePath(); ctx.fill(); ctx.stroke();
   
   // Door
-  const doorW = Math.min(20, w*0.4);
-  const doorH = Math.min(22, bodyH-26);
-  const dx = px + w/2 - doorW/2;
-  const dy = bodyY + bodyH - doorH;
-  ctx.fillStyle = '#3a2515';
-  ctx.fillRect(dx, dy, doorW, doorH);
-  ctx.strokeStyle = '#1a0a05'; ctx.lineWidth = 1.5;
-  ctx.strokeRect(dx+0.5, dy+0.5, doorW-1, doorH-1);
-  ctx.beginPath();
-  ctx.moveTo(dx + doorW/2, dy); ctx.lineTo(dx + doorW/2, dy+doorH);
-  ctx.stroke();
+  const doorW = 16, doorH = 18;
+  const dx = px + w/2 - doorW/2, dy = py + h - doorH - 4;
+  ctx.fillStyle = loc.door;
+  ctx.beginPath(); ctx.roundRect(dx, dy, doorW, doorH, 4); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#fff';
+  ctx.beginPath(); ctx.arc(dx+doorW-4, dy+doorH/2, 1.5, 0, Math.PI*2); ctx.fill();
   
-  // Curved Japanese roof
-  ctx.fillStyle = loc.roof;
-  ctx.strokeStyle = shade(loc.roof, -40); ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.moveTo(px - 4, bodyY);
-  ctx.quadraticCurveTo(px + w*0.1, py + 4, px + w*0.2, py + 2);
-  ctx.lineTo(px + w*0.8, py + 2);
-  ctx.quadraticCurveTo(px + w*0.9, py + 4, px + w + 4, bodyY);
-  ctx.quadraticCurveTo(px + w*0.95, bodyY - 2, px + w*0.85, bodyY - 4);
-  ctx.lineTo(px + w*0.15, bodyY - 4);
-  ctx.quadraticCurveTo(px + w*0.05, bodyY - 2, px - 4, bodyY);
-  ctx.closePath();
-  ctx.fill();
-  ctx.stroke();
+  // Windows
+  const winY = py + roofH + 8;
+  const winW = 10, winH = 10;
+  const winX1 = px + 8, winX2 = px + w - 18;
+  ctx.fillStyle = '#fff';
+  ctx.beginPath(); ctx.roundRect(winX1, winY, winW, winH, 3); ctx.fill(); ctx.stroke();
+  ctx.beginPath(); ctx.roundRect(winX2, winY, winW, winH, 3); ctx.fill(); ctx.stroke();
   
-  // Roof ridge highlight
-  ctx.strokeStyle = shade(loc.roof, 40); ctx.lineWidth = 1.5;
-  ctx.beginPath();
-  ctx.moveTo(px + w*0.2, py + 3);
-  ctx.lineTo(px + w*0.8, py + 3);
-  ctx.stroke();
-  
-  // Roof tile lines
-  ctx.strokeStyle = 'rgba(0,0,0,.2)'; ctx.lineWidth = 0.8;
-  for(let i=1;i<5;i++){
-    const rx = px + i*w/5;
-    ctx.beginPath();
-    ctx.moveTo(rx, bodyY-2);
-    ctx.lineTo(px + w/2 + (i-2.5)*w*0.07, py + 2 + roofH*0.5);
-    ctx.stroke();
-  }
-  
-  // Sign board (wooden)
-  ctx.font = 'bold 9px sans-serif';
-  const nameWidth = ctx.measureText(loc.name).width;
-  const signW = Math.max(46, nameWidth + 34);
-  ctx.fillStyle = '#8b6f4a';
-  ctx.strokeStyle = '#4a3520'; ctx.lineWidth = 1.5;
-  ctx.beginPath(); ctx.roundRect(px + w/2 - signW/2, bodyY - 6, signW, 14, 2); ctx.fill(); ctx.stroke();
-  ctx.fillStyle = '#fdf6e3';
-  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.fillText(loc.emoji + ' ' + loc.name, px + w/2, bodyY + 1);
-  
-  // Paper lantern at night
-  if(isNight){
-    const lx = px + 6, ly = bodyY + 4;
-    ctx.fillStyle = 'rgba(255,200,80,.9)';
-    ctx.beginPath(); ctx.ellipse(lx, ly, 3, 5, 0, 0, Math.PI*2); ctx.fill();
-    ctx.strokeStyle = '#8b4513'; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(lx, ly-5); ctx.lineTo(lx, ly-8); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(lx, ly+5); ctx.lineTo(lx, ly+8); ctx.stroke();
-    ctx.fillStyle = 'rgba(255,200,80,.25)';
-    ctx.beginPath(); ctx.arc(lx, ly, 14, 0, Math.PI*2); ctx.fill();
-  }
+  // Emoji + Name
+  ctx.font = 'bold 10px Nunito, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  const nameW = ctx.measureText(loc.name).width + 20;
+  ctx.fillStyle = '#fff';
+  ctx.strokeStyle = '#000'; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.roundRect(px+w/2 - nameW/2, py+h-8, nameW, 14, 7); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#000';
+  ctx.fillText(loc.emoji+' '+loc.name, px+w/2, py+h-1);
 }
 
-// ═══════════ ANIME CHIBI CHARACTER ═══════════
-function drawCharacter(char, px, py, facing, walking, frame){
-  const cx = px + TILE/2;
-  const bob = walking ? Math.sin(frame*0.35)*1.3 : Math.sin(Date.now()/900)*0.5;
-  const legSwing = walking ? Math.sin(frame*0.35)*4 : 0;
-  const armSwing = walking ? Math.sin(frame*0.35)*3.5 : 0;
-  const cy = py + TILE/2 + bob;
-  
-  // Shadow (soft)
-  const shGrad = ctx.createRadialGradient(cx, py+TILE-2, 1, cx, py+TILE-2, 12);
-  shGrad.addColorStop(0, 'rgba(0,0,0,.4)');
-  shGrad.addColorStop(1, 'rgba(0,0,0,0)');
-  ctx.fillStyle = shGrad;
-  ctx.beginPath(); ctx.ellipse(cx, py+TILE-2, 12, 4, 0, 0, Math.PI*2); ctx.fill();
-  
-  // ===== LEGS =====
-  const legY = cy + 7;
-  ctx.strokeStyle = 'rgba(0,0,0,.7)'; ctx.lineWidth = 1.3;
-  // Back leg
-  ctx.fillStyle = shade(char.pants, -20);
-  ctx.beginPath(); ctx.roundRect(cx-4.5, legY+legSwing, 4, 8, 1.5); ctx.fill(); ctx.stroke();
-  // Front leg
-  ctx.fillStyle = char.pants;
-  ctx.beginPath(); ctx.roundRect(cx+0.5, legY-legSwing, 4, 8, 1.5); ctx.fill(); ctx.stroke();
-  // Shoes
-  ctx.fillStyle = '#1a1a2e';
-  ctx.beginPath(); ctx.roundRect(cx-5, legY+7+legSwing, 5, 3, 1.5); ctx.fill();
-  ctx.beginPath(); ctx.roundRect(cx+0, legY+7-legSwing, 5, 3, 1.5); ctx.fill();
-  
-  // ===== BODY =====
-  const bodyY = cy - 6;
-  const bodyGrad = ctx.createLinearGradient(cx-7, bodyY, cx+7, bodyY+12);
-  bodyGrad.addColorStop(0, char.shirt);
-  bodyGrad.addColorStop(1, char.shirtAccent || shade(char.shirt, -30));
-  ctx.fillStyle = bodyGrad;
-  ctx.strokeStyle = 'rgba(0,0,0,.7)'; ctx.lineWidth = 1.3;
-  ctx.beginPath(); ctx.roundRect(cx-7, bodyY, 14, 12, 4); ctx.fill(); ctx.stroke();
-  
-  // Shirt highlight
-  ctx.fillStyle = 'rgba(255,255,255,.25)';
-  ctx.beginPath(); ctx.roundRect(cx-5, bodyY+1.5, 3, 8, 1.5); ctx.fill();
-  
-  // Collar
-  ctx.fillStyle = char.shirtAccent || shade(char.shirt, -40);
-  ctx.beginPath();
-  ctx.moveTo(cx-3.5, bodyY+0.5); ctx.lineTo(cx, bodyY+4); ctx.lineTo(cx+3.5, bodyY+0.5);
-  ctx.closePath(); ctx.fill();
-  
-  // ===== ARMS =====
-  const armY = cy - 5;
-  ctx.strokeStyle = 'rgba(0,0,0,.7)'; ctx.lineWidth = 1.3;
-  // Back arm
-  ctx.fillStyle = shade(char.shirt, -25);
-  ctx.beginPath(); ctx.roundRect(cx-9.5, armY+armSwing, 3, 8, 1.5); ctx.fill(); ctx.stroke();
-  ctx.fillStyle = shade(char.skin, -20);
-  ctx.beginPath(); ctx.arc(cx-8, armY+9+armSwing, 1.8, 0, Math.PI*2); ctx.fill();
-  ctx.strokeStyle = 'rgba(0,0,0,.5)'; ctx.lineWidth = 0.8; ctx.stroke();
-  // Front arm
-  ctx.fillStyle = char.shirt;
-  ctx.strokeStyle = 'rgba(0,0,0,.7)'; ctx.lineWidth = 1.3;
-  ctx.beginPath(); ctx.roundRect(cx+6, armY-armSwing, 3, 8, 1.5); ctx.fill(); ctx.stroke();
-  ctx.fillStyle = char.skin;
-  ctx.beginPath(); ctx.arc(cx+7.5, armY+9-armSwing, 1.8, 0, Math.PI*2); ctx.fill();
-  ctx.strokeStyle = 'rgba(0,0,0,.5)'; ctx.lineWidth = 0.8; ctx.stroke();
-  
-  // ===== HEAD (anime chibi - big) =====
-  const headY = cy - 15;
-  const headR = 10.5;
-  const headGrad = ctx.createRadialGradient(cx-3, headY-3, 2, cx, headY, headR);
-  headGrad.addColorStop(0, char.skin);
-  headGrad.addColorStop(1, char.skinShade || shade(char.skin, -20));
-  ctx.fillStyle = headGrad;
-  ctx.strokeStyle = 'rgba(0,0,0,.7)'; ctx.lineWidth = 1.4;
-  ctx.beginPath(); ctx.arc(cx, headY, headR, 0, Math.PI*2); ctx.fill(); ctx.stroke();
-  
-  // Cheek blush (anime style - pink ellipses)
-  ctx.fillStyle = 'rgba(255,140,180,.5)';
-  ctx.beginPath(); ctx.ellipse(cx-6, headY+3, 2.5, 1.5, 0, 0, Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.ellipse(cx+6, headY+3, 2.5, 1.5, 0, 0, Math.PI*2); ctx.fill();
-  
-  // ===== HAIR =====
-  drawAnimeHair(char, cx, headY, facing);
-  
-  // ===== FACE =====
-  if(facing !== 'up'){
-    const eyeY = headY - 1;
-    let eyeOffsetX = 0;
-    if(facing === 'left') eyeOffsetX = -1.2;
-    if(facing === 'right') eyeOffsetX = 1.2;
-    
-    // Eyebrows
-    ctx.strokeStyle = shade(char.hair, -15); ctx.lineWidth = 1.3; ctx.lineCap = 'round';
-    ctx.beginPath(); ctx.moveTo(cx-6, eyeY-4); ctx.quadraticCurveTo(cx-3.5, eyeY-5, cx-1.5, eyeY-4.2); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(cx+1.5, eyeY-4.2); ctx.quadraticCurveTo(cx+3.5, eyeY-5, cx+6, eyeY-4); ctx.stroke();
-    
-    // Eye whites (slightly almond shaped)
-    ctx.fillStyle = '#fff';
-    ctx.beginPath(); ctx.ellipse(cx-3.5+eyeOffsetX, eyeY, 2.2, 2.6, 0, 0, Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.ellipse(cx+3.5+eyeOffsetX, eyeY, 2.2, 2.6, 0, 0, Math.PI*2); ctx.fill();
-    
-    // Iris (2-tone anime eye)
-    const irisColor = char.eye || '#4a7cff';
-    const irisDark = shade(irisColor, -40);
-    ctx.fillStyle = irisDark;
-    ctx.beginPath(); ctx.arc(cx-3.5+eyeOffsetX, eyeY+0.4, 1.8, 0, Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(cx+3.5+eyeOffsetX, eyeY+0.4, 1.8, 0, Math.PI*2); ctx.fill();
-    ctx.fillStyle = irisColor;
-    ctx.beginPath(); ctx.arc(cx-3.5+eyeOffsetX, eyeY+0.7, 1.5, 0, Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(cx+3.5+eyeOffsetX, eyeY+0.7, 1.5, 0, Math.PI*2); ctx.fill();
-    // Bottom iris light
-    ctx.fillStyle = shade(irisColor, 50);
-    ctx.beginPath(); ctx.arc(cx-3.5+eyeOffsetX, eyeY+1.3, 1, 0, Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(cx+3.5+eyeOffsetX, eyeY+1.3, 1, 0, Math.PI*2); ctx.fill();
-    
-    // Pupil
-    ctx.fillStyle = '#0a0a0a';
-    ctx.beginPath(); ctx.arc(cx-3.5+eyeOffsetX, eyeY+0.5, 0.8, 0, Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(cx+3.5+eyeOffsetX, eyeY+0.5, 0.8, 0, Math.PI*2); ctx.fill();
-    
-    // Eye highlight (2 white dots - anime sparkle)
-    ctx.fillStyle = '#fff';
-    ctx.beginPath(); ctx.arc(cx-4.2+eyeOffsetX, eyeY-0.8, 0.9, 0, Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(cx+2.8+eyeOffsetX, eyeY-0.8, 0.9, 0, Math.PI*2); ctx.fill();
-    ctx.fillStyle = 'rgba(255,255,255,.7)';
-    ctx.beginPath(); ctx.arc(cx-2.8+eyeOffsetX, eyeY+1.5, 0.4, 0, Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(cx+4.2+eyeOffsetX, eyeY+1.5, 0.4, 0, Math.PI*2); ctx.fill();
-    
-    // Upper eyelash line (dark)
-    ctx.strokeStyle = '#0a0a0a'; ctx.lineWidth = 1.2; ctx.lineCap = 'round';
-    ctx.beginPath(); ctx.moveTo(cx-5.3+eyeOffsetX, eyeY-2); ctx.quadraticCurveTo(cx-3.5+eyeOffsetX, eyeY-3, cx-1.5+eyeOffsetX, eyeY-2); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(cx+1.5+eyeOffsetX, eyeY-2); ctx.quadraticCurveTo(cx+3.5+eyeOffsetX, eyeY-3, cx+5.3+eyeOffsetX, eyeY-2); ctx.stroke();
-    
-    // Nose (tiny dot)
-    ctx.fillStyle = shade(char.skin, -30);
-    ctx.beginPath(); ctx.arc(cx+eyeOffsetX*0.4, headY+3, 0.5, 0, Math.PI*2); ctx.fill();
-    
-    // Mouth (small smile)
-    ctx.strokeStyle = '#8b3a3a'; ctx.lineWidth = 1; ctx.lineCap = 'round';
-    ctx.beginPath();
-    ctx.moveTo(cx-1.3, headY+5);
-    ctx.quadraticCurveTo(cx, headY+6.3, cx+1.3, headY+5);
-    ctx.stroke();
-  }
-}
-
-function drawAnimeHair(char, cx, cy, facing){
-  const hairMain = char.hair;
-  const hairLight = char.hairColor2 || shade(char.hair, 40);
-  const hairDark = shade(char.hair, -30);
-  ctx.strokeStyle = 'rgba(0,0,0,.65)'; ctx.lineWidth = 1.3;
-  ctx.fillStyle = hairMain;
-  
-  const style = char.hairStyle || 'anime_spike';
-  const flip = facing === 'left' ? -1 : 1;
-  
-  if(style === 'anime_spike'){
-    // Base cap
-    ctx.beginPath();
-    ctx.arc(cx, cy-1, 10.5, Math.PI*1.05, -Math.PI*0.05);
-    ctx.lineTo(cx+10.5, cy+3);
-    ctx.lineTo(cx-10.5, cy+3);
-    ctx.closePath(); ctx.fill(); ctx.stroke();
-    // Spikes pointing outward
-    ctx.beginPath();
-    ctx.moveTo(cx-10, cy-3); ctx.lineTo(cx-14, cy-6); ctx.lineTo(cx-9, cy-5); ctx.closePath(); ctx.fill(); ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(cx-7, cy-8); ctx.lineTo(cx-8, cy-14); ctx.lineTo(cx-4, cy-8); ctx.closePath(); ctx.fill(); ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(cx-1, cy-10); ctx.lineTo(cx-1, cy-15); ctx.lineTo(cx+3, cy-10); ctx.closePath(); ctx.fill(); ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(cx+4, cy-9); ctx.lineTo(cx+7, cy-14); ctx.lineTo(cx+8, cy-8); ctx.closePath(); ctx.fill(); ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(cx+9, cy-4); ctx.lineTo(cx+14, cy-6); ctx.lineTo(cx+11, cy-2); ctx.closePath(); ctx.fill(); ctx.stroke();
-    // Fringe (anime side-swept)
-    ctx.beginPath();
-    ctx.moveTo(cx-10, cy+1);
-    ctx.quadraticCurveTo(cx-8, cy-3, cx-6, cy+2);
-    ctx.lineTo(cx-3, cy-1);
-    ctx.lineTo(cx-1, cy+2);
-    ctx.lineTo(cx+2, cy-1);
-    ctx.lineTo(cx+5, cy+2);
-    ctx.quadraticCurveTo(cx+8, cy-3, cx+10, cy+1);
-    ctx.lineTo(cx+10, cy-3);
-    ctx.lineTo(cx-10, cy-3);
-    ctx.closePath(); ctx.fill(); ctx.stroke();
-    // Highlight
-    ctx.fillStyle = hairLight;
-    ctx.beginPath(); ctx.ellipse(cx-3, cy-6, 3, 1.5, -0.3, 0, Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.ellipse(cx+4, cy-7, 2, 1, 0.3, 0, Math.PI*2); ctx.fill();
-  } else if(style === 'anime_long'){
-    // Base cap
-    ctx.beginPath();
-    ctx.arc(cx, cy-1, 10.5, Math.PI, 0);
-    ctx.lineTo(cx+10.5, cy+3);
-    ctx.lineTo(cx-10.5, cy+3);
-    ctx.closePath(); ctx.fill(); ctx.stroke();
-    // Long sides
-    ctx.beginPath();
-    ctx.moveTo(cx-10, cy+1);
-    ctx.quadraticCurveTo(cx-13, cy+8, cx-10, cy+12);
-    ctx.lineTo(cx-7, cy+11);
-    ctx.lineTo(cx-7, cy+2);
-    ctx.closePath(); ctx.fill(); ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(cx+10, cy+1);
-    ctx.quadraticCurveTo(cx+13, cy+8, cx+10, cy+12);
-    ctx.lineTo(cx+7, cy+11);
-    ctx.lineTo(cx+7, cy+2);
-    ctx.closePath(); ctx.fill(); ctx.stroke();
-    // Fringe
-    ctx.beginPath();
-    ctx.moveTo(cx-10, cy);
-    ctx.quadraticCurveTo(cx-8, cy-4, cx-5, cy+1);
-    ctx.lineTo(cx-2, cy-2);
-    ctx.lineTo(cx+2, cy+1);
-    ctx.quadraticCurveTo(cx+6, cy-4, cx+10, cy);
-    ctx.lineTo(cx+10, cy-3);
-    ctx.lineTo(cx-10, cy-3);
-    ctx.closePath(); ctx.fill(); ctx.stroke();
-    // Highlight shine (anime)
-    ctx.fillStyle = hairLight;
-    ctx.beginPath(); ctx.ellipse(cx-4, cy-5, 4, 1.8, -0.2, 0, Math.PI*2); ctx.fill();
-    ctx.fillStyle = 'rgba(255,255,255,.5)';
-    ctx.beginPath(); ctx.arc(cx-5, cy-6, 1.2, 0, Math.PI*2); ctx.fill();
-  } else if(style === 'anime_pony'){
-    ctx.beginPath();
-    ctx.arc(cx, cy-1, 10.5, Math.PI, 0);
-    ctx.lineTo(cx+10.5, cy+3); ctx.lineTo(cx-10.5, cy+3);
-    ctx.closePath(); ctx.fill(); ctx.stroke();
-    // Ponytail on side
-    ctx.beginPath();
-    ctx.ellipse(cx+13, cy+3, 4, 9, 0.3, 0, Math.PI*2); ctx.fill(); ctx.stroke();
-    // Hair tie
-    ctx.fillStyle = '#ec4899';
-    ctx.beginPath(); ctx.arc(cx+10, cy+1, 1.8, 0, Math.PI*2); ctx.fill();
-    // Fringe
-    ctx.fillStyle = hairMain;
-    ctx.beginPath();
-    ctx.moveTo(cx-10, cy+1);
-    ctx.lineTo(cx-4, cy-3);
-    ctx.lineTo(cx, cy+1);
-    ctx.lineTo(cx+4, cy-3);
-    ctx.lineTo(cx+10, cy+1);
-    ctx.lineTo(cx+10, cy-3);
-    ctx.lineTo(cx-10, cy-3);
-    ctx.closePath(); ctx.fill(); ctx.stroke();
-    ctx.fillStyle = hairLight;
-    ctx.beginPath(); ctx.ellipse(cx-2, cy-5, 3, 1.3, -0.2, 0, Math.PI*2); ctx.fill();
-  } else if(style === 'anime_bun'){
-    ctx.beginPath();
-    ctx.arc(cx, cy-1, 10.5, Math.PI, 0);
-    ctx.lineTo(cx+10.5, cy+3); ctx.lineTo(cx-10.5, cy+3);
-    ctx.closePath(); ctx.fill(); ctx.stroke();
-    // Bun on top
-    ctx.beginPath(); ctx.arc(cx, cy-11, 5, 0, Math.PI*2); ctx.fill(); ctx.stroke();
-    ctx.fillStyle = hairLight;
-    ctx.beginPath(); ctx.arc(cx-1.5, cy-12, 1.8, 0, Math.PI*2); ctx.fill();
-    // Fringe
-    ctx.fillStyle = hairMain;
-    ctx.beginPath();
-    ctx.moveTo(cx-10, cy+1);
-    ctx.quadraticCurveTo(cx-6, cy-4, cx, cy+1);
-    ctx.quadraticCurveTo(cx+6, cy-4, cx+10, cy+1);
-    ctx.lineTo(cx+10, cy-3);
-    ctx.lineTo(cx-10, cy-3);
-    ctx.closePath(); ctx.fill(); ctx.stroke();
-    ctx.fillStyle = hairLight;
-    ctx.beginPath(); ctx.ellipse(cx+2, cy-5, 3, 1.3, 0, 0, Math.PI*2); ctx.fill();
-  } else if(style === 'anime_slick'){
-    ctx.beginPath();
-    ctx.arc(cx, cy-1, 10.5, Math.PI, 0);
-    ctx.lineTo(cx+10.5, cy+3); ctx.lineTo(cx-10.5, cy+3);
-    ctx.closePath(); ctx.fill(); ctx.stroke();
-    // Part line
-    ctx.strokeStyle = hairDark; ctx.lineWidth = 1.2;
-    ctx.beginPath(); ctx.moveTo(cx-2, cy-10); ctx.lineTo(cx-3, cy-2); ctx.stroke();
-    // Highlight
-    ctx.fillStyle = hairLight;
-    ctx.beginPath(); ctx.ellipse(cx+3, cy-7, 4, 1.8, -0.2, 0, Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.ellipse(cx-5, cy-6, 2, 1, 0.4, 0, Math.PI*2); ctx.fill();
-  } else if(style === 'anime_bob'){
-    ctx.beginPath();
-    ctx.arc(cx, cy-1, 10.5, Math.PI, 0);
-    ctx.lineTo(cx+11, cy+6);
-    ctx.lineTo(cx+8, cy+6);
-    ctx.lineTo(cx+7, cy+2);
-    ctx.lineTo(cx-7, cy+2);
-    ctx.lineTo(cx-8, cy+6);
-    ctx.lineTo(cx-11, cy+6);
-    ctx.closePath(); ctx.fill(); ctx.stroke();
-    // Fringe
-    ctx.beginPath();
-    ctx.moveTo(cx-10, cy+1);
-    ctx.lineTo(cx-3, cy-3);
-    ctx.lineTo(cx+3, cy-3);
-    ctx.lineTo(cx+10, cy+1);
-    ctx.lineTo(cx+10, cy-3);
-    ctx.lineTo(cx-10, cy-3);
-    ctx.closePath(); ctx.fill(); ctx.stroke();
-    ctx.fillStyle = hairLight;
-    ctx.beginPath(); ctx.ellipse(cx, cy-5, 4, 1.5, 0, 0, Math.PI*2); ctx.fill();
-  } else if(style === 'anime_twin'){
-    ctx.beginPath();
-    ctx.arc(cx, cy-1, 10.5, Math.PI, 0);
-    ctx.lineTo(cx+10.5, cy+3); ctx.lineTo(cx-10.5, cy+3);
-    ctx.closePath(); ctx.fill(); ctx.stroke();
-    // Twin tails
-    ctx.beginPath(); ctx.ellipse(cx-13, cy+3, 4, 8, -0.3, 0, Math.PI*2); ctx.fill(); ctx.stroke();
-    ctx.beginPath(); ctx.ellipse(cx+13, cy+3, 4, 8, 0.3, 0, Math.PI*2); ctx.fill(); ctx.stroke();
-    // Ties
-    ctx.fillStyle = '#ff6ba0';
-    ctx.beginPath(); ctx.arc(cx-10, cy+1, 1.6, 0, Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(cx+10, cy+1, 1.6, 0, Math.PI*2); ctx.fill();
-    // Fringe
-    ctx.fillStyle = hairMain;
-    ctx.beginPath();
-    ctx.moveTo(cx-10, cy+1);
-    ctx.quadraticCurveTo(cx-5, cy-4, cx, cy+1);
-    ctx.quadraticCurveTo(cx+5, cy-4, cx+10, cy+1);
-    ctx.lineTo(cx+10, cy-3);
-    ctx.lineTo(cx-10, cy-3);
-    ctx.closePath(); ctx.fill(); ctx.stroke();
-    ctx.fillStyle = hairLight;
-    ctx.beginPath(); ctx.ellipse(cx, cy-5, 3.5, 1.3, 0, 0, Math.PI*2); ctx.fill();
-  }
-}
-
-function shade(hex, amt){
-  const num = parseInt(hex.slice(1),16);
-  let r = (num>>16) + amt, g = ((num>>8)&0xff) + amt, b = (num&0xff) + amt;
-  r = Math.max(0, Math.min(255, r)); g = Math.max(0, Math.min(255, g)); b = Math.max(0, Math.min(255, b));
-  return '#' + ((r<<16)|(g<<8)|b).toString(16).padStart(6,'0');
-}
-
-function drawEmotionBubble(px, py, emoji){
-  if(!emoji) return;
-  const cx = px + TILE/2;
-  const cy = py - 14;
+// ═══════════ DRAWING TREES ═══════════
+function drawTree(tree){
+  const px = tree.x*TILE + TILE/2, py = tree.y*TILE + TILE - 4;
   // Shadow
   ctx.fillStyle = 'rgba(0,0,0,.2)';
-  ctx.beginPath(); ctx.arc(cx+0.5, cy+0.5, 11, 0, Math.PI*2); ctx.fill();
-  // Bubble
-  ctx.fillStyle = 'rgba(255,255,255,.97)';
-  ctx.strokeStyle = 'rgba(80,60,80,.6)'; ctx.lineWidth = 1.3;
-  ctx.beginPath(); ctx.arc(cx, cy, 10.5, 0, Math.PI*2); ctx.fill(); ctx.stroke();
-  // Tail
+  ctx.beginPath(); ctx.ellipse(px, py+2, 12, 4, 0, 0, Math.PI*2); ctx.fill();
+  // Trunk
+  ctx.fillStyle = '#a16207';
+  ctx.strokeStyle = '#000'; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.rect(px-4, py-14, 8, 14); ctx.fill(); ctx.stroke();
+  // Canopy (Thick outline, cute shape)
+  ctx.fillStyle = '#34d399';
   ctx.beginPath();
-  ctx.moveTo(cx-4, cy+8); ctx.lineTo(cx, cy+15); ctx.lineTo(cx+4, cy+8);
-  ctx.closePath(); ctx.fill(); ctx.stroke();
-  // Emoji
-  ctx.font = '13px serif';
-  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.fillText(emoji, cx, cy+0.5);
+  ctx.arc(px, py-22, 14, 0, Math.PI*2);
+  ctx.arc(px-10, py-18, 10, 0, Math.PI*2);
+  ctx.arc(px+10, py-18, 10, 0, Math.PI*2);
+  ctx.fill(); ctx.stroke();
+  // Highlight
+  ctx.fillStyle = '#6ee7b7';
+  ctx.beginPath(); ctx.arc(px-4, py-26, 5, 0, Math.PI*2); ctx.fill();
 }
 
-function drawNameTag(px, py, name, color){
-  ctx.font = 'bold 9px sans-serif';
-  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  const w = ctx.measureText(name).width + 10;
+// ═══════════ DRAWING CHARACTER (Thick Sticker Style) ═══════════
+function drawCharacter(px, py, facing, walking, frame, activity){
+  const cx = px + TILE/2;
+  const cy = py + TILE/2;
+  const bob = walking ? Math.sin(frame*0.4)*2 : Math.sin(Date.now()/800)*0.5;
+  const legSwing = walking ? Math.sin(frame*0.4)*3 : 0;
+  const y = cy + bob;
+  
   // Shadow
   ctx.fillStyle = 'rgba(0,0,0,.3)';
-  ctx.beginPath(); ctx.roundRect(px + TILE/2 - w/2 + 1, py - 27, w, 13, 4); ctx.fill();
-  // Tag
-  ctx.fillStyle = color || 'rgba(15,23,42,.92)';
-  ctx.strokeStyle = 'rgba(255,255,255,.3)'; ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.roundRect(px + TILE/2 - w/2, py - 28, w, 13, 4); ctx.fill(); ctx.stroke();
-  ctx.fillStyle = '#fff';
-  ctx.fillText(name, px + TILE/2, py - 21);
-}
-
-// ═══════════ SKY AND CLOUDS ═══════════
-function drawSky(t){
-  const W = canvas.width, H = canvas.height;
-  const hour = getGameTime().hour;
-  let topColor, bottomColor;
-  if(hour >= 5 && hour < 8){ topColor = '#ffb347'; bottomColor = '#ffd89b'; }
-  else if(hour >= 8 && hour < 12){ topColor = '#87ceeb'; bottomColor = '#e0f6ff'; }
-  else if(hour >= 12 && hour < 17){ topColor = '#7dc4e8'; bottomColor = '#e6f5ff'; }
-  else if(hour >= 17 && hour < 19){ topColor = '#ff8c42'; bottomColor = '#ffd4a3'; }
-  else if(hour >= 19 && hour < 21){ topColor = '#3d2a5c'; bottomColor = '#f56ba0'; }
-  else { topColor = '#0a0f28'; bottomColor = '#1a2140'; }
+  ctx.beginPath(); ctx.ellipse(cx, py+TILE-2, 12, 4, 0, 0, Math.PI*2); ctx.fill();
   
-  const skyGrad = ctx.createLinearGradient(0, 0, 0, H);
-  skyGrad.addColorStop(0, topColor);
-  skyGrad.addColorStop(1, bottomColor);
-  ctx.fillStyle = skyGrad;
-  ctx.fillRect(0, 0, W, H);
+  // Body (chubby, white/light blue)
+  ctx.fillStyle = '#f0f8ff';
+  ctx.strokeStyle = '#000'; ctx.lineWidth = 5;
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
   
-  // Sun/Moon
-  const isNight = hour >= 19 || hour < 6;
-  const isDay = hour >= 8 && hour < 17;
-  const isDawn = hour >= 5 && hour < 8;
-  const isDusk = hour >= 17 && hour < 19;
-  
-  let sunX = W - 100, sunY = 60, sunR = 24;
-  if(isDay || isDusk){ 
-    sunX = W - 100 - (hour - 8) * 6; 
-    sunY = 50 + Math.abs(hour - 12.5) * 4;
-    // Sun
-    const sunGrad = ctx.createRadialGradient(sunX, sunY, 2, sunX, sunY, sunR*2);
-    sunGrad.addColorStop(0, '#fff7cc');
-    sunGrad.addColorStop(0.4, 'rgba(255,240,140,.8)');
-    sunGrad.addColorStop(1, 'rgba(255,220,100,0)');
-    ctx.fillStyle = sunGrad;
-    ctx.beginPath(); ctx.arc(sunX, sunY, sunR*2, 0, Math.PI*2); ctx.fill();
-    ctx.fillStyle = '#fff7cc';
-    ctx.beginPath(); ctx.arc(sunX, sunY, sunR*0.6, 0, Math.PI*2); ctx.fill();
-  } else if(isNight){
-    // Stars
-    ctx.fillStyle = 'rgba(255,255,255,.8)';
-    for(let i=0;i<30;i++){
-      const sx = (i*73)%W, sy = (i*41)%180;
-      const twinkle = 0.5 + Math.sin(t/500 + i)*0.5;
-      ctx.globalAlpha = twinkle;
-      ctx.beginPath(); ctx.arc(sx, sy, 1, 0, Math.PI*2); ctx.fill();
-    }
-    ctx.globalAlpha = 1;
-    // Moon
-    const moonGrad = ctx.createRadialGradient(W-100, 60, 2, W-100, 60, 40);
-    moonGrad.addColorStop(0, '#fffde7');
-    moonGrad.addColorStop(0.5, 'rgba(255,253,231,.4)');
-    moonGrad.addColorStop(1, 'rgba(255,253,231,0)');
-    ctx.fillStyle = moonGrad;
-    ctx.beginPath(); ctx.arc(W-100, 60, 40, 0, Math.PI*2); ctx.fill();
-    ctx.fillStyle = '#fffde7';
-    ctx.beginPath(); ctx.arc(W-100, 60, 18, 0, Math.PI*2); ctx.fill();
-    // Moon craters
-    ctx.fillStyle = 'rgba(200,200,180,.3)';
-    ctx.beginPath(); ctx.arc(W-105, 55, 3, 0, Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(W-95, 65, 2, 0, Math.PI*2); ctx.fill();
-  }
-  
-  // Clouds
-  const cloudAlpha = isNight ? 0.15 : 0.7;
-  ctx.fillStyle = `rgba(255,255,255,${cloudAlpha})`;
-  const cloudSpeed = 15;
-  for(let i=0;i<4;i++){
-    const cx = ((i*200 + t/cloudSpeed) % (W+200)) - 100;
-    const cy = 40 + i*25;
-    drawCloud(cx, cy, 0.8 + i*0.1);
-  }
-}
-
-function drawCloud(x, y, scale){
+  // Legs
   ctx.beginPath();
-  ctx.arc(x, y, 18*scale, 0, Math.PI*2);
-  ctx.arc(x+20*scale, y+3*scale, 14*scale, 0, Math.PI*2);
-  ctx.arc(x-20*scale, y+3*scale, 12*scale, 0, Math.PI*2);
-  ctx.arc(x+10*scale, y-6*scale, 13*scale, 0, Math.PI*2);
-  ctx.arc(x-8*scale, y-5*scale, 11*scale, 0, Math.PI*2);
-  ctx.fill();
+  ctx.moveTo(cx-7, y+8);
+  ctx.lineTo(cx-7, y+16+legSwing);
+  ctx.moveTo(cx+7, y+8);
+  ctx.lineTo(cx+7, y+16-legSwing);
+  ctx.stroke();
+  
+  // Body shape (chubby)
+  ctx.beginPath();
+  ctx.ellipse(cx, y+2, 16, 14, 0, 0, Math.PI*2);
+  ctx.fill(); ctx.stroke();
+  
+  // Arms
+  ctx.beginPath();
+  // Left arm
+  ctx.moveTo(cx-14, y-2);
+  ctx.quadraticCurveTo(cx-20, y+2, cx-16, y+8);
+  // Right arm
+  ctx.moveTo(cx+14, y-2);
+  ctx.quadraticCurveTo(cx+20, y+2, cx+16, y+8);
+  ctx.stroke();
+  
+  // Head (big, rounded)
+  const headY = y - 16;
+  ctx.fillStyle = '#f0f8ff';
+  ctx.beginPath();
+  ctx.arc(cx, headY, 18, 0, Math.PI*2);
+  ctx.fill(); ctx.stroke();
+  
+  // Ears (cat-like, thick)
+  // Left ear
+  ctx.fillStyle = '#f0f8ff';
+  ctx.beginPath();
+  ctx.moveTo(cx-12, headY-12);
+  ctx.lineTo(cx-16, headY-24);
+  ctx.lineTo(cx-4, headY-16);
+  ctx.closePath(); ctx.fill(); ctx.stroke();
+  // Right ear
+  ctx.beginPath();
+  ctx.moveTo(cx+12, headY-12);
+  ctx.lineTo(cx+16, headY-24);
+  ctx.lineTo(cx+4, headY-16);
+  ctx.closePath(); ctx.fill(); ctx.stroke();
+  
+  // Face
+  if(facing !== 'up'){
+    // Eyes (simple dots, half closed style like the image)
+    ctx.fillStyle = '#000';
+    // Left eye
+    ctx.beginPath();
+    ctx.ellipse(cx-7, headY-2, 2.5, 1.5, 0, 0, Math.PI*2);
+    ctx.fill();
+    // Right eye
+    ctx.beginPath();
+    ctx.ellipse(cx+7, headY-2, 2.5, 1.5, 0, 0, Math.PI*2);
+    ctx.fill();
+    
+    // Mouth (tiny)
+    ctx.beginPath();
+    ctx.arc(cx, headY+5, 2, 0, Math.PI);
+    ctx.stroke();
+    
+    // Cheeks (small)
+    ctx.fillStyle = '#fbcfe8';
+    ctx.beginPath(); ctx.arc(cx-12, headY+3, 3, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(cx+12, headY+3, 3, 0, Math.PI*2); ctx.fill();
+  }
+  
+  // Held item based on activity
+  if(activity){
+    ctx.fillStyle = '#fff';
+    ctx.beginPath();
+    // Draw a cup / item in front of the character
+    ctx.roundRect(cx+8, y+4, 12, 16, 3);
+    ctx.fill(); ctx.stroke();
+    // Straw
+    ctx.beginPath();
+    ctx.moveTo(cx+14, y+4);
+    ctx.lineTo(cx+18, y-6);
+    ctx.stroke();
+    // Liquid color
+    ctx.fillStyle = '#bef264';
+    ctx.beginPath(); ctx.roundRect(cx+10, y+10, 8, 8, 2); ctx.fill();
+    // Lid
+    ctx.fillStyle = '#fff';
+    ctx.beginPath(); ctx.roundRect(cx+7, y+2, 14, 4, 2); ctx.fill(); ctx.stroke();
+  } else if(walking){
+    // Walking animation doesn't hold item
+  }
+  
+  // Sparkles around character (like the image)
+  if(!walking && Math.random() < 0.1){
+    ctx.fillStyle = '#facc15';
+    ctx.beginPath(); ctx.arc(cx-20, headY-15, 2, 0, Math.PI*2); ctx.fill();
+  }
 }
 
 // ═══════════ MAIN DRAW ═══════════
 function drawWorld(t){
   const W = canvas.width, H = canvas.height;
-  
   // Camera follows player
   const targetX = S.playerPos.x - W/2 + TILE/2;
   const targetY = S.playerPos.y - H/2 + TILE/2;
-  camera.x += (targetX - camera.x) * 0.12;
-  camera.y += (targetY - camera.y) * 0.12;
+  camera.x += (targetX - camera.x) * 0.1;
+  camera.y += (targetY - camera.y) * 0.1;
   camera.x = Math.max(0, Math.min(MAP_W*TILE - W, camera.x));
   camera.y = Math.max(0, Math.min(MAP_H*TILE - H, camera.y));
   
-  // Sky
-  drawSky(t);
+  // Sky background (soft gradient)
+  const grad = ctx.createLinearGradient(0, 0, 0, H);
+  grad.addColorStop(0, '#bae6fd');
+  grad.addColorStop(1, '#f0f9ff');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, W, H);
   
   ctx.save();
   ctx.translate(-camera.x, -camera.y);
   
-  // Ground (draw tiles only in view)
-  for(let y=0;y<MAP_H;y++) for(let x=0;x<MAP_W;x++){
-    if(x*TILE > camera.x + W + TILE || (x+1)*TILE < camera.x - TILE) continue;
-    if(y*TILE > camera.y + H + TILE || (y+1)*TILE < camera.y - TILE) continue;
-    drawTile(x,y,MAP_DATA[y][x], t);
-  }
+  // Tiles
+  for(let y=0;y<MAP_H;y++) for(let x=0;x<MAP_W;x++) drawTile(x,y,MAP_DATA[y][x]);
   
-  // Water edge (stone border at pond)
-  for(let y=11;y<15;y++) for(let x=16;x<21;x++){
-    if(MAP_DATA[y][x] === 2){
-      // Check if edge
-      if(y === 11 || MAP_DATA[y-1][x] !== 2){
-        ctx.fillStyle = '#8a7a5c';
-        ctx.fillRect(x*TILE, y*TILE, TILE, 3);
-      }
-      if(x === 16 || MAP_DATA[y][x-1] !== 2){
-        ctx.fillStyle = '#8a7a5c';
-        ctx.fillRect(x*TILE, y*TILE, 3, TILE);
-      }
-    }
-  }
-  
-  // Move target marker
+  // Path
   if(S.moveTarget){
     const mx = S.moveTarget.x + TILE/2, my = S.moveTarget.y + TILE/2;
-    const pulse = 0.6 + Math.sin(t/150)*0.4;
-    // Outer ring
-    ctx.strokeStyle = `rgba(255,220,80,${pulse})`;
-    ctx.lineWidth = 2.5;
-    ctx.beginPath(); ctx.arc(mx, my, 14 + Math.sin(t/180)*3, 0, Math.PI*2); ctx.stroke();
-    // Inner ring
-    ctx.strokeStyle = 'rgba(255,255,255,.6)';
-    ctx.lineWidth = 1.5;
-    ctx.beginPath(); ctx.arc(mx, my, 8, 0, Math.PI*2); ctx.stroke();
-    // Center dot
-    ctx.fillStyle = 'rgba(255,220,80,.9)';
-    ctx.beginPath(); ctx.arc(mx, my, 3, 0, Math.PI*2); ctx.fill();
-    // Direction line from player to target
-    ctx.strokeStyle = 'rgba(255,220,80,.35)';
-    ctx.lineWidth = 1.5;
-    ctx.setLineDash([4,4]);
+    ctx.strokeStyle = 'rgba(250,204,21,.8)';
+    ctx.lineWidth = 3;
+    ctx.setLineDash([6, 6]);
     ctx.beginPath();
     ctx.moveTo(S.playerPos.x + TILE/2, S.playerPos.y + TILE/2);
     ctx.lineTo(mx, my);
     ctx.stroke();
     ctx.setLineDash([]);
+    // Target marker
+    ctx.fillStyle = '#facc15';
+    ctx.strokeStyle = '#000'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.arc(mx, my, 8, 0, Math.PI*2); ctx.fill(); ctx.stroke();
   }
   
-  // Click feedback (recent clicks)
-  if(S.clickMark && Date.now() - S.clickMark.time < 500){
-    const age = (Date.now() - S.clickMark.time) / 500;
-    const mx = S.clickMark.x, my = S.clickMark.y;
-    ctx.strokeStyle = `rgba(255,255,255,${1-age})`;
-    ctx.lineWidth = 3;
-    ctx.beginPath(); ctx.arc(mx, my, 5 + age*25, 0, Math.PI*2); ctx.stroke();
-    ctx.fillStyle = `rgba(255,200,50,${1-age})`;
-    ctx.beginPath(); ctx.arc(mx, my, 4, 0, Math.PI*2); ctx.fill();
-  }
-  
-  // Trees (background layer)
-  TREES.forEach(tree => {
-    // Only draw trees within view
-    const tx = tree.x*TILE, ty = tree.y*TILE;
-    if(tx > camera.x + W + 40 || tx < camera.x - 40) return;
-    if(ty > camera.y + H + 40 || ty < camera.y - 40) return;
-    drawTree(tree, t);
-  });
+  // Trees
+  TREES.forEach(drawTree);
   
   // Buildings
-  for(const loc of Object.values(LOCATIONS)) drawBuilding(loc, t);
+  for(const loc of Object.values(LOCATIONS)) drawBuilding(loc);
   
-  // NPCs
-  const npcsToDraw = [];
-  for(const r of Object.values(S.rels)){
-    const pos = S.npcPositions[r.id];
-    if(!pos) continue;
-    const npcData = NPC_POOL.find(p=>p.id===r.pid);
-    if(!npcData) continue;
-    npcsToDraw.push({r, pos, npcData, y: pos.y});
-  }
-  npcsToDraw.sort((a,b)=>a.y-b.y);
-  for(const {r, pos, npcData} of npcsToDraw){
-    const st = S.npcStates[r.id] || {};
-    drawCharacter(npcData, pos.x, pos.y, st.facing || 'down', st.walking || false, st.frame || 0);
-    
-    let emo = '';
-    if(r.angry) emo = '😡';
-    else if(r.expecting) emo = '🤰';
-    else if(r.stage === 'married' && S.partnerId === r.id) emo = '💗';
-    else if(r.love > 70) emo = '😊';
-    else if(r.love < 20) emo = '😔';
-    else if(r.stage === 'crush' || r.stage === 'dating') emo = '💕';
-    if(emo) drawEmotionBubble(pos.x, pos.y, emo);
-    
-    drawNameTag(pos.x, pos.y, r.n, r.angry ? 'rgba(127,29,29,.92)' : 'rgba(139,92,246,.92)');
-  }
-  
-  // Player
-  drawCharacter(S.playerAppearance, S.playerPos.x, S.playerPos.y, playerState.facing, playerState.walking, playerState.frame);
-  drawNameTag(S.playerPos.x, S.playerPos.y, S.name || 'Bạn', 'rgba(192,132,252,.95)');
-  
-  // Petals falling (foreground)
-  if(!S.petals) S.petals = [];
-  for(const p of S.petals){
-    p.x += p.vx;
-    p.y += p.vy;
-    p.rot += p.rotSpeed;
-    if(p.y > MAP_H*TILE + 10){ p.y = -10; p.x = Math.random()*MAP_W*TILE; }
-    if(p.x < -10){ p.x = MAP_W*TILE + 10; }
-    // Wrap
-    ctx.save();
-    ctx.translate(p.x, p.y);
-    ctx.rotate(p.rot);
-    ctx.fillStyle = 'rgba(255,180,210,.75)';
-    ctx.beginPath(); ctx.ellipse(0, 0, p.size, p.size*0.6, 0, 0, Math.PI*2); ctx.fill();
-    ctx.restore();
-  }
+  // Draw Player Character
+  const isActing = _queuedActivity === null && S.moveTarget === null;
+  drawCharacter(S.playerPos.x, S.playerPos.y, 'down', S.moveTarget !== null, playerFrame, isActing ? S.currentLoc : null);
   
   ctx.restore();
 }
 
-// ═══════════ PLAYER MOVEMENT ═══════════
-const playerState = {facing:'down', walking:false, frame:0, speed:2.4};
-const keys = {up:false, down:false, left:false, right:false};
-
+// ═══════════ PLAYER MOVEMENT (AUTO) ═══════════
+let playerFrame = 0;
 function updatePlayer(){
-  // Keyboard input
-  let kx = 0, ky = 0;
-  if(keys.up) ky -= 1;
-  if(keys.down) ky += 1;
-  if(keys.left) kx -= 1;
-  if(keys.right) kx += 1;
-  
-  if(kx !== 0 || ky !== 0){
-    S.moveTarget = null;
-    const len = Math.hypot(kx, ky);
-    kx = kx/len * playerState.speed;
-    ky = ky/len * playerState.speed;
-    // Try both axes separately
-    const newX = S.playerPos.x + kx;
-    const newY = S.playerPos.y + ky;
-    if(!isBlocked(newX, S.playerPos.y)) S.playerPos.x = newX;
-    if(!isBlocked(S.playerPos.x, newY)) S.playerPos.y = newY;
-    playerState.walking = true;
-    playerState.frame++;
-    if(Math.abs(kx) > Math.abs(ky)) playerState.facing = kx > 0 ? 'right' : 'left';
-    else playerState.facing = ky > 0 ? 'down' : 'up';
+  if(!S.moveTarget){
     return;
   }
+  const dx = S.moveTarget.x - S.playerPos.x;
+  const dy = S.moveTarget.y - S.playerPos.y;
+  const dist = Math.hypot(dx, dy);
   
-  // Auto-move to target
-  if(S.moveTarget){
-    const dx = S.moveTarget.x - S.playerPos.x;
-    const dy = S.moveTarget.y - S.playerPos.y;
-    const dist = Math.hypot(dx, dy);
-    if(dist < 3){
-      S.moveTarget = null;
-      playerState.walking = false;
-      playerState.frame = 0;
-    } else {
-      const vx = dx/dist * playerState.speed;
-      const vy = dy/dist * playerState.speed;
-      const newX = S.playerPos.x + vx;
-      const newY = S.playerPos.y + vy;
-      if(!isBlocked(newX, S.playerPos.y)) S.playerPos.x = newX;
-      if(!isBlocked(S.playerPos.x, newY)) S.playerPos.y = newY;
-      playerState.walking = true;
-      playerState.frame++;
-      if(Math.abs(dx) > Math.abs(dy)) playerState.facing = dx > 0 ? 'right' : 'left';
-      else playerState.facing = dy > 0 ? 'down' : 'up';
+  if(dist < 4){
+    S.playerPos.x = S.moveTarget.x;
+    S.playerPos.y = S.moveTarget.y;
+    S.moveTarget = null;
+    // If there's a queued activity, execute it
+    if(_queuedActivity){
+      const act = _queuedActivity;
+      _queuedActivity = null;
+      executeActivity(act.locId, act.actId);
     }
   } else {
-    playerState.walking = false;
-    playerState.frame = 0;
+    const speed = 2.5;
+    const vx = dx/dist * speed;
+    const vy = dy/dist * speed;
+    const newX = S.playerPos.x + vx;
+    const newY = S.playerPos.y + vy;
+    if(!isBlocked(newX, S.playerPos.y)) S.playerPos.x = newX;
+    if(!isBlocked(S.playerPos.x, newY)) S.playerPos.y = newY;
+    playerFrame++;
   }
 }
-
-// Check if a tile is blocked by building or water
-function isTileBlocked(tx, ty){
-  if(tx < 0 || tx >= MAP_W || ty < 0 || ty >= MAP_H) return true;
-  if(MAP_DATA[ty][tx] === 2) return true;
-  for(const loc of Object.values(LOCATIONS)){
-    if(tx >= loc.x && tx < loc.x + loc.w && ty >= loc.y && ty < loc.y + loc.h) return true;
-  }
-  return false;
-}
-
 function isBlocked(x, y){
   const tx = Math.floor((x + TILE/2) / TILE);
   const ty = Math.floor((y + TILE/2) / TILE);
-  return isTileBlocked(tx, ty);
+  if(tx<0 || tx>=MAP_W || ty<0 || ty>=MAP_H) return true;
+  for(const loc of Object.values(LOCATIONS)){
+    if(tx >= loc.x && tx < loc.x+loc.w && ty >= loc.y && ty < loc.y+loc.h) return true;
+  }
+  return false;
 }
-
-// Find nearest walkable tile to a point
-function findNearestWalkable(worldX, worldY){
-  const baseTx = Math.floor(worldX / TILE);
-  const baseTy = Math.floor(worldY / TILE);
-  if(!isTileBlocked(baseTx, baseTy)) return {tx: baseTx, ty: baseTy};
-  // Spiral search
-  for(let r=1; r<10; r++){
+function findNearestWalkable(x, y){
+  const baseTx = Math.floor(x / TILE), baseTy = Math.floor(y / TILE);
+  for(let r=0; r<6; r++){
     for(let dy=-r; dy<=r; dy++){
       for(let dx=-r; dx<=r; dx++){
         if(Math.abs(dx) !== r && Math.abs(dy) !== r) continue;
-        const tx = baseTx + dx, ty = baseTy + dy;
-        if(!isTileBlocked(tx, ty)) return {tx, ty};
+        const tx = baseTx+dx, ty = baseTy+dy;
+        if(tx<0 || tx>=MAP_W || ty<0 || ty>=MAP_H) continue;
+        let blocked = false;
+        for(const loc of Object.values(LOCATIONS)){
+          if(tx >= loc.x && tx < loc.x+loc.w && ty >= loc.y && ty < loc.y+loc.h){ blocked = true; break; }
+        }
+        if(!blocked) return {tx, ty};
       }
     }
   }
-  return null;
+  return {tx: 5, ty: 5}; // fallback
 }
 
-// Robust click handler
-function canvasClick(e){
-  e.preventDefault();
-  const rect = canvas.getBoundingClientRect();
-  if(rect.width === 0 || rect.height === 0) return;
-  let clientX, clientY;
-  if(e.touches && e.touches.length > 0){
-    clientX = e.touches[0].clientX;
-    clientY = e.touches[0].clientY;
-  } else if(e.changedTouches && e.changedTouches.length > 0){
-    clientX = e.changedTouches[0].clientX;
-    clientY = e.changedTouches[0].clientY;
-  } else if(e.clientX !== undefined){
-    clientX = e.clientX;
-    clientY = e.clientY;
-  } else {
-    return;
-  }
-  const scaleX = canvas.width / rect.width;
-  const scaleY = canvas.height / rect.height;
-  const canvasX = (clientX - rect.left) * scaleX;
-  const canvasY = (clientY - rect.top) * scaleY;
-  const worldX = canvasX + camera.x;
-  const worldY = canvasY + camera.y;
+// ═══════════ ACTIVITY LOGIC ═══════════
+function openLocationMenu(locId){
+  const loc = LOCATIONS[locId];
+  const acts = LOCATION_ACTIVITIES[locId] || [];
   
-  // Feedback marker at click position (in canvas space)
-  S.clickMark = {x: canvasX, y: canvasY, time: Date.now()};
+  const panel = document.getElementById('actPanel');
+  const title = document.getElementById('actTitle');
+  const grid = document.getElementById('actGrid');
   
-  // Find walkable tile
-  const result = findNearestWalkable(worldX, worldY);
-  if(result){
-    S.moveTarget = {x: result.tx * TILE, y: result.ty * TILE};
-  }
-}
-
-canvas.addEventListener('pointerdown', canvasClick);
-canvas.addEventListener('touchstart', (e)=>{ e.preventDefault(); }, {passive:false});
-
-// Keyboard controls
-window.addEventListener('keydown', e=>{
-  if(e.target.tagName === 'INPUT') return;
-  switch(e.key){
-    case 'ArrowUp': case 'w': case 'W': keys.up = true; e.preventDefault(); break;
-    case 'ArrowDown': case 's': case 'S': keys.down = true; e.preventDefault(); break;
-    case 'ArrowLeft': case 'a': case 'A': keys.left = true; e.preventDefault(); break;
-    case 'ArrowRight': case 'd': case 'D': keys.right = true; e.preventDefault(); break;
-  }
-});
-window.addEventListener('keyup', e=>{
-  switch(e.key){
-    case 'ArrowUp': case 'w': case 'W': keys.up = false; break;
-    case 'ArrowDown': case 's': case 'S': keys.down = false; break;
-    case 'ArrowLeft': case 'a': case 'A': keys.left = false; break;
-    case 'ArrowRight': case 'd': case 'D': keys.right = false; break;
-  }
-});
-
-// ═══════════ NPC AI ═══════════
-function getNpcTargetLocation(npcData){
-  const traits = npcData.per || [];
-  const prefs = [];
-  for(const t of traits){ if(SCHEDULE_HOURLY[t]) prefs.push(SCHEDULE_HOURLY[t]); }
-  if(prefs.length === 0) prefs.push(SCHEDULE_HOURLY.default);
-  const pref = prefs[Math.floor(Math.random()*prefs.length)];
-  const slot = getScheduleSlot();
-  const locKey = pref[slot] || pref.work || 'home';
-  return LOCATIONS[locKey] || LOCATIONS.home;
-}
-function initNpcPositions(){
-  for(const r of Object.values(S.rels)){
-    if(!S.npcPositions[r.id]){
-      const locs = Object.values(LOCATIONS);
-      const loc = locs[Math.floor(Math.random()*locs.length)];
-      const result = findNearestWalkable((loc.x + Math.random()*loc.w) * TILE, (loc.y + loc.h + 1) * TILE);
-      S.npcPositions[r.id] = result ? {x: result.tx*TILE, y: result.ty*TILE} : {x: 5*TILE, y: 6*TILE};
-    }
-    if(!S.npcStates[r.id]) S.npcStates[r.id] = {facing:'down', walking:false, frame:0, target:null, idleTimer:0};
-  }
-}
-function updateNpcs(){
-  for(const r of Object.values(S.rels)){
-    const pos = S.npcPositions[r.id];
-    const state = S.npcStates[r.id];
-    const npcData = NPC_POOL.find(p=>p.id===r.pid);
-    if(!pos || !state || !npcData) continue;
+  title.innerHTML = `${loc.emoji} ${loc.name}`;
+  
+  grid.innerHTML = acts.map(a => {
+    // Check daily limits
+    let disabled = false;
+    if(a.id === 'work' && S._worked) disabled = true;
+    if(a.id === 'overtime' && !S._worked) disabled = true;
+    if(a.id === 'study' && S._schooled) disabled = true;
     
-    if(!state.target){
-      if(state.idleTimer > 0){ state.idleTimer--; state.walking = false; continue; }
-      const targetLoc = getNpcTargetLocation(npcData);
-      const result = findNearestWalkable((targetLoc.x + Math.random()*targetLoc.w) * TILE, (targetLoc.y + targetLoc.h + 1) * TILE);
-      if(result) state.target = {x: result.tx*TILE, y: result.ty*TILE};
-      else state.idleTimer = 100;
-    }
+    // Cost check
+    if(a.cost > 0 && S.st.money < a.cost) disabled = true;
     
-    const dx = state.target.x - pos.x;
-    const dy = state.target.y - pos.y;
-    const dist = Math.hypot(dx, dy);
+    const hours = a.t >= 60 ? (a.t/60).toFixed(1).replace('.0','')+'h' : a.t+'p';
+    const costStr = a.cost > 0 ? `-${fmt(a.cost)}` : 'Miễn phí';
     
-    if(dist < 4){
-      state.target = null;
-      state.walking = false;
-      state.idleTimer = 100 + Math.random()*250;
-    } else {
-      const speed = 1.0 + Math.random()*0.4;
-      const vx = (dx/dist) * speed;
-      const vy = (dy/dist) * speed;
-      const newX = pos.x + vx;
-      const newY = pos.y + vy;
-      if(!isBlocked(newX, pos.y)) pos.x = newX;
-      if(!isBlocked(pos.x, newY)) pos.y = newY;
-      state.walking = true;
-      state.frame++;
-      if(Math.abs(dx) > Math.abs(dy)) state.facing = dx > 0 ? 'right' : 'left';
-      else state.facing = dy > 0 ? 'down' : 'up';
-    }
-  }
-}
-
-// ═══════════ INTERACTION ═══════════
-let nearNpcId = null;
-function checkInteraction(){
-  nearNpcId = null;
-  let minDist = TILE * 1.8;
-  const px = S.playerPos.x + TILE/2;
-  const py = S.playerPos.y + TILE/2;
-  for(const r of Object.values(S.rels)){
-    const pos = S.npcPositions[r.id];
-    if(!pos) continue;
-    const d = Math.hypot((pos.x + TILE/2) - px, (pos.y + TILE/2) - py);
-    if(d < minDist){ minDist = d; nearNpcId = r.id; }
-  }
-  const btn = document.getElementById('interactBtn');
-  if(nearNpcId){
-    const r = S.rels[nearNpcId];
-    btn.textContent = `💬 ${r.n}`;
-    btn.classList.add('on');
-  } else { btn.classList.remove('on'); }
-}
-document.getElementById('interactBtn').onclick = () => { if(nearNpcId) openChat(nearNpcId); };
-
-function buildTravelBar(){
-  const bar = document.getElementById('travelbar');
-  bar.innerHTML = Object.entries(LOCATIONS).map(([k, loc])=>{
-    return `<button data-loc="${k}">${loc.emoji} ${loc.name}</button>`;
+    return `<button class="act-btn" ${disabled?'disabled':''} onclick="selectActivity('${locId}','${a.id}')">
+      <span class="nm">${a.n}</span>
+      <span class="info">⏱ ${hours} · ${costStr}</span>
+    </button>`;
   }).join('');
-  bar.querySelectorAll('button').forEach(b=>{
-    b.onclick = () => {
-      const loc = LOCATIONS[b.dataset.loc];
-      const result = findNearestWalkable((loc.x + loc.w/2) * TILE, (loc.y + loc.h + 1) * TILE);
-      if(result) S.moveTarget = {x: result.tx*TILE, y: result.ty*TILE};
-    };
-  });
+  
+  panel.classList.add('on');
+}
+
+function selectActivity(locId, actId){
+  const loc = LOCATIONS[locId];
+  const act = LOCATION_ACTIVITIES[locId].find(a => a.id === actId);
+  if(!act) return;
+  
+  // Set target position to the door of the building
+  const doorX = (loc.x + loc.w/2) * TILE;
+  const doorY = (loc.y + loc.h + 1) * TILE;
+  const result = findNearestWalkable(doorX, doorY);
+  
+  S.moveTarget = {x: result.tx * TILE, y: result.ty * TILE};
+  _queuedActivity = {locId, actId};
+  S.currentLoc = locId;
+  
+  // UI feedback
+  document.getElementById('actPanel').classList.remove('on');
+  showBubble(`Đang đi đến ${loc.name}...`);
+  
+  if(S.moveTarget.x === S.playerPos.x && S.moveTarget.y === S.playerPos.y){
+    // Already there
+    S.moveTarget = null;
+    _queuedActivity = null;
+    executeActivity(locId, actId);
+  }
+}
+
+function executeActivity(locId, actId){
+  const act = LOCATION_ACTIVITIES[locId].find(a => a.id === actId);
+  if(!act) return;
+  
+  // Check again
+  if(act.cost > 0 && S.st.money < act.cost){ 
+    showBubble('Không đủ tiền!'); return; 
+  }
+  
+  // Pay cost
+  if(act.cost > 0) apply('money', -act.cost);
+  
+  // Apply effects
+  if(act.ef){
+    for(const [k,v] of Object.entries(act.ef)){
+      if(k === 'money'){
+        if(v === 'wage'){ apply('money', JOBS[S.job].w); S._worked = true; }
+        else if(v === 'half'){ apply('money', Math.round(JOBS[S.job].w*0.5)); S._worked = true; }
+        else if(v === 'gamble'){ 
+          const win = Math.random() < 0.4; 
+          apply('money', win ? 1200 : -500); 
+          addLog(win?'📈 Đầu tư thắng +1.200đ':'📉 Đầu tư thua -500đ', win?'good':'bad');
+        }
+      } else if(k === 'money'){ apply(k, v); }
+      else apply(k, v);
+    }
+  }
+  
+  // Education
+  if(act.edu){
+    S.eduProgress++;
+    const req = {c3:5, dh:10, ths:14, ts:999}[S.edu];
+    if(S.eduProgress >= req){
+      S.edu = {c3:'dh', dh:'ths', ths:'ts'}[S.edu];
+      S.eduProgress = 0;
+      addLog(`🎓 Tốt nghiệp ${EDU_LABEL[S.edu]}!`, 'good');
+      apply('mental', 15);
+    } else {
+      addLog(`📖 Học: ${S.eduProgress}/${req}`, 'info');
+      S._schooled = true;
+    }
+  }
+  
+  // Advance time
+  S.gameMinutes += act.t;
+  processTimeAdvance();
+  
+  // Log
+  addLog(`📍 ${LOCATIONS[locId].emoji} ${LOCATIONS[locId].name}: ${act.n}`, 'info');
+  
+  // Check health
+  checkHealth();
+  render();
+  updateTimeUI();
+  showBubble(`Đã hoàn thành: ${act.n}`);
+  setTimeout(() => showBubble(''), 2000);
+}
+
+function showBubble(text){
+  let b = document.getElementById('bubble');
+  if(!b){
+    b = document.createElement('div');
+    b.id = 'bubble';
+    document.getElementById('worldWrap').appendChild(b);
+  }
+  if(!text){ b.classList.remove('on'); return; }
+  b.textContent = text;
+  b.classList.add('on');
 }
 
 // ═══════════ TIME PROCESSING ═══════════
@@ -1423,22 +747,14 @@ function processTimeAdvance(){
   }
 }
 function endOfDay(d){
-  apply('money', -150);
-  const cc = S.children.reduce((s,c)=>s+childCost(c),0);
+  apply('money', -100); // Ăn uống
+  const cc = S.children.reduce((s,c)=>s+300,0);
   if(cc>0) apply('money', -cc);
-  const houseM = HOUSES.find(h=>h.id===S.assets.house)?.m || 0;
-  apply('energy', 20 + houseM);
-  apply('mental', -1 + houseM);
-  apply('health', 2);
-  const bizInc = BUSINESS.find(b=>b.id===S.assets.business)?.inc || 0;
-  if(bizInc > 0) apply('money', Math.round(bizInc / 7));
+  apply('energy', 20); apply('mental', -2); apply('health', 2);
   const partner = getPartner();
   if(partner && partner.stage === 'married'){
-    const wage = JOBS[partner.job]?.w||500;
-    let mul=1; if(partner.per.includes('galant'))mul=1.3; if(partner.per.includes('stingy'))mul=0.4;
-    apply('money', Math.round(wage*mul*0.7));
+    apply('money', Math.round((JOBS[partner.job]?.w||500)*0.7));
   }
-  npcDailyTick();
   checkHealth();
   addLog(`🌅 Ngày ${d} kết thúc.`, 'day');
   if(d % 3 === 0) save();
@@ -1447,352 +763,163 @@ function checkHealth(){
   if(S.st.health<=0||S.st.energy<=0){ apply('health',40-S.st.health);apply('energy',50-S.st.energy); apply('money',-2000);addLog('🏥 Nhập viện!','bad'); } 
   if(S.st.mental<=0){S.st.mental=25;apply('money',-1000);addLog('😵 Suy nhược!','bad');} 
 }
-function npcDailyTick() {
-  if (S.ended) return;
-  const toRemove = [];
-  for (const r of Object.values(S.rels)) {
-    if (r.stage === 'married') continue;
-    if (r.love <= -50 || (r.angry && r.love <= -30)) toRemove.push(r);
-  }
-  toRemove.forEach(r => {
-    addLog(`💔 ${r.n} đã hủy kết bạn!`, 'bad');
-    if (S.partnerId === r.id) { S.partnerId = null; syncLove(); }
-    delete S.rels[r.id]; delete S.npcPositions[r.id]; delete S.npcStates[r.id];
-    apply('mental', -15);
-  });
-  for (const r of Object.values(S.rels)) {
-    if (r.stage === 'married') continue;
-    if (Math.random() < 0.2) {
-      if (r.angry) { r.love = clampInt(r.love - 2); addLog(`📩 ${r.n}: "Tớ vẫn còn giận cậu!"`, 'bad'); }
-      else if (r.love > 70) { r.love = clampInt(r.love + 1); addLog(`📩 ${r.n}: "Nhớ cậu quá!"`, 'love'); }
-      else if (r.love < 20) { addLog(`📩 ${r.n}: "Dạo này cậu bận lắm hả?"`, 'info'); }
-    }
-    if (r.angry) {
-      r.angryDays--;
-      if (r.angryDays <= 0) { r.angry = false; addLog(`${r.n} đã nguôi giận.`, 'info'); }
-      else { r.love = clampInt(r.love - 3); }
-    }
-  }
-  if (S.partnerId && !S._dated) {
-    const p = S.rels[S.partnerId];
-    if (p) {
-      p.love = clampInt(p.love - 3);
-      syncLove();
-      if (p.love < 30) addLog(`💔 ${p.n} cảm thấy bị bỏ rơi.`, 'bad');
-    }
-  }
-  S._dated = false;
-  const partner = getPartner();
-  if (partner && partner.expecting) {
-    partner.expectingWeeks--;
-    if (partner.expectingWeeks <= 0) birthChild();
-  }
-  for (const c of S.children) {
-    c.age++;
-    if (!c._played) { c.bond = clamp(c.bond - 5); apply('mental', -1); }
-    c._played = false;
-  }
-  if (Math.random() < 0.3) npcWeeklyTick();
-}
-function rejectNpcProposal(id) {
-  const r = S.rels[id]; if (!r) return;
-  r.love = clampInt(r.love - 30); r.stage = 'friend';
-  if (S.partnerId === id) { S.partnerId = null; syncLove(); }
-  addLog(`💔 Bạn đã từ chối ${r.n}.`, 'bad');
-  closeModal(); render();
-}
-function makeAngry(r, amount=10, days=3){ r.angry=true; r.angryDays=days; r.love=clampInt(r.love-amount); addLog(`😡 ${r.n} tức giận!`,'bad'); }
-function childCost(c){ if(c.age<12)return 300; if(c.age<26)return 500; return 800; }
 
-// ═══════════ ACTIONS ═══════════
-function advanceTime(minutes){
-  S.gameMinutes += minutes;
-  processTimeAdvance();
-  updateTimeUI();
-}
-function doAction(id){
-  if(S.ended) return;
-  const a = ACTIONS.find(x=>x.id===id);
-  if(!a) return;
-  if(a.once === 'day'){
-    if(a.id === 'work' && S._worked){ alert('Hôm nay đã đi làm rồi.'); return; }
-    if(a.id === 'study' && S._schooled){ alert('Hôm nay đã học rồi.'); return; }
-  }
-  if(a.afterWork && !S._worked){ alert('Phải đi làm trước.'); return; }
-  if(a.minMoney && S.st.money < a.minMoney) return;
-  let transCost = a.transport;
-  if(transCost){
-    const carDisc = CARS.find(c=>c.id===S.assets.car)?.tr || 0;
-    transCost = Math.max(0, Math.round(transCost * (1 + carDisc/100)));
-    apply('money', -transCost);
-    addLog(`🚌 Đi lại: -${transCost}đ`, 'info');
-  }
-  const job = JOBS[S.job];
-  if(a.ef){
-    for(const [k,v] of Object.entries(a.ef)){
-      if(k === 'money'){
-        let amt = v;
-        if(v === 'wage'){ amt = job.w; if(id === 'work') S._worked = true; }
-        else if(v === 'half') amt = Math.round(job.w * 0.5);
-        apply('money', amt);
-      } else if(k === 'skill' && id === 'work'){
-        apply('skill', v * 1.3);
-      } else {
-        apply(k, v);
-      }
-    }
-  }
-  if(a.edu){
-    S.eduProgress++;
-    const req = {c3:5, dh:10, ths:14, ts:999}[S.edu];
-    if(S.eduProgress >= req){
-      S.edu = {c3:'dh', dh:'ths', ths:'ts'}[S.edu];
-      S.eduProgress = 0;
-      addLog(`🎓 Tốt nghiệp ${EDU_LABEL[S.edu]}!`, 'good');
-      apply('mental', 15);
-    } else {
-      addLog(`📖 Học: ${S.eduProgress}/${req}`, 'info');
-      S._schooled = true;
-    }
-  }
-  if(a.gamble){
-    const win = Math.random() < 0.4;
-    apply('money', win ? 1200 : -500);
-    addLog(win ? '📈 +1.200đ' : '📉 -500đ', win ? 'good' : 'bad');
-  }
-  advanceTime(a.t);
-  const msgs = {work:`Đi làm: +${fmt(job.w)}`, study:'Học nâng cao.', skill:'Học kỹ năng.', gym:'Tập thể dục.', family:'Gọi gia đình.', hobby:'Đam mê.', movie:'Xem phim.', game:'Chơi game.', shopping:'Mua sắm.', spa:'Spa.', travel:'Du lịch.'};
-  if(msgs[id]) addLog(msgs[id], id==='family'?'love':'good');
-  checkHealth();
-  render();
+// ═══════════ SAVE / LOAD ═══════════
+function save(){ localStorage.setItem('nhipdoi_sticker_save', JSON.stringify(S)); }
+function load(){ 
+  const raw = localStorage.getItem('nhipdoi_sticker_save'); 
+  if(raw){ try { S = JSON.parse(raw); return true; } catch(e){} } 
+  return false; 
 }
 
-// ═══════════ CHILD ═══════════
-function tryPregnant(){ 
-  const p=getPartner(); if(!p||p.stage!=='married'||p.expecting)return; 
-  const can = p.g==='nu' || S.gender==='nu'; 
-  if(!can){alert('Không thể mang thai.');return;} 
-  if(S.st.money<1000){alert('Không đủ tiền.');return;} 
-  apply('money',-1000); 
-  if(Math.random()<0.5){ p.expecting=true; p.expectingWeeks=3; addLog(`🤰 ${p.n} mang thai!`,'love'); apply('mental',15); } 
-  else { addLog('Chưa có tin vui.','info'); } 
-}
-function birthChild(){ 
-  const p=getPartner(); if(!p) return; 
-  p.expecting=false; 
-  const gender = Math.random()<0.5?'nam':'nu'; 
-  const names = ['An','Bình','Chi','Duy','Hân','Khang','Linh','Minh','Nam','Phúc','Quỳnh','Trang']; 
-  const name = names[Math.floor(Math.random()*names.length)]; 
-  S.children.push({id:'c'+Date.now(),name,gender,age:0,bond:60}); 
-  addLog(`👶 Bé ${name} chào đời!`,'child'); 
-  apply('mental',25); 
-  p.love=clampInt(p.love+15); 
-  syncLove(); 
-}
-function playWithChild(id){ const c=S.children.find(x=>x.id===id);if(!c)return; advanceTime(60);c.bond=clamp(c.bond+10);c._played=true; apply('mental',8);addLog(`👶 Chơi với bé ${c.name}.`,'child'); render(); }
-function buyForChild(id){ const c=S.children.find(x=>x.id===id);if(!c||S.st.money<300)return; apply('money',-300);c.bond=clamp(c.bond+5); addLog(`🍼 Sữa bỉm cho bé ${c.name}.`,'money'); render(); }
-function sendChildToSchool(id){ const c=S.children.find(x=>x.id===id);if(!c||c.age<12)return; if(S.st.money<2000)return; apply('money',-2000);c.school=true;c.bond=clamp(c.bond+8); addLog(`🎓 Bé ${c.name} nhập học!`,'child'); render(); }
-function openChildren(){ if(S.children.length===0){ showModal(`<h2>👶 Con cái</h2><p>Bạn chưa có con.</p><button class="btn sec" onclick="closeModal()">Đóng</button>`); return; } showModal(` <h2>👶 Con cái (${S.children.length})</h2> ${S.children.map(c=>{ const emoji=c.age<12?'👶':c.gender==='nam'?'👦':'👧'; return `<div class="npc-card c"><div class="npc-h"><span class="av">${emoji}</span><span class="nm">Bé ${c.name}</span><span class="bd">${c.gender==='nam'?'Trai':'Gái'}</span><span class="bd blue">${c.age} ngày</span>${c.school?'<span class="bd green">🎓</span>':''}</div><div style="font-size:10px;color:#94a3b8">Gắn bó: ${Math.round(c.bond)}/100</div><div class="bond"><div class="bond-f" style="width:${c.bond}%"></div></div><div class="npc-a"><button class="btn sec" onclick="playWithChild('${c.id}')">🎮 Chơi</button><button class="btn sec" ${S.st.money<300?'disabled':''} onclick="buyForChild('${c.id}')">🍼 Sữa</button>${c.age>=12&&!c.school?`<button class="btn gold" ${S.st.money<2000?'disabled':''} onclick="sendChildToSchool('${c.id}')">🎓 Học</button>`:''}</div></div>`; }).join('')} <button class="btn sec" onclick="closeModal()">Đóng</button> `); }
-
-// ═══════════ NPC-NPC ═══════════
-function compatibility(a,b){ if(!a.att.includes(b.g))return 0; if(!b.att.includes(a.g))return 0; let s=0;s+=Math.max(0,20-Math.abs(a.age-b.age)); const bgr={ngheo:0,trungluu:1,khagia:2,gia:3}; s+=10-Math.abs(bgr[a.bg]-bgr[b.bg])*3; for(const t of b.per){if(a.likes.includes(t))s+=8;if(a.dis.includes(t))s-=5;} s+=a.hob.filter(h=>b.hob.includes(h)).length*4; return Math.max(0,s); }
-function npcWeeklyTick(){ 
-  const partner=getPartner(); 
-  for(const a of NPC_POOL){ 
-    if(!S.npcRels[a.id])S.npcRels[a.id]={}; 
-    for(const b of NPC_POOL){ 
-      if(a.id>=b.id)continue; 
-      if(!S.npcRels[a.id][b.id])S.npcRels[a.id][b.id]={aff:0,status:'none'}; 
-      if(partner&&(partner.pid===a.id||partner.pid===b.id))continue; 
-      const rel=S.npcRels[a.id][b.id]; 
-      if(rel.status==='married')continue; 
-      const comp=compatibility(a,b); 
-      if(comp<=10)continue; 
-      if(Math.random()<0.5)continue; 
-      let inc=comp>=40?2:comp>=25?1:0.5; 
-      rel.aff=Math.min(100,rel.aff+inc); 
-      if(rel.status==='none'&&rel.aff>=30){ rel.status='interested'; addLog(`📢 ${a.n} để ý ${b.n}...`,'npc'); } 
-      if(rel.status==='interested'&&rel.aff>=55){ rel.status='dating'; addLog(`💕 ${a.n} & ${b.n} hẹn hò!`,'npc'); } 
-      if(rel.status==='dating'&&rel.aff>=85&&Math.random()<0.3){ rel.status='married'; addLog(`💒 ${a.n} & ${b.n} KẾT HÔN!`,'npc'); } 
-    } 
-  } 
-}
-function getNpcRomanceStatus(npc){ const out=[]; for(const other of NPC_POOL){ if(other.id===npc.id)continue; const a=npc.id<other.id?npc.id:other.id; const b=npc.id<other.id?other.id:npc.id; const rel=S.npcRels[a]?.[b]; if(rel&&rel.status!=='none')out.push({other,rel}); } return out; }
-
-// ═══════════ ASSETS ═══════════
-function openAssets() {
-  const renderList = (title, list, current, type) => `
-    <h3 style="color:#f472b6;margin-top:12px;">${title}</h3>
-    ${list.map(item => {
-      const isOwned = item.id === current;
-      const canBuy = S.st.money >= item.p && !isOwned;
-      let stats = '';
-      if (type === 'house') stats = `+${item.m} Tinh thần/ngày`;
-      if (type === 'car') stats = `Giảm ${Math.abs(item.tr)}% chi phí đi lại`;
-      if (type === 'biz') stats = `+${fmt(item.inc)}/tuần`;
-      return `<div class="asset-card"><div class="asset-info"><h4>${item.n} ${isOwned ? '✅' : ''}</h4><p>${stats}</p></div><div style="text-align:right"><div style="font-size:11px;color:#facc15;font-weight:bold;margin-bottom:3px">${fmt(item.p)}</div>${isOwned ? '<span class="bd green">Đang dùng</span>' : `<button class="btn sec" style="padding:3px 7px;font-size:10px" ${canBuy?'':'disabled'} onclick="buyAsset('${type}','${item.id}',${item.p})">Mua</button>`}</div></div>`;
-    }).join('')}`;
-  showModal(`<h2>🏠 Tài sản & Kinh doanh</h2><p style="font-size:11px;color:#94a3b8">Số dư: <b>${fmt(S.st.money)}</b> · Prestige: ✨ ${prestige()}</p>${renderList('🏠 Nhà cửa', HOUSES, S.assets.house, 'house')}${renderList('🚗 Phương tiện', CARS, S.assets.car, 'car')}${renderList('🏢 Kinh doanh', BUSINESS, S.assets.business, 'biz')}<button class="btn sec" style="margin-top:12px" onclick="closeModal()">Đóng</button>`);
-}
-function buyAsset(type, id, price) { if (S.st.money < price) return; apply('money', -price); S.assets[type] = id; addLog(`🛍️ Đã mua tài sản!`, 'good'); render(); openAssets(); }
-
-// ═══════════ MEET ═══════════
-function rollProfiles(){ const met=new Set(Object.values(S.rels).map(r=>r.pid)); const avail=NPC_POOL.filter(p=>!met.has(p.id)); const sh=avail.sort(()=>Math.random()-0.5); S.currentProfiles=sh.slice(0,5).map(p=>p.id); }
-function openMeet(){ if(S.currentProfiles.length===0)rollProfiles(); const list=S.currentProfiles.map(id=>NPC_POOL.find(p=>p.id===id)).filter(Boolean); if(list.length===0){ showModal(`<h2>🌐 Gặp gỡ</h2><p>Bạn đã gặp tất cả!</p> <button class="btn sec" onclick="closeModal()">Đóng</button>`); return; } showModal(` <h2>🌐 Gặp gỡ — 5 hồ sơ</h2> <p>Prestige: ✨ ${prestige()}</p> <div class="grid"> ${list.map(p=>{ const rc=rejectChance(p); const isG=p.per.includes('galant'); const isS=p.per.includes('stingy'); return `<div class="card"> <div class="av">${p.av}</div> <div class="nm">${p.n}</div> <div class="s2">${p.age}t · ${JOBS[p.job]?.n||p.job}</div> <div class="ln"><span>Ngoại hình</span><span>${p.ap}/10</span></div> <div class="ln"><span>Tài sản</span><span>${p.wl}/100</span></div> <div class="ln"><span>Học vấn</span><span>${EDU_LABEL[p.edu]}</span></div> ${isG?'<div class="info">🎩 Ga lăng</div>':''} ${isS?'<div class="info">💰 Bủn xỉn</div>':''} ${rc>0?`<div class="warn">⚠️ Từ chối: ${Math.round(rc*100)}%</div>`:''} <div style="display:flex;gap:3px;flex-wrap:wrap;margin-top:4px"> ${p.per.slice(0,3).map(t=>`<span class="bd" style="font-size:9px">${TRAITS[t]||t}</span>`).join('')} </div> <div style="font-size:9px;color:#64748b;font-style:italic;margin-top:4px">${p.bio}</div> <div class="npc-a"> <button class="btn pri" onclick="tryMeet('${p.id}')">Kết bạn</button> <button class="btn sec" onclick="skip('${p.id}')">Bỏ</button> </div> </div>`; }).join('')} </div> <button class="btn sec" style="margin-top:8px" onclick="rollProfiles();openMeet();">🔄 Đổi</button> <button class="btn sec" onclick="closeModal()">Đóng</button> `); }
-function skip(id){S.currentProfiles=S.currentProfiles.filter(x=>x!==id);openMeet();}
-function tryMeet(pid){ const p=NPC_POOL.find(x=>x.id===pid);if(!p)return; const rc=rejectChance(p); if(Math.random()<rc){ addLog(`❌ ${p.n} từ chối.`,'bad'); showModal(`<h2>❌ Bị từ chối</h2><p style="text-align:center;font-size:40px">${p.av}</p><button class="btn sec" onclick="closeModal()">Buồn</button>`); S.currentProfiles=S.currentProfiles.filter(x=>x!==pid); return; } const rid='r'+pid+'_'+Date.now(); const shared=p.hob.filter(h=>S.hobbies.includes(h)); S.rels[rid]={ id:rid,pid:p.id,n:p.n,g:p.g,av:p.av,age:p.age, job:p.job,ap:p.ap,wl:p.wl,edu:p.edu,bg:p.bg, per:[...p.per],hob:[...p.hob],bio:p.bio,views:p.views, bond:10+shared.length*5,love:5+shared.length*3, stage:'friend',angry:false,angryDays:0, expecting:false,expectingWeeks:0 }; 
-const locs = Object.values(LOCATIONS); const loc = locs[Math.floor(Math.random()*locs.length)];
-const result = findNearestWalkable((loc.x + Math.random()*loc.w) * TILE, (loc.y + loc.h + 1) * TILE);
-S.npcPositions[rid] = result ? {x: result.tx*TILE, y: result.ty*TILE} : {x: 5*TILE, y: 6*TILE};
-S.npcStates[rid] = {facing:'down', walking:false, frame:0, target:null, idleTimer:0};
-addLog(`🌐 Kết bạn với ${p.n}!`,'good'); showModal(`<h2>✅ Kết bạn!</h2><p style="text-align:center;font-size:40px">${p.av}</p> <p><b>${p.n}</b> xuất hiện trên bản đồ!</p><button class="btn pri" onclick="closeModal()">OK</button>`); S.currentProfiles=S.currentProfiles.filter(x=>x!==pid); render(); }
-
-// ═══════════ RELATIONS ═══════════
-function openRel(){ const list=Object.values(S.rels); let html=`<h2>🤝 Quan hệ (${list.length})</h2>`; const partner=getPartner(); if(partner){html+=`<h3>💗 Người thương</h3>`;html+=renderRelCard(partner,true);} html+=`<h3>🌐 Người quen (${list.length-(partner?1:0)})</h3>`; if(list.length===0){html+=`<p>Chưa quen ai.</p>`;} else{ for(const r of list){ if(r.id===S.partnerId)continue; html+=renderRelCard(r,false); } } const marriages=[]; for(const a of NPC_POOL){ for(const b of NPC_POOL){ if(a.id>=b.id)continue; const rel=S.npcRels[a.id]?.[b.id]; if(rel?.status==='married')marriages.push({a,b}); } } if(marriages.length>0){ html+=`<h3>💒 NPC kết hôn</h3>`; html+=marriages.map(m=>`<div class="npc-card m"><div class="npc-h"><span class="av">${m.a.av}</span><span class="nm">${m.a.n}</span>❤️<span class="av">${m.b.av}</span><span class="nm">${m.b.n}</span></div></div>`).join(''); } html+=`<button class="btn sec" style="margin-top:8px" onclick="openMeet()">🌐 Gặp người mới</button>`; html+=`<button class="btn sec" onclick="closeModal()">Đóng</button>`; showModal(html); }
-function renderRelCard(r,isPartner){ const shared=r.hob.filter(h=>S.hobbies.includes(h)); const isSameG=r.g===S.gender; const stageLabel={friend:'🤝 Bạn',close:'💛 Bạn thân',bestie:'💜 Bạn thân', brother:'🤜🤛 Chí cốt',crush:'💓 Để ý',dating:'💕 Hẹn hò',engaged:'💍 Đính hôn',married:'💒 Vợ chồng'}[r.stage]||r.stage; const isG=r.per.includes('galant'); const isS=r.per.includes('stingy'); let acts=`<button class="btn sec" onclick="openChat('${r.id}')">💬 Chat</button>`; acts+=`<button class="btn sec" onclick="hang('${r.id}')">Đi chơi</button>`; acts+=`<button class="btn sec" onclick="gift('${r.id}')">Quà</button>`; if(r.g!==S.gender&&r.stage!=='married'&&r.stage!=='engaged'){ acts+=`<button class="btn gold" onclick="dateWith('${r.id}')">Hẹn hò</button>`; } if(isPartner&&r.stage==='dating')acts+=`<button class="btn gold" onclick="openPropose()">💍 Cầu hôn</button>`; if(isPartner&&r.stage==='engaged')acts+=`<button class="btn gold" onclick="openWedding()">💒 Cưới</button>`; if(isPartner&&r.stage==='married'&&!r.expecting)acts+=`<button class="btn gold" onclick="tryPregnant()">👶 Có con</button>`; acts+=`<button class="btn danger" onclick="unfriend('${r.id}')">🚫 Hủy</button>`; const romances=getNpcRomanceStatus({id:r.pid}); const romInfo=romances.filter(x=>x.rel.status!=='none').map(x=>`${x.other.av} ${x.other.n} (${x.rel.status==='married'?'💒':x.rel.status==='dating'?'💕':'💓'})`).join(', '); 
-const pos = S.npcPositions[r.id]; let locName = '...';
-if(pos){ const px = pos.x+TILE/2, py = pos.y+TILE/2; for(const loc of Object.values(LOCATIONS)){ if(px >= (loc.x-1)*TILE && px <= (loc.x+loc.w+1)*TILE && py >= (loc.y-1)*TILE && py <= (loc.y+loc.h+1)*TILE){ locName = loc.emoji+' '+loc.name; break; } } }
-return `<div class="npc-card ${isPartner?'p':''} ${r.angry?'a':''}"> <div class="npc-h"> <span class="av">${r.av}</span><span class="nm">${r.n}</span> <span class="bd">${r.age}t</span> <span class="bd">${JOBS[r.job]?.n||r.job}</span> <span class="bd gold">${stageLabel}</span> ${r.angry?'<span class="bd red">😡</span>':''} ${isG?'<span class="bd gold">🎩</span>':''} ${isS?'<span class="bd red">💰</span>':''} </div> <div style="font-size:10px;color:#7dd3fc">📍 ${locName}</div> <div style="font-size:10px;color:#94a3b8">💗 ${Math.round(r.love)} · 🤝 ${Math.round(r.bond)}</div> <div class="bond"><div class="bond-f ${r.love<0?'neg':''}" style="width:${Math.abs(r.love)}%"></div></div> ${shared.length?`<div style="font-size:9px;color:#6ee7b7">Chung: ${shared.map(h=>HOBBIES[h].e).join(' ')}</div>`:''} ${r.love<=-15?`<div class="warn">⚠️ Nguy cơ hủy kết bạn!</div>`:''} ${!isSameG&&r.love>=90&&r.stage!=='dating'&&r.stage!=='engaged'&&r.stage!=='married'?'<div style="font-size:10px;color:#f472b6;font-weight:bold">💗 Có thể tỏ tình!</div>':''} ${r.expecting?`<div style="font-size:10px;color:#fbbf24">🤰 Mang thai</div>`:''} ${romInfo?`<div class="info">NPC khác: ${romInfo}</div>`:''} <div class="npc-a">${acts}</div> </div>`; }
-function hang(id){ const r=S.rels[id];if(!r)return; advanceTime(60);r.bond=clamp(r.bond+5); if(r.g!==S.gender)r.love=clamp(r.love+3); apply('mental',5);updateStage(r); addLog(`🤝 Đi chơi với ${r.n}.`,'love'); render();openRel(); }
-function dateWith(id){ const r=S.rels[id];if(!r)return; const isG=r.per.includes('galant'); const isS=r.per.includes('stingy'); let cost=300,msg=''; if(isG){cost=0;msg=' — Họ trả hết 🎩';} else if(isS){cost=600;msg=' — Bạn trả gấp đôi 💰';} if(S.st.money<cost){alert('Không đủ tiền.');return;} advanceTime(120); if(cost)apply('money',-cost); r.love=clamp(r.love+12);r.bond=clamp(r.bond+4); apply('mental',10);updateStage(r);S._dated=true; addLog(`💗 Hẹn hò với ${r.n}${msg}`,'love'); render();openRel(); }
-function gift(id){ const r=S.rels[id];if(!r)return; if(S.st.money<500){alert('Không đủ tiền.');return;} advanceTime(30);apply('money',-500); r.love=clamp(r.love+15);r.bond=clamp(r.bond+3); apply('mental',3);updateStage(r); addLog(`🎁 Tặng quà cho ${r.n}.`,'love'); render();openRel(); }
-function unfriend(id){ const r=S.rels[id];if(!r)return; if(!confirm(`Hủy kết bạn với ${r.n}?`))return; if(S.partnerId===id){S.partnerId=null;syncLove();} delete S.rels[id]; delete S.npcPositions[id]; delete S.npcStates[id]; apply('mental',-8); addLog(`💔 Đã hủy kết bạn với ${r.n}.`,'bad'); closeModal();render(); }
-function updateStage(r){ if(['dating','engaged','married'].includes(r.stage))return; const same=r.g===S.gender; if(same){ if(r.bond>=90)r.stage=S.gender==='nam'?'brother':'bestie'; else if(r.bond>=70)r.stage='close'; else r.stage='friend'; }else{ if(r.love>=60)r.stage='crush'; else if(r.bond>=70)r.stage='close'; else r.stage='friend'; } }
-
-// ═══════════ CHAT ═══════════
-let _chatId=null;
-const CHAT_TOPICS_GLOBAL=[ {id:'greet',n:'👋 Chào',f:2,l:1,r:{vuitinh:'"Ơ cậu đến rồi!"',hoatbat:'"Hi cậu!"',tramtinh:'"Ừ, chào."',lanhlung:'"...Chào."',def:'"Chào cậu!"'}}, {id:'ask',n:'❓ Hỏi thăm',f:3,l:2,r:{quantam:'"Ngày tớ bình thường. Còn cậu?"',noilo:'"Hôm nay tớ hơi lo..."',def:'"Cũng được."'}}, {id:'khen',n:'💐 Khen',f:3,l:4,r:{langman:'"Cậu làm tớ ngại..."',lanhlung:'"Ừ, biết rồi."',def:'"Cảm ơn!"'}}, {id:'share',n:'💭 Chia sẻ',f:4,l:5,r:{sautam:'"...Cảm ơn cậu."',langman:'"Tớ thích người dám nói."',def:'"Ừ, tớ hiểu."'}}, {id:'view_love',n:'💗 Tình yêu',f:3,l:4,view:'love',r:{langman:'"Yêu là cảm xúc."',thucte:'"Yêu phải thực tế."',def:'"Chủ đề khó."'}}, {id:'view_career',n:'💼 Sự nghiệp',f:3,l:3,view:'career',r:{thamvong:'"Sự nghiệp là ưu tiên."',doclap:'"Cần tự do."',def:'"Mỗi người có hướng."'}}, {id:'view_money',n:'💰 Tiền',f:3,l:3,view:'money',r:{stingy:'"Phải tiết kiệm."',thucte:'"Tiền không tự sinh."',def:'"Tiền là công cụ."'}}, {id:'view_family',n:'👨‍👩‍👧 Gia đình',f:4,l:5,view:'family',r:{quantam:'"Tớ muốn gia đình ấm."',doclap:'"Cần không gian riêng."',def:'"Gia đình quan trọng."'}}, {id:'flirt',n:'😘 Thả thính',f:0,l:8,stage:['crush','dating'],r:{langman:'"Tim tớ đập nhanh..."',galant:'"Cậu muốn gì tớ chiều."',def:'"Cậu lạ lắm nha."'}} ];
-function openChat(id){ const r=S.rels[id];if(!r)return; _chatId=id; if(!S.chats[id])S.chats[id]=[]; renderChat(); }
-function renderChat(){ const r=S.rels[_chatId];if(!r)return; const log=S.chats[_chatId]; const viewsHtml=r.views?` <h3>Quan điểm</h3> <div class="view">💗 ${r.views.love}</div> <div class="view">💼 ${r.views.career}</div> <div class="view">💰 ${r.views.money}</div> <div class="view">👨‍👩‍👧 ${r.views.family}</div> `:''; showModal(` <h2>💬 ${r.av} ${r.n}</h2> <p style="font-size:10px;color:#94a3b8">${r.age}t · ${JOBS[r.job]?.n||r.job} · ${r.per.map(t=>TRAITS[t]).join(' ')}</p> ${r.angry?'<div class="warn">😡 Đang giận bạn</div>':''} ${viewsHtml} <h3>Trò chuyện</h3> <div class="chat" id="chat"> ${log.length===0?'<div class="msg sys">Bắt đầu...</div>':''} ${log.map(m=>`<div class="msg ${m.who}">${m.t}</div>`).join('')} </div> <div style="margin-bottom:6px"> ${CHAT_TOPICS_GLOBAL.filter(t=>!t.stage||t.stage.includes(r.stage)).map(t=> `<button class="topic" onclick="doChat('${t.id}')">${t.n}</button>` ).join('')} </div> <button class="btn sec" onclick="openRel()">← Quay lại</button> `); setTimeout(()=>{const c=document.getElementById('chat');if(c)c.scrollTop=c.scrollHeight;},50); }
-function doChat(tid){ const r=S.rels[_chatId];if(!r)return; const t=CHAT_TOPICS_GLOBAL.find(x=>x.id===tid);if(!t)return; S.chats[_chatId].push({who:'you',t:t.n.replace(/^\S+\s/,'')}); if(t.view&&r.views&&r.views[t.view]){ S.chats[_chatId].push({who:'them',t:r.views[t.view]}); if(r.per.some(p=>t.r[p]))r.love=clamp(r.love+3); }else{ let mul=1; if(t.r&&r.per.some(p=>t.r[p]))mul=1.3; if(r.angry)mul=0.3; r.bond=clamp(r.bond+Math.round((t.f||0)*mul)); if(r.g!==S.gender)r.love=clamp(r.love+Math.round((t.l||0)*mul)); let resp=t.r.def; if(r.angry)resp='"..." (họ không muốn nói chuyện)'; else for(const p of r.per){if(t.r[p]){resp=t.r[p];break;}} S.chats[_chatId].push({who:'them',t:resp}); } apply('mental',2);advanceTime(15);updateStage(r); if(S.chats[_chatId].length>30)S.chats[_chatId].splice(0,S.chats[_chatId].length-30); addLog(`💬 Chat với ${r.n}.`,'love'); render();renderChat(); }
-
-// ═══════════ PROPOSE / WEDDING ═══════════
-function openPropose(){ const p=getPartner();if(!p||p.stage!=='dating')return; const love=p.love; let chance; if(love<70)chance=0; else if(love>=95)chance=1; else chance=(love-70)/25; const pct=Math.round(chance*100); showModal(` <h2>💍 Cầu hôn ${p.n}</h2> <div style="background:#0f172a;padding:10px;border-radius:8px;font-size:11px;color:#cbd5e1;margin:10px 0"> Tình cảm: ${Math.round(love)}/100<br>Nhẫn: 5.000đ<br> Cơ hội: <b style="color:${pct>=70?'#22c55e':pct>=30?'#facc15':'#ef4444'}">${pct}%</b> </div> <button class="btn gold" ${S.st.money>=5000?'':'disabled'} onclick="doPropose()">Cầu hôn</button> <button class="btn sec" onclick="openRel()">Để sau</button> `); }
-function doPropose(){ const p=getPartner();if(!p||S.st.money<5000)return; let chance; if(p.love<70)chance=0; else if(p.love>=95)chance=1; else chance=(p.love-70)/25; apply('money',-5000); if(Math.random()<chance){ p.stage='engaged';p.love=clamp(p.love+15);syncLove(); apply('mental',20); addLog(`💍 ${p.n} đồng ý!`,'love'); showModal(`<h2>💍 Đồng ý!</h2><p style="text-align:center;font-size:50px">${p.av}</p><button class="btn pri" onclick="openRel()">OK</button>`); }else{ p.love=clamp(p.love-15);syncLove();makeAngry(p,5,2); addLog(`💔 ${p.n} từ chối.`,'bad'); showModal(`<h2>💔 Từ chối</h2><p style="text-align:center;font-size:50px">😢</p><button class="btn sec" onclick="openRel()">Buồn</button>`); } render(); }
-function openWedding(){ const p=getPartner();if(!p||p.stage!=='engaged')return; const can=S.st.money>=10000; showModal(` <h2>💒 Đám cưới</h2> <div style="background:#0f172a;padding:10px;border-radius:8px;font-size:11px;color:#cbd5e1;margin:10px 0"> Chi phí: 10.000đ<br> Sau cưới, ${p.n} đóng góp mỗi ngày </div> <button class="btn gold" ${can?'':'disabled'} onclick="doWedding()">Tổ chức</button> <button class="btn sec" onclick="openRel()">Để sau</button> `); }
-function doWedding(){ const p=getPartner(); if(!p||p.stage!=='engaged'||S.st.money<10000)return; apply('money',-10000); p.stage='married';p.love=clamp(p.love+15);syncLove(); apply('mental',30); addLog(`💒 Kết hôn với ${p.n}!`,'love'); showModal(`<h2>💒 Đám cưới</h2><p style="text-align:center;font-size:50px">💍💐🎊</p><button class="btn gold" onclick="openRel()">🎉</button>`); render(); }
-
-// ═══════════ JOBS ═══════════
-function openJobs(){ const playerRank=EDU_RANK[S.edu]; const sorted=Object.entries(JOBS).sort((a,b)=>{ const ra=EDU_RANK[a[1].edu]||0,rb=EDU_RANK[b[1].edu]||0; return ra-rb||a[1].w-b[1].w; }); showModal(` <h2>💼 Chọn nghề</h2> <p style="font-size:11px;color:#94a3b8">Học vấn: <b>${EDU_LABEL[S.edu]}</b></p> ${sorted.map(([k,j])=>{ const reqRank=j.edu?EDU_RANK[j.edu]:0; const locked=playerRank<reqRank; const cur=S.job===k; return `<button class="btn ${cur?'pri':'sec'}" style="text-align:left;padding:7px 10px;margin-bottom:3px" ${locked||cur?'disabled':''} onclick="changeJob('${k}')"> ${j.i} ${j.n} — ${fmt(j.w)}/ngày ${locked?`<br><small style="color:#fca5a5">🔒 Cần ${EDU_LABEL[j.edu]}</small>`:''} ${cur?'<br><small>Đang làm</small>':''} </button>`; }).join('')} <button class="btn sec" style="margin-top:8px" onclick="closeModal()">Đóng</button> `); }
-function changeJob(k){ const j=JOBS[k];if(!j)return; const reqRank=j.edu?EDU_RANK[j.edu]:0; if(EDU_RANK[S.edu]<reqRank)return; S.job=k; addLog(`Chuyển sang: ${j.i} ${j.n}`,'info'); closeModal();render(); }
-
-// ═══════════ MODAL ═══════════
-function showModal(h){document.getElementById('mbox').innerHTML=h;document.getElementById('modal').classList.add('on');}
-function closeModal(){document.getElementById('modal').classList.remove('on');}
-document.getElementById('modal').onclick=e=>{if(e.target.id==='modal')closeModal();};
-
-// ═══════════ RENDER UI ═══════════
+// ═══════════ UI RENDER ═══════════
 function updateTimeUI(){
   const t = getGameTime();
   document.getElementById('timeTag').textContent = `📅 ${t.dw} · ${pad2(t.hour)}:${pad2(t.minute)} · Ngày ${t.day}`;
-  document.getElementById('timeHud').textContent = `${pad2(t.hour)}:${pad2(t.minute)} · ${t.dwFull}`;
+  document.getElementById('timeHud').textContent = `${pad2(t.hour)}:${pad2(t.minute)}`;
 }
-function render(){ 
-  if(!S||!S.gender)return; 
+function render(){
+  if(!S || !S.gender) return;
   updateTimeUI();
-  document.getElementById('money').textContent=fmt(S.st.money); 
-  document.getElementById('job').textContent=JOBS[S.job].i+' '+JOBS[S.job].n; 
-  document.getElementById('edu').textContent=EDU_LABEL[S.edu]+(S.eduProgress?` (${S.eduProgress})`:''); 
-  const p=getPartner(); const pt=document.getElementById('partnerTag'); 
-  if(p){pt.style.display='';pt.textContent=`${p.av} ${p.n}`;} else pt.style.display='none'; 
-  const defs=[ {k:'health',l:'❤️',c:'#ef4444'},{k:'energy',l:'⚡',c:'#facc15'}, {k:'mental',l:'🧠',c:'#a78bfa'},{k:'skill',l:'📚',c:'#38bdf8'}, {k:'love',l:'💗',c:'#ec4899'},{k:'passion',l:'🔥',c:'#fb923c'} ]; 
-  document.getElementById('stats').innerHTML=defs.map(d=>{ const v=S.st[d.k]; return `<div class="stat"><div class="lbl"><span>${d.l} ${d.k}</span><span>${Math.round(v)}</span></div><div class="bar"><div class="fill" style="width:${v}%;background:${d.c}"></div></div></div>`; }).join(''); 
-  document.getElementById('acts').innerHTML=ACTIONS.map(a=>{ 
-    const dis=S.ended ||(a.once==='day'&&((a.id==='work'&&S._worked)||(a.id==='study'&&S._schooled))) ||(a.afterWork&&!S._worked) ||(a.minMoney&&S.st.money<a.minMoney); 
-    const lock=(a.afterWork&&!S._worked)?' 🔒':''; 
-    const hours = a.t>=60 ? (a.t/60).toFixed(1).replace('.0','')+'h' : a.t+'p';
-    return `<button class="act ${a.ent?'ent':''}" data-id="${a.id}" ${dis?'disabled':''}>${a.n}${lock}<span class="cost">⏱ ${hours}${a.transport?' · +'+a.transport+'đ':''}</span></button>`; 
-  }).join(''); 
-  document.querySelectorAll('.act').forEach(b=>b.onclick=()=>doAction(b.dataset.id)); 
-  document.getElementById('log').innerHTML=S.log.map(e=> `<div class="e ${e.t}"><b>${e.dw} ${e.time}:</b> ${e.m}</div>`).join(''); 
-  save(); 
+  document.getElementById('money').textContent = fmt(S.st.money);
+  document.getElementById('job').textContent = JOBS[S.job].i + ' ' + JOBS[S.job].n;
+  document.getElementById('edu').textContent = EDU_LABEL[S.edu] + (S.eduProgress ? ` (${S.eduProgress})` : '');
+  
+  const p = getPartner();
+  const pt = document.getElementById('partnerTag');
+  if(p){ pt.style.display=''; pt.textContent=`💗 ${p.n}`; } else pt.style.display='none';
+  
+  // Stats
+  const defs = [
+    {k:'health',l:'❤️',c:'#ef4444'},{k:'energy',l:'⚡',c:'#facc15'},
+    {k:'mental',l:'🧠',c:'#a78bfa'},{k:'skill',l:'📚',c:'#38bdf8'},
+    {k:'love',l:'💗',c:'#ec4899'},{k:'passion',l:'🔥',c:'#fb923c'}
+  ];
+  document.getElementById('stats').innerHTML = defs.map(d => {
+    const v = S.st[d.k];
+    return `<div class="stat"><div class="lbl"><span>${d.l} ${d.k}</span><span>${Math.round(v)}</span></div><div class="bar"><div class="fill" style="width:${v}%;background:${d.c}"></div></div></div>`;
+  }).join('');
+  
+  // Log
+  document.getElementById('log').innerHTML = S.log.map(e => 
+    `<div class="e ${e.t}"><b>${e.dw} ${e.time}:</b> ${e.m}</div>`
+  ).join('');
+  
+  // Location menu
+  const locMenu = document.getElementById('locMenu');
+  locMenu.innerHTML = Object.entries(LOCATIONS).map(([k, loc]) => 
+    `<button class="loc-btn" onclick="openLocationMenu('${k}')">
+      <span class="em">${loc.emoji}</span>
+      <span>${loc.name}</span>
+    </button>`
+  ).join('');
+  
+  // Info panel
+  const infoPanel = document.getElementById('infoPanel');
+  infoPanel.innerHTML = `
+    <div>👤 ${S.name} (${S.gender==='nam'?'Nam':S.gender==='nu'?'Nữ':'Khác'})</div>
+    <div>💼 ${JOBS[S.job].i} ${JOBS[S.job].n}</div>
+    <div>🎓 ${EDU_LABEL[S.edu]}</div>
+    <div>✨ Prestige: ${prestige()}</div>
+    <div>📍 Đang ở: ${getCurrentLocName()}</div>
+  `;
+  
+  // Highlight current building
+  updateLocationHighlight();
+  save();
 }
 
-// ═══════════ START ═══════════
-function showStart(){ window._g=null;window._h=[]; showModal(` <h2>Chào mừng đến Nhịp Đời Anime 2D</h2> <p>Tạo nhân vật và khám phá thị trấn!</p> <h3>Giới tính</h3> <div class="opt"> <button onclick="pickG(this,'nam')">👨 Nam</button> <button onclick="pickG(this,'nu')">👩 Nữ</button> <button onclick="pickG(this,'khac')">🧑 Khác</button> </div> <h3>Tên</h3> <input class="inp" id="nm" maxlength="20" placeholder="Nhập tên..."> <h3>Sở thích (2-3)</h3> <div class="opt" id="hobbies"> ${Object.entries(HOBBIES).map(([k,v])=>`<button onclick="pickH(this,'${k}')">${v.e} ${v.n}</button>`).join('')} </div> <button class="btn pri" style="margin-top:12px" onclick="startGame()">Bắt đầu cuộc đời</button> `); }
-function pickG(b,g){window._g=g;b.parentElement.querySelectorAll('button').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');} 
-function pickH(b,h){ const i=window._h.indexOf(h); if(i>=0){window._h.splice(i,1);b.classList.remove('sel');} else if(window._h.length<3){window._h.push(h);b.classList.add('sel');} }
-function startGame(){ 
-  if(!window._g)return alert('Chọn giới tính.'); 
-  if(window._h.length<2)return alert('Chọn ít nhất 2 sở thích.'); 
-  S=newState(); 
-  S.gender=window._g; 
-  S.name=(document.getElementById('nm').value||'').trim()||'Bạn'; 
-  S.hobbies=[...window._h]; 
-  S.playerPos = {x:5*TILE, y:6*TILE};
-  if(window._g === 'nu'){ S.playerAppearance = {hair:'#5a3a8c', hairStyle:'anime_long', hairColor2:'#9b7cf5', shirt:'#ff9ec4', shirtAccent:'#ec4899', pants:'#4a5568', skin:'#ffe0c4', skinShade:'#f5c5a0', eye:'#ec4899'}; }
-  else if(window._g === 'nam'){ S.playerAppearance = {hair:'#3b2e2a', hairStyle:'anime_spike', hairColor2:'#6b5248', shirt:'#4a7cff', shirtAccent:'#2d5fd9', pants:'#2d3748', skin:'#ffe0c4', skinShade:'#f5c5a0', eye:'#4a7cff'}; }
-  else { S.playerAppearance = {hair:'#9b7cf5', hairStyle:'anime_twin', hairColor2:'#c9b3ff', shirt:'#fbbf24', shirtAccent:'#f59e0b', pants:'#5b21b6', skin:'#ffe0c4', skinShade:'#f5c5a0', eye:'#a855f7'}; }
-  for(const npc of NPC_POOL)S.npcRels[npc.id]={}; 
-  S.petals = [];
-  initPetals();
-  addLog(`Chào ${S.name}! Chúc bạn có một cuộc đời thú vị.`,'info'); 
-  addLog('💡 Bấm vào bản đồ hoặc dùng phím mũi tên để di chuyển.','info');
-  closeModal();render(); 
-  setTimeout(()=>{ const h = document.getElementById('hint'); if(h) h.style.opacity = 0; }, 6000);
+function getCurrentLocName(){
+  const px = S.playerPos.x + TILE/2, py = S.playerPos.y + TILE/2;
+  for(const [key, loc] of Object.entries(LOCATIONS)){
+    if(px >= (loc.x-1)*TILE && px <= (loc.x+loc.w+1)*TILE && py >= (loc.y-1)*TILE && py <= (loc.y+loc.h+1)*TILE){
+      return loc.emoji + ' ' + loc.name;
+    }
+  }
+  return '🛣️ Ngoài đường';
 }
 
-// ═══════════ END ═══════════
-function gameOver(reason,detail){ 
-  S.ended=true; 
-  const kids=S.children.map(c=>`👶 ${c.name}`).join('<br>')||'Chưa có con'; 
-  showModal(`<h2>🏁 ${reason}</h2><p>${detail}</p> <p><b>${S.name}</b><br>Ngày: ${getGameTime().day}<br>Tiền: ${fmt(S.st.money)}<br>Nghề: ${JOBS[S.job].i} ${JOBS[S.job].n}<br>Người thương: ${getPartner()?getPartner().n:'Độc thân'}</p> <p><b>Con cái:</b><br>${kids}</p> <button class="btn pri" onclick="hardReset()">Chơi lại</button>`); 
-  render(); 
+function updateLocationHighlight(){
+  const px = S.playerPos.x + TILE/2, py = S.playerPos.y + TILE/2;
+  for(const [key, loc] of Object.entries(LOCATIONS)){
+    if(px >= (loc.x-1)*TILE && px <= (loc.x+loc.w+1)*TILE && py >= (loc.y-1)*TILE && py <= (loc.y+loc.h+1)*TILE){
+      document.getElementById('locName').textContent = loc.emoji + ' ' + loc.name;
+      return;
+    }
+  }
+  document.getElementById('locName').textContent = '🛣️ Ngoài đường';
 }
-function hardReset(){ S=newState();closeModal(); showStart();render(); }
 
-// ═══════════ WIRE ═══════════
-document.getElementById('sleepBtn').onclick = () => {
-  const t = getGameTime();
-  const target = (t.hour >= 6) ? (24 - t.hour + 6) * 60 - t.minute : (6 - t.hour) * 60 - t.minute;
-  advanceTime(target);
-  apply('energy', 60); apply('mental', 15); apply('health', 5);
-  addLog(`😴 Ngủ ngon! Năng lượng hồi phục.`, 'good');
+// ═══════════ MODAL SYSTEM ═══════════
+function showModal(h){ document.getElementById('mbox').innerHTML = h; document.getElementById('modal').classList.add('on'); }
+function closeModal(){ document.getElementById('modal').classList.remove('on'); }
+document.getElementById('modal').onclick = e => { if(e.target.id === 'modal') closeModal(); };
+
+// ═══════════ RELATIONSHIP / CHILD / JOB / ASSETS (Simplified for brevity) ═══════════
+function openRel(){
+  const list = Object.values(S.rels);
+  let html = `<h2>🤝 Quan hệ (${list.length})</h2>`;
+  if(list.length === 0) html += `<p>Chưa quen ai. Hãy đi dạo và gặp gỡ NPC!</p>`;
+  html += `<button class="btn sec" onclick="closeModal()">Đóng</button>`;
+  showModal(html);
+}
+function openChildren(){
+  showModal(`<h2>👶 Con cái</h2><p>Chưa có con.</p><button class="btn sec" onclick="closeModal()">Đóng</button>`);
+}
+function openJobs(){
+  const sorted = Object.entries(JOBS).sort((a,b) => a[1].w - b[1].w);
+  showModal(`<h2>💼 Chọn nghề</h2>${sorted.map(([k,j]) => 
+    `<button class="btn ${S.job===k?'pri':'sec'}" style="text-align:left;margin-bottom:4px" ${S.job===k?'disabled':''} onclick="changeJob('${k}')">
+      ${j.i} ${j.n} — ${fmt(j.w)}/ngày
+    </button>`
+  ).join('')}<button class="btn sec" onclick="closeModal()">Đóng</button>`);
+}
+function changeJob(k){ S.job = k; addLog(`Chuyển sang: ${JOBS[k].i} ${JOBS[k].n}`,'info'); closeModal(); render(); }
+function openAssets(){
+  showModal(`<h2>🏠 Tài sản</h2><p>Số dư: <b>${fmt(S.st.money)}</b></p>
+    <button class="btn sec" onclick="closeModal()">Đóng</button>`);
+}
+
+// ═══════════ INIT & GAME LOOP ═══════════
+function showStart(){
+  window._g = null; window._h = [];
+  showModal(`
+    <h2>Tạo nhân vật</h2>
+    <h3>Giới tính</h3>
+    <div class="opt">
+      <button onclick="pickG(this,'nam')">👨 Nam</button>
+      <button onclick="pickG(this,'nu')">👩 Nữ</button>
+      <button onclick="pickG(this,'khac')">🧑 Khác</button>
+    </div>
+    <h3>Tên</h3>
+    <input class="inp" id="nm" maxlength="20" placeholder="Nhập tên...">
+    <h3>Sở thích (2-3)</h3>
+    <div class="opt" id="hobbies">
+      ${Object.entries(HOBBIES).map(([k,v]) => `<button onclick="pickH(this,'${k}')">${v.e} ${v.n}</button>`).join('')}
+    </div>
+    <button class="btn pri" style="margin-top:12px" onclick="startGame()">Bắt đầu cuộc đời</button>
+  `);
+}
+function pickG(b,g){ window._g=g; b.parentElement.querySelectorAll('button').forEach(x=>x.classList.remove('sel')); b.classList.add('sel'); }
+function pickH(b,h){ 
+  const i = window._h.indexOf(h); 
+  if(i>=0){ window._h.splice(i,1); b.classList.remove('sel'); } 
+  else if(window._h.length<3){ window._h.push(h); b.classList.add('sel'); } 
+}
+function startGame(){
+  if(!window._g) return alert('Chọn giới tính.');
+  if(window._h.length < 2) return alert('Chọn ít nhất 2 sở thích.');
+  S = newState();
+  S.gender = window._g;
+  S.name = (document.getElementById('nm').value || '').trim() || 'Bạn';
+  S.hobbies = [...window._h];
+  S.playerPos = {x: 5*TILE, y: 5*TILE};
+  addLog(`Chào ${S.name}! Hãy chọn địa điểm để bắt đầu.`, 'info');
+  closeModal();
   render();
-};
-document.getElementById('relBtn').onclick=openRel; 
-document.getElementById('childBtn').onclick=openChildren; 
-document.getElementById('jobBtn').onclick=openJobs; 
-document.getElementById('assetsBtn').onclick=openAssets;
-document.getElementById('logoutBtn').onclick=()=>{ if(!confirm('Chơi lại từ đầu?'))return; localStorage.removeItem('nhipdoi4d_save'); location.reload(); };
-
-// ═══════════ INIT ═══════════
-async function init(){
-  _user = {username:'Người chơi'};
-  const raw = localStorage.getItem('nhipdoi4d_save');
-  if(raw){
-    try {
-      S = JSON.parse(raw);
-      if(!S || !S.gender) S = null;
-    } catch(e){ S = null; }
-  }
-  if(!S || !S.gender){ S = newState(); render(); showStart(); }
-  else {
-    if(!S.npcRels)S.npcRels={}; for(const npc of NPC_POOL)if(!S.npcRels[npc.id])S.npcRels[npc.id]={};
-    if(!S.children)S.children=[];
-    if(!S.assets)S.assets={ house:'none', car:'none', business:'none' };
-    if(!S.npcPositions)S.npcPositions={};
-    if(!S.npcStates)S.npcStates={};
-    if(!S.playerPos)S.playerPos={x:5*TILE, y:6*TILE};
-    if(!S.playerAppearance)S.playerAppearance={hair:'#3b2e2a', hairStyle:'anime_spike', hairColor2:'#6b5248', shirt:'#c084fc', shirtAccent:'#a855f7', pants:'#2d3748', skin:'#ffe0c4', skinShade:'#f5c5a0', eye:'#4a7cff'};
-    if(!S.lastDayProcessed) S.lastDayProcessed = Math.floor(S.gameMinutes / (24*60));
-    if(!S.clickMark) S.clickMark = null;
-    if(!S.petals) S.petals = [];
-    for(const r of Object.values(S.rels)){ if(r.angry===undefined)r.angry=false; if(r.angryDays===undefined)r.angryDays=0; if(r.expecting===undefined){r.expecting=false;r.expectingWeeks=0;} }
-    initNpcPositions();
-    initPetals();
-    setSv('saved'); render();
-  }
-  buildTravelBar();
-  _lastRealTime = Date.now();
-  gameLoop();
 }
 
-// ═══════════ GAME LOOP ═══════════
-let _gameLoopStarted = false;
 function gameLoop(){
-  if(_gameLoopStarted) return;
-  _gameLoopStarted = true;
   function tick(now){
     if(S && S.gender){
       const realNow = Date.now();
@@ -1802,14 +929,9 @@ function gameLoop(){
         S.gameMinutes += dt * MIN_PER_SEC;
         processTimeAdvance();
       }
-      
       updatePlayer();
-      updateNpcs();
-      checkInteraction();
       drawWorld(now || 0);
-      
-      const locInfo = getPlayerLocation();
-      document.getElementById('locName').textContent = locInfo.loc.emoji + ' ' + locInfo.loc.name;
+      updateLocationHighlight();
       updateTimeUI();
     }
     requestAnimationFrame(tick);
@@ -1817,30 +939,52 @@ function gameLoop(){
   requestAnimationFrame(tick);
 }
 
-function getPlayerLocation(){
-  const px = S.playerPos.x + TILE/2;
-  const py = S.playerPos.y + TILE/2;
-  for(const [key, loc] of Object.entries(LOCATIONS)){
-    if(px >= (loc.x-1)*TILE && px <= (loc.x+loc.w+1)*TILE && py >= (loc.y-1)*TILE && py <= (loc.y+loc.h+1)*TILE){
-      return {key, loc};
-    }
+async function init(){
+  const ok = load();
+  if(!ok || !S.gender){ S = newState(); render(); showStart(); }
+  else {
+    if(!S.npcPositions) S.npcPositions = {};
+    if(!S.npcStates) S.npcStates = {};
+    if(!S.lastDayProcessed) S.lastDayProcessed = Math.floor(S.gameMinutes / (24*60));
+    render();
   }
-  return {key:'road', loc:{name:'Ngoài đường', emoji:'🛣️'}};
+  _lastRealTime = Date.now();
+  gameLoop();
 }
 
-// Polyfill roundRect
+// Polyfill
 if(!CanvasRenderingContext2D.prototype.roundRect){
   CanvasRenderingContext2D.prototype.roundRect = function(x,y,w,h,r){
     if(w<2*r)r=w/2; if(h<2*r)r=h/2;
-    this.beginPath();
-    this.moveTo(x+r,y); this.arcTo(x+w,y,x+w,y+h,r);
+    this.beginPath(); this.moveTo(x+r,y); this.arcTo(x+w,y,x+w,y+h,r);
     this.arcTo(x+w,y+h,x,y+h,r); this.arcTo(x,y+h,x,y,r);
-    this.arcTo(x,y,x+w,y,r); this.closePath();
-    return this;
+    this.arcTo(x,y,x+w,y,r); this.closePath(); return this;
   };
 }
 
-Object.assign(window,{ pickG,pickH,startGame,showModal,closeModal,tryMeet,skip,rollProfiles, openChat,doChat,openRel,hang,gift,hardReset,openMeet,unfriend,openJobs, changeJob,openPropose,doPropose,openWedding,doWedding,dateWith, tryPregnant,openChildren,playWithChild,buyForChild,sendChildToSchool, openAssets,buyAsset,rejectNpcProposal });
+// Expose
+Object.assign(window, { openLocationMenu, selectActivity, closeModal, pickG, pickH, startGame, openRel, openChildren, openJobs, changeJob, openAssets });
+
+// Wire bottom buttons
+document.getElementById('relBtn').onclick = openRel;
+document.getElementById('childBtn').onclick = openChildren;
+document.getElementById('jobBtn').onclick = openJobs;
+document.getElementById('assetsBtn').onclick = openAssets;
+document.getElementById('sleepBtn').onclick = () => {
+  const t = getGameTime();
+  const target = (t.hour >= 6) ? (24 - t.hour + 6) * 60 - t.minute : (6 - t.hour) * 60 - t.minute;
+  S.gameMinutes += target;
+  apply('energy', 60); apply('mental', 15); apply('health', 5);
+  addLog(`😴 Ngủ ngon!`, 'good');
+  processTimeAdvance();
+  render();
+};
+document.getElementById('logoutBtn').onclick = () => {
+  if(!confirm('Chơi lại từ đầu?')) return;
+  localStorage.removeItem('nhipdoi_sticker_save');
+  location.reload();
+};
+
 init();
 </script>
 </body>
