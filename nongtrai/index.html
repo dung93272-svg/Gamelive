@@ -9,7 +9,7 @@
   html, body { background: #10161a; color: #eceff1; font-family: 'Segoe UI', Tahoma, sans-serif; min-height: 100vh; }
   body { padding: 10px; }
 
-  /* ===== START SCREEN ===== */
+  /* ===== START ===== */
   #start-screen {
     background: linear-gradient(160deg, #1B5E20, #0d3b12);
     border-radius: 20px; padding: 36px 24px; max-width: 640px; width: 100%;
@@ -140,21 +140,31 @@
   .sell-btn { width: 100%; margin-top: 9px; background: #455A64; color: #fff; border: none; border-radius: 8px; padding: 9px; font-size: 12px; cursor: pointer; transition: background .15s; }
   .sell-btn:hover { background: #546E7A; }
 
-  #customer-panel { display: flex; flex-direction: column; }
-  #customer-list { overflow-y: auto; display: flex; flex-direction: column; gap: 7px; max-height: 380px; padding-right: 4px; min-height: 90px; }
+  /* ===== KHÁCH HÀNG ===== */
+  #customer-panel { }
+  #customer-list {
+    height: 320px;
+    overflow-y: auto;
+    display: block;
+    padding-right: 4px;
+  }
   #customer-list::-webkit-scrollbar { width: 7px; }
   #customer-list::-webkit-scrollbar-track { background: #1c262b; border-radius: 4px; }
   #customer-list::-webkit-scrollbar-thumb { background: #455A64; border-radius: 4px; }
 
+  /* KHÔNG CÒN ANIMATION - chỉ hiển thị thẳng */
   .customer {
-    background: #37474F; border-radius: 10px; padding: 9px 11px;
+    background: #37474F;
+    border-radius: 10px;
+    padding: 9px 11px;
+    margin-bottom: 7px;
     border-left: 4px solid #FFC107;
-    animation: slideIn .35s ease;
+    color: #eceff1;
+    display: block;
+    visibility: visible;
+    opacity: 1;
   }
-  @keyframes slideIn {
-    from { opacity: 0; transform: translateX(18px); }
-    to   { opacity: 1; transform: translateX(0); }
-  }
+  .customer:last-child { margin-bottom: 0; }
 
   .cust-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
   .cust-name { font-size: 13px; font-weight: bold; color: #FFD54F; }
@@ -163,7 +173,7 @@
   .cust-bottom { display: flex; align-items: center; gap: 8px; }
 
   .patience-track { flex: 1; height: 7px; background: #1c262b; border-radius: 4px; overflow: hidden; }
-  .patience-fill { height: 100%; width: 100%; background: #66BB6A; border-radius: 4px; transition: width .25s linear, background .3s; }
+  .patience-fill { height: 100%; background: #66BB6A; border-radius: 4px; transition: width .25s linear, background .3s; }
   .patience-fill.low { background: #EF5350; }
 
   .deliver-btn { background: #43A047; color: #fff; border: none; border-radius: 7px; padding: 6px 16px; font-size: 11.5px; font-weight: bold; cursor: pointer; transition: background .15s; }
@@ -190,10 +200,8 @@
 
   /* ===== TOAST ===== */
   #toast-container { position: fixed; top: 14px; right: 14px; display: flex; flex-direction: column; gap: 8px; z-index: 200; pointer-events: none; max-width: 80vw; }
-  .toast { background: #2E7D32; color: #fff; padding: 10px 18px; border-radius: 9px; font-size: 13px; font-weight: 600; box-shadow: 0 6px 20px rgba(0,0,0,.5); animation: toastIn .3s ease, toastOut .3s ease 2.2s forwards; border-left: 4px solid #FFD54F; }
+  .toast { background: #2E7D32; color: #fff; padding: 10px 18px; border-radius: 9px; font-size: 13px; font-weight: 600; box-shadow: 0 6px 20px rgba(0,0,0,.5); border-left: 4px solid #FFD54F; }
   .toast.error { background: #C62828; border-left-color: #FF8A80; }
-  @keyframes toastIn { from { opacity:0; transform: translateX(50px); } to { opacity:1; transform: translateX(0); } }
-  @keyframes toastOut { to { opacity:0; transform: translateX(50px); } }
 </style>
 </head>
 <body>
@@ -434,7 +442,6 @@ function applyTheme() {
   $('ground').style.background = t.ground;
   $('farm').style.background = t.ground;
   $('farm-wrap').style.background = t.ground;
-  // Đổi màu ô đất — sẽ được renderPlots cập nhật khi signature đổi
   document.querySelectorAll('.plot').forEach(p => {
     p.style.background = t.slot;
     p.style.borderColor = t.slotBorder;
@@ -503,7 +510,7 @@ function buyAd(seconds, cost, label) {
 }
 
 /* ==================================================
-   Ô ĐẤT — re-render theo signature để tránh rebuild mỗi frame
+   Ô ĐẤT
    ================================================== */
 let plotSig = '';
 
@@ -520,14 +527,13 @@ function buildPlots() {
     });
     container.appendChild(el);
   }
-  plotSig = ''; // force rebuild lần đầu
+  plotSig = '';
 }
 
 function renderPlots() {
   const container = $('plots');
   const t = G.theme;
 
-  // Chữ ký phản ánh cấu trúc ô đất (loại, tên, ready)
   const sig = G.plots.map(p => `${p.kind || '-'}|${p.name || '-'}|${p.ready ? 1 : 0}`).join(',') + `|${t.slot}`;
 
   if (sig !== plotSig) {
@@ -556,7 +562,6 @@ function renderPlots() {
     }
   }
 
-  // Mỗi frame: chỉ cập nhật width của thanh tiến độ
   for (let i = 0; i < TOTAL_PLOTS; i++) {
     const p = G.plots[i];
     if (!p.kind || p.ready) continue;
@@ -700,7 +705,7 @@ $('sell-all-btn').onclick = () => {
 };
 
 /* ==================================================
-   KHÁCH NPC — SPAWN NHANH
+   KHÁCH NPC
    ================================================== */
 let customerIdSeq = 0;
 
@@ -775,65 +780,84 @@ function deliver(customerId) {
 }
 
 /* ==================================================
-   RENDER KHÁCH — CẬP NHẬT THÔNG MINH, KHÔNG REBUILD MỖI FRAME
+   RENDER KHÁCH — DÙNG createElement THUẦN, KHÔNG ANIMATION
    ================================================== */
 function renderCustomers() {
   const list = $('customer-list');
   $('cust-count').textContent = G.customers.length;
 
-  // ---- Trường hợp không có khách ----
+  // Xoá toàn bộ nội dung cũ
+  while (list.firstChild) list.removeChild(list.firstChild);
+
   if (!G.customers.length) {
-    if (!list.querySelector('.empty-customers')) {
-      list.innerHTML = `<div class="empty-customers">Chưa có khách nào...<br>Hãy trồng trọt & nuôi thú!</div>`;
-    }
+    const empty = document.createElement('div');
+    empty.className = 'empty-customers';
+    empty.innerHTML = 'Chưa có khách nào...<br>Hãy trồng trọt & nuôi thú!';
+    list.appendChild(empty);
     return;
   }
 
-  // Xoá trạng thái rỗng nếu có
-  const emptyEl = list.querySelector('.empty-customers');
-  if (emptyEl) emptyEl.remove();
-
-  // ---- Xoá những khách không còn tồn tại ----
-  const currentIds = new Set(G.customers.map(c => c.id));
-  list.querySelectorAll('.customer').forEach(el => {
-    if (!currentIds.has(parseInt(el.dataset.cid))) el.remove();
-  });
-
-  // ---- Thêm mới HOẶC cập nhật từng khách ----
-  for (const cu of G.customers) {
-    let el = list.querySelector(`.customer[data-cid="${cu.id}"]`);
-
-    if (!el) {
-      // Khách mới → tạo DOM 1 lần, animation slideIn chỉ chạy 1 lần
-      el = document.createElement('div');
-      el.className = 'customer';
-      el.dataset.cid = cu.id;
-      el.innerHTML = `
-        <div class="cust-top">
-          <span class="cust-name">${cu.name}</span>
-          <span class="cust-reward">💰 ${cu.reward}$</span>
-        </div>
-        <div class="cust-order">Cần: ${Object.entries(cu.order).map(([item, qty]) => `${qty}× ${item}`).join(', ')}</div>
-        <div class="cust-bottom">
-          <div class="patience-track">
-            <div class="patience-fill" style="width:100%"></div>
-          </div>
-          <button class="deliver-btn">GIAO</button>
-        </div>`;
-      el.querySelector('.deliver-btn').onclick = () => deliver(cu.id);
-      list.appendChild(el);
-    }
-
-    // Cập nhật thanh kiên nhẫn (mỗi frame)
+  // Tạo từng khách
+  for (let i = 0; i < G.customers.length; i++) {
+    const cu = G.customers[i];
     const pct = Math.max(0, (cu.patience / cu.maxPatience) * 100);
-    const fill = el.querySelector('.patience-fill');
-    fill.style.width = pct + '%';
-    fill.classList.toggle('low', pct < 30);
-
-    // Cập nhật nút GIAO
-    const btn = el.querySelector('.deliver-btn');
+    const low = pct < 30;
+    const orderTxt = Object.keys(cu.order).map(item => cu.order[item] + '× ' + item).join(', ');
     const ok = canDeliver(cu);
-    btn.disabled = !ok;
+
+    const card = document.createElement('div');
+    card.className = 'customer';
+
+    // Dùng createElement cho tất cả (an toàn nhất)
+    const top = document.createElement('div');
+    top.className = 'cust-top';
+
+    const nameEl = document.createElement('span');
+    nameEl.className = 'cust-name';
+    nameEl.textContent = cu.name;
+
+    const rewardEl = document.createElement('span');
+    rewardEl.className = 'cust-reward';
+    rewardEl.textContent = '💰 ' + cu.reward + '$';
+
+    top.appendChild(nameEl);
+    top.appendChild(rewardEl);
+
+    const orderEl = document.createElement('div');
+    orderEl.className = 'cust-order';
+    orderEl.textContent = 'Cần: ' + orderTxt;
+
+    const bottom = document.createElement('div');
+    bottom.className = 'cust-bottom';
+
+    const track = document.createElement('div');
+    track.className = 'patience-track';
+
+    const fill = document.createElement('div');
+    fill.className = 'patience-fill' + (low ? ' low' : '');
+    fill.style.width = pct + '%';
+
+    track.appendChild(fill);
+
+    const btn = document.createElement('button');
+    btn.className = 'deliver-btn';
+    btn.textContent = 'GIAO';
+    if (!ok) btn.disabled = true;
+
+    const cid = cu.id;
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      deliver(cid);
+    });
+
+    bottom.appendChild(track);
+    bottom.appendChild(btn);
+
+    card.appendChild(top);
+    card.appendChild(orderEl);
+    card.appendChild(bottom);
+
+    list.appendChild(card);
   }
 }
 
@@ -872,7 +896,6 @@ function gameLoop(now) {
   G.lastTime = now;
   dt = Math.min(dt, 0.5);
 
-  // Cập nhật cây trồng & vật nuôi
   for (const p of G.plots) {
     if (p.kind === 'crop' && !p.ready) {
       p.progress += dt;
@@ -885,7 +908,6 @@ function gameLoop(now) {
 
   if (G.adTime > 0) G.adTime = Math.max(0, G.adTime - dt);
 
-  // Kiên nhẫn khách
   for (let i = G.customers.length - 1; i >= 0; i--) {
     const cu = G.customers[i];
     cu.patience -= dt;
@@ -896,7 +918,6 @@ function gameLoop(now) {
     }
   }
 
-  // Sinh khách mới
   G.spawnCooldown -= dt;
   if (G.spawnCooldown <= 0) {
     G.spawnCooldown = spawnInterval();
