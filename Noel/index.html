@@ -10,26 +10,24 @@
   --gold:#ffc107; --gold-l:#ffe082;
   --cream:#fff5e6; --text:#fff5e6;
   --panel-b:rgba(255,200,120,.28);
+  --wood:#8b5a2b; --wood-d:#5d3a1a;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
 body{
   font-family:'Segoe UI',system-ui,sans-serif;
   color:var(--text);
-  background:
-    radial-gradient(ellipse at 50% -10%, #b01c1c 0%, #7a1010 40%, #3d0505 75%, #1a0202 100%);
+  background:radial-gradient(ellipse at 50% -10%,#b01c1c 0%,#7a1010 40%,#3d0505 75%,#1a0202 100%);
   background-attachment:fixed;
-  min-height:100vh; overflow-x:hidden; padding-bottom:60px;
+  min-height:100vh;overflow-x:hidden;padding-bottom:60px;
 }
-/* họa tiết kẹo gậy sọc đỏ trắng hai bên */
-body::before, body::after{
-  content:''; position:fixed; top:0; bottom:0; width:22px; pointer-events:none; z-index:1;
+body::before,body::after{
+  content:'';position:fixed;top:0;bottom:0;width:22px;pointer-events:none;z-index:1;
   background:repeating-linear-gradient(-45deg,#fff 0 14px,#c62828 14px 28px);
-  opacity:.35;
-  box-shadow:inset 0 0 30px rgba(0,0,0,.5);
+  opacity:.35;box-shadow:inset 0 0 30px rgba(0,0,0,.5);
 }
 body::before{left:0}
-body::after{right:0; transform:scaleX(-1)}
+body::after{right:0;transform:scaleX(-1)}
 @media(max-width:700px){body::before,body::after{display:none}}
 
 #snow{position:fixed;inset:0;pointer-events:none;z-index:2;overflow:hidden}
@@ -37,119 +35,301 @@ body::after{right:0; transform:scaleX(-1)}
 @keyframes fall{0%{transform:translateY(-10vh) translateX(0) rotate(0);opacity:0}10%{opacity:.9}100%{transform:translateY(115vh) translateX(var(--drift,20px)) rotate(360deg);opacity:.2}}
 
 /* TOPBAR */
-.topbar{
-  position:relative;z-index:5;
-  display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
-  padding:14px 22px;
-  background:linear-gradient(180deg, rgba(198,40,40,.75), rgba(90,8,8,.9));
-  border-bottom:3px solid var(--gold);
-  backdrop-filter:blur(10px);
-  box-shadow:0 8px 30px rgba(0,0,0,.6), inset 0 -1px 0 rgba(255,255,255,.15);
-}
-/* dây kim tuyến vàng trên header */
-.topbar::before{
-  content:''; position:absolute; left:0; right:0; bottom:-10px; height:10px;
-  background:
-    radial-gradient(circle at 10px 2px, var(--gold) 2px, transparent 3px),
-    radial-gradient(circle at 30px 8px, var(--gold) 2px, transparent 3px),
-    radial-gradient(circle at 50px 2px, var(--gold) 2px, transparent 3px),
-    radial-gradient(circle at 70px 8px, var(--gold) 2px, transparent 3px),
-    radial-gradient(circle at 90px 2px, var(--gold) 2px, transparent 3px);
-  background-size:100px 10px;
-  background-repeat:repeat-x;
-  opacity:.85;
-}
+.topbar{position:relative;z-index:5;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+  padding:14px 22px;background:linear-gradient(180deg,rgba(198,40,40,.75),rgba(90,8,8,.9));
+  border-bottom:3px solid var(--gold);backdrop-filter:blur(10px);
+  box-shadow:0 8px 30px rgba(0,0,0,.6),inset 0 -1px 0 rgba(255,255,255,.15)}
+.topbar::before{content:'';position:absolute;left:0;right:0;bottom:-10px;height:10px;
+  background:radial-gradient(circle at 10px 2px,var(--gold) 2px,transparent 3px),
+    radial-gradient(circle at 30px 8px,var(--gold) 2px,transparent 3px),
+    radial-gradient(circle at 50px 2px,var(--gold) 2px,transparent 3px),
+    radial-gradient(circle at 70px 8px,var(--gold) 2px,transparent 3px),
+    radial-gradient(circle at 90px 2px,var(--gold) 2px,transparent 3px);
+  background-size:100px 10px;background-repeat:repeat-x;opacity:.85}
 .logo{font-size:22px;font-weight:900;letter-spacing:.5px;
-  background:linear-gradient(90deg,#fff3c4,#ffd54f,#fff3c4);
-  background-size:200% 100%;
+  background:linear-gradient(90deg,#fff3c4,#ffd54f,#fff3c4);background-size:200% 100%;
   -webkit-background-clip:text;background-clip:text;color:transparent;
-  animation:shine 4s linear infinite;
-  text-shadow:0 2px 8px rgba(0,0,0,.6);}
+  animation:shine 4s linear infinite;text-shadow:0 2px 8px rgba(0,0,0,.6)}
 @keyframes shine{to{background-position:200% 0}}
 .stats{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .stat{background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.05));
-  border:1px solid rgba(255,200,120,.35);border-radius:12px;
-  padding:7px 14px;font-weight:800;font-size:14px;display:flex;gap:7px;align-items:center;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.2);color:#fff3d0}
+  border:1px solid rgba(255,200,120,.35);border-radius:12px;padding:7px 14px;font-weight:800;font-size:14px;
+  display:flex;gap:7px;align-items:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.2);color:#fff3d0}
 .stat.money{color:#ffd54f;border-color:rgba(255,213,79,.6);text-shadow:0 0 10px rgba(255,213,79,.6)}
 .stat.level{color:#ffd0a0;border-color:rgba(255,180,120,.5)}
 .speed{display:flex;gap:4px;background:rgba(0,0,0,.4);border-radius:12px;padding:4px;border:1px solid rgba(255,200,120,.2)}
 .speed button{background:transparent;border:none;color:#ffd8b8;font-weight:800;padding:5px 12px;border-radius:9px;cursor:pointer;font-size:13px;transition:.18s}
 .speed button.active{background:linear-gradient(180deg,#ffca28,#f9a825);color:#4a1010;box-shadow:0 0 14px rgba(255,213,79,.8)}
 
-/* TABS */
 .tabs{position:relative;z-index:5;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;padding:22px 16px 6px}
 .tabs button{font-family:inherit;font-size:14px;font-weight:800;padding:11px 20px;border-radius:14px;cursor:pointer;
   color:#ffd8b8;background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(120,10,10,.5));
-  border:1px solid rgba(255,200,120,.3);transition:.2s;position:relative;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.15)}
+  border:1px solid rgba(255,200,120,.3);transition:.2s;position:relative;box-shadow:inset 0 1px 0 rgba(255,255,255,.15)}
 .tabs button:hover:not(.locked){transform:translateY(-2px);background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(150,20,20,.6));color:#fff}
-.tabs button.active{color:#3d0808;
-  background:linear-gradient(180deg,#ffe082,#ffc107);
-  border-color:#fff3c4;
-  box-shadow:0 6px 22px rgba(255,213,79,.65), inset 0 1px 0 rgba(255,255,255,.5)}
+.tabs button.active{color:#3d0808;background:linear-gradient(180deg,#ffe082,#ffc107);border-color:#fff3c4;
+  box-shadow:0 6px 22px rgba(255,213,79,.65),inset 0 1px 0 rgba(255,255,255,.5)}
 .tabs button.locked{opacity:.5;cursor:not-allowed;filter:grayscale(.6)}
 .tabs button .lock{font-size:11px;color:#ffd8b8;margin-left:5px;opacity:.8}
 
-/* LAYOUT */
 main{position:relative;z-index:5;max-width:1240px;margin:0 auto;padding:16px}
 .area{display:none;animation:fade .35s ease}
 .area.active{display:block}
 @keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 .shop-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:18px}
 @media(max-width:900px){.shop-grid{grid-template-columns:1fr}}
-.panel{
-  background:linear-gradient(180deg, rgba(255,235,210,.09), rgba(120,15,15,.35));
-  border:1px solid var(--panel-b);border-radius:18px;padding:16px;
-  backdrop-filter:blur(10px);
-  box-shadow:0 10px 34px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,220,180,.18);
-  position:relative;
-}
-.panel::before{
-  content:''; position:absolute; top:0; left:16px; right:16px; height:1px;
-  background:linear-gradient(90deg,transparent,rgba(255,213,79,.5),transparent);
-}
+.panel{background:linear-gradient(180deg,rgba(255,235,210,.09),rgba(120,15,15,.35));
+  border:1px solid var(--panel-b);border-radius:18px;padding:16px;backdrop-filter:blur(10px);
+  box-shadow:0 10px 34px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,220,180,.18);position:relative}
+.panel::before{content:'';position:absolute;top:0;left:16px;right:16px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,213,79,.5),transparent)}
 .panel h2{font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:9px;justify-content:space-between;
-  color:var(--gold-l);letter-spacing:.3px;
-  border-bottom:1px dashed rgba(255,200,120,.3);padding-bottom:9px;
+  color:var(--gold-l);letter-spacing:.3px;border-bottom:1px dashed rgba(255,200,120,.3);padding-bottom:9px;
   text-shadow:0 1px 6px rgba(255,180,80,.3)}
 .panel h2 .sub{font-size:12px;color:#ffcaa8;font-weight:500}
 
-/* WORKBENCH */
-.workbench{position:relative;display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:end;
-  padding:14px 16px 10px;margin-bottom:12px;
-  background:linear-gradient(180deg,rgba(120,30,10,.5),rgba(60,15,5,.7)),
-    radial-gradient(ellipse at 50% 100%,rgba(255,193,7,.15),transparent 70%);
-  border:1px solid rgba(255,193,7,.4);border-radius:16px;min-height:180px;overflow:hidden}
-.workbench::before{content:'';position:absolute;left:0;right:0;bottom:0;height:26px;
-  background:repeating-linear-gradient(90deg,#5d3a1a 0 22px,#7a4a20 22px 24px);border-top:2px solid #3e2723}
-.workbench::after{content:'';position:absolute;top:14px;right:24px;width:26px;height:26px;border-radius:50%;
-  background:radial-gradient(circle,rgba(255,255,255,.5),transparent 70%);animation:smoke 3s ease-in-out infinite}
-@keyframes smoke{0%{transform:translateY(0) scale(.5);opacity:.5}100%{transform:translateY(-40px) scale(1.6);opacity:0}}
-.wb-side{display:flex;flex-direction:column;gap:6px;align-items:center;z-index:2;position:relative}
-.wb-chibi{width:80px;height:100px;filter:drop-shadow(0 6px 14px rgba(0,0,0,.7));animation:idleBob 2s ease-in-out infinite}
-.wb-chibi svg{width:100%;height:100%;display:block}
-.wb-chibi.busy{animation:chefWork .5s ease-in-out infinite alternate}
-@keyframes chefWork{to{transform:translateY(-6px) rotate(-4deg)}}
-.wb-title{font-size:10px;font-weight:800;color:var(--gold-l);letter-spacing:.5px;text-shadow:0 1px 3px rgba(0,0,0,.8)}
-.wb-center{z-index:2;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative}
-.wb-oven{width:66px;height:66px;border-radius:12px;background:linear-gradient(180deg,#4e342e,#2d1e1a);border:2px solid #1a1210;display:grid;place-items:center;font-size:30px;box-shadow:inset 0 0 20px rgba(255,120,40,.4);position:relative}
-.wb-oven.hot{box-shadow:inset 0 0 30px rgba(255,80,20,.9),0 0 24px rgba(255,120,40,.7)}
-.wb-counter{width:130px;height:56px;border-radius:10px;background:linear-gradient(180deg,#8d5524,#5d3a1a);border:2px solid #3e2723;box-shadow:inset 0 4px 0 rgba(255,255,255,.08),0 8px 16px rgba(0,0,0,.5);display:grid;place-items:center;font-size:28px;position:relative}
-.wb-counter .item-on-counter{animation:idleBob 1.4s ease-in-out infinite}
-.wb-ingredients{display:flex;gap:6px;font-size:20px;flex-wrap:wrap;justify-content:center}
-.wb-ing{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:4px 6px;line-height:1}
-.wb-status{z-index:2;grid-column:1/-1;text-align:center;font-size:12px;font-weight:800;color:var(--gold-l);letter-spacing:.3px;text-shadow:0 1px 4px rgba(0,0,0,.9)}
+/* =====================================================
+   🏪 QUẦY BÁNH — thiết kế theo phong cách Tiệm Trà Nhỏ
+   ===================================================== */
+.shopfront{
+  position:relative;
+  margin-bottom:14px;
+  border-radius:14px;
+  overflow:hidden;
+  border:2px solid #5d3a1a;
+  box-shadow:0 12px 30px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.15);
+  background:linear-gradient(180deg,#fff5e0 0%,#ffe8d0 55%,#ffd8b8 100%);
+}
 
-/* CUSTOMERS */
+/* --- Mái hiên sọc --- */
+.awning{
+  position:relative; height:52px;
+  background:repeating-linear-gradient(90deg,#c62828 0 32px,#fff 32px 64px);
+  border-bottom:3px solid rgba(120,20,20,.5);
+  box-shadow:inset 0 6px 12px rgba(0,0,0,.15);
+}
+.awning::after{
+  content:'';position:absolute;left:0;right:0;bottom:-16px;height:16px;
+  background:
+    radial-gradient(circle at 16px 0, #c62828 15px, transparent 16px) 0 0/32px 16px repeat-x,
+    radial-gradient(circle at 16px 0, #fff 15px, transparent 16px) 16px 0/32px 16px repeat-x;
+  filter:drop-shadow(0 3px 3px rgba(0,0,0,.25));
+  z-index:3;
+}
+/* bảng hiệu nhỏ giữa mái */
+.shop-sign{
+  position:absolute;top:8px;left:50%;transform:translateX(-50%);
+  padding:3px 18px;border-radius:20px;
+  background:linear-gradient(180deg,#fff5e0,#ffd88a);
+  color:#7f1010;font-weight:900;font-size:13px;letter-spacing:1px;
+  border:2px solid #a82020;box-shadow:0 4px 10px rgba(0,0,0,.3);
+  z-index:4;text-shadow:0 1px 0 rgba(255,255,255,.6)
+}
+
+/* --- Vùng nội dung quầy --- */
+.counter-body{
+  position:relative;
+  padding:22px 14px 14px;
+  background:
+    radial-gradient(circle at 50% 100%, rgba(255,200,120,.3), transparent 60%),
+    linear-gradient(180deg,#fff5e0 0%,#ffe8d0 60%,#ffd8b8 100%);
+  color:#4a2a10;
+}
+/* tường gạch kẻ sọc dọc làm nền */
+.counter-body::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(90deg,
+    rgba(255,200,150,.35) 0 1px,
+    transparent 1px 42px);
+  pointer-events:none;opacity:.5;
+}
+
+/* --- Dòng trên: khách + bong bóng order --- */
+.order-row{
+  position:relative;display:flex;gap:10px;align-items:flex-start;margin-bottom:12px;z-index:2;
+}
+.order-avatar{
+  width:56px;height:56px;flex:none;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#fff5e6,#ffd8b8);
+  border:3px solid #e53935;
+  display:grid;place-items:center;
+  box-shadow:0 4px 12px rgba(0,0,0,.25),inset 0 -3px 0 rgba(0,0,0,.08);
+  overflow:hidden;position:relative;
+}
+.order-avatar svg{width:120%;height:120%;margin-top:6px}
+.order-avatar .cust-badge{
+  position:absolute;bottom:-4px;right:-4px;
+  background:#e53935;color:#fff;font-size:9px;font-weight:900;
+  width:20px;height:20px;border-radius:50%;border:2px solid #fff5e0;
+  display:grid;place-items:center;box-shadow:0 2px 4px rgba(0,0,0,.3);
+}
+
+.order-bubble{
+  position:relative;flex:1;
+  background:#fff;border:2px solid #e53935;border-radius:16px;
+  padding:10px 12px 8px;
+  box-shadow:0 4px 12px rgba(0,0,0,.15), inset 0 -2px 0 rgba(229,57,53,.12);
+  color:#3a1a08;
+}
+.order-bubble::before{
+  content:'';position:absolute;left:-9px;top:16px;
+  width:14px;height:14px;background:#fff;border-left:2px solid #e53935;border-bottom:2px solid #e53935;
+  transform:rotate(45deg);border-bottom-left-radius:3px;
+}
+.order-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+.order-tag{
+  font-size:10.5px;font-weight:800;padding:2px 8px;border-radius:8px;
+  background:#ffe082;color:#7f1010;border:1px solid #e6a800;
+}
+.order-tag.size{background:#ffcdd2;color:#7f1010;border-color:#e57373}
+.order-text{
+  font-size:13px;line-height:1.4;font-weight:700;color:#3a1a08;margin-bottom:6px;
+}
+.order-text b{color:#c62828}
+.order-meter{
+  position:relative;height:10px;border-radius:6px;
+  background:#ffe8d0;border:1px solid #e6a800;overflow:hidden;
+}
+.order-meter-fill{
+  height:100%;width:0%;
+  background:linear-gradient(90deg,#81c784,#4caf50);
+  transition:width .25s linear, background .3s;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.4);
+}
+.order-meter-fill.warn{background:linear-gradient(90deg,#ffd54f,#ffb300)}
+.order-meter-fill.danger{background:linear-gradient(90deg,#ef5350,#c62828);animation:pulseR .7s infinite alternate}
+@keyframes pulseR{to{opacity:.6}}
+.order-time{
+  position:absolute;right:10px;bottom:8px;
+  font-size:10.5px;font-weight:800;color:#7f1010;
+  background:#fff5e0;border:1px solid #e6a800;border-radius:8px;padding:1px 6px;
+}
+
+/* --- Kệ + quầy --- */
+.shelf{
+  display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:end;position:relative;z-index:2;
+}
+
+/* cột ly S/M/L bên trái */
+.cups-col{
+  display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 8px;
+  background:linear-gradient(180deg,#fff5e0,#ffe0b2);border:2px solid var(--wood-d);
+  border-radius:10px 10px 4px 4px;box-shadow:inset 0 2px 0 rgba(255,255,255,.4);
+}
+.cups-label{
+  font-size:9px;font-weight:900;color:#7f1010;letter-spacing:.5px;
+}
+.cup-row{display:flex;gap:4px}
+.cup{
+  width:26px;height:32px;border-radius:4px 4px 10px 10px;
+  background:linear-gradient(180deg,#fff,#ffe8d0);
+  border:1.5px solid #8b5a2b;display:grid;place-items:end center;
+  font-size:12px;font-weight:900;color:#7f1010;padding-bottom:2px;
+  box-shadow:inset 0 -3px 0 rgba(0,0,0,.08);
+}
+.cup.size-M{width:32px;height:38px;font-size:14px}
+.cup.size-L{width:36px;height:44px;font-size:16px}
+
+/* quầy chính với 8 ngăn nguyên liệu */
+.bar-counter{
+  position:relative;
+  background:
+    linear-gradient(180deg,#a06a34,#8b5a2b 40%,#5d3a1a);
+  border:2px solid #3e2210;
+  border-radius:12px 12px 6px 6px;
+  padding:8px 8px 6px;
+  box-shadow:
+    inset 0 3px 0 rgba(255,255,255,.15),
+    inset 0 -6px 0 rgba(0,0,0,.25),
+    0 6px 0 #3e2210,
+    0 8px 16px rgba(0,0,0,.35);
+}
+.bar-slot-grid{
+  display:grid;grid-template-columns:repeat(8,1fr);gap:4px;
+}
+.bar-slot{
+  position:relative;background:#fff5e0;border:1.5px solid #3e2210;border-radius:4px;
+  padding:4px 2px;text-align:center;
+  box-shadow:inset 0 -3px 0 rgba(0,0,0,.12);
+  transition:.2s;
+}
+.bar-slot .num{
+  position:absolute;top:-6px;left:50%;transform:translateX(-50%);
+  background:#c62828;color:#fff;font-size:9px;font-weight:900;
+  padding:1px 5px;border-radius:8px;border:1px solid #fff5e0;
+  z-index:2;
+}
+.bar-slot .slot-emoji{font-size:22px;line-height:1.1;display:block}
+.bar-slot .slot-name{
+  font-size:8.5px;font-weight:800;color:#7f1010;letter-spacing:.2px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;
+}
+.bar-slot.active{
+  background:#fff59d;border-color:#e53935;
+  box-shadow:inset 0 -3px 0 rgba(229,57,53,.3), 0 0 12px rgba(255,213,79,.8);
+  transform:translateY(-2px);
+}
+.bar-slot.active .num{background:#e6a800}
+
+/* máy nướng / lò bên phải */
+.oven-box{
+  width:80px;flex:none;
+  background:linear-gradient(180deg,#b0b0b0,#707070);
+  border:2px solid #3e2210;border-radius:10px;
+  padding:6px;text-align:center;color:#fff;
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.35),0 4px 0 #2a1810;
+  position:relative;
+}
+.oven-box .oven-top{
+  font-size:9px;font-weight:900;letter-spacing:.5px;
+  background:#3e2210;border-radius:5px;padding:2px 4px;margin-bottom:4px;
+}
+.oven-box .oven-glass{
+  height:40px;border-radius:6px;
+  background:radial-gradient(circle at 50% 60%,#ff7043,#7f1010 70%);
+  border:2px solid #2a1810;
+  display:grid;place-items:center;font-size:22px;
+  box-shadow:inset 0 0 14px rgba(0,0,0,.6);
+  transition:.3s;
+}
+.oven-box.hot .oven-glass{
+  background:radial-gradient(circle at 50% 60%,#ffb74d,#e53935 70%);
+  box-shadow:inset 0 0 20px rgba(255,200,120,.9),0 0 20px rgba(255,140,60,.8);
+}
+.oven-box .oven-dial{
+  margin-top:4px;height:5px;border-radius:3px;
+  background:linear-gradient(90deg,#4caf50 0 60%,#e6a800 60% 80%,#e53935 80% 100%);
+}
+
+/* hàng dưới: sản phẩm đang làm + trạng thái */
+.display-shelf{
+  margin-top:10px;display:flex;align-items:center;gap:10px;z-index:2;position:relative;
+  background:linear-gradient(180deg,#8b5a2b,#5d3a1a);
+  border:2px solid #3e2210;border-radius:10px;
+  padding:8px 12px;box-shadow:inset 0 3px 0 rgba(255,255,255,.15),0 4px 0 #3e2210;
+  color:#fff5e6;
+}
+.display-shelf .ds-label{
+  font-size:10px;font-weight:900;color:#ffe082;letter-spacing:.8px;
+  border-right:1px solid rgba(255,255,255,.2);padding-right:10px;
+}
+.display-shelf .ds-item{
+  font-size:30px;line-height:1;
+  filter:drop-shadow(0 0 10px rgba(255,213,79,.7));
+  animation:idleBob 1.6s ease-in-out infinite;
+}
+.display-shelf .ds-text{flex:1;font-size:12px;font-weight:700;color:#fff5e6}
+.display-shelf .ds-text b{color:#ffd54f}
+
+/* =====================================================
+   CUSTOMERS list — giữ nguyên như bản trước
+   ===================================================== */
 .customer-list{display:flex;flex-direction:column;gap:12px;max-height:540px;overflow-y:auto;padding-right:4px}
 .customer-list::-webkit-scrollbar{width:7px}.customer-list::-webkit-scrollbar-thumb{background:rgba(255,200,120,.3);border-radius:6px}
 .customer{display:flex;gap:10px;align-items:center;
   background:linear-gradient(180deg,rgba(255,240,220,.08),rgba(80,10,10,.4));
-  border:1px solid rgba(255,200,120,.22);
-  border-left:4px solid var(--gold);
+  border:1px solid rgba(255,200,120,.22);border-left:4px solid var(--gold);
   border-radius:14px;padding:10px;
-  box-shadow:0 4px 16px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.08);
+  box-shadow:0 4px 16px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.08);
   animation:slideIn .45s cubic-bezier(.2,.9,.4,1.4)}
 @keyframes slideIn{from{opacity:0;transform:translateX(60px) scale(.85)}to{opacity:1;transform:none}}
 .chibi-wrap{width:86px;height:106px;flex:none;animation:idleBob 2.4s ease-in-out infinite;position:relative}
@@ -166,7 +346,6 @@ main{position:relative;z-index:5;max-width:1240px;margin:0 auto;padding:16px}
 .fill.ok{background:linear-gradient(90deg,#81c784,#4caf50)}
 .fill.warn{background:linear-gradient(90deg,#ffd54f,#ffb300)}
 .fill.danger{background:linear-gradient(90deg,#ef5350,#c62828);animation:pulseR .7s infinite alternate}
-@keyframes pulseR{to{opacity:.55}}
 .cust-time{font-size:12px;font-weight:800;color:#ffcaa8;font-variant-numeric:tabular-nums;flex:none;min-width:42px;text-align:right}
 .empty{color:#ffb898;font-size:13px;text-align:center;padding:26px 8px;font-style:italic;opacity:.7}
 
@@ -176,114 +355,74 @@ main{position:relative;z-index:5;max-width:1240px;margin:0 auto;padding:16px}
 .item-btn{position:relative;font-family:inherit;color:var(--text);text-align:left;
   background:linear-gradient(180deg,rgba(255,240,220,.1),rgba(80,10,10,.35));
   border:1px solid rgba(255,200,120,.22);border-radius:13px;padding:10px;cursor:pointer;transition:.18s;
-  display:flex;flex-direction:column;gap:3px;overflow:hidden;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.1)}
-.item-btn:hover{transform:translateY(-3px);border-color:rgba(255,213,79,.85);background:linear-gradient(180deg,rgba(255,240,220,.18),rgba(120,20,20,.5));
-  box-shadow:0 6px 20px rgba(255,180,80,.25), inset 0 1px 0 rgba(255,255,255,.2)}
+  display:flex;flex-direction:column;gap:3px;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.1)}
+.item-btn:hover{transform:translateY(-3px);border-color:rgba(255,213,79,.85);background:linear-gradient(180deg,rgba(255,240,220,.18),rgba(120,20,20,.5));box-shadow:0 6px 20px rgba(255,180,80,.25),inset 0 1px 0 rgba(255,255,255,.2)}
 .item-btn:active{transform:scale(.96)}
 .item-btn .emo{font-size:26px;line-height:1}
 .item-btn .nm{font-size:12px;font-weight:600;line-height:1.25;color:#fff5e6}
 .item-btn .pr{font-size:12px;font-weight:800;color:var(--gold)}
-/* Viền món khách gọi — pulse mượt không restart */
-.item-btn.wanted{
-  border-color:rgba(255,213,79,.95);
-  background:linear-gradient(180deg,rgba(255,213,79,.22),rgba(150,30,10,.6));
-  box-shadow:0 0 0 2px rgba(255,213,79,.5), 0 0 26px rgba(255,193,7,.55);
-}
-.badge{position:absolute;top:6px;right:6px;
-  background:linear-gradient(180deg,#ffe082,#ffc107);
-  color:#4a1010;font-size:11px;font-weight:900;min-width:22px;height:22px;padding:0 6px;
-  border-radius:11px;display:grid;place-items:center;
-  box-shadow:0 0 14px rgba(255,213,79,.9);border:1px solid #fff8e1}
+.item-btn.wanted{border-color:rgba(255,213,79,.95);background:linear-gradient(180deg,rgba(255,213,79,.22),rgba(150,30,10,.6));box-shadow:0 0 0 2px rgba(255,213,79,.5),0 0 26px rgba(255,193,7,.55)}
+.badge{position:absolute;top:6px;right:6px;background:linear-gradient(180deg,#ffe082,#ffc107);color:#4a1010;font-size:11px;font-weight:900;min-width:22px;height:22px;padding:0 6px;border-radius:11px;display:grid;place-items:center;box-shadow:0 0 14px rgba(255,213,79,.9);border:1px solid #fff8e1}
 
 /* MAP */
 .map-scene{position:relative;min-height:560px;border-radius:18px;overflow:hidden;
-  background:
-    radial-gradient(ellipse at 50% 120%,#8b1010 0%,#4a0505 70%),
-    linear-gradient(180deg,#2a0303,#5a0a0a);
+  background:radial-gradient(ellipse at 50% 120%,#8b1010 0%,#4a0505 70%),linear-gradient(180deg,#2a0303,#5a0a0a);
   border:1px solid rgba(255,200,120,.2)}
 .map-scene::before{content:'';position:absolute;inset:0;pointer-events:none;
-  background:
-    radial-gradient(circle at 10% 15%,rgba(255,255,255,.6) 1.5px,transparent 2.5px),
+  background:radial-gradient(circle at 10% 15%,rgba(255,255,255,.6) 1.5px,transparent 2.5px),
     radial-gradient(circle at 80% 25%,rgba(255,255,255,.5) 1.5px,transparent 2.5px),
     radial-gradient(circle at 35% 70%,rgba(255,255,255,.6) 1.5px,transparent 2.5px),
     radial-gradient(circle at 65% 45%,rgba(255,255,255,.4) 1.5px,transparent 2.5px),
     radial-gradient(circle at 90% 80%,rgba(255,255,255,.5) 1.5px,transparent 2.5px),
     radial-gradient(circle at 25% 40%,rgba(255,255,255,.4) 1.5px,transparent 2.5px)}
-.map-snow-ground{position:absolute;bottom:0;left:0;right:0;height:100px;
-  background:radial-gradient(ellipse at 50% 100%,#ffe0e0 0%,#ffbaba 40%,transparent 80%);opacity:.35}
-.map-node{position:absolute;transform:translate(-50%,-50%);
-  background:linear-gradient(180deg,rgba(255,240,220,.15),rgba(90,15,15,.6));
-  border:2px solid rgba(255,213,79,.55);border-radius:16px;padding:12px 16px;text-align:center;
-  cursor:pointer;transition:.25s;min-width:120px;backdrop-filter:blur(4px);z-index:5;
-  box-shadow:0 6px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.2)}
+.map-snow-ground{position:absolute;bottom:0;left:0;right:0;height:100px;background:radial-gradient(ellipse at 50% 100%,#ffe0e0 0%,#ffbaba 40%,transparent 80%);opacity:.35}
+.map-node{position:absolute;transform:translate(-50%,-50%);background:linear-gradient(180deg,rgba(255,240,220,.15),rgba(90,15,15,.6));border:2px solid rgba(255,213,79,.55);border-radius:16px;padding:12px 16px;text-align:center;cursor:pointer;transition:.25s;min-width:120px;backdrop-filter:blur(4px);z-index:5;box-shadow:0 6px 20px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.2)}
 .map-node:hover:not(.locked){transform:translate(-50%,-50%) scale(1.08);box-shadow:0 0 34px rgba(255,213,79,.75);border-color:#ffe082}
 .map-node.locked{opacity:.55;cursor:not-allowed;filter:grayscale(.5);border-color:rgba(255,200,120,.2)}
 .map-node .node-emoji{font-size:34px;line-height:1}
 .map-node .node-name{font-weight:800;font-size:13px;margin-top:5px;color:#fff5e6;text-shadow:0 1px 3px rgba(0,0,0,.7)}
 .map-node .node-req{font-size:10.5px;color:#ffcaa8;margin-top:3px;line-height:1.3}
 .map-node.unlocked .node-status{font-size:10px;color:#ffe082;margin-top:3px;font-weight:800}
-@media(max-width:700px){.map-node{min-width:90px;padding:8px 10px}.map-node .node-emoji{font-size:26px}.map-node .node-name{font-size:11px}}
 
 /* TREE */
 .tree-wrap{display:grid;grid-template-columns:1fr 1.1fr;gap:18px}
 @media(max-width:900px){.tree-wrap{grid-template-columns:1fr}}
-.tree-scene{position:relative;width:100%;height:520px;margin:0 auto;max-width:460px;
-  background:radial-gradient(ellipse at 50% 45%,rgba(255,213,79,.15),transparent 68%);
-  border-radius:20px;overflow:hidden}
-.tree-svg{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);width:88%;height:88%;
-  filter:drop-shadow(0 0 34px rgba(255,213,79,.6));transition:filter .5s}
+.tree-scene{position:relative;width:100%;height:520px;margin:0 auto;max-width:460px;background:radial-gradient(ellipse at 50% 45%,rgba(255,213,79,.15),transparent 68%);border-radius:20px;overflow:hidden}
+.tree-svg{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);width:88%;height:88%;filter:drop-shadow(0 0 34px rgba(255,213,79,.6));transition:filter .5s}
 .tree-svg.sparkle-25{filter:drop-shadow(0 0 40px rgba(255,213,79,.8)) drop-shadow(0 0 20px rgba(102,187,106,.4))}
 .tree-svg.sparkle-50{filter:drop-shadow(0 0 50px rgba(255,213,79,1)) drop-shadow(0 0 35px rgba(102,187,106,.6))}
 .tree-svg.sparkle-75{filter:drop-shadow(0 0 60px #ffd700) drop-shadow(0 0 50px rgba(129,199,132,.8))}
 .tree-svg.sparkle-100{filter:drop-shadow(0 0 80px #ffd700) drop-shadow(0 0 60px #ffeb3b);animation:legendPulse 1.6s ease-in-out infinite alternate}
 @keyframes legendPulse{to{filter:drop-shadow(0 0 100px #ffd700) drop-shadow(0 0 70px #ffeb3b)}}
-.slot{position:absolute;transform:translate(-50%,-50%);font-size:22px;line-height:1;user-select:none;
-  filter:drop-shadow(0 0 8px rgba(255,255,255,.85));animation:twinkle 2.4s ease-in-out infinite alternate}
+.slot{position:absolute;transform:translate(-50%,-50%);font-size:22px;line-height:1;user-select:none;filter:drop-shadow(0 0 8px rgba(255,255,255,.85));animation:twinkle 2.4s ease-in-out infinite alternate}
 @keyframes twinkle{from{transform:translate(-50%,-50%) scale(1)}to{transform:translate(-50%,-50%) scale(1.18)}}
 .slot.rar-rare{filter:drop-shadow(0 0 10px #4fc3f7)}
 .slot.rar-epic{filter:drop-shadow(0 0 13px #ba68c8);font-size:25px}
 .slot.rar-legend{filter:drop-shadow(0 0 16px #ffd700);font-size:27px}
-.sparkle-bar{height:14px;background:rgba(0,0,0,.5);border-radius:8px;overflow:hidden;position:relative;margin:8px 0;
-  border:1px solid rgba(255,200,120,.25)}
-.sparkle-fill{height:100%;background:linear-gradient(90deg,#ffc107,#ffd54f,#ff8a65);border-radius:8px;transition:width .6s ease;
-  box-shadow:0 0 14px rgba(255,213,79,.9)}
-.sparkle-milestones{position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(90deg,transparent 24.5%,#fff 24.5% 25.5%,transparent 25.5%,transparent 49.5%,#fff 49.5% 50.5%,transparent 50.5%,transparent 74.5%,#fff 74.5% 75.5%,transparent 75.5%)}
+.sparkle-bar{height:14px;background:rgba(0,0,0,.5);border-radius:8px;overflow:hidden;position:relative;margin:8px 0;border:1px solid rgba(255,200,120,.25)}
+.sparkle-fill{height:100%;background:linear-gradient(90deg,#ffc107,#ffd54f,#ff8a65);border-radius:8px;transition:width .6s ease;box-shadow:0 0 14px rgba(255,213,79,.9)}
+.sparkle-milestones{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,transparent 24.5%,#fff 24.5% 25.5%,transparent 25.5%,transparent 49.5%,#fff 49.5% 50.5%,transparent 50.5%,transparent 74.5%,#fff 74.5% 75.5%,transparent 75.5%)}
 .sparkle-label{display:flex;justify-content:space-between;font-size:11px;color:#ffcaa8;margin-top:4px}
 
-/* GIFT / COLLECTION */
 .gift-open-area{display:flex;flex-direction:column;align-items:center;gap:12px;padding:6px 0 14px}
-.gift-box-btn{font-family:inherit;font-size:17px;font-weight:900;color:#4a1010;padding:16px 32px;border-radius:16px;cursor:pointer;
-  background:linear-gradient(180deg,#ffe082,#ffc107,#f9a825);
-  border:3px solid #fff8e1;
-  box-shadow:0 8px 26px rgba(255,193,7,.7),inset 0 2px 0 rgba(255,255,255,.7);
-  transition:.18s;text-shadow:0 1px 0 rgba(255,255,255,.5)}
+.gift-box-btn{font-family:inherit;font-size:17px;font-weight:900;color:#4a1010;padding:16px 32px;border-radius:16px;cursor:pointer;background:linear-gradient(180deg,#ffe082,#ffc107,#f9a825);border:3px solid #fff8e1;box-shadow:0 8px 26px rgba(255,193,7,.7),inset 0 2px 0 rgba(255,255,255,.7);transition:.18s;text-shadow:0 1px 0 rgba(255,255,255,.5)}
 .gift-box-btn:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 12px 34px rgba(255,213,79,.9)}
 .gift-box-btn:active{transform:scale(.96)}
 .gift-box-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
 .collection{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px;max-height:320px;overflow-y:auto;padding-right:4px}
 .collection::-webkit-scrollbar{width:7px}.collection::-webkit-scrollbar-thumb{background:rgba(255,200,120,.3);border-radius:6px}
-.coll-item{position:relative;text-align:center;padding:9px 4px 7px;border-radius:12px;
-  background:linear-gradient(180deg,rgba(255,240,220,.08),rgba(80,10,10,.4));
-  border:1px solid rgba(255,200,120,.2);transition:.2s}
+.coll-item{position:relative;text-align:center;padding:9px 4px 7px;border-radius:12px;background:linear-gradient(180deg,rgba(255,240,220,.08),rgba(80,10,10,.4));border:1px solid rgba(255,200,120,.2);transition:.2s}
 .coll-item .e{font-size:24px;display:block;line-height:1.2}
 .coll-item .n{font-size:10px;color:#ffd8b8;line-height:1.2;margin-top:4px;display:block}
 .coll-item.locked{opacity:.35;filter:grayscale(1)}
 .coll-item.rar-rare{border-color:rgba(79,195,247,.6);box-shadow:0 0 14px rgba(79,195,247,.3)}
 .coll-item.rar-epic{border-color:rgba(186,104,200,.7);box-shadow:0 0 16px rgba(186,104,200,.35)}
 .coll-item.rar-legend{border-color:rgba(255,215,0,.9);box-shadow:0 0 22px rgba(255,215,0,.55);background:linear-gradient(180deg,rgba(255,215,0,.15),rgba(120,30,10,.4))}
-.coll-item .cnt{position:absolute;top:4px;right:5px;font-size:10px;font-weight:900;color:#4a1010;
-  background:linear-gradient(180deg,#ffe082,#ffc107);border-radius:8px;padding:1px 5px;border:1px solid #fff8e1}
+.coll-item .cnt{position:absolute;top:4px;right:5px;font-size:10px;font-weight:900;color:#4a1010;background:linear-gradient(180deg,#ffe082,#ffc107);border-radius:8px;padding:1px 5px;border:1px solid #fff8e1}
 
-/* ELVES */
 .elf-list{display:flex;flex-direction:column;gap:10px;max-height:540px;overflow-y:auto;padding-right:4px}
 .elf-list::-webkit-scrollbar{width:7px}.elf-list::-webkit-scrollbar-thumb{background:rgba(255,200,120,.3);border-radius:6px}
-.elf-card{display:flex;gap:10px;align-items:center;
-  background:linear-gradient(180deg,rgba(255,240,220,.08),rgba(80,10,10,.4));
-  border:1px solid rgba(255,200,120,.22);border-left:4px solid #81c784;
-  border-radius:13px;padding:9px;animation:slideIn .4s ease;
-  box-shadow:0 4px 14px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.08)}
+.elf-card{display:flex;gap:10px;align-items:center;background:linear-gradient(180deg,rgba(255,240,220,.08),rgba(80,10,10,.4));border:1px solid rgba(255,200,120,.22);border-left:4px solid #81c784;border-radius:13px;padding:9px;animation:slideIn .4s ease;box-shadow:0 4px 14px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.08)}
 .elf-avatar{width:78px;height:96px;flex:none;animation:idleBob 2.6s ease-in-out infinite}
 .elf-avatar svg{width:100%;height:100%;display:block;filter:drop-shadow(0 4px 8px rgba(0,0,0,.5))}
 .elf-info{flex:1;min-width:0}
@@ -291,25 +430,17 @@ main{position:relative;z-index:5;max-width:1240px;margin:0 auto;padding:16px}
 .elf-trait{font-size:11.5px;color:#ffcaa8;margin:2px 0 5px;line-height:1.3}
 .elf-stats{display:flex;gap:6px;font-size:11px;font-weight:800;color:#fff5e6;flex-wrap:wrap}
 .elf-stats span{background:rgba(0,0,0,.4);border-radius:8px;padding:2px 7px;border:1px solid rgba(255,200,120,.2)}
-.btn{font-family:inherit;font-weight:800;font-size:12.5px;color:#fff;padding:9px 14px;border-radius:11px;cursor:pointer;border:none;
-  background:linear-gradient(180deg,#ef5350,#c62828);
-  box-shadow:0 4px 16px rgba(198,40,40,.6), inset 0 1px 0 rgba(255,255,255,.2);
-  transition:.16s;white-space:nowrap;flex:none}
+.btn{font-family:inherit;font-weight:800;font-size:12.5px;color:#fff;padding:9px 14px;border-radius:11px;cursor:pointer;border:none;background:linear-gradient(180deg,#ef5350,#c62828);box-shadow:0 4px 16px rgba(198,40,40,.6),inset 0 1px 0 rgba(255,255,255,.2);transition:.16s;white-space:nowrap;flex:none}
 .btn:hover{transform:translateY(-2px)}.btn:active{transform:scale(.95)}.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
-.btn.gold{background:linear-gradient(180deg,#ffe082,#ffc107,#f9a825);color:#4a1010;text-shadow:0 1px 0 rgba(255,255,255,.5);
-  box-shadow:0 4px 16px rgba(255,193,7,.6), inset 0 1px 0 rgba(255,255,255,.6)}
+.btn.gold{background:linear-gradient(180deg,#ffe082,#ffc107,#f9a825);color:#4a1010;text-shadow:0 1px 0 rgba(255,255,255,.5);box-shadow:0 4px 16px rgba(255,193,7,.6),inset 0 1px 0 rgba(255,255,255,.6)}
 
-/* MODAL */
 .modal{position:fixed;inset:0;z-index:100;background:rgba(40,4,4,.9);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:20px}
 .modal.open{display:flex;animation:fade .25s ease}
-.modal-box{background:linear-gradient(180deg,#7f1010,#3d0505);border:3px solid var(--gold);border-radius:22px;padding:22px;max-width:560px;width:100%;
-  box-shadow:0 20px 60px rgba(0,0,0,.8), inset 0 1px 0 rgba(255,220,180,.25), 0 0 60px rgba(255,213,79,.25);
-  animation:popIn .4s cubic-bezier(.2,.9,.4,1.4)}
+.modal-box{background:linear-gradient(180deg,#7f1010,#3d0505);border:3px solid var(--gold);border-radius:22px;padding:22px;max-width:560px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.8),inset 0 1px 0 rgba(255,220,180,.25),0 0 60px rgba(255,213,79,.25);animation:popIn .4s cubic-bezier(.2,.9,.4,1.4)}
 @keyframes popIn{from{opacity:0;transform:scale(.85) translateY(20px)}to{opacity:1;transform:none}}
 .modal-box h2{font-size:19px;color:var(--gold-l);margin-bottom:6px;text-align:center;text-shadow:0 2px 8px rgba(0,0,0,.6)}
 .modal-box .sub{text-align:center;font-size:12px;color:#ffd8b8;margin-bottom:10px}
-.craft-progress{text-align:center;font-size:13px;font-weight:800;color:#ffe082;margin-bottom:14px;padding:8px;
-  background:rgba(0,0,0,.4);border-radius:10px;border:1px solid rgba(255,200,120,.3)}
+.craft-progress{text-align:center;font-size:13px;font-weight:800;color:#ffe082;margin-bottom:14px;padding:8px;background:rgba(0,0,0,.4);border-radius:10px;border:1px solid rgba(255,200,120,.3)}
 .mini-game-container{min-height:280px;display:flex;flex-direction:column;gap:12px;justify-content:center;align-items:stretch;padding:8px}
 .mg-title{text-align:center;font-size:15px;font-weight:900;color:var(--gold);margin-bottom:4px;text-shadow:0 2px 6px rgba(0,0,0,.6)}
 .mg-hint{text-align:center;font-size:12px;color:#ffcaa8;margin-top:4px}
@@ -318,32 +449,22 @@ main{position:relative;z-index:5;max-width:1240px;margin:0 auto;padding:16px}
 .mg-r-bad{background:linear-gradient(180deg,#5c1a1a,#7a2424)}
 .mg-r-good{background:linear-gradient(180deg,#7a5f1a,#a88024)}
 .mg-r-perfect{background:linear-gradient(180deg,#1a5c1a,#24a024);box-shadow:inset 0 0 22px rgba(255,255,255,.6)}
-.mg-r-pointer{position:absolute;top:-8px;bottom:-8px;width:5px;background:linear-gradient(180deg,#fff,#ffc107);border-radius:4px;
-  box-shadow:0 0 18px #fff,0 0 30px #ffc107;transform:translateX(-50%);transition:transform .04s linear}
+.mg-r-pointer{position:absolute;top:-8px;bottom:-8px;width:5px;background:linear-gradient(180deg,#fff,#ffc107);border-radius:4px;box-shadow:0 0 18px #fff,0 0 30px #ffc107;transform:translateX(-50%);transition:transform .04s linear}
 .mg-r-pointer.frozen{animation:freezeFlash .3s ease 3;background:#ffd700;box-shadow:0 0 24px #ffd700,0 0 40px #ff8a65}
 @keyframes freezeFlash{50%{opacity:.4}}
-.mg-action{font-family:inherit;font-size:16px;font-weight:900;color:#4a1010;padding:14px;border-radius:14px;cursor:pointer;border:none;
-  background:linear-gradient(180deg,#ffe082,#ffc107,#f9a825);
-  box-shadow:0 6px 22px rgba(255,193,7,.6), inset 0 2px 0 rgba(255,255,255,.6);
-  transition:.16s;letter-spacing:.4px;text-shadow:0 1px 0 rgba(255,255,255,.5)}
+.mg-action{font-family:inherit;font-size:16px;font-weight:900;color:#4a1010;padding:14px;border-radius:14px;cursor:pointer;border:none;background:linear-gradient(180deg,#ffe082,#ffc107,#f9a825);box-shadow:0 6px 22px rgba(255,193,7,.6),inset 0 2px 0 rgba(255,255,255,.6);transition:.16s;letter-spacing:.4px;text-shadow:0 1px 0 rgba(255,255,255,.5)}
 .mg-action:hover{transform:translateY(-2px)}.mg-action:active{transform:scale(.97)}.mg-action:disabled{opacity:.5;cursor:not-allowed}
 .mg-temp-bar{position:relative;height:38px;background:linear-gradient(90deg,#3a0808,#7f1010,#3a0808);border-radius:12px;overflow:hidden;border:1px solid rgba(255,200,120,.3)}
-.mg-temp-zone{position:absolute;top:0;bottom:0;left:68%;width:4%;
-  background:linear-gradient(180deg,#ffe082,#f9a825);
-  box-shadow:inset 0 0 18px rgba(255,213,79,.8),0 0 20px rgba(255,213,79,.7);border-radius:4px}
-.mg-temp-needle{position:absolute;top:-4px;bottom:-4px;width:4px;background:linear-gradient(180deg,#fff,#ffc107);border-radius:3px;
-  transform:translateX(-50%);box-shadow:0 0 14px #fff;transition:left .08s linear}
+.mg-temp-zone{position:absolute;top:0;bottom:0;left:68%;width:4%;background:linear-gradient(180deg,#ffe082,#f9a825);box-shadow:inset 0 0 18px rgba(255,213,79,.8),0 0 20px rgba(255,213,79,.7);border-radius:4px}
+.mg-temp-needle{position:absolute;top:-4px;bottom:-4px;width:4px;background:linear-gradient(180deg,#fff,#ffc107);border-radius:3px;transform:translateX(-50%);box-shadow:0 0 14px #fff;transition:left .08s linear}
 .mg-temp-value{text-align:center;font-size:22px;font-weight:900;font-variant-numeric:tabular-nums;padding:6px}
 .mg-temp-progress{height:12px;background:rgba(0,0,0,.5);border-radius:8px;overflow:hidden;border:1px solid rgba(255,200,120,.25)}
 .mg-temp-prog-fill{height:100%;background:linear-gradient(90deg,#81c784,#ffc107);transition:width .1s linear;box-shadow:0 0 12px rgba(255,193,7,.8)}
-.mg-btn{font-family:inherit;font-size:15px;font-weight:900;color:#fff;padding:14px;border-radius:14px;cursor:pointer;border:2px solid rgba(255,255,255,.25);
-  transition:.15s;user-select:none;touch-action:none}
+.mg-btn{font-family:inherit;font-size:15px;font-weight:900;color:#fff;padding:14px;border-radius:14px;cursor:pointer;border:2px solid rgba(255,255,255,.25);transition:.15s;user-select:none;touch-action:none}
 .mg-btn.heat{background:linear-gradient(180deg,#ef5350,#b71c1c);box-shadow:0 0 22px rgba(239,83,80,.5)}
 .mg-btn.heat:active,.mg-btn.heat.holding{transform:scale(.97);box-shadow:0 0 34px rgba(255,138,101,.95)}
-.mg-decor-scene{position:relative;background:radial-gradient(ellipse at 50% 50%,rgba(255,213,79,.15),transparent 70%);border-radius:14px;padding:16px;
-  display:grid;grid-template-columns:repeat(3,1fr);gap:14px;min-height:160px;align-items:center;justify-items:center}
-.mg-decor-slot{width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.08);border:2px dashed rgba(255,200,120,.4);
-  display:grid;place-items:center;font-size:26px;cursor:pointer;transition:.2s;color:#ffb898;font-weight:300}
+.mg-decor-scene{position:relative;background:radial-gradient(ellipse at 50% 50%,rgba(255,213,79,.15),transparent 70%);border-radius:14px;padding:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;min-height:160px;align-items:center;justify-items:center}
+.mg-decor-slot{width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.08);border:2px dashed rgba(255,200,120,.4);display:grid;place-items:center;font-size:26px;cursor:pointer;transition:.2s;color:#ffb898;font-weight:300}
 .mg-decor-slot:hover{border-color:rgba(255,213,79,.9);transform:scale(1.08)}
 .mg-decor-slot.filled{border-style:solid;border-color:rgba(255,213,79,.95);background:rgba(255,213,79,.15);box-shadow:0 0 20px rgba(255,213,79,.5)}
 .mg-decor-tray{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
@@ -357,10 +478,7 @@ main{position:relative;z-index:5;max-width:1240px;margin:0 auto;padding:16px}
 .craft-result-money{font-size:22px;font-weight:900;color:#ffd54f;text-shadow:0 0 16px rgba(255,213,79,.8)}
 
 #toasts{position:fixed;right:16px;bottom:16px;z-index:200;display:flex;flex-direction:column;gap:8px;align-items:flex-end;pointer-events:none;max-width:340px}
-.toast{font-size:13px;font-weight:700;padding:10px 15px;border-radius:12px;
-  background:linear-gradient(180deg,rgba(127,16,16,.97),rgba(60,5,5,.97));
-  border:1px solid rgba(255,200,120,.35);border-left:4px solid var(--gold);
-  box-shadow:0 8px 28px rgba(0,0,0,.7);animation:toastIn .3s ease;backdrop-filter:blur(8px);color:#fff5e6}
+.toast{font-size:13px;font-weight:700;padding:10px 15px;border-radius:12px;background:linear-gradient(180deg,rgba(127,16,16,.97),rgba(60,5,5,.97));border:1px solid rgba(255,200,120,.35);border-left:4px solid var(--gold);box-shadow:0 8px 28px rgba(0,0,0,.7);animation:toastIn .3s ease;backdrop-filter:blur(8px);color:#fff5e6}
 .toast.bad{border-left-color:#ef5350;background:linear-gradient(180deg,rgba(100,10,10,.97),rgba(50,2,2,.97))}
 .toast.gold{border-left-color:var(--gold);color:#ffe082}
 .toast.levelup{border-left-color:#8ecae6;background:linear-gradient(90deg,rgba(142,202,230,.2),rgba(127,16,16,.97));color:#e3f2fd;font-size:14px}
@@ -413,16 +531,65 @@ main{position:relative;z-index:5;max-width:1240px;margin:0 auto;padding:16px}
     <div class="shop-grid">
       <div class="panel">
         <h2>🧒 Khách nhí đang chờ <span class="sub" id="bakeryQueueInfo"></span></h2>
-        <div class="workbench" id="bakeryWorkbench">
-          <div class="wb-side"><div class="wb-chibi" id="wbChef"></div><div class="wb-title">BẾP TRƯỞNG</div></div>
-          <div class="wb-center">
-            <div class="wb-oven" id="wbOven">🔥</div>
-            <div class="wb-counter"><span class="item-on-counter" id="wbItem">—</span></div>
-            <div class="wb-ingredients" id="wbIngredients"><span class="wb-ing">🌾</span><span class="wb-ing">🥚</span><span class="wb-ing">🥛</span><span class="wb-ing">🍯</span></div>
+
+        <!-- ====================================================
+             QUẦY BÁNH — phong cách Tiệm Trà Nhỏ
+             ==================================================== -->
+        <div class="shopfront" id="bakeryShopfront">
+          <!-- Mái hiên sọc đỏ-trắng -->
+          <div class="awning">
+            <div class="shop-sign">🥐 TIỆM BÁNH NOEL 🥐</div>
           </div>
-          <div class="wb-side"><div class="wb-chibi" id="wbCustomer"></div><div class="wb-title" id="wbCustName">Đang chờ</div></div>
-          <div class="wb-status" id="wbStatus">🍪 Chọn món khách gọi để bắt đầu làm bánh</div>
+
+          <!-- Thân quầy -->
+          <div class="counter-body">
+            <!-- Hàng trên: avatar khách + bong bóng order -->
+            <div class="order-row" id="orderRow">
+              <div class="order-avatar" id="orderAvatar">
+                <div class="cust-badge" id="orderBadge">1</div>
+              </div>
+              <div class="order-bubble" id="orderBubble">
+                <div class="order-tags" id="orderTags"></div>
+                <div class="order-text" id="orderText">Chưa có khách nào đang chờ...</div>
+                <div class="order-meter"><div class="order-meter-fill" id="orderMeterFill"></div></div>
+                <div class="order-time" id="orderTime">--:--</div>
+              </div>
+            </div>
+
+            <!-- Kệ + quầy -->
+            <div class="shelf">
+              <!-- Cột ly S/M/L -->
+              <div class="cups-col">
+                <div class="cups-label">SIZE</div>
+                <div class="cup-row">
+                  <div class="cup">S</div>
+                  <div class="cup size-M">M</div>
+                  <div class="cup size-L">L</div>
+                </div>
+              </div>
+
+              <!-- Quầy 8 ngăn nguyên liệu -->
+              <div class="bar-counter">
+                <div class="bar-slot-grid" id="barSlots"></div>
+              </div>
+
+              <!-- Lò nướng -->
+              <div class="oven-box" id="ovenBox">
+                <div class="oven-top">LÒ NƯỚNG</div>
+                <div class="oven-glass" id="ovenGlass">🔥</div>
+                <div class="oven-dial"></div>
+              </div>
+            </div>
+
+            <!-- Kệ hiển thị sản phẩm đang làm -->
+            <div class="display-shelf">
+              <div class="ds-label">ĐANG LÀM</div>
+              <div class="ds-item" id="dsItem">🍪</div>
+              <div class="ds-text" id="dsText">Chưa có món nào trên khay</div>
+            </div>
+          </div>
         </div>
+
         <div class="customer-list" id="bakeryCustomers"></div>
       </div>
       <div class="panel">
@@ -538,9 +705,7 @@ function shade(hex, pct){
 }
 
 /* =========================================================
-   🎀 CHIBI ANIME DỄ THƯƠNG (v4)
-   Đầu to hơn, mắt bự + 4 highlight, ahoge, má hồng đậm,
-   miệng ω, tóc mềm mại, tỉ lệ 2.5 đầu
+   CHIBI SVG (giữ nguyên v4)
    ========================================================= */
 let chibiUID = 0;
 const CHIBI_PALETTE = {
@@ -570,7 +735,6 @@ function chibiSVG(o = {}){
   const eyeDeep   = shade(eyeC,-40);
   const skinShade = shade(skin,-10);
 
-  // Mouth shapes
   let mouth = `<path d="M 46 66 Q 48 68 50 66 Q 52 68 54 66" stroke="#c2564a" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
   if(mood === 'sparkle' || mood === 'surprise')
     mouth = `<ellipse cx="50" cy="67" rx="2.6" ry="3.2" fill="#c2564a"/><ellipse cx="50" cy="66" rx="1.2" ry="1.2" fill="#fff" opacity=".7"/>`;
@@ -582,14 +746,10 @@ function chibiSVG(o = {}){
   return `<svg viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <radialGradient id="hg_${uid}" cx="50%" cy="35%">
-        <stop offset="0%" stop-color="${hairLight}"/>
-        <stop offset="55%" stop-color="${hair}"/>
-        <stop offset="100%" stop-color="${hairDark}"/>
+        <stop offset="0%" stop-color="${hairLight}"/><stop offset="55%" stop-color="${hair}"/><stop offset="100%" stop-color="${hairDark}"/>
       </radialGradient>
       <radialGradient id="eg_${uid}" cx="50%" cy="30%">
-        <stop offset="0%" stop-color="${eyeLight}"/>
-        <stop offset="55%" stop-color="${eyeC}"/>
-        <stop offset="100%" stop-color="${eyeDeep}"/>
+        <stop offset="0%" stop-color="${eyeLight}"/><stop offset="55%" stop-color="${eyeC}"/><stop offset="100%" stop-color="${eyeDeep}"/>
       </radialGradient>
       <radialGradient id="bg_${uid}" cx="50%" cy="50%">
         <stop offset="0%" stop-color="#ff9eb5" stop-opacity=".95"/>
@@ -597,97 +757,51 @@ function chibiSVG(o = {}){
         <stop offset="100%" stop-color="#ff9eb5" stop-opacity="0"/>
       </radialGradient>
     </defs>
-
-    <!-- shadow -->
     <ellipse cx="50" cy="142" rx="22" ry="3" fill="rgba(0,0,0,.35)"/>
-
-    <!-- back hair mass (rộng, mềm) -->
     <ellipse cx="50" cy="52" rx="42" ry="48" fill="url(#hg_${uid})"/>
-
-    <!-- LEGS + socks -->
     <rect x="41" y="108" width="7" height="24" rx="3.5" fill="#fff"/>
     <rect x="52" y="108" width="7" height="24" rx="3.5" fill="#fff"/>
     <rect x="41" y="116" width="7" height="1.8" fill="#e0c8d0"/>
     <rect x="52" y="116" width="7" height="1.8" fill="#e0c8d0"/>
     <rect x="41" y="122" width="7" height="1.8" fill="#e0c8d0"/>
     <rect x="52" y="122" width="7" height="1.8" fill="#e0c8d0"/>
-
-    <!-- SHOES (kawaii, tròn) -->
     <ellipse cx="44" cy="136" rx="8" ry="5" fill="${shoe}"/>
     <ellipse cx="56" cy="136" rx="8" ry="5" fill="${shoe}"/>
     <ellipse cx="44" cy="134.5" rx="5" ry="2" fill="#fff" opacity=".55"/>
     <ellipse cx="56" cy="134.5" rx="5" ry="2" fill="#fff" opacity=".55"/>
-
-    <!-- SKIRT (xếp ly, ngắn) -->
     <path d="M 33 98 L 67 98 L 75 116 Q 50 119 25 116 Z" fill="${skirt}"/>
     <path d="M 33 98 L 67 98" stroke="${shade(skirt,25)}" stroke-width="1.2"/>
     <path d="M 50 98 L 50 117" stroke="${shade(skirt,15)}" stroke-width=".7" opacity=".55"/>
-    <path d="M 40 98 L 35 115" stroke="${shade(skirt,15)}" stroke-width=".7" opacity=".35"/>
-    <path d="M 60 98 L 65 115" stroke="${shade(skirt,15)}" stroke-width=".7" opacity=".35"/>
-
-    <!-- BODY (sweater phồng, ngắn) -->
     <path d="M 27 70 Q 27 65 34 65 L 66 65 Q 73 65 73 70 L 76 98 L 24 98 Z" fill="${outfit}"/>
     <path d="M 27 92 Q 50 96 73 92 L 76 98 L 24 98 Z" fill="${outfitD}" opacity=".5"/>
     <path d="M 34 68 Q 50 71 66 68" stroke="${shade(outfit,30)}" stroke-width="1.1" fill="none" opacity=".8"/>
-
-    <!-- ARMS (puffy sleeves) -->
     <path d="M 28 72 Q 18 80 20 96 Q 25 98 30 97 Q 27 85 34 78 Z" fill="${outfit}"/>
     <path d="M 72 72 Q 82 80 80 96 Q 75 98 70 97 Q 73 85 66 78 Z" fill="${outfit}"/>
-    <path d="M 30 76 Q 26 86 27 94" stroke="${outfitD}" stroke-width=".8" fill="none" opacity=".55"/>
-    <path d="M 70 76 Q 74 86 73 94" stroke="${outfitD}" stroke-width=".8" fill="none" opacity=".55"/>
-    <!-- hands -->
     <circle cx="23" cy="98" r="4.5" fill="${skin}"/>
     <circle cx="77" cy="98" r="4.5" fill="${skin}"/>
-
-    <!-- NECK (rất ngắn) -->
     <rect x="46" y="58" width="8" height="8" fill="${skinShade}"/>
-
-    <!-- HEAD (to hơn) -->
     <circle cx="50" cy="42" r="34" fill="${skin}"/>
-
-    <!-- EARS -->
     <ellipse cx="18" cy="46" rx="3.5" ry="5" fill="${skin}"/>
     <ellipse cx="82" cy="46" rx="3.5" ry="5" fill="${skin}"/>
     <ellipse cx="18" cy="46" rx="1.6" ry="2.5" fill="${shade(skin,-15)}" opacity=".7"/>
     <ellipse cx="82" cy="46" rx="1.6" ry="2.5" fill="${shade(skin,-15)}" opacity=".7"/>
-
-    <!-- BACK BRAIDS (sau đầu) -->
     ${braids ? `
       <g fill="url(#hg_${uid})">
-        <ellipse cx="16" cy="68" rx="10" ry="13"/>
-        <ellipse cx="14" cy="83" rx="9" ry="12"/>
-        <ellipse cx="16" cy="97" rx="7.5" ry="9"/>
-        <circle  cx="18" cy="106" r="5"/>
-        <ellipse cx="84" cy="68" rx="10" ry="13"/>
-        <ellipse cx="86" cy="83" rx="9" ry="12"/>
-        <ellipse cx="84" cy="97" rx="7.5" ry="9"/>
-        <circle  cx="82" cy="106" r="5"/>
+        <ellipse cx="16" cy="68" rx="10" ry="13"/><ellipse cx="14" cy="83" rx="9" ry="12"/>
+        <ellipse cx="16" cy="97" rx="7.5" ry="9"/><circle cx="18" cy="106" r="5"/>
+        <ellipse cx="84" cy="68" rx="10" ry="13"/><ellipse cx="86" cy="83" rx="9" ry="12"/>
+        <ellipse cx="84" cy="97" rx="7.5" ry="9"/><circle cx="82" cy="106" r="5"/>
       </g>
-      <!-- ribbon -->
-      <circle cx="16" cy="60" r="3.5" fill="#ff6b9d"/>
-      <circle cx="84" cy="60" r="3.5" fill="#ff6b9d"/>
+      <circle cx="16" cy="60" r="3.5" fill="#ff6b9d"/><circle cx="84" cy="60" r="3.5" fill="#ff6b9d"/>
       <circle cx="14.5" cy="58.5" r="1.2" fill="#fff" opacity=".8"/>
       <circle cx="82.5" cy="58.5" r="1.2" fill="#fff" opacity=".8"/>
       <path d="M 13 60 L 5 55 L 5 65 Z" fill="#ff6b9d"/>
       <path d="M 87 60 L 95 55 L 95 65 Z" fill="#ff6b9d"/>
     ` : ''}
-
-    <!-- BANGS + AHOGE (mái trước mềm, chia giữa) -->
-    <path d="M 16 42 Q 18 8 50 6 Q 82 8 84 42
-             Q 80 28 70 24
-             Q 66 18 60 22
-             L 55 12 L 52 20
-             L 48 12 L 45 20
-             Q 40 18 36 22
-             Q 24 26 16 42 Z" fill="url(#hg_${uid})"/>
-    <!-- ahoge -->
+    <path d="M 16 42 Q 18 8 50 6 Q 82 8 84 42 Q 80 28 70 24 Q 66 18 60 22 L 55 12 L 52 20 L 48 12 L 45 20 Q 40 18 36 22 Q 24 26 16 42 Z" fill="url(#hg_${uid})"/>
     <path d="M 50 6 Q 54 -6 62 -8 Q 56 -2 54 8" fill="url(#hg_${uid})" stroke="${hairDark}" stroke-width=".6"/>
-    <!-- hair highlights -->
     <path d="M 30 22 Q 34 32 38 44" stroke="${hairDark}" stroke-width=".9" fill="none" opacity=".5"/>
     <path d="M 70 24 Q 66 32 62 44" stroke="${hairDark}" stroke-width=".9" fill="none" opacity=".5"/>
-    <path d="M 50 18 L 50 42" stroke="${hairDark}" stroke-width=".5" fill="none" opacity=".3"/>
-
-    <!-- EYES (siêu to, 4 highlight) -->
     ${closedEyes ? `
       <path d="M 28 46 Q 36 52 44 46" stroke="#3a2a1a" stroke-width="2.4" fill="none" stroke-linecap="round"/>
       <path d="M 56 46 Q 64 52 72 46" stroke="#3a2a1a" stroke-width="2.4" fill="none" stroke-linecap="round"/>
@@ -702,41 +816,25 @@ function chibiSVG(o = {}){
       <ellipse cx="61.5" cy="41.5" rx="3.6" ry="3" fill="#fff"/>
       <circle cx="40" cy="54" r="1.6" fill="#fff" opacity=".95"/>
       <circle cx="70" cy="54" r="1.6" fill="#fff" opacity=".95"/>
-      <circle cx="33" cy="52" r=".9" fill="#fff" opacity=".7"/>
-      <circle cx="63" cy="52" r=".9" fill="#fff" opacity=".7"/>
-      <!-- eyelashes trên -->
       <path d="M 26 39 Q 33 34 42 38" stroke="#3a2a1a" stroke-width="2" fill="none" stroke-linecap="round"/>
       <path d="M 58 38 Q 67 34 74 39" stroke="#3a2a1a" stroke-width="2" fill="none" stroke-linecap="round"/>
-      <!-- lông mi dưới nhẹ -->
-      <path d="M 27 53 Q 30 55 33 53" stroke="#3a2a1a" stroke-width=".8" fill="none" opacity=".5"/>
-      <path d="M 67 53 Q 70 55 73 53" stroke="#3a2a1a" stroke-width=".8" fill="none" opacity=".5"/>
     `}
-
-    <!-- eyebrows (mảnh, mềm) -->
     <path d="M 28 32 Q 35 29 41 31" stroke="${shade(hair,-30)}" stroke-width="1.2" fill="none" opacity=".55" stroke-linecap="round"/>
     <path d="M 59 31 Q 65 29 72 32" stroke="${shade(hair,-30)}" stroke-width="1.2" fill="none" opacity=".55" stroke-linecap="round"/>
-
-    <!-- BLUSH (đậm, kawaii) -->
     <ellipse cx="24" cy="56" rx="6.5" ry="3.8" fill="url(#bg_${uid})"/>
     <ellipse cx="76" cy="56" rx="6.5" ry="3.8" fill="url(#bg_${uid})"/>
-
-    <!-- nose (chấm nhỏ) -->
     <circle cx="50" cy="60" r=".8" fill="#d9967a" opacity=".6"/>
-
-    <!-- mouth -->
     ${mouth}
-
     ${acc}
   </svg>`;
 }
 
 const ACC = {
   elfHat: `<path d="M 24 20 Q 50 -10 78 20 L 78 22 Q 50 22 22 22 Z" fill="#2e7d32"/><ellipse cx="20" cy="22" rx="7" ry="3.5" fill="#c62828"/><ellipse cx="80" cy="22" rx="7" ry="3.5" fill="#c62828"/><circle cx="50" cy="-4" r="5" fill="#ffd700"/>`,
-  santa:  `<path d="M 22 20 Q 50 -8 78 20 L 80 24 Q 50 20 20 24 Z" fill="#c62828"/><circle cx="50" cy="3" r="5.5" fill="#fff"/><rect x="18" y="20" width="64" height="4" rx="2" fill="#fff"/>`,
 };
 
 /* =========================================================
-   DATA
+   DATA (giữ nguyên)
    ========================================================= */
 const BAKERY = [
   {id:'gingerbread', name:'Gingerbread Man', emoji:'🍪', price:20000, steps:['Nhào bột quế gừng','Nướng ở 175°C','Vẽ mặt & cúc áo']},
@@ -754,7 +852,6 @@ const BAKERY = [
   {id:'macaron',     name:'Macaron tuyết',   emoji:'🍩', price:26000, steps:['Đánh bông lòng trắng','Nướng vỏ hạnh nhân','Kẹp kem vanilla']},
   {id:'lollipop',    name:'Kẹo mút Noel',    emoji:'🍭', price:20000, steps:['Nấu đường siro','Xoáy màu Noel','Gắn que']},
 ];
-
 const CLOTHES = [
   {id:'santa',      name:'Bộ Santa',           emoji:'🎅', price:150000, steps:['Đo vòng ngực','Cắt vải đỏ','May viền trắng lông','Gắn nơ & thử']},
   {id:'mrsclaus',   name:'Bộ Mrs. Claus',      emoji:'🧑‍🎄', price:150000, steps:['Đo vòng eo','Cắt váy đỏ','May viền trắng','Thêm tạp dề']},
@@ -781,7 +878,6 @@ const CLOTHES = [
   {id:'candybag',   name:'Túi kẹo que',        emoji:'🍭', price:55000,  steps:['Cắt vải sọc','May miệng túi','Gắn kẹo trang trí']},
   {id:'wings',      name:'Cánh tiên lấp lánh', emoji:'✨', price:120000, steps:['Uốn khung nhôm','Phủ voan trắng','Rắc kim tuyến','Gắn dây đeo']},
 ];
-
 const DECOR = [
   {id:'star',        name:'Ngôi sao đỉnh',       emoji:'⭐', rar:'common', spark:10},
   {id:'lights',      name:'Dây đèn Noel',        emoji:'💡', rar:'common', spark:8},
@@ -812,10 +908,8 @@ const DECOR = [
   {id:'diamond',     name:'Bông tuyết kim cương',emoji:'❄️', rar:'legend', spark:14},
   {id:'snowglobe',   name:'Quả cầu tuyết',       emoji:'🔮', rar:'legend', spark:14},
 ];
-
 const RARITY_LABEL = {common:'Thường',rare:'Hiếm',epic:'Sử thi',legend:'Huyền thoại'};
 const RARITY_WEIGHT = {common:60,rare:26,epic:10,legend:4};
-
 const KID_NAMES = ['Emma','Liam','Olivia','Noah','Ava','Ethan','Sophia','Mason','Isabella','Logan','Mia','Lucas','Charlotte','Jack','Amelia','Henry','Harper','Leo','Ella','Owen','Chloe','Ryan','Grace','Caleb','Zoe','Nathan','Lily','Dylan','Ruby','Oliver','Sakura','Yuki','Mei','Hana','Sora'];
 const ELF_NAMES = ['Jingle','Jangle','Sparkle','Tinsel','Frosty','Cocoa','Pepper','Sugarplum','Holly','Ivy','Mistletoe','Ginger','Nutmeg','Snowflake','Twinkle','Pip','Bix','Wren','Clove','Jolly'];
 const ELF_SURNAMES = ['McJingle','Snowboot','Frostbeard','Tinseltoes','Candycane','Winters','Holliday','Sugarplum','Northpole','Evergreen','Starlight','Bellring'];
@@ -827,7 +921,6 @@ const TRAITS = [
   {name:'Nhanh nhẹn', desc:'Chạy như bay.', spd:1.35, charm:0.95},
   {name:'Tốt bụng', desc:'Hay tặng kèm bánh.', spd:1.00, charm:1.20},
 ];
-
 const PERSONALITIES = [
   {name:'Dễ thương', emoji:'🥰', patience:1.25, tip:1.10, mood:'happy',   line:{perfect:'Cảm ơn nhiều ạ!', bad:'Hic, hơi tệ...'}},
   {name:'Khó tính',  emoji:'😤', patience:0.80, tip:1.30, mood:'annoyed', line:{perfect:'Cũng tạm được!', bad:'Tệ quá, không mua nữa!'}},
@@ -836,14 +929,12 @@ const PERSONALITIES = [
   {name:'Cầu toàn',  emoji:'🧐', patience:0.90, tip:1.50, mood:'annoyed', line:{perfect:'Hoàn hảo!', bad:'Chưa đạt yêu cầu!'}},
   {name:'Nhút nhát', emoji:'🥺', patience:1.20, tip:1.05, mood:'blink',   line:{perfect:'C-cảm ơn ạ...', bad:'Ưm... thôi vậy...'}},
 ];
-
 const LEVELS = [
   {lv:1, day:1,  area:'bakery',  name:'Tiệm bánh',    cond:null,                    desc:'Khởi đầu'},
   {lv:2, day:5,  area:'clothes', name:'Tiệm may',     cond:s=>s.totalEarned>=300000,desc:'Kiếm 300k'},
   {lv:3, day:10, area:'tree',    name:'Quảng trường', cond:s=>s.served>=20,         desc:'Phục vụ 20 khách'},
   {lv:4, day:15, area:'elves',   name:'Xưởng Elf',    cond:s=>s.totalEarned>=1000000,desc:'Kiếm 1 triệu'},
 ];
-
 function currentLevel(){
   let lv = 1;
   for(const L of LEVELS){ if(L.cond && L.cond(state.stats)) lv = L.lv; }
@@ -856,8 +947,20 @@ function isUnlocked(area){
 }
 
 /* =========================================================
-   STATE
+   NGUYÊN LIỆU (8 ngăn quầy)
    ========================================================= */
+const COUNTER_SLOTS = [
+  {emoji:'🌾', name:'BỘT MÌ'},
+  {emoji:'🥚', name:'TRỨNG'},
+  {emoji:'🥛', name:'SỮA'},
+  {emoji:'🍯', name:'MẬT ONG'},
+  {emoji:'🍫', name:'SÔCÔLA'},
+  {emoji:'🧈', name:'BƠ'},
+  {emoji:'🧂', name:'ĐƯỜNG'},
+  {emoji:'🌿', name:'QUẾ'},
+];
+
+/* STATE */
 let state = {
   money: 500000, speed: 1,
   bakeryCustomers: [], clothesCustomers: [],
@@ -909,11 +1012,9 @@ function makeCustomer(area){
     age: randInt(6, 14),
     personality,
     chibi: {
-      hair:   pick(CHIBI_PALETTE.hair),
-      eye:    pick(CHIBI_PALETTE.eye),
-      outfit: pick(CHIBI_PALETTE.outfit),
-      skirt:  pick(CHIBI_PALETTE.skirt),
-      shoe:   pick(CHIBI_PALETTE.shoe),
+      hair: pick(CHIBI_PALETTE.hair), eye: pick(CHIBI_PALETTE.eye),
+      outfit: pick(CHIBI_PALETTE.outfit), skirt: pick(CHIBI_PALETTE.skirt),
+      shoe: pick(CHIBI_PALETTE.shoe),
       mood: personality.mood,
       braids: Math.random() < 0.75,
     },
@@ -922,29 +1023,22 @@ function makeCustomer(area){
     elapsed: 0,
   };
 }
-
 function makeElf(){
   const trait = pick(TRAITS);
-  const speed = randInt(1,5);
-  const charm = randInt(1,5);
-  const skill = randInt(1,5);
+  const speed = randInt(1,5), charm = randInt(1,5), skill = randInt(1,5);
   const name = pick(ELF_NAMES) + ' ' + pick(ELF_SURNAMES);
   const price = Math.round((180000 + (speed + charm + skill) * 70000) / 1000) * 1000;
   return {
-    uid: state.uid++,
-    name,
+    uid: state.uid++, name,
     chibi: {
       hair: pick(['#e8d4b0','#ffb3c6','#4a8ed9','#9d4edd','#d4a76a','#ffd0e0']),
       eye: pick(CHIBI_PALETTE.eye),
       outfit: pick(['#2e7d32','#c62828','#4a8ed9','#9d4edd']),
       skirt: pick(['#1a1a1a','#3d2b1f','#1e3a5c']),
       shoe: pick(['#3d2b1f','#1a1a1a']),
-      mood: 'sparkle',
-      braids: true,
-      accessory: ACC.elfHat,
+      mood: 'sparkle', braids: true, accessory: ACC.elfHat,
     },
-    trait, speed, charm, skill, price,
-    cooldown: 0,
+    trait, speed, charm, skill, price, cooldown: 0,
     interval: Math.max(2500, 35000 / (speed * trait.spd)),
     served: 0, earned: 0,
   };
@@ -952,7 +1046,6 @@ function makeElf(){
 
 /* SERVING */
 function listOf(area){ return area === 'bakery' ? state.bakeryCustomers : state.clothesCustomers; }
-
 function completeServe(area, customer, elf = null, qualityMult = 1.0){
   const list = listOf(area);
   const idx = list.indexOf(customer);
@@ -973,7 +1066,6 @@ function completeServe(area, customer, elf = null, qualityMult = 1.0){
   state.stats.served++;
   return true;
 }
-
 function findUrgentCustomer(){
   const all = [
     ...state.bakeryCustomers.map(c => ({area:'bakery', c})),
@@ -1114,14 +1206,9 @@ function pickMiniGameType(area, i, stepName, totalSteps){
 
 /* CRAFTING */
 const craft = { open:false, customer:null, area:null, item:null, stepIndex:0, scores:[] };
-
 function openCraft(area, customer){
-  craft.open = true;
-  craft.area = area;
-  craft.customer = customer;
-  craft.item = customer.item;
-  craft.stepIndex = 0;
-  craft.scores = [];
+  craft.open = true; craft.area = area; craft.customer = customer;
+  craft.item = customer.item; craft.stepIndex = 0; craft.scores = [];
   $('craftTitle').textContent = area === 'bakery' ? '🍪 Đang làm bánh' : '✂️ Đang may đo';
   $('craftSub').textContent = `${customer.personality.emoji} ${customer.name} · ${craft.item.emoji} ${craft.item.name}`;
   $('craftModal').classList.add('open');
@@ -1132,7 +1219,7 @@ function runStep(){
   const total = craft.item.steps.length;
   const stepName = craft.item.steps[craft.stepIndex];
   $('craftProgress').textContent = `Bước ${craft.stepIndex+1}/${total}: ${stepName}`;
-  renderWorkbench();
+  renderShopfront();
   const container = $('miniGameContainer');
   const type = pickMiniGameType(craft.area, craft.stepIndex, stepName, total);
   const onDone = (score) => {
@@ -1155,9 +1242,7 @@ function finishCraft(){
   else if(avg >= 65){ quality='GOOD'; mult=1.20; emoji='✨'; color='#81c784'; }
   else if(avg >= 45){ quality='OK'; mult=1.00; emoji='👍'; color='#8ecae6'; }
   else { quality='POOR'; mult=0.55; emoji='😐'; color='#ef5350'; }
-
-  const c = craft.customer;
-  const area = craft.area;
+  const c = craft.customer, area = craft.area;
   const list = listOf(area);
   if(list.indexOf(c) < 0){
     toast('😢 Khách đã bỏ đi trước khi bạn làm xong!', 'bad');
@@ -1168,11 +1253,9 @@ function finishCraft(){
   state.money += earn;
   state.stats.totalEarned += earn;
   state.stats.served++;
-
   const p = c.personality;
   const line = quality === 'PERFECT' ? p.line.perfect : quality === 'POOR' ? p.line.bad : 'Ổn đó!';
   const rating = quality === 'PERFECT' ? '✨ Rất thích!' : quality === 'POOR' ? '😭 Thất vọng...' : '😊 Hài lòng';
-
   $('miniGameContainer').innerHTML = `
     <div class="craft-result">
       <div class="craft-result-emoji">${c.item.emoji}</div>
@@ -1181,17 +1264,15 @@ function finishCraft(){
       <div class="craft-result-money">+${fmt(earn)} <span style="color:#ffcaa8;font-size:12px">(x${(mult*c.personality.tip).toFixed(2)})</span></div>
     </div>`;
   $('craftProgress').textContent = 'Hoàn thành!';
-  $('wbChef')?.classList.remove('busy');
-  $('wbOven')?.classList.remove('hot');
-  renderWorkbench();
+  $('ovenBox')?.classList.remove('hot');
+  renderShopfront();
   setTimeout(() => { closeCraft(); renderAll(); }, 2000);
 }
 function closeCraft(){
-  craft.open = false;
-  craft.customer = null;
+  craft.open = false; craft.customer = null;
   MiniGames.cleanup();
   $('craftModal').classList.remove('open');
-  renderWorkbench();
+  renderShopfront();
 }
 
 /* UPDATE */
@@ -1240,16 +1321,8 @@ function update(dt){
   }
 }
 
-/* =========================================================
-   RENDER — TẤT CẢ ĐỀU DIFF-BASED
-   Chỉ rebuild DOM khi tập uid / item thay đổi.
-   Tick 220ms chỉ update thanh thời gian, không đụng structure
-   → không còn nháy animation.
-   ========================================================= */
-function safe(fn, name){
-  try{ fn(); } catch(err){ console.error('Render lỗi ở ' + name, err); }
-}
-
+/* RENDER */
+function safe(fn, name){ try{ fn(); }catch(err){ console.error('Render lỗi ở ' + name, err); } }
 function renderHeader(){
   $('uiMoney').textContent = fmt(state.money);
   $('uiElves').textContent = state.elves.length;
@@ -1258,7 +1331,6 @@ function renderHeader(){
   $('uiLevel').textContent = lv;
   $('uiDay').textContent = LEVELS.find(x=>x.lv===lv).day;
 }
-
 function renderTabs(){
   document.querySelectorAll('#tabs button').forEach(btn => {
     const a = btn.dataset.area;
@@ -1274,7 +1346,6 @@ function renderTabs(){
     }
   });
 }
-
 function renderMap(){
   const scene = $('mapScene');
   if(!scene) return;
@@ -1285,8 +1356,7 @@ function renderMap(){
     {area:'tree',     emoji:'🎄', name:'Quảng trường',    x:78, y:38},
     {area:'elves',    emoji:'🧝', name:'Xưởng Elf',       x:35, y:62},
     {area:'reindeer', emoji:'🦌', name:'Chuồng tuần lộc', x:70, y:72,
-      req:'Sưu tầm 10 loại decor',
-      cond: () => Object.keys(state.decor).length >= 10},
+      req:'Sưu tầm 10 loại decor', cond:()=>Object.keys(state.decor).length>=10},
   ];
   nodes.forEach(n => {
     try{
@@ -1300,8 +1370,7 @@ function renderMap(){
       div.innerHTML = `
         <div class="node-emoji">${unlocked ? n.emoji : '🔒'}</div>
         <div class="node-name">${n.name}</div>
-        ${unlocked ? `<div class="node-status">✓ Đã mở</div>`
-                   : `<div class="node-req">${reqText}</div>`}`;
+        ${unlocked ? `<div class="node-status">✓ Đã mở</div>` : `<div class="node-req">${reqText}</div>`}`;
       div.onclick = () => {
         if(!unlocked){ toast(`🔒 ${n.name} chưa mở. Cần: ${reqText}`, 'bad'); return; }
         document.querySelectorAll('#tabs button').forEach(b => b.classList.remove('active'));
@@ -1321,49 +1390,103 @@ function renderMap(){
   }catch(e){}
 }
 
-function renderWorkbench(){
-  const wb = $('bakeryWorkbench'); if(!wb) return;
-  const chef = $('wbChef'), oven = $('wbOven'), itemEl = $('wbItem');
-  const custEl = $('wbCustomer'), nameEl = $('wbCustName');
-  const status = $('wbStatus'), ing = $('wbIngredients');
-  const isBaking = craft.open && craft.area === 'bakery';
+/* =========================================================
+   🏪 RENDER QUẦY BÁNH (kiểu Tiệm Trà Nhỏ)
+   ========================================================= */
+function renderShopfront(){
+  const orderAvatar = $('orderAvatar');
+  const orderBadge = $('orderBadge');
+  const orderTags = $('orderTags');
+  const orderText = $('orderText');
+  const orderMeter = $('orderMeterFill');
+  const orderTime = $('orderTime');
+  const barSlots = $('barSlots');
+  const ovenBox = $('ovenBox');
+  const ovenGlass = $('ovenGlass');
+  const dsItem = $('dsItem');
+  const dsText = $('dsText');
 
-  if(isBaking){
-    chef.classList.add('busy'); oven.classList.add('hot');
-    itemEl.textContent = craft.item.emoji;
-    custEl.innerHTML = chibiSVG(craft.customer.chibi);
-    nameEl.textContent = craft.customer.name;
-    const stepName = craft.item.steps[craft.stepIndex] || 'Hoàn thành!';
-    const done = craft.stepIndex, total = craft.item.steps.length;
-    status.textContent = `🔨 Bước ${Math.min(done+1, total)}/${total}: ${stepName}`;
-    const ingByStep = [['🌾','🥚','🥛','🍯'],['🔥','⏱️','🌡️'],['🍬','🎀','⭐','❄️'],['✨','🎁']];
-    ing.innerHTML = ingByStep[Math.min(done, ingByStep.length-1)].map(e=>`<span class="wb-ing">${e}</span>`).join('');
-  } else {
-    chef.classList.remove('busy'); oven.classList.remove('hot');
-    itemEl.textContent = '—';
-    const firstCust = state.bakeryCustomers[0];
-    if(firstCust){
-      custEl.innerHTML = chibiSVG(firstCust.chibi);
-      nameEl.textContent = firstCust.name;
-      status.textContent = `⏳ ${firstCust.name} đang chờ ${firstCust.item.emoji} ${firstCust.item.name}`;
-    } else {
-      custEl.innerHTML = chibiSVG({ hair:'#e8d4b0', eye:'#4a9d5f', outfit:'#ffb3c6', skirt:'#3d2b1f', shoe:'#ff8fab', mood:'blink' });
-      nameEl.textContent = 'Chưa có khách';
-      status.textContent = '🍪 Chọn món khách gọi để bắt đầu làm bánh';
-    }
-    ing.innerHTML = ['🌾','🥚','🥛','🍯'].map(e=>`<span class="wb-ing">${e}</span>`).join('');
+  // ----- QUẦY 8 NGĂN (build 1 lần) -----
+  if(barSlots.dataset.built !== '1'){
+    barSlots.dataset.built = '1';
+    barSlots.innerHTML = COUNTER_SLOTS.map((s, i) => `
+      <div class="bar-slot" data-i="${i}">
+        <div class="num">${i+1}</div>
+        <span class="slot-emoji">${s.emoji}</span>
+        <div class="slot-name">${s.name}</div>
+      </div>`).join('');
   }
-  // Chef chibi luôn tồn tại (không đổi mỗi tick)
-  if(!chef.dataset.init){
-    chef.dataset.init = '1';
-    chef.innerHTML = chibiSVG({
-      hair:'#e8d4b0', eye:'#4a9d5f', outfit:'#ffb3c6', skirt:'#3d2b1f', shoe:'#8b5a2b',
-      mood:'happy', braids:false
-    });
+
+  const isBaking = craft.open && craft.area === 'bakery';
+  const firstCust = isBaking ? craft.customer : state.bakeryCustomers[0];
+
+  // ----- KHÁCH -----
+  if(firstCust){
+    // Avatar trong khung tròn (chỉ đầu, không toàn thân)
+    orderAvatar.innerHTML = `<div style="width:100%;height:100%;overflow:hidden;display:grid;place-items:center">${chibiSVG(firstCust.chibi)}</div>`;
+    // chibiSVG tỉ lệ 100x150, cắt phần đầu bằng cách scale + dịch
+    orderAvatar.querySelector('svg').style.cssText = 'width:200%;height:200%;margin-top:20%;margin-left:0;transform:scale(1.1)';
+    orderBadge.textContent = firstCust.age;
+
+    const p = firstCust.personality;
+    orderTags.innerHTML = `
+      <span class="order-tag">${p.emoji} ${p.name}</span>
+      <span class="order-tag size">SIZE M</span>
+      <span class="order-tag">${isBaking ? '🔨 ĐANG LÀM' : '⏳ ĐANG CHỜ'}</span>`;
+    orderText.innerHTML = `<b>${firstCust.name}</b> muốn <b>${firstCust.item.emoji} ${firstCust.item.name}</b> · ít đường · ấm nóng`;
+
+    const left = Math.max(0, firstCust.patience - firstCust.elapsed);
+    const pct = (left / firstCust.patience) * 100;
+    orderMeter.style.width = pct + '%';
+    orderMeter.classList.remove('warn','danger');
+    if(pct <= 25) orderMeter.classList.add('danger');
+    else if(pct <= 50) orderMeter.classList.add('warn');
+
+    const sec = Math.ceil(left/1000);
+    orderTime.textContent = Math.floor(sec/60) + ':' + String(sec%60).padStart(2,'0');
+  } else {
+    orderAvatar.innerHTML = chibiSVG({ hair:'#e8d4b0', eye:'#4a9d5f', outfit:'#ffb3c6', skirt:'#3d2b1f', shoe:'#ff8fab', mood:'blink' });
+    orderAvatar.querySelector('svg').style.cssText = 'width:200%;height:200%;margin-top:20%;transform:scale(1.1)';
+    orderBadge.textContent = '?';
+    orderTags.innerHTML = `<span class="order-tag size">CHƯA CÓ KHÁCH</span>`;
+    orderText.innerHTML = `Đang chờ khách nhí ghé tiệm... ❄️`;
+    orderMeter.style.width = '0%';
+    orderTime.textContent = '--:--';
+  }
+
+  // ----- LÒ NƯỚNG -----
+  if(isBaking){
+    ovenBox.classList.add('hot');
+    const stepName = craft.item.steps[craft.stepIndex] || '';
+    if(stepName.includes('Nướng') || stepName.includes('nướng') || stepName.includes('Hấp') || stepName.includes('hấp')){
+      ovenGlass.textContent = '🔥';
+    } else if(stepName.includes('trang trí') || stepName.includes('Vẽ') || stepName.includes('vẽ') || stepName.includes('Rắc')){
+      ovenGlass.textContent = '🎨';
+    } else {
+      ovenGlass.textContent = '🥣';
+    }
+  } else {
+    ovenBox.classList.remove('hot');
+    ovenGlass.textContent = '🔥';
+  }
+
+  // ----- KỆ HIỂN THỊ -----
+  if(isBaking){
+    dsItem.textContent = craft.item.emoji;
+    const stepNum = Math.min(craft.stepIndex + 1, craft.item.steps.length);
+    const total = craft.item.steps.length;
+    dsText.innerHTML = `<b>${craft.item.name}</b> · Bước ${stepNum}/${total}: ${craft.item.steps[craft.stepIndex] || 'Hoàn thành!'}`;
+  } else if(state.bakeryCustomers[0]){
+    const c = state.bakeryCustomers[0];
+    dsItem.textContent = c.item.emoji;
+    dsText.innerHTML = `Khách <b>${c.name}</b> đang gọi <b>${c.item.name}</b> — bấm món ở thực đơn!`;
+  } else {
+    dsItem.textContent = '🍪';
+    dsText.textContent = 'Chưa có món nào trên khay';
   }
 }
 
-/* ---- CUSTOMERS: chỉ rebuild khi tập uid thay đổi ---- */
+/* ---- CUSTOMERS ---- */
 function customerRowHTML(c){
   const left = Math.max(0, c.patience - c.elapsed);
   const pct = (left / c.patience) * 100;
@@ -1392,8 +1515,7 @@ function updateCustomerRow(row, c){
   fill.className = 'fill ' + cls;
   fill.style.width = pct + '%';
   const sec = Math.ceil(left/1000);
-  row.querySelector('.cust-time').textContent =
-    Math.floor(sec/60) + ':' + String(sec%60).padStart(2,'0');
+  row.querySelector('.cust-time').textContent = Math.floor(sec/60) + ':' + String(sec%60).padStart(2,'0');
 }
 function renderCustomerList(container, customers){
   const sig = customers.map(c=>c.uid).join(',');
@@ -1418,7 +1540,7 @@ function renderCustomers(){
   $('clothesQueueInfo').textContent = state.clothesCustomers.length + '/4 khách';
 }
 
-/* ---- MENU: build 1 lần, chỉ toggle class wanted ---- */
+/* ---- MENU ---- */
 function buildMenu(container, items, area){
   if(container.dataset.built === '1') return;
   container.dataset.built = '1';
@@ -1458,7 +1580,7 @@ function renderMenu(){
   updateMenuWanted(cMenu, CLOTHES, state.clothesCustomers);
 }
 
-/* ---- TREE (build 1 lần + diff slots) ---- */
+/* ---- TREE ---- */
 function buildTreeSlots(){
   const rows = [{y:14,n:1,w:0},{y:26,n:2,w:12},{y:38,n:3,w:20},{y:50,n:4,w:28},{y:62,n:5,w:36},{y:74,n:6,w:44}];
   const out = [];
@@ -1507,7 +1629,7 @@ function renderTree(){
   else if(spark >= 25) svg.classList.add('sparkle-25');
 }
 
-/* ---- COLLECTION: build 1 lần, chỉ toggle locked/owned ---- */
+/* ---- COLLECTION ---- */
 function buildCollection(){
   const box = $('collection');
   if(box.dataset.built === '1') return;
@@ -1539,7 +1661,7 @@ function renderCollection(){
   $('collInfo').textContent = kinds + '/' + DECOR.length + ' loại';
 }
 
-/* ---- ELVES: rebuild khi uid-set thay đổi ---- */
+/* ---- ELVES ---- */
 function elfCardHTML(elf, mode){
   let action = '';
   if(mode === 'market'){
@@ -1582,7 +1704,7 @@ function renderAll(){
   safe(renderHeader,'header');
   safe(renderTabs,'tabs');
   safe(renderMap,'map');
-  safe(renderWorkbench,'workbench');
+  safe(renderShopfront,'shopfront');
   safe(renderCustomers,'customers');
   safe(renderMenu,'menu');
   safe(renderTree,'tree');
@@ -1590,9 +1712,7 @@ function renderAll(){
   safe(renderElves,'elves');
 }
 
-/* =========================================================
-   EVENTS
-   ========================================================= */
+/* EVENTS */
 document.addEventListener('click', e => {
   const itemBtn = e.target.closest('.item-btn');
   if(itemBtn && !craft.open){
@@ -1683,7 +1803,7 @@ $('speedBox').addEventListener('click', e => {
 /* SAVE / LOAD */
 function save(){
   try{
-    localStorage.setItem('xmasChibiV4', JSON.stringify({
+    localStorage.setItem('xmasChibiV5', JSON.stringify({
       money: state.money, decor: state.decor, elves: state.elves,
       stats: state.stats, lastLevel: state.lastLevel,
     }));
@@ -1691,7 +1811,7 @@ function save(){
 }
 function load(){
   try{
-    const raw = localStorage.getItem('xmasChibiV4');
+    const raw = localStorage.getItem('xmasChibiV5');
     if(!raw) return false;
     const d = JSON.parse(raw);
     state.money = d.money ?? state.money;
@@ -1714,7 +1834,6 @@ function init(){
   else toast('🎄 Chào mừng đến Thị Trấn Noel!', 'gold');
   setInterval(save, 5000);
 }
-
 let lastFrame = performance.now();
 let lastRender = 0;
 function loop(now){
@@ -1724,7 +1843,6 @@ function loop(now){
   if(now - lastRender > 220){ renderAll(); lastRender = now; }
   requestAnimationFrame(loop);
 }
-
 init();
 requestAnimationFrame(loop);
 </script>
