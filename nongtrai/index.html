@@ -2,289 +2,315 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <title>🌾 Nông Trại Vui Vẻ 🌾</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{background:#10161a;color:#eceff1;font-family:'Segoe UI',Tahoma,sans-serif;min-height:100vh}
-body{padding:10px}button{font-family:inherit}
-#start-screen{background:linear-gradient(160deg,#1B5E20,#0d3b12);border-radius:20px;padding:34px 24px;max-width:660px;width:100%;margin:20px auto;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6);border:2px solid #2E7D32}
-#start-screen h1{font-size:clamp(22px,5vw,38px);color:#FFEB3B;margin-bottom:8px}
-.subtitle{color:#C8E6C9;font-size:13px;margin-bottom:18px}
-.field-label{font-size:13px;color:#fff;margin-bottom:10px;display:block}
-#farm-name-input{font-size:17px;padding:11px 16px;width:100%;max-width:300px;text-align:center;border-radius:10px;border:2px solid #4CAF50;background:#0d2b10;color:#FFEB3B;outline:none;font-weight:bold}
-.theme-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(105px,1fr));gap:8px;margin:12px 0 18px}
-.theme-card{border-radius:12px;padding:6px;cursor:pointer;border:3px solid transparent;text-align:center;transition:transform .15s}
-.theme-card:hover{transform:translateY(-3px)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{background:#10161a;color:#eceff1;font-family:-apple-system,'Segoe UI',Tahoma,sans-serif;min-height:100vh;min-height:100dvh;overflow-x:hidden;touch-action:manipulation;overscroll-behavior:none}
+body{padding:8px;padding:8px max(8px,env(safe-area-inset-right)) 8px max(8px,env(safe-area-inset-left));-webkit-text-size-adjust:100%}
+button{font-family:inherit;touch-action:manipulation;cursor:pointer;user-select:none;-webkit-user-select:none;border:none;background:none;color:inherit}
+input{font-family:inherit;font-size:16px!important;-webkit-appearance:none;appearance:none}
+input[type=text],input[type=number]{font-size:16px!important}
+select{font-size:16px!important}
+
+#start-screen{background:linear-gradient(160deg,#1B5E20,#0d3b12);border-radius:16px;padding:24px 16px;max-width:640px;width:100%;margin:12px auto;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6);border:2px solid #2E7D32}
+#start-screen h1{font-size:clamp(20px,5vw,34px);color:#FFEB3B;margin-bottom:8px}
+.subtitle{color:#C8E6C9;font-size:12.5px;margin-bottom:16px}
+.field-label{font-size:13px;color:#fff;margin-bottom:8px;display:block}
+#farm-name-input{font-size:16px;padding:12px 14px;width:100%;max-width:280px;text-align:center;border-radius:10px;border:2px solid #4CAF50;background:#0d2b10;color:#FFEB3B;outline:none;font-weight:bold}
+.theme-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:6px;margin:10px 0 14px}
+.theme-card{border-radius:10px;padding:6px;cursor:pointer;border:3px solid transparent;text-align:center;background:rgba(0,0,0,.25)}
 .theme-card.active{border-color:#FFC107}
-.theme-preview{height:40px;border-radius:8px;margin-bottom:4px;position:relative;overflow:hidden;font-size:16px;line-height:40px}
+.theme-preview{height:38px;border-radius:6px;margin-bottom:4px;position:relative;overflow:hidden}
 .theme-name{font-size:10px;color:#fff;font-weight:600}
 .theme-price{font-size:9px;color:#FFD54F}
-.btn-primary{background:#FFC107;color:#1B5E20;font-size:17px;font-weight:bold;padding:13px 44px;border:none;border-radius:12px;cursor:pointer;box-shadow:0 5px 0 #c79100}
-.btn-primary:active{transform:translateY(3px);box-shadow:0 2px 0 #c79100}
-.hint{margin-top:12px;color:#A5D6A7;font-size:12px}
-#resume-btn{background:#4CAF50;color:#fff;margin-top:12px;padding:10px 30px;border:none;border-radius:10px;font-size:14px;cursor:pointer;display:none}
-#cloud-status{margin-top:12px;font-size:12px;color:#90A4AE;padding:10px 14px;background:rgba(0,0,0,.3);border-radius:10px;line-height:1.6;text-align:left}
+.btn-primary{background:#FFC107;color:#1B5E20;font-size:16px;font-weight:bold;padding:14px 40px;border-radius:12px;box-shadow:0 4px 0 #c79100;min-height:48px}
+.btn-primary:active{transform:translateY(2px);box-shadow:0 2px 0 #c79100}
+.hint{margin-top:10px;color:#A5D6A7;font-size:11.5px}
+#resume-btn{background:#4CAF50;color:#fff;margin-top:10px;padding:12px 28px;border-radius:10px;font-size:14px;display:none;font-weight:bold;min-height:44px}
+#cloud-status{margin-top:10px;font-size:11.5px;color:#90A4AE;padding:9px 12px;background:rgba(0,0,0,.3);border-radius:10px;line-height:1.5;text-align:left}
 #cloud-status.ok{color:#A5D6A7;border-left:3px solid #4CAF50}
 #cloud-status.err{color:#EF9A9A;border-left:3px solid #EF5350}
 #cloud-status.warn{color:#FFCC80;border-left:3px solid #FB8C00}
-#cloud-status .step{display:block;font-size:11px;opacity:.85;margin-top:4px}
-#auth-area{margin:16px 0;padding:14px;background:rgba(0,0,0,.25);border-radius:14px;border:1px solid rgba(255,255,255,.08)}
-.auth-label{color:#C8E6C9;font-size:12px;margin-bottom:12px}
-.auth-buttons{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.btn-google,.btn-anon{padding:10px 18px;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;min-width:170px}
-.btn-google{background:#fff;color:#1f1f1f;box-shadow:0 4px 0 #bdbdbd}
-.btn-anon{background:#4CAF50;color:#fff;box-shadow:0 4px 0 #2E7D32}
-.user-badge{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#1B5E20,#0d3b12);padding:10px 14px;border-radius:12px;border:2px solid #4CAF50}
-.user-avatar{width:42px;height:42px;border-radius:50%;border:2px solid #FFD54F;object-fit:cover}
-.user-text{flex:1;text-align:left}
-.user-name{color:#FFEB3B;font-size:14px;font-weight:bold}
-.user-email{color:#A5D6A7;font-size:11px}
-.btn-logout{width:30px;height:30px;border-radius:50%;background:rgba(200,30,30,.85);color:#fff;border:none;cursor:pointer}
+#cloud-status .step{display:block;font-size:10.5px;opacity:.85;margin-top:3px}
+#auth-area{margin:14px 0;padding:12px;background:rgba(0,0,0,.25);border-radius:12px}
+.auth-label{color:#C8E6C9;font-size:12px;margin-bottom:10px}
+.auth-buttons{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.btn-google,.btn-anon{padding:12px 16px;border-radius:10px;font-size:13px;font-weight:600;min-width:160px;min-height:44px;display:flex;align-items:center;justify-content:center}
+.btn-google{background:#fff;color:#1f1f1f;box-shadow:0 3px 0 #bdbdbd}
+.btn-anon{background:#4CAF50;color:#fff;box-shadow:0 3px 0 #2E7D32}
+.user-badge{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#1B5E20,#0d3b12);padding:8px 12px;border-radius:12px;border:2px solid #4CAF50}
+.user-avatar{width:38px;height:38px;border-radius:50%;border:2px solid #FFD54F;object-fit:cover;background:#37474F}
+.user-text{flex:1;text-align:left;min-width:0}
+.user-name{color:#FFEB3B;font-size:13px;font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.user-email{color:#A5D6A7;font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.btn-logout{width:34px;height:34px;border-radius:50%;background:rgba(200,30,30,.85);color:#fff;font-size:14px;font-weight:bold;flex-shrink:0}
 
-#game-screen{display:none;width:100%;max-width:1400px;margin:0 auto;background:#182228;border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.7);border:2px solid #263238}
-#hud{background:linear-gradient(90deg,#2E7D32,#1B5E20);padding:8px 12px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;border-bottom:3px solid #0d3b12}
-#farm-title-bar{display:flex;align-items:center;gap:8px;background:rgba(0,0,0,.3);padding:4px 12px;border-radius:18px;border:1px solid rgba(255,255,255,.15)}
-#farm-title-bar .name{font-size:14px;font-weight:bold;color:#FFEB3B}
-#farm-title-bar .edit{cursor:pointer;font-size:11px;opacity:.7;padding:2px 6px;border-radius:6px;background:rgba(255,255,255,.1)}
-#farm-title-bar .edit:hover{background:rgba(255,255,255,.25)}
-.stat{font-size:11px;font-weight:600;background:rgba(0,0,0,.28);padding:4px 9px;border-radius:16px;white-space:nowrap}
+#game-screen{display:none;width:100%;max-width:1400px;margin:0 auto;background:#182228;border-radius:14px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.7);border:2px solid #263238}
+#hud{background:linear-gradient(90deg,#2E7D32,#1B5E20);padding:6px 8px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;border-bottom:3px solid #0d3b12;position:sticky;top:0;z-index:90}
+#farm-title-bar{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.3);padding:3px 10px;border-radius:14px;border:1px solid rgba(255,255,255,.15);min-width:0}
+#farm-title-bar .name{font-size:12.5px;font-weight:bold;color:#FFEB3B;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px}
+#farm-title-bar .edit{cursor:pointer;font-size:10px;opacity:.85;padding:3px 6px;border-radius:6px;background:rgba(255,255,255,.12);white-space:nowrap}
+.stat{font-size:10.5px;font-weight:600;background:rgba(0,0,0,.28);padding:3px 8px;border-radius:14px;white-space:nowrap;display:inline-flex;align-items:center}
 .stat.money{color:#FFD54F}.stat.scale{color:#B3E5FC}.stat.rep{color:#F8BBD0}.stat.stars{color:#FFC107}
 .stat.energy{color:#FFE082}.stat.weather{color:#FFCCBC}.stat.day{color:#B39DDB}.stat.ach{color:#FFD54F}
 .stat.ad{color:#FFAB91}.stat.ad.inactive{opacity:.45}
 .stat.cloud{color:#81D4FA}.stat.cloud.ok{color:#A5D6A7}.stat.cloud.err{color:#EF9A9A}
-.stat.user{color:#FFEB3B;display:flex;align-items:center;gap:6px;padding:3px 10px 3px 3px}
-.stat.user img{width:22px;height:22px;border-radius:50%;border:1px solid #FFD54F}
+.stat.user{color:#FFEB3B;gap:5px;padding:2px 8px 2px 2px}
+.stat.user img{width:20px;height:20px;border-radius:50%;border:1px solid #FFD54F}
 .stat.clock{color:#FFEB3B}
 .stat.tax{color:#FF8A80}
+.stat.loan{color:#FF8A80}
 .spacer{flex:1}
-.top-btn{padding:5px 10px;font-size:11px;border-radius:8px;background:#37474F;color:#fff;border:none;cursor:pointer}
-.top-btn:hover{background:#546E7A}
+.top-btn{padding:7px 10px;font-size:11px;border-radius:8px;background:#37474F;color:#fff;min-height:34px;font-weight:600}
+.top-btn:active{background:#546E7A}
 .top-btn.warn{background:#E65100}
-.top-btn.warn:hover{background:#EF6C00}
 .top-btn.active{background:#FFC107;color:#1B5E20}
 
-#main{display:flex;flex-wrap:wrap;gap:10px;padding:10px;align-items:flex-start}
-#farm-area{flex:1 1 720px;min-width:0;max-width:100%}
-#farm-wrap{position:relative;width:100%;max-width:720px;margin:0 auto;border-radius:12px;overflow:hidden;border:3px solid #37474F}
-#farm{position:relative;width:720px;height:700px;transform-origin:top left;overflow:hidden}
-#sky{position:absolute;top:0;left:0;right:0;height:130px;transition:background .6s}
-#ground{position:absolute;top:130px;left:0;right:0;bottom:0;transition:background .6s}
+#main{display:flex;flex-wrap:wrap;gap:8px;padding:8px;align-items:flex-start}
+#farm-area{flex:1 1 700px;min-width:0;max-width:100%}
+#farm-wrap{position:relative;width:100%;max-width:700px;margin:0 auto;border-radius:10px;overflow:hidden;border:3px solid #37474F;touch-action:manipulation}
+#farm{position:relative;width:700px;height:680px;transform-origin:top left;overflow:hidden}
+#sky{position:absolute;top:0;left:0;right:0;height:125px;transition:background .6s}
+#ground{position:absolute;top:125px;left:0;right:0;bottom:0;transition:background .6s}
 #farm-decor{position:absolute;inset:0;pointer-events:none;z-index:1}
 #farm-decor span{position:absolute;filter:drop-shadow(0 3px 4px rgba(0,0,0,.4));user-select:none}
 #weather-fx{position:absolute;inset:0;pointer-events:none;z-index:50;overflow:hidden}
-.raindrop{position:absolute;width:2px;height:14px;background:linear-gradient(180deg,rgba(174,214,241,0),#AED6F1);top:-20px;animation:fall linear infinite}
+.raindrop{position:absolute;width:2px;height:12px;background:linear-gradient(180deg,rgba(174,214,241,0),#AED6F1);top:-20px;animation:fall linear infinite}
 @keyframes fall{to{transform:translateY(900px)}}
-.snow{position:absolute;width:6px;height:6px;background:#fff;border-radius:50%;opacity:.85;top:-10px;animation:snowfall linear infinite}
+.snow{position:absolute;width:5px;height:5px;background:#fff;border-radius:50%;opacity:.85;top:-10px;animation:snowfall linear infinite}
 @keyframes snowfall{to{transform:translateY(900px) translateX(30px)}}
 #weather-overlay{position:absolute;inset:0;pointer-events:none;z-index:51;transition:background .6s}
 #weather-overlay.storm{background:rgba(20,25,40,.55)}
 #weather-overlay.rainbow{background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,193,7,.08))}
 #weather-overlay.cold{background:rgba(120,180,240,.20)}
 #weather-overlay.rain{background:rgba(80,110,140,.22)}
-#paused-overlay{position:absolute;inset:0;background:rgba(0,0,0,.55);z-index:70;display:none;align-items:center;justify-content:center;flex-direction:column;color:#FFEB3B;font-size:28px;font-weight:bold;pointer-events:none}
+#paused-overlay{position:absolute;inset:0;background:rgba(0,0,0,.55);z-index:70;display:none;align-items:center;justify-content:center;flex-direction:column;color:#FFEB3B;font-size:22px;font-weight:bold;pointer-events:none}
 #paused-overlay.show{display:flex}
-#paused-overlay small{font-size:14px;color:#A5D6A7;margin-top:8px;font-weight:400}
-.sun{position:absolute;top:18px;left:26px;width:56px;height:56px;border-radius:50%;background:radial-gradient(circle,#FFF59D,#FFD54F);box-shadow:0 0 40px rgba(255,213,79,.85);z-index:2;transition:opacity .5s,transform .5s}
+#paused-overlay small{font-size:12px;color:#A5D6A7;margin-top:6px;font-weight:400}
+.sun{position:absolute;top:16px;left:24px;width:50px;height:50px;border-radius:50%;background:radial-gradient(circle,#FFF59D,#FFD54F);box-shadow:0 0 40px rgba(255,213,79,.85);z-index:2;transition:opacity .5s,transform .5s}
 .cloud{position:absolute;background:#fff;border-radius:50px;opacity:.85;z-index:2}
 .cloud::before,.cloud::after{content:'';position:absolute;background:#fff;border-radius:50%}
 .cloud::before{width:55%;height:150%;top:-60%;left:12%}
 .cloud::after{width:45%;height:130%;top:-45%;right:10%}
-.barn{position:absolute;top:40px;right:30px;width:105px;height:82px;z-index:2}
-.barn-body{position:absolute;bottom:0;left:0;right:0;height:55px;background:#C62828;border:2px solid #8E1F1F;border-radius:3px}
-.barn-roof{position:absolute;top:0;left:-8px;right:-8px;height:40px;background:#8D6E63;clip-path:polygon(50% 0%,100% 100%,0% 100%)}
-.barn-door{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:30px;height:38px;background:#5D4037;border-radius:4px 4px 0 0}
-.barn-window{position:absolute;bottom:28px;left:8px;width:18px;height:18px;background:#FFF59D;border:2px solid #5D4037;border-radius:3px}
-#weather-badge{position:absolute;top:8px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.65);color:#fff;padding:5px 14px;border-radius:18px;font-size:12px;font-weight:bold;z-index:60;border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;gap:6px;backdrop-filter:blur(4px)}
-.wdesc{font-size:10px;opacity:.85;font-weight:400}
-#zone-tabs{display:flex;gap:6px;padding:8px 12px 0;background:#1f2b30}
-.zone-tab{flex:1;padding:8px 12px;background:#263238;color:#B0BEC5;border:none;border-radius:10px 10px 0 0;font-size:12px;font-weight:bold;cursor:pointer}
+.barn{position:absolute;top:36px;right:24px;width:95px;height:74px;z-index:2}
+.barn-body{position:absolute;bottom:0;left:0;right:0;height:50px;background:#C62828;border:2px solid #8E1F1F;border-radius:3px}
+.barn-roof{position:absolute;top:0;left:-8px;right:-8px;height:36px;background:#8D6E63;clip-path:polygon(50% 0%,100% 100%,0% 100%)}
+.barn-door{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:26px;height:34px;background:#5D4037;border-radius:4px 4px 0 0}
+.barn-window{position:absolute;bottom:26px;left:8px;width:16px;height:16px;background:#FFF59D;border:2px solid #5D4037;border-radius:3px}
+#weather-badge{position:absolute;top:6px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.65);color:#fff;padding:4px 12px;border-radius:16px;font-size:11px;font-weight:bold;z-index:60;border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;gap:5px;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.wdesc{font-size:9.5px;opacity:.85;font-weight:400;display:none}
+@media (min-width:600px){.wdesc{display:inline}}
+#zone-tabs{display:flex;gap:5px;padding:6px 10px 0;background:#1f2b30;flex-wrap:wrap}
+.zone-tab{flex:1;min-width:120px;padding:8px 10px;background:#263238;color:#B0BEC5;border-radius:9px 9px 0 0;font-size:11.5px;font-weight:bold;min-height:38px}
 .zone-tab.active{background:#37474F;color:#FFD54F;border-bottom:3px solid #FFD54F}
-#tools-bar{display:flex;gap:6px;padding:8px 12px 0;background:#1f2b30;flex-wrap:wrap}
-.tool-btn{padding:6px 12px;background:#37474F;color:#eceff1;border:2px solid transparent;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer}
+#tools-bar{display:flex;gap:5px;padding:6px 10px 0;background:#1f2b30;flex-wrap:wrap}
+.tool-btn{padding:7px 12px;background:#37474F;color:#eceff1;border:2px solid transparent;border-radius:8px;font-size:11.5px;font-weight:600;min-height:36px}
 .tool-btn.active{background:#FFC107;color:#1B5E20;border-color:#FFA000}
-.tool-info{flex:1;display:flex;align-items:center;font-size:11px;color:#90A4AE;padding-left:8px}
-#plots{position:absolute;top:165px;left:20px;right:20px;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,100px);gap:8px;z-index:3}
-.plot{border-radius:10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid rgba(0,0,0,.45);overflow:hidden;box-shadow:inset 0 -4px 0 rgba(0,0,0,.15),0 2px 5px rgba(0,0,0,.3);position:relative;transition:transform .12s}
-.plot:hover{transform:scale(1.05)}
-.plot .plus{font-size:30px;color:rgba(255,255,255,.55);font-weight:900}
-.plot .hint-line{font-size:9.5px;color:rgba(255,255,255,.78);margin-top:4px;font-weight:600}
-.plot .emoji{font-size:30px;line-height:1;filter:drop-shadow(0 2px 3px rgba(0,0,0,.5))}
-.gene-badge{position:absolute;top:4px;right:4px;background:rgba(0,0,0,.7);border-radius:9px;font-size:12px;padding:1px 5px;line-height:1.3;border:1px solid rgba(255,255,255,.3)}
+.tool-info{flex:1;display:flex;align-items:center;font-size:10.5px;color:#90A4AE;padding-left:6px;min-width:100px}
+#plots{position:absolute;top:160px;left:16px;right:16px;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,96px);gap:7px;z-index:3}
+.plot{border-radius:9px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid rgba(0,0,0,.45);overflow:hidden;box-shadow:inset 0 -4px 0 rgba(0,0,0,.15),0 2px 5px rgba(0,0,0,.3);position:relative;touch-action:manipulation;-webkit-user-select:none;user-select:none}
+.plot:active{transform:scale(.96)}
+.plot .plus{font-size:26px;color:rgba(255,255,255,.55);font-weight:900;pointer-events:none}
+.plot .hint-line{font-size:9px;color:rgba(255,255,255,.78);margin-top:3px;font-weight:600;pointer-events:none}
+.plot .emoji{font-size:26px;line-height:1;filter:drop-shadow(0 2px 3px rgba(0,0,0,.5));pointer-events:none}
+.gene-badge{position:absolute;top:3px;right:3px;background:rgba(0,0,0,.75);border-radius:8px;font-size:11px;padding:1px 5px;line-height:1.3;border:1px solid rgba(255,255,255,.3);pointer-events:none}
 .gene-badge.gene-rainbow{color:#FF80AB}.gene-badge.gene-royal{color:#FFD54F}
-.gene-badge.gene-gold{color:#FFEB3B;text-shadow:0 0 8px #FFC107;animation:goldShine 1.4s ease infinite}
-@keyframes goldShine{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
-.bug-badge{position:absolute;top:4px;left:4px;background:rgba(200,30,30,.9);border-radius:9px;font-size:14px;padding:1px 5px;line-height:1.3;border:1px solid rgba(255,255,255,.4);animation:bugWiggle .8s ease infinite}
-@keyframes bugWiggle{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
-.badge-mini{position:absolute;top:4px;left:4px;font-size:14px;background:rgba(0,0,0,.7);border-radius:8px;padding:1px 5px;border:1px solid rgba(255,255,255,.3)}
+.gene-badge.gene-gold{color:#FFEB3B;text-shadow:0 0 8px #FFC107}
+.badge-mini{position:absolute;top:3px;left:3px;font-size:12px;background:rgba(0,0,0,.75);border-radius:7px;padding:1px 5px;border:1px solid rgba(255,255,255,.3);pointer-events:none}
 .badge-mini.fert{border-color:#8BC34A;color:#C5E1A5}
-.badge-mini.feed{border-color:#FFB74D;color:#FFE0B2}
-.badge-mini.hungry{border-color:#EF5350;color:#FFCDD2;animation:hungryBounce .8s ease infinite}
-@keyframes hungryBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-.badge-mini.sick{border-color:#B71C1C;color:#FF8A80;animation:sickPulse 1s ease infinite}
-@keyframes sickPulse{0%,100%{opacity:1}50%{opacity:.4}}
+.badge-mini.hungry{border-color:#EF5350;color:#FFCDD2}
+.badge-mini.sick{border-color:#B71C1C;color:#FF8A80}
+.badge-mini.dog{border-color:#8D6E63;color:#D7CCC8}
 .plot.locked{background:#4E342E!important;border-color:#3E2723!important}
-.plot .lock-icon{font-size:26px}
-.plot .lock-hint{font-size:10px;color:#FFD54F;margin-top:4px;font-weight:700}
-.plot .lock-sub{font-size:8px;color:#BCAAA4}
-.progress-track{position:absolute;bottom:6px;left:8px;right:8px;height:8px;background:rgba(0,0,0,.5);border-radius:4px;overflow:hidden}
+.plot .lock-icon{font-size:22px;pointer-events:none}
+.plot .lock-hint{font-size:9.5px;color:#FFD54F;margin-top:3px;font-weight:700;pointer-events:none}
+.plot .lock-sub{font-size:8px;color:#BCAAA4;pointer-events:none}
+.progress-track{position:absolute;bottom:5px;left:6px;right:6px;height:7px;background:rgba(0,0,0,.5);border-radius:4px;overflow:hidden}
 .progress-fill{height:100%;background:#4CAF50;border-radius:4px;transition:width .2s linear}
 .progress-fill.done{background:#FFD54F}.progress-fill.slow{background:#FF7043}
 .progress-fill.fert{background:linear-gradient(90deg,#4CAF50,#8BC34A)}
-.plot.ready{animation:pulse 1s infinite}
+.plot.ready{animation:pulse 1.2s infinite}
 @keyframes pulse{0%,100%{box-shadow:inset 0 -4px 0 rgba(0,0,0,.15),0 0 0 0 rgba(255,213,79,.85)}50%{box-shadow:inset 0 -4px 0 rgba(0,0,0,.15),0 0 0 8px rgba(255,213,79,0)}}
-.ready-tag{position:absolute;top:4px;left:50%;transform:translateX(-50%);background:#FFD54F;color:#3E2723;font-size:8px;font-weight:bold;padding:2px 6px;border-radius:7px;white-space:nowrap}
+.ready-tag{position:absolute;top:3px;left:50%;transform:translateX(-50%);background:#FFD54F;color:#3E2723;font-size:7.5px;font-weight:bold;padding:2px 5px;border-radius:6px;white-space:nowrap;pointer-events:none}
 
-#side-panel{flex:1 1 420px;min-width:300px;display:flex;flex-direction:column;gap:8px}
-.panel{background:#263238;border-radius:12px;border:1px solid #37474F;overflow:hidden}
-.panel-header{padding:10px 12px;cursor:pointer;user-select:none;display:flex;justify-content:space-between;align-items:center;gap:6px;font-size:12px;color:#80CBC4;text-transform:uppercase;letter-spacing:.5px;font-weight:600;background:#2a373d;transition:background .15s}
-.panel-header:hover{background:#2f4048}
-.panel-header .chevron{transition:transform .3s;color:#FFD54F;font-size:14px}
+#side-panel{flex:1 1 380px;min-width:280px;display:flex;flex-direction:column;gap:6px}
+.panel{background:#263238;border-radius:10px;border:1px solid #37474F;overflow:hidden}
+.panel-header{padding:10px 12px;cursor:pointer;user-select:none;display:flex;justify-content:space-between;align-items:center;gap:6px;font-size:11.5px;color:#80CBC4;letter-spacing:.4px;font-weight:600;background:#2a373d;min-height:40px;touch-action:manipulation}
+.panel-header:active{background:#2f4048}
+.panel-header .chevron{transition:transform .3s;color:#FFD54F;font-size:13px}
 .panel.collapsed .panel-header .chevron{transform:rotate(-90deg)}
-.panel-header .badge{background:#37474F;padding:2px 8px;border-radius:10px;font-size:10px;color:#FFD54F;text-transform:none}
-.panel-body{padding:10px 12px;max-height:2000px;overflow:hidden;transition:max-height .35s ease,padding .35s ease}
-.panel.collapsed .panel-body{max-height:0;padding:0 12px}
-.panel-body::-webkit-scrollbar{width:6px}
-.panel-body::-webkit-scrollbar-thumb{background:#455A64;border-radius:3px}
-
+.panel-header .badge{background:#37474F;padding:2px 7px;border-radius:9px;font-size:9.5px;color:#FFD54F;text-transform:none}
+.panel-body{padding:9px 11px;max-height:4000px;overflow:hidden;transition:max-height .3s ease,padding .3s ease}
+.panel.collapsed .panel-body{max-height:0;padding:0 11px}
 .shop-section{margin-bottom:8px}
 .shop-section:last-child{margin-bottom:0}
-.shop-sub{font-size:10px;color:#90A4AE;text-transform:uppercase;letter-spacing:.3px;margin-bottom:5px;font-weight:600;display:flex;justify-content:space-between}
+.shop-sub{font-size:10px;color:#90A4AE;letter-spacing:.3px;margin-bottom:5px;font-weight:600;display:flex;justify-content:space-between}
 .shop-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px}
-.shop-btn{background:#37474F;color:#eceff1;border:none;border-radius:7px;padding:6px 8px;font-size:11px;cursor:pointer;text-align:left;display:flex;justify-content:space-between;gap:4px}
-.shop-btn:hover{background:#546E7A}
-.shop-btn .price{color:#FFD54F;font-weight:bold}
+.shop-btn{background:#37474F;color:#eceff1;border-radius:7px;padding:8px 8px;font-size:11px;text-align:left;display:flex;justify-content:space-between;gap:4px;min-height:36px;align-items:center;touch-action:manipulation}
+.shop-btn:active{background:#546E7A}
+.shop-btn .price{color:#FFD54F;font-weight:bold;font-size:10px}
+.shop-btn .name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0}
 .ad-row{display:grid;grid-template-columns:1fr 1fr;gap:4px}
-.ad-btn{background:#5D4037;color:#fff;border:none;border-radius:7px;padding:7px 6px;font-size:11px;cursor:pointer}
-.ad-btn:hover{background:#795548}
-.unlock-btn,.land-btn,.worker-btn{display:flex;align-items:center;gap:6px;background:#37474F;color:#eceff1;border:none;border-radius:7px;padding:6px 9px;margin-bottom:4px;width:100%;font-size:11px;cursor:pointer;text-align:left}
-.unlock-btn:hover,.land-btn:hover,.worker-btn:hover:not(.hired){background:#546E7A}
-.unlock-name,.worker-name{flex:1;font-weight:600}
-.unlock-cost,.land-cost,.worker-cost{color:#FFD54F;font-weight:bold}
+.ad-btn{background:#5D4037;color:#fff;border-radius:7px;padding:9px 6px;font-size:11px;min-height:38px}
+.ad-btn:active{background:#795548}
+.unlock-btn,.land-btn,.worker-btn{display:flex;align-items:center;gap:6px;background:#37474F;color:#eceff1;border-radius:7px;padding:8px 9px;margin-bottom:4px;width:100%;font-size:11px;text-align:left;min-height:40px;touch-action:manipulation}
+.unlock-btn:active,.land-btn:active,.worker-btn:active{background:#546E7A}
+.unlock-name,.worker-name{flex:1;font-weight:600;min-width:0}
+.unlock-cost,.land-cost,.worker-cost{color:#FFD54F;font-weight:bold;font-size:10px}
 .land-btn{justify-content:space-between}
 .worker-btn.hired{background:#2E7D32;cursor:default}
 .worker-btn.hired .worker-cost{color:#C8E6C9}
-.worker-detail{font-size:9px;color:#B0BEC5;font-weight:400;display:block}
-#inventory-list{display:flex;flex-wrap:wrap;gap:4px;font-size:10.5px;min-height:20px;max-height:140px;overflow-y:auto;padding-right:3px}
-.inv-chip{background:#37474F;padding:2px 8px;border-radius:10px;border:1px solid #546E7A}
+.worker-detail{font-size:9px;color:#B0BEC5;font-weight:400;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#inventory-list{display:flex;flex-wrap:wrap;gap:4px;font-size:10.5px;min-height:20px;max-height:140px;overflow-y:auto;padding-right:2px}
+.inv-chip{background:#37474F;padding:3px 8px;border-radius:9px;border:1px solid #546E7A;font-size:10px}
 .inv-chip .chip-price{color:#FFD54F;font-size:9px;margin-left:3px}
 .inv-empty{color:#78909C;font-style:italic;font-size:10.5px}
-.sell-btn{width:100%;margin-top:8px;background:#455A64;color:#fff;border:none;border-radius:7px;padding:8px;font-size:11px;cursor:pointer}
-.sell-btn:hover{background:#546E7A}
-#customer-list{max-height:300px;overflow-y:auto;padding-right:3px}
-.customer{background:#37474F;border-radius:10px;padding:8px 10px;margin-bottom:6px;border-left:4px solid #FFC107}
+.sell-btn{width:100%;margin-top:7px;background:#455A64;color:#fff;border-radius:7px;padding:9px;font-size:11px;min-height:38px;font-weight:600}
+.sell-btn:active{background:#546E7A}
+#customer-list{max-height:320px;overflow-y:auto;padding-right:2px}
+.customer{background:#37474F;border-radius:9px;padding:8px 10px;margin-bottom:5px;border-left:4px solid #FFC107}
 .customer.vip{border-left-color:#FF80AB;background:#3a2f47}
 .customer.rare{border-left-color:#B39DDB;background:#2f2a44}
 .customer.merchant{border-left-color:#4DD0E1;background:#2a3b40}
 .customer.special{border-left-color:#FFD54F;background:#453b22}
-.cust-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.cust-name{font-size:12px;font-weight:bold;color:#FFD54F}
-.cust-tier{font-size:8px;padding:1px 5px;border-radius:8px;margin-left:4px;font-weight:bold}
+.cust-top{display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap}
+.cust-name{font-size:11.5px;font-weight:bold;color:#FFD54F}
+.cust-tier{font-size:8px;padding:1px 5px;border-radius:7px;margin-left:3px;font-weight:bold}
 .cust-tier.vip{background:#FF80AB;color:#fff}.cust-tier.rare{background:#B39DDB;color:#311B92}
 .cust-tier.merchant{background:#4DD0E1;color:#004D40}.cust-tier.special{background:#FFD54F;color:#3E2723}
-.cust-reward{font-size:11.5px;font-weight:bold;color:#A5D6A7}
-.cust-order{font-size:10.5px;color:#CFD8DC;margin:4px 0}
-.cust-bottom{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.cust-reward{font-size:11px;font-weight:bold;color:#A5D6A7}
+.cust-order{font-size:10px;color:#CFD8DC;margin:4px 0}
+.cust-bottom{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
 .patience-track{flex:1 1 100%;height:6px;background:#1c262b;border-radius:3px;overflow:hidden;margin-bottom:4px}
 .patience-fill{height:100%;background:#66BB6A;border-radius:3px}
 .patience-fill.low{background:#EF5350}
-.deliver-btn{background:#43A047;color:#fff;border:none;border-radius:6px;padding:5px 10px;font-size:10.5px;font-weight:bold;cursor:pointer}
-.partial-btn{background:#FB8C00;color:#fff;border:none;border-radius:6px;padding:5px 10px;font-size:10.5px;font-weight:bold;cursor:pointer}
-.reject-btn{background:#B71C1C;color:#fff;border:none;border-radius:6px;padding:5px 10px;font-size:10.5px;font-weight:bold;cursor:pointer}
-.deliver-btn:disabled,.partial-btn:disabled{background:#546E7A;cursor:not-allowed;opacity:.6}
-.empty-customers{color:#78909C;font-size:11px;text-align:center;padding:18px 10px;font-style:italic}
-.sm-row{display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px dashed #37474F;font-size:11px}
+.deliver-btn{background:#43A047;color:#fff;border-radius:6px;padding:7px 10px;font-size:10.5px;font-weight:bold;min-height:32px}
+.partial-btn{background:#FB8C00;color:#fff;border-radius:6px;padding:7px 10px;font-size:10.5px;font-weight:bold;min-height:32px}
+.reject-btn{background:#B71C1C;color:#fff;border-radius:6px;padding:7px 10px;font-size:10.5px;font-weight:bold;min-height:32px}
+.deliver-btn:disabled,.partial-btn:disabled{background:#546E7A;opacity:.6}
+.empty-customers{color:#78909C;font-size:11px;text-align:center;padding:16px 10px;font-style:italic}
+.sm-row{display:flex;align-items:center;gap:6px;padding:6px 0;border-bottom:1px dashed #37474F;font-size:11px;flex-wrap:wrap}
 .sm-row:last-child{border-bottom:none}
-.sm-item{flex:1;font-weight:600}
-.sm-price{color:#FFD54F;font-weight:bold;width:55px;text-align:right}
-.sm-comp{color:#90A4AE;width:55px;text-align:right;font-size:10px}
+.sm-item{flex:1;font-weight:600;min-width:70px}
+.sm-price{color:#FFD54F;font-weight:bold;font-size:11px}
+.sm-comp{color:#90A4AE;font-size:10px}
 .sm-comp.win{color:#A5D6A7}.sm-comp.lose{color:#EF9A9A}
-.sm-slider{width:100px}.sm-slider input{width:100%}
-.sm-header{display:flex;justify-content:space-between;font-size:10px;color:#607D8B;padding:4px 0;border-bottom:1px solid #37474F}
-.online-card{background:#1f2b30;border-radius:10px;padding:9px 11px;margin-bottom:6px;border-left:4px solid #29B6F6}
+.sm-slider{width:80px;flex-shrink:0}
+.sm-slider input{width:100%}
+.online-card{background:#1f2b30;border-radius:9px;padding:8px 10px;margin-bottom:5px;border-left:4px solid #29B6F6}
 .online-card.shipping{border-left-color:#FFB300}
-.online-top{display:flex;justify-content:space-between;align-items:center;gap:6px}
-.online-name{font-size:12px;font-weight:bold;color:#81D4FA}
-.online-reward{font-size:11.5px;font-weight:bold;color:#FFD54F}
-.online-order{font-size:10.5px;color:#CFD8DC;margin:4px 0}
-.online-bar{display:flex;gap:6px;align-items:center;font-size:10px;color:#90A4AE;margin-top:4px}
+.online-top{display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap}
+.online-name{font-size:11.5px;font-weight:bold;color:#81D4FA}
+.online-reward{font-size:11px;font-weight:bold;color:#FFD54F}
+.online-order{font-size:10px;color:#CFD8DC;margin:4px 0;word-break:break-word}
+.online-bar{display:flex;gap:6px;align-items:center;font-size:9.5px;color:#90A4AE;margin-top:4px}
 .online-track{flex:1;height:6px;background:#1c262b;border-radius:3px;overflow:hidden}
 .online-fill{height:100%;background:#29B6F6;border-radius:3px}
 .online-fill.shipping{background:#FFB300}
-#review-list{max-height:200px;overflow-y:auto;padding-right:3px}
-.review-item{background:#1f2b30;border-radius:8px;padding:6px 9px;font-size:10.5px;border-left:3px solid #4DD0E1;margin-bottom:5px}
-.review-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
-.review-name{font-weight:bold;color:#FFD54F;font-size:11px}
-.review-stars{color:#FFC107;font-size:11px}
+#review-list{max-height:200px;overflow-y:auto;padding-right:2px}
+.review-item{background:#1f2b30;border-radius:8px;padding:6px 9px;font-size:10.5px;border-left:3px solid #4DD0E1;margin-bottom:4px}
+.review-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px}
+.review-name{font-weight:bold;color:#FFD54F;font-size:10.5px}
+.review-stars{color:#FFC107;font-size:10.5px}
 .review-text{color:#CFD8DC;font-style:italic}
-#ach-panel-list{display:grid;grid-template-columns:1fr;gap:4px;max-height:200px;overflow-y:auto}
+#ach-panel-list{display:grid;gap:4px;max-height:200px;overflow-y:auto}
 .ach-item{background:#37474F;border-radius:7px;padding:5px 9px;font-size:10.5px;display:flex;align-items:center;gap:6px}
 .ach-item.done{background:#2E7D32;color:#C8E6C9}
-.ach-emoji{font-size:14px}
-.ach-name{flex:1}
-.ach-progress{color:#90A4AE;font-size:10px;font-weight:bold}
+.ach-emoji{font-size:13px}
+.ach-name{flex:1;min-width:0}
+.ach-progress{color:#90A4AE;font-size:9.5px;font-weight:bold}
 .ach-item.done .ach-progress{color:#A5D6A7}
 
-#status-bar{padding:9px 16px;background:#0d1418;border-top:2px solid #263238;font-size:12.5px;color:#FFF59D;min-height:38px;display:flex;align-items:center}
+#status-bar{padding:8px 12px;background:#0d1418;border-top:2px solid #263238;font-size:11.5px;color:#FFF59D;min-height:34px;display:flex;align-items:center}
 
-#modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:100;align-items:center;justify-content:center;padding:16px}
+#modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:100;align-items:center;justify-content:center;padding:12px}
 #modal-overlay.show{display:flex}
-#modal{background:#263238;border-radius:14px;padding:20px;width:100%;max-width:500px;border:2px solid #37474F;max-height:90vh;overflow-y:auto}
-#modal h3{color:#80CBC4;font-size:15px;margin-bottom:14px}
-.modal-option{display:flex;justify-content:space-between;align-items:center;background:#37474F;color:#eceff1;border:none;border-radius:9px;padding:10px 14px;margin-bottom:6px;width:100%;font-size:12.5px;cursor:pointer;text-align:left}
-.modal-option:hover{background:#4CAF50}
-.modal-option .count{color:#FFD54F;font-weight:bold}
-.modal-option.cancel{background:#455A64}
-.modal-close{width:100%;margin-top:8px;background:#455A64;color:#fff;border:none;border-radius:9px;padding:10px;font-size:13px;cursor:pointer}
-.modal-empty{color:#90A4AE;font-size:12.5px;text-align:center;padding:14px 0;line-height:1.7}
-.modal-shop-btn{background:#FFC107;color:#1B5E20;border:none;border-radius:9px;padding:11px 14px;width:100%;font-size:13px;font-weight:bold;cursor:pointer;margin-top:6px}
-.big-modal{background:#263238;border-radius:16px;padding:22px;width:100%;max-width:520px;border:2px solid #37474F;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.8)}
-.big-modal h2{font-size:18px;color:#FFD54F;margin-bottom:6px;text-align:center}
-.big-modal .subhead{text-align:center;color:#90A4AE;font-size:12px;margin-bottom:14px}
-.news-item{padding:10px 12px;background:#1f2b30;border-radius:10px;margin-bottom:7px;font-size:12.5px;line-height:1.6;border-left:3px solid #4DD0E1}
-.news-item.weather{border-left-color:#FFD54F}.news-item.market{border-left-color:#A5D6A7}
-.news-item.social{border-left-color:#FF80AB}.news-item.disease{border-left-color:#EF5350;background:#33222a}
-.report-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed #37474F;font-size:12.5px}
+#modal{background:#263238;border-radius:12px;padding:16px;width:100%;max-width:480px;border:2px solid #37474F;max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+#modal h3{color:#80CBC4;font-size:14px;margin-bottom:12px}
+.modal-option{display:flex;justify-content:space-between;align-items:center;background:#37474F;color:#eceff1;border-radius:9px;padding:11px 14px;margin-bottom:5px;width:100%;font-size:12.5px;text-align:left;min-height:44px;gap:6px}
+.modal-option:active{background:#4CAF50}
+.modal-option .count{color:#FFD54F;font-weight:bold;font-size:11px;flex-shrink:0}
+.modal-close{width:100%;margin-top:6px;background:#455A64;color:#fff;border-radius:9px;padding:11px;font-size:13px;min-height:44px}
+.modal-empty{color:#90A4AE;font-size:12px;text-align:center;padding:14px 0;line-height:1.6}
+.modal-shop-btn{background:#FFC107;color:#1B5E20;border-radius:9px;padding:11px 14px;width:100%;font-size:13px;font-weight:bold;margin-top:5px;min-height:44px}
+.big-modal{background:#263238;border-radius:14px;padding:18px;width:100%;max-width:500px;border:2px solid #37474F;max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.big-modal h2{font-size:16px;color:#FFD54F;margin-bottom:5px;text-align:center}
+.big-modal .subhead{text-align:center;color:#90A4AE;font-size:11.5px;margin-bottom:12px}
+.news-item{padding:9px 11px;background:#1f2b30;border-radius:9px;margin-bottom:6px;font-size:12px;line-height:1.5;border-left:3px solid #4DD0E1}
+.news-item.weather{border-left-color:#FFD54F}
+.news-item.market{border-left-color:#A5D6A7}
+.news-item.social{border-left-color:#FF80AB}
+.news-item.disease{border-left-color:#EF5350;background:#33222a}
+.report-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed #37474F;font-size:12px;gap:8px}
 .report-row:last-child{border-bottom:none}
-.report-row.total{font-weight:bold;font-size:14px;color:#FFD54F;border-top:2px solid #455A64;margin-top:6px;padding-top:10px}
-.report-row .val.income{color:#A5D6A7}.report-row .val.expense{color:#EF9A9A}
-.event-icon{font-size:48px;text-align:center;margin:8px 0}
-.event-title{font-size:17px;font-weight:bold;color:#FFD54F;text-align:center;margin-bottom:8px}
-.event-desc{font-size:13px;color:#CFD8DC;text-align:center;margin-bottom:18px;line-height:1.7}
-.event-btn{width:100%;padding:12px;margin-bottom:8px;background:#37474F;color:#eceff1;border:none;border-radius:10px;font-size:13px;cursor:pointer;text-align:left;display:flex;gap:10px;align-items:center}
-.event-btn:hover{background:#4CAF50}
-.event-btn.danger:hover{background:#C62828}
-.eb-icon{font-size:20px}.eb-text{flex:1}.eb-cost{color:#FFD54F;font-weight:bold;font-size:12px}
-#bulk-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:105;align-items:center;justify-content:center;padding:16px}
-.bulk-info{background:#1f2b30;padding:10px 14px;border-radius:10px;margin-bottom:12px;font-size:12.5px}
-.bulk-info .row{display:flex;justify-content:space-between;margin-bottom:5px}
+.report-row.total{font-weight:bold;font-size:13.5px;color:#FFD54F;border-top:2px solid #455A64;margin-top:5px;padding-top:9px}
+.report-row .val.income{color:#A5D6A7}
+.report-row .val.expense{color:#EF9A9A}
+.event-icon{font-size:42px;text-align:center;margin:6px 0}
+.event-title{font-size:15px;font-weight:bold;color:#FFD54F;text-align:center;margin-bottom:7px}
+.event-desc{font-size:12.5px;color:#CFD8DC;text-align:center;margin-bottom:14px;line-height:1.6}
+.event-btn{width:100%;padding:12px;margin-bottom:6px;background:#37474F;color:#eceff1;border-radius:10px;font-size:12.5px;text-align:left;display:flex;gap:8px;align-items:center;min-height:48px}
+.event-btn:active{background:#4CAF50}
+.event-btn.danger:active{background:#C62828}
+.eb-icon{font-size:18px;flex-shrink:0}
+.eb-text{flex:1;min-width:0}
+.eb-cost{color:#FFD54F;font-weight:bold;font-size:11px;flex-shrink:0}
+#bulk-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:105;align-items:center;justify-content:center;padding:12px}
+#bulk-overlay.show{display:flex}
+.bulk-info{background:#1f2b30;padding:9px 12px;border-radius:9px;margin-bottom:10px;font-size:12px}
+.bulk-info .row{display:flex;justify-content:space-between;margin-bottom:4px}
 .bulk-info .val{color:#FFD54F;font-weight:bold}
-.bulk-qty-row{display:flex;gap:5px;align-items:center;margin-bottom:12px}
-.bulk-qty-row button{background:#455A64;color:#fff;border:none;border-radius:8px;padding:8px 12px;font-size:12px;font-weight:bold;cursor:pointer}
-.bulk-qty-row input{flex:1;background:#1f2b30;color:#FFD54F;border:2px solid #455A64;border-radius:8px;padding:9px;font-size:16px;font-weight:bold;text-align:center}
-.bulk-actions{display:flex;gap:8px}
-.bulk-actions button{flex:1;padding:12px;border:none;border-radius:10px;font-size:13px;font-weight:bold;cursor:pointer}
-.btn-buy{background:#43A047;color:#fff}.btn-cancel{background:#455A64;color:#fff}
-#toast-container{position:fixed;top:14px;right:14px;display:flex;flex-direction:column;gap:8px;z-index:300;pointer-events:none;max-width:80vw}
-.toast{background:#2E7D32;color:#fff;padding:10px 18px;border-radius:9px;font-size:12.5px;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.5);border-left:4px solid #FFD54F;animation:toastIn .3s ease}
+.bulk-qty-row{display:flex;gap:4px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+.bulk-qty-row button{background:#455A64;color:#fff;border-radius:8px;padding:10px 12px;font-size:12px;font-weight:bold;min-height:42px;min-width:48px}
+.bulk-qty-row button:active{background:#546E7A}
+.bulk-qty-row input{flex:1;min-width:80px;background:#1f2b30;color:#FFD54F;border:2px solid #455A64;border-radius:8px;padding:9px;font-size:16px;font-weight:bold;text-align:center}
+.bulk-actions{display:flex;gap:6px}
+.bulk-actions button{flex:1;padding:12px;border-radius:10px;font-size:13px;font-weight:bold;min-height:46px}
+.btn-buy{background:#43A047;color:#fff}
+.btn-buy:active{background:#4CAF50}
+.btn-cancel{background:#455A64;color:#fff}
+.btn-cancel:active{background:#546E7A}
+#toast-container{position:fixed;top:10px;right:10px;left:10px;display:flex;flex-direction:column;gap:6px;z-index:300;pointer-events:none;max-width:360px;margin-left:auto}
+.toast{background:#2E7D32;color:#fff;padding:10px 14px;border-radius:9px;font-size:12px;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.5);border-left:4px solid #FFD54F;animation:toastIn .3s ease}
 .toast.error{background:#C62828}.toast.info{background:#0277BD}
 .toast.achievement{background:linear-gradient(135deg,#FFC107,#FF8F00);color:#3E2723}
 .toast.warn{background:#EF6C00}
-@keyframes toastIn{from{opacity:0;transform:translateX(50px)}to{opacity:1;transform:translateX(0)}}
+@keyframes toastIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+
+/* iPhone-specific fixes */
+@media (max-width:600px){
+  #main{flex-direction:column}
+  #side-panel{width:100%}
+  #plots{grid-template-rows:repeat(5,80px);gap:5px;top:150px;left:10px;right:10px}
+  .plot .emoji{font-size:22px}
+  .plot .plus{font-size:22px}
+  #farm{width:680px;height:620px}
+  #farm-wrap{max-width:100%}
+  .stat{font-size:10px;padding:3px 7px}
+  .top-btn{padding:6px 8px;font-size:10.5px}
+  #farm-title-bar .name{max-width:120px;font-size:11.5px}
+  .sm-slider{width:70px}
+}
+@supports (-webkit-touch-callout:none){
+  body{min-height:-webkit-fill-available}
+}
 </style>
 </head>
 <body>
 
 <div id="start-screen">
   <h1>🌾 NÔNG TRẠI VUI VẺ 🌾</h1>
-  <p class="subtitle">50 ô · Thời tiết 24h · Bón phân · Thuế · Kiểm dịch</p>
+  <p class="subtitle">50 ô · Thời tiết 24h · Nhân công · Thuế · Ngân hàng · Chó canh</p>
   <div id="auth-area">
     <p class="auth-label">🔐 Đăng nhập để đồng bộ save</p>
     <div class="auth-buttons">
       <button class="btn-google" id="btn-google">🔵 Đăng nhập Google</button>
       <button class="btn-anon" id="btn-anon">🎮 Chơi ẩn danh</button>
     </div>
-    <div id="auth-user" style="display:none;margin-top:12px;">
+    <div id="auth-user" style="display:none;margin-top:10px;">
       <div class="user-badge">
         <img id="user-avatar" class="user-avatar" src="" alt="">
         <div class="user-text"><div id="user-name" class="user-name"></div><div id="user-email" class="user-email"></div></div>
@@ -293,14 +319,14 @@ body{padding:10px}button{font-family:inherit}
     </div>
   </div>
   <div id="cloud-status" class="warn">⏳ Đang khởi động Firebase...</div>
-  <div id="game-setup" style="display:none;margin-top:20px;">
+  <div id="game-setup" style="display:none;margin-top:16px;">
     <label class="field-label">Tên nông trại</label>
     <input id="farm-name-input" type="text" value="Đồi Gió" maxlength="20">
-    <label class="field-label" style="margin-top:14px;">Chọn phông nền khởi đầu</label>
+    <label class="field-label" style="margin-top:12px;">Chọn phông nền khởi đầu</label>
     <div class="theme-grid" id="theme-grid"></div>
     <button class="btn-primary" id="start-btn">▶ BẮT ĐẦU MỚI</button>
     <button id="resume-btn">📂 CHƠI TIẾP</button>
-    <p class="hint">💡 Đổi tên trại: 100.000$ | Mua phông nền: 800$ – 250.000$</p>
+    <p class="hint">💡 Đổi tên: 100k | Vay bank 10%/ngày | Thuế 10% lợi nhuận</p>
   </div>
 </div>
 
@@ -308,25 +334,25 @@ body{padding:10px}button{font-family:inherit}
   <div id="hud">
     <div id="farm-title-bar">
       <span class="name" id="hud-title">🌾 Nông trại</span>
-      <span class="edit" id="rename-btn" title="Đổi tên (100.000$)">✏️ Đổi tên (100k)</span>
+      <span class="edit" id="rename-btn">✏️ 100k</span>
     </div>
     <span class="stat day" id="hud-day">📅 Ngày 1</span>
     <span class="stat clock" id="hud-clock">🕐 06:00</span>
     <span class="stat weather" id="hud-weather">☀️ Nắng</span>
     <span class="stat money" id="hud-money">💰 0$</span>
-    <span class="stat tax" id="hud-tax">📋 Thuế còn 7 ngày</span>
+    <span class="stat tax" id="hud-tax">📋 Thuế 10%</span>
+    <span class="stat loan" id="hud-loan" style="display:none">💳 0$</span>
     <span class="stat scale" id="hud-scale">🏡 0/50</span>
     <span class="stat rep" id="hud-rep">⭐ 5.0</span>
     <span class="stat stars" id="hud-stars">🌟 4.5★</span>
     <span class="stat energy" id="hud-energy">⚡ 100</span>
     <span class="stat ach" id="hud-ach">🏆 0/14</span>
     <span class="spacer"></span>
-    <span class="stat ad inactive" id="hud-ad">📢 Không QC</span>
+    <span class="stat ad inactive" id="hud-ad">📢 QC</span>
     <span class="stat user" id="hud-user" style="display:none;"></span>
     <span class="stat cloud" id="hud-cloud">☁️ ...</span>
-    <button class="top-btn warn" id="pause-btn">⏸ Tạm dừng</button>
-    <button class="top-btn" id="save-btn">💾 Lưu</button>
-    <button class="top-btn" id="reset-btn">🔄 Chơi lại</button>
+    <button class="top-btn warn" id="pause-btn">⏸</button>
+    <button class="top-btn" id="save-btn">💾</button>
   </div>
 
   <div id="main">
@@ -338,49 +364,41 @@ body{padding:10px}button{font-family:inherit}
       <div id="tools-bar">
         <button class="tool-btn active" data-tool="hand">✋ Tay</button>
         <button class="tool-btn" data-tool="shovel">🪏 Xẻng</button>
-        <div class="tool-info" id="tool-info">Bấm ô để trồng / thu hoạch / bón phân / cho ăn</div>
+        <button class="tool-btn" data-tool="spray">💨 Thuốc sâu</button>
+        <div class="tool-info" id="tool-info">Bấm ô để trồng / thu hoạch / bón phân</div>
       </div>
       <div id="farm-wrap">
         <div id="farm">
           <div id="sky"></div><div id="ground"></div>
           <div id="farm-decor"></div>
           <div class="sun" id="sunEl"></div>
-          <div class="cloud" style="top:28px;left:190px;width:70px;height:24px;"></div>
-          <div class="cloud" style="top:60px;left:380px;width:55px;height:18px;"></div>
-          <div class="cloud" style="top:18px;left:520px;width:60px;height:20px;"></div>
+          <div class="cloud" style="top:26px;left:180px;width:65px;height:22px;"></div>
+          <div class="cloud" style="top:55px;left:360px;width:50px;height:16px;"></div>
+          <div class="cloud" style="top:16px;left:500px;width:55px;height:18px;"></div>
           <div class="barn"><div class="barn-roof"></div><div class="barn-body"></div><div class="barn-door"></div><div class="barn-window"></div></div>
           <div id="plots"></div>
           <div id="weather-fx"></div>
           <div id="weather-overlay"></div>
           <div id="weather-badge"><span id="wb-emoji">☀️</span><span id="wb-name">Nắng</span><span class="wdesc" id="wb-desc"></span></div>
-          <div id="paused-overlay">⏸ TẠM DỪNG<small>Bấm nút "Tiếp tục" để chơi</small></div>
+          <div id="paused-overlay">⏸ TẠM DỪNG<small>Bấm nút ⏸ để tiếp tục</small></div>
         </div>
       </div>
     </div>
 
     <div id="side-panel">
       <div class="panel collapsed" id="panel-theme">
-        <div class="panel-header" data-panel="panel-theme">
-          <span>🎨 Phông nền <span class="badge" id="theme-count">1/10</span></span>
-          <span class="chevron">▼</span>
-        </div>
+        <div class="panel-header" data-panel="panel-theme"><span>🎨 Phông nền <span class="badge" id="theme-count">1/10</span></span><span class="chevron">▼</span></div>
         <div class="panel-body"><div id="theme-shop-list"></div></div>
       </div>
 
       <div class="panel" id="panel-shop">
-        <div class="panel-header" data-panel="panel-shop">
-          <span>🛒 Cửa hàng</span><span class="chevron">▼</span>
-        </div>
+        <div class="panel-header" data-panel="panel-shop"><span>🛒 Cửa hàng</span><span class="chevron">▼</span></div>
         <div class="panel-body">
-          <div class="shop-section"><div class="shop-sub">🌱 Hạt giống cơ bản</div><div class="shop-grid" id="shop-crops"></div></div>
+          <div class="shop-section"><div class="shop-sub">🌱 Hạt giống</div><div class="shop-grid" id="shop-crops"></div></div>
           <div class="shop-section"><div class="shop-sub">🐾 Con giống</div><div class="shop-grid" id="shop-animals"></div></div>
-          <div class="shop-section"><div class="shop-sub">🧪 Vật tư (bón phân, cám)</div><div class="shop-grid" id="shop-supplies"></div></div>
-          <div class="shop-section"><div class="shop-sub">🎁 Gói bí ẩn <span id="mystery-count">0/1000</span></div>
-            <div class="shop-grid">
-              <button class="shop-btn" id="buy-mystery-1"><span>🎁 1 gói</span><span class="price">200$</span></button>
-              <button class="shop-btn" id="buy-mystery-10"><span>🎁 10 gói</span><span class="price">1800$</span></button>
-            </div>
-          </div>
+          <div class="shop-section"><div class="shop-sub">🐕 Chó canh trại</div><div class="shop-grid" id="shop-dogs"></div></div>
+          <div class="shop-section"><div class="shop-sub">🏭 Máy móc</div><div class="shop-grid" id="shop-mills"></div></div>
+          <div class="shop-section"><div class="shop-sub">💨 Vật tư</div><div class="shop-grid" id="shop-tools"></div></div>
           <div class="shop-section"><div class="shop-sub">📢 Quảng cáo</div>
             <div class="ad-row">
               <button class="ad-btn" data-ad="flyer">📢 Tờ rơi 100$</button>
@@ -390,63 +408,77 @@ body{padding:10px}button{font-family:inherit}
         </div>
       </div>
 
-      <div class="panel collapsed" id="panel-supermarket">
-        <div class="panel-header" data-panel="panel-supermarket">
-          <span>🏪 Siêu thị <span class="badge" id="sm-sales-today">0$</span></span><span class="chevron">▼</span>
-        </div>
+      <div class="panel collapsed" id="panel-bank">
+        <div class="panel-header" data-panel="panel-bank"><span>🏦 Ngân hàng <span class="badge" id="bank-badge">0$</span></span><span class="chevron">▼</span></div>
         <div class="panel-body">
-          <div class="sm-header"><span>Mặt hàng</span><span style="width:55px;text-align:right">Giá bạn</span><span style="width:55px;text-align:right">Đối thủ</span><span style="width:100px"></span></div>
+          <div class="shop-sub">Vay tiền (lãi 10%/ngày)</div>
+          <div class="shop-grid">
+            <button class="shop-btn" data-loan="5000"><span class="name">Vay 5.000$</span><span class="price">+500$</span></button>
+            <button class="shop-btn" data-loan="20000"><span class="name">Vay 20.000$</span><span class="price">+2k$</span></button>
+            <button class="shop-btn" data-loan="50000"><span class="name">Vay 50.000$</span><span class="price">+5k$</span></button>
+            <button class="shop-btn" data-loan="100000"><span class="name">Vay 100.000$</span><span class="price">+10k$</span></button>
+          </div>
+          <button class="sell-btn" id="repay-all">💳 Trả hết nợ</button>
+        </div>
+      </div>
+
+      <div class="panel collapsed" id="panel-mill">
+        <div class="panel-header" data-panel="panel-mill"><span>🏭 Máy móc <span class="badge" id="mill-badge">0</span></span><span class="chevron">▼</span></div>
+        <div class="panel-body" id="mill-panel"></div>
+      </div>
+
+      <div class="panel collapsed" id="panel-workers">
+        <div class="panel-header" data-panel="panel-workers"><span>🧑‍🌾 Nhân công <span class="badge" id="worker-badge">0</span></span><span class="chevron">▼</span></div>
+        <div class="panel-body" id="workers-panel"></div>
+      </div>
+
+      <div class="panel collapsed" id="panel-dogs">
+        <div class="panel-header" data-panel="panel-dogs"><span>🐕 Chó canh <span class="badge" id="dog-badge">0</span></span><span class="chevron">▼</span></div>
+        <div class="panel-body" id="dogs-panel"></div>
+      </div>
+
+      <div class="panel collapsed" id="panel-supermarket">
+        <div class="panel-header" data-panel="panel-supermarket"><span>🏪 Siêu thị <span class="badge" id="sm-sales-today">0$</span></span><span class="chevron">▼</span></div>
+        <div class="panel-body">
+          <div class="sm-row" style="font-size:10px;color:#607D8B;font-weight:600"><span style="flex:1">Mặt hàng</span><span>Giá bạn</span><span>Đối thủ</span><span style="width:80px"></span></div>
           <div id="supermarket-list"></div>
         </div>
       </div>
 
       <div class="panel collapsed" id="panel-online">
-        <div class="panel-header" data-panel="panel-online">
-          <span>📦 Đơn Online <span class="badge" id="online-count">0</span></span><span class="chevron">▼</span>
-        </div>
+        <div class="panel-header" data-panel="panel-online"><span>📦 Đơn Online <span class="badge" id="online-count">0</span></span><span class="chevron">▼</span></div>
         <div class="panel-body"><div id="online-list"></div></div>
       </div>
 
       <div class="panel collapsed" id="panel-upgrade">
-        <div class="panel-header" data-panel="panel-upgrade">
-          <span>⬆️ Nâng cấp</span><span class="chevron">▼</span>
-        </div>
+        <div class="panel-header" data-panel="panel-upgrade"><span>⬆️ Nâng cấp</span><span class="chevron">▼</span></div>
         <div class="panel-body">
           <div class="shop-sub">🌱 Mở khoá cây</div><div id="unlock-list"></div>
           <div class="shop-sub" style="margin-top:6px">🏗️ Mở rộng đất</div><div id="land-list"></div>
-          <div class="shop-sub" style="margin-top:6px">🧑‍🌾 Nhân công</div><div id="worker-list"></div>
           <div class="shop-sub" style="margin-top:6px">💉 Vaccine</div><div id="vaccine-list"></div>
         </div>
       </div>
 
       <div class="panel collapsed" id="panel-ach">
-        <div class="panel-header" data-panel="panel-ach">
-          <span>🏆 Thành tựu <span class="badge" id="ach-count">0/14</span></span><span class="chevron">▼</span>
-        </div>
+        <div class="panel-header" data-panel="panel-ach"><span>🏆 Thành tựu <span class="badge" id="ach-count">0/14</span></span><span class="chevron">▼</span></div>
         <div class="panel-body"><div id="ach-panel-list"></div></div>
       </div>
 
       <div class="panel" id="panel-inv">
-        <div class="panel-header" data-panel="panel-inv">
-          <span>🎒 Kho hàng</span><span class="chevron">▼</span>
-        </div>
+        <div class="panel-header" data-panel="panel-inv"><span>🎒 Kho hàng</span><span class="chevron">▼</span></div>
         <div class="panel-body">
           <div id="inventory-list"></div>
-          <button class="sell-btn" id="sell-all-btn">🏪 Bán lẻ ở chợ (80% giá)</button>
+          <button class="sell-btn" id="sell-all-btn">🏪 Bán lẻ ở chợ (80%)</button>
         </div>
       </div>
 
       <div class="panel collapsed" id="panel-review">
-        <div class="panel-header" data-panel="panel-review">
-          <span>💬 Nhận xét NPC <span class="badge" id="review-count">0</span></span><span class="chevron">▼</span>
-        </div>
+        <div class="panel-header" data-panel="panel-review"><span>💬 Nhận xét <span class="badge" id="review-count">0</span></span><span class="chevron">▼</span></div>
         <div class="panel-body"><div id="review-list"></div></div>
       </div>
 
       <div class="panel" id="panel-cust">
-        <div class="panel-header" data-panel="panel-cust">
-          <span>👥 Khách hàng <span class="badge" id="cust-count">0</span></span><span class="chevron">▼</span>
-        </div>
+        <div class="panel-header" data-panel="panel-cust"><span>👥 Khách hàng <span class="badge" id="cust-count">0</span></span><span class="chevron">▼</span></div>
         <div class="panel-body"><div id="customer-list"></div></div>
       </div>
     </div>
@@ -458,7 +490,7 @@ body{padding:10px}button{font-family:inherit}
 <div id="modal-overlay"><div id="modal"><h3 id="modal-title">Chọn</h3><div id="modal-body"></div><button class="modal-close" id="modal-close">Đóng</button></div></div>
 
 <div id="bulk-overlay">
-  <div class="big-modal" style="max-width:380px;">
+  <div class="big-modal" style="max-width:360px;">
     <h2 id="bulk-title">Mua số lượng lớn</h2>
     <div class="subhead" id="bulk-sub"></div>
     <div class="bulk-info">
@@ -476,18 +508,18 @@ body{padding:10px}button{font-family:inherit}
   </div>
 </div>
 
-<div id="news-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:110;align-items:center;justify-content:center;padding:16px;">
-  <div class="big-modal"><h2>📰 BẢN TIN NÔNG TRẠI</h2><div class="subhead" id="news-day-label">Ngày 1</div><div id="news-body"></div><button class="btn-primary" style="width:100%;margin-top:12px;padding:11px;" id="news-ok">ĐÓN NGÀY MỚI 🌅</button></div>
+<div id="news-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:110;align-items:center;justify-content:center;padding:12px;">
+  <div class="big-modal"><h2>📰 BẢN TIN NÔNG TRẠI</h2><div class="subhead" id="news-day-label">Ngày 1</div><div id="news-body"></div><button class="btn-primary" style="width:100%;margin-top:12px;padding:12px;" id="news-ok">ĐÓN NGÀY MỚI 🌅</button></div>
 </div>
-<div id="report-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:110;align-items:center;justify-content:center;padding:16px;">
-  <div class="big-modal"><h2>📊 SỔ THU CHI</h2><div class="subhead" id="report-day-label">Kết thúc ngày</div><div id="report-body"></div><button class="btn-primary" style="width:100%;margin-top:14px;padding:11px;" id="report-ok">TIẾP TỤC</button></div>
+<div id="report-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:110;align-items:center;justify-content:center;padding:12px;">
+  <div class="big-modal"><h2>📊 SỔ THU CHI</h2><div class="subhead" id="report-day-label">Kết thúc ngày</div><div id="report-body"></div><button class="btn-primary" style="width:100%;margin-top:12px;padding:12px;" id="report-ok">TIẾP TỤC</button></div>
 </div>
-<div id="event-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:115;align-items:center;justify-content:center;padding:16px;">
+<div id="event-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:115;align-items:center;justify-content:center;padding:12px;">
   <div class="big-modal"><div class="event-icon" id="event-icon">🐔</div><div class="event-title" id="event-title"></div><div class="event-desc" id="event-desc"></div><div id="event-choices"></div></div>
 </div>
 <div id="toast-container"></div>
 
-<!-- ========== FIREBASE ========== -->
+<!-- ===== FIREBASE ===== -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
@@ -503,11 +535,9 @@ const firebaseConfig = {
   appId: "1:606861982631:web:55d4abeebc89b1eab9d482",
   measurementId: "G-KYZ3335TMC"
 };
-
 let app, auth, db;
 const provider = new GoogleAuthProvider();
 provider.setCustomParameters({ prompt: 'select_account' });
-
 try {
   app = initializeApp(firebaseConfig);
   try { getAnalytics(app); } catch(e){}
@@ -522,10 +552,10 @@ window.Cloud = {
     try {
       const json = JSON.stringify(data);
       if (json.length > 900000) return false;
-      await setDoc(doc(db, 'saves', this.userId), { data: json, updatedAt: serverTimestamp(), version: 6, day: data.day || 1, money: data.money || 0 });
+      await setDoc(doc(db, 'saves', this.userId), { data: json, updatedAt: serverTimestamp(), version: 7, day: data.day || 1, money: data.money || 0 });
       this.lastSync = Date.now();
       return true;
-    } catch (e) { console.error('save', e); return false; }
+    } catch (e) { return false; }
   },
   async load() {
     if (!this.ready || !this.userId) return null;
@@ -553,7 +583,6 @@ const setStatus = (state, html) => {
   const el = document.getElementById('cloud-status');
   if (el) { el.className = state; el.innerHTML = html; }
 };
-
 const btnGoogle = document.getElementById('btn-google');
 const btnAnon = document.getElementById('btn-anon');
 const btnLogout = document.getElementById('btn-logout');
@@ -600,7 +629,6 @@ if (btnLogout) btnLogout.onclick = async () => {
   if (!confirm('Đăng xuất?')) return;
   await window.Cloud.logout(); location.reload();
 };
-
 if (auth) {
   getRedirectResult(auth).catch(()=>{});
   onAuthStateChanged(auth, user => {
@@ -624,7 +652,7 @@ if (auth) {
       const hu = document.getElementById('hud-user');
       if (hu) {
         hu.innerHTML = gData ? `<img src="${gData.photoURL||''}">${(gData.displayName||'User').split(' ').slice(-1)[0]}` : '🎮 Khách';
-        hu.style.display = 'flex';
+        hu.style.display = 'inline-flex';
       }
       const hc = document.getElementById('hud-cloud');
       if (hc) { hc.textContent = '☁️ ✓'; hc.className = 'stat cloud ok'; }
@@ -640,66 +668,63 @@ if (auth) {
 window.updateCloudHUD = state => {
   const el = document.getElementById('hud-cloud');
   if (el) {
-    el.textContent = state === 'saving' ? '☁️ Đang lưu...' : state === 'ok' ? '☁️ ✓' : '☁️ ✗';
+    el.textContent = state === 'saving' ? '☁️...' : state === 'ok' ? '☁️ ✓' : '☁️ ✗';
     el.className = 'stat cloud ' + (state === 'ok' ? 'ok' : state === 'err' ? 'err' : '');
   }
 };
 </script>
 
-<!-- ========== GAME ========== -->
+<!-- ===== GAME ===== -->
 <script>
-/* ====== DATA ====== */
+/* ============ DATA ============ */
 const CROPS = {
-  "Cà rốt":  { seed: 10,  grow: 6,  sell: 22,  emoji: "🥕", unlockCost: 0,    coldResist: true  },
-  "Lúa":     { seed: 15,  grow: 8,  sell: 32,  emoji: "🌾", unlockCost: 0,    coldResist: true  },
-  "Ngô":     { seed: 20,  grow: 9,  sell: 42,  emoji: "🌽", unlockCost: 60,   coldResist: false },
-  "Cà chua": { seed: 25,  grow: 10, sell: 55,  emoji: "🍅", unlockCost: 120,  coldResist: false },
-  "Bắp cải": { seed: 45,  grow: 15, sell: 100, emoji: "🥬", unlockCost: 350,  coldResist: true  },
-  "Dâu tây": { seed: 80,  grow: 22, sell: 180, emoji: "🍓", unlockCost: 900,  coldResist: true  },
-  "Nho":     { seed: 140, grow: 30, sell: 320, emoji: "🍇", unlockCost: 2200, coldResist: false }
+  "Cà rốt":    { seed: 10,  grow: 6,  sell: 22,  emoji: "🥕", unlockCost: 0,    coldResist: true  },
+  "Lúa":       { seed: 15,  grow: 8,  sell: 32,  emoji: "🌾", unlockCost: 0,    coldResist: true  },
+  "Ngô":       { seed: 20,  grow: 9,  sell: 45,  emoji: "🌽", unlockCost: 50,   coldResist: false },
+  "Khoai tây": { seed: 22,  grow: 10, sell: 50,  emoji: "🥔", unlockCost: 80,   coldResist: true  },
+  "Dưa chuột": { seed: 30,  grow: 11, sell: 65,  emoji: "🥒", unlockCost: 150,  coldResist: false },
+  "Cà chua":   { seed: 35,  grow: 12, sell: 75,  emoji: "🍅", unlockCost: 220,  coldResist: false },
+  "Ớt":        { seed: 45,  grow: 14, sell: 100, emoji: "🌶️", unlockCost: 400,  coldResist: false },
+  "Bắp cải":   { seed: 55,  grow: 16, sell: 130, emoji: "🥬", unlockCost: 600,  coldResist: true  },
+  "Bí đỏ":     { seed: 70,  grow: 18, sell: 170, emoji: "🎃", unlockCost: 900,  coldResist: true  },
+  "Dâu tây":   { seed: 100, grow: 22, sell: 240, emoji: "🍓", unlockCost: 1500, coldResist: true  },
+  "Nho":       { seed: 160, grow: 28, sell: 420, emoji: "🍇", unlockCost: 3000, coldResist: false }
 };
 const ANIMALS = {
-  "Gà":  { cost: 60,  time: 7,  product: "Trứng",    sell: 28,  emoji: "🐔" },
-  "Heo": { cost: 160, time: 12, product: "Thịt heo", sell: 75,  emoji: "🐷" },
-  "Bò":  { cost: 340, time: 16, product: "Sữa",      sell: 150, emoji: "🐄" },
-  "Cừu": { cost: 600, time: 22, product: "Len",      sell: 260, emoji: "🐑" }
+  "Gà":   { cost: 60,   time: 7,  product: "Trứng",    sell: 28,  emoji: "🐔", waste: 1 },
+  "Vịt":  { cost: 90,   time: 8,  product: "Trứng vịt",sell: 42,  emoji: "🦆", waste: 1 },
+  "Heo":  { cost: 180,  time: 12, product: "Thịt heo", sell: 85,  emoji: "🐷", waste: 3 },
+  "Bò":   { cost: 380,  time: 16, product: "Sữa",      sell: 165, emoji: "🐄", waste: 4 },
+  "Trâu": { cost: 550,  time: 20, product: "Sữa trâu", sell: 220, emoji: "🐃", waste: 5 },
+  "Cừu":  { cost: 650,  time: 22, product: "Len",      sell: 280, emoji: "🐑", waste: 2 }
 };
-const SUPPLIES = {
-  "Phân bón": { cost: 30, emoji: "🧪", desc: "Tăng tốc cây ×2" },
-  "Cám":      { cost: 20, emoji: "🌾", desc: "Cho vật nuôi ăn" }
+const DOGS = {
+  "Chó ta":          { cost: 20000,  guard: 25, emoji: "🐕",   desc: "25% chống trộm" },
+  "Béc-giê Đức":     { cost: 60000,  guard: 50, emoji: "🐕‍🦺", desc: "50% chống trộm" },
+  "Pitbull":         { cost: 100000, guard: 75, emoji: "🐶",   desc: "75% chống trộm" },
+  "Doberman":        { cost: 150000, guard: 90, emoji: "🦮",   desc: "90% chống trộm" }
 };
-
-/* ====== 1000 CÂY BÍ ẨN VỚI TÊN CÂY THỰC TẾ ====== */
-const MYSTERY_CROPS = {};
-(function() {
-  const REAL = [
-    'Lúa','Ngô','Khoai lang','Khoai tây','Sắn','Đậu tương','Lạc','Vừng',
-    'Rau muống','Cải xanh','Súp lơ','Cà chua','Dưa chuột','Dưa hấu','Bí đỏ',
-    'Mướp','Ớt','Cà rốt','Củ cải','Hành','Tỏi','Gừng','Nghệ','Đậu đũa',
-    'Rau dền','Mồng tơi','Rau ngót','Xà lách','Tía tô','Su su','Cà tím',
-    'Ngô ngọt','Rau cần','Cải cúc','Bắp cải','Hẹ','Sả','Rau mùi','Cải ngọt',
-    'Mướp đắng'
-  ];
-  const VAR = ['nếp','tẻ','tám','đỏ','vàng','xanh','trắng','đen','tím',
-    'cao sản','lai F1','địa phương','sớm','muộn','hè','đông','xuân','thu',
-    'ngọt','thơm','giống mới','truyền thống','nhập nội','chịu hạn','chịu lạnh'];
-  const EMOJIS = ['🌱','🌿','🍀','🌾','🌽','🥕','🍅','🥬','🍓','🍇','🌻','🌰','🥔','🍠','🥒','🍆','🫑','🥜','🫘'];
-  for (const r of REAL) for (const v of VAR) {
-    const name = r + ' ' + v;
-    let h = 0;
-    for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) | 0;
-    h = Math.abs(h);
-    const tier = 1 + (h % 5);
-    const grow = 6 + tier * 3 + ((h >> 4) % 8);
-    const sell = 25 + tier * 70 + ((h >> 8) % 90);
-    MYSTERY_CROPS[name] = {
-      seed: Math.floor(sell * 0.3), grow, sell,
-      emoji: EMOJIS[(h >> 12) % EMOJIS.length],
-      unlockCost: 0, mystery: true, tier
-    };
-  }
-})();
-function getCrop(n) { return CROPS[n] || MYSTERY_CROPS[n] || null; }
+const MILLS = {
+  "Máy nghiền ngô": { price: 8000,  input: "Ngô",  output: "Cám",  ratio: 1,  emoji: "⚙️" },
+  "Máy xay thóc":   { price: 12000, input: "Lúa",  output: "Gạo",  ratio: 1,  emoji: "🏭" }
+};
+const PRODUCT_PRICE = {
+  "Cám": 60, "Gạo": 120, "Phân": 15
+};
+const WORKER_TYPES = {
+  "Nông dân": { baseCost: 500,   salary: 150, skill: "harvest", emoji: "🧑‍🌾", desc: "Thu hoạch tự động" },
+  "Kỹ sư":    { baseCost: 2000,  salary: 600, skill: "plant",   emoji: "👨‍🌾", desc: "Trồng + thu hoạch" },
+  "Quản lý":  { baseCost: 5000,  salary: 1500,skill: "all",     emoji: "🧑‍💼", desc: "Toàn quyền + giao hàng" },
+  "Chăn nuôi":{ baseCost: 1200,  salary: 400, skill: "feed",    emoji: "👩‍🌾", desc: "Cho ăn + thu hoạch" }
+};
+const PERSONALITIES = ["chăm chỉ","lười biếng","nhanh nhẹn","cẩn thận","vụng về","thông minh","vui tính","trầm lặng","nóng tính","kiên nhẫn"];
+const HO = ["Nguyễn","Trần","Lê","Phạm","Hoàng","Huỳnh","Vũ","Võ","Đặng","Bùi","Đỗ","Hồ","Ngô","Dương","Lý","Đinh","Tạ","Trịnh","Cao","Mai"];
+const DEM = ["Văn","Thị","Minh","Hữu","Thanh","Quốc","Ngọc","Kim","Anh","Đức","Xuân","Thu"];
+const TEN = ["An","Bình","Châu","Dũng","Giang","Hà","Hùng","Lan","Mai","Nam","Oanh","Phúc","Quỳnh","Sơn","Trang","Tuấn","Vy","Yến","Khoa","Linh","My","Nhi","Phong","Thảo","Trâm","Kiệt","Hân","Lộc","Tú","Bảo"];
+const TITLES = ["Anh","Chị","Cô","Chú","Bác","Em","Ông","Bà","Cậu","Dì"];
+const REVIEWS_GOOD = ["Tuyệt vời!","Giao nhanh!","Sẽ quay lại!","Uy tín!","Đúng hẹn!","Hàng tươi!"];
+const REVIEWS_MID = ["Được.","Cũng tạm.","Hàng đúng, hơi chậm.","OK."];
+const REVIEWS_BAD = ["Chờ lâu!","Giao trễ!","Không hài lòng.","Thất vọng!"];
 
 const GENES = {
   normal:  { emoji: "",   label: "Thường",    weight: 90, yield: 1 },
@@ -716,197 +741,119 @@ function rollGene() {
 const WEATHERS = {
   sunny:   { emoji: "☀️", name: "Nắng",     growMul: 1.4,  desc: "Cây lớn +40%",          marketEffect: { veg: 0.95 } },
   rain:    { emoji: "🌧️", name: "Mưa",      growMul: 1.15, desc: "Không cần tưới",         marketEffect: { veg: 1.25 } },
-  storm:   { emoji: "⛈️", name: "Bão",      growMul: 0.7,  desc: "Cây có thể hỏng! (ĐV an toàn)", marketEffect: { veg: 1.35 }, stormChance: 0.02 },
+  storm:   { emoji: "⛈️", name: "Bão",      growMul: 0.7,  desc: "Cây có thể hỏng",        marketEffect: { veg: 1.35 }, stormChance: 0.02 },
   cold:    { emoji: "❄️", name: "Lạnh",     growMul: 0.6,  desc: "Cây ưa nóng ngừng lớn",  marketEffect: { veg: 1.30 } },
   rainbow: { emoji: "🌈", name: "Cầu vồng", growMul: 1.2,  desc: "Tất cả giá +30%",        marketEffect: { all: 1.30 } }
 };
-const WORKERS = {
-  "Thợ tập sự":      { cost: 1500,  interval: 8, autoDeliver: false, autoPlant: false, emoji: "🧑‍🌾", desc: "Thu hoạch mỗi 8s" },
-  "Người trồng cây": { cost: 3000,  interval: 6, autoDeliver: false, autoPlant: true,  emoji: "👩‍🌾", desc: "Tự trồng + thu hoạch" },
-  "Thợ lành nghề":   { cost: 6500,  interval: 4, autoDeliver: false, autoPlant: true,  emoji: "👨‍🌾", desc: "Trồng + thu hoạch nhanh" },
-  "Quản lý":         { cost: 18000, interval: 2, autoDeliver: true,  autoPlant: true,  emoji: "🧑‍💼", desc: "Toàn quyền + tự giao" }
-};
-const ROW_COST_PER_ROW = 2000;
+const ROW_COST = 2500;
 const VACCINE_COST = 800;
-const MYSTERY_PACKET_COST = 200;
-const BUG_ENERGY_COST = 3;
-const FERT_ENERGY_COST = 1;
-const FEED_ENERGY_COST = 1;
+const BUG_ENERGY = 3;
+const FERT_ENERGY = 1;
+const FEED_ENERGY = 1;
+const SPRAY_COST = 60;
 const RENAME_COST = 100000;
-const TAX_PERCENT = 0.05;
-const TAX_INTERVAL_DAYS = 7;
+const TAX_RATE = 0.10;
+const LOAN_INTEREST = 0.10;
+const LAND_RENT_PER_ROW = 30;
 
 const ACHIEVEMENTS = [
-  { id: "plant100",  emoji: "🌾", name: "Nông dân chăm",  desc: "Trồng 100 cây",        target: 100,  stat: "plantsTotal" },
-  { id: "carrot100", emoji: "🥕", name: "Vua cà rốt",     desc: "Trồng 100 cà rốt",     target: 100,  stat: "carrotsPlanted" },
-  { id: "chicken50", emoji: "🐔", name: "Trại gà",        desc: "Nuôi 50 gà",           target: 50,   stat: "chickensRaised" },
-  { id: "earn10k",   emoji: "💰", name: "Triệu phú nhỏ",  desc: "Kiếm 10.000$",         target: 10000,stat: "totalEarned" },
-  { id: "earn100k",  emoji: "💎", name: "Đại gia",        desc: "Kiếm 100.000$",        target: 100000,stat:"totalEarned" },
-  { id: "rareOwn",   emoji: "✨", name: "Sưu tầm gia",    desc: "Sở hữu con quý",       target: 1,    stat: "rareOwned" },
-  { id: "goldOwn",   emoji: "👑", name: "Gà vàng",        desc: "Sở hữu gen Vàng VIP",  target: 1,    stat: "goldOwned" },
-  { id: "friend5",   emoji: "❤️", name: "Bạn thân",       desc: "5 NPC thân",           target: 5,    stat: "closeFriends" },
-  { id: "weather5",  emoji: "🌦️", name: "Quan sát",       desc: "5 loại thời tiết",     target: 5,    stat: "weatherSeen" },
-  { id: "fullday",   emoji: "📅", name: "Bền bỉ",         desc: "Chơi 7 ngày",          target: 7,    stat: "daysPlayed" },
-  { id: "deliver50", emoji: "📦", name: "Giao hàng siêu", desc: "Giao 50 đơn",          target: 50,   stat: "deliveries" },
-  { id: "mystery50", emoji: "🎁", name: "Nhà sưu tầm",    desc: "Mở 50 gói bí ẩn",      target: 50,   stat: "mysteryPackets" },
-  { id: "bug50",     emoji: "🐛", name: "Diệt sâu",       desc: "Bắt 50 con sâu",       target: 50,   stat: "bugsCaught" },
-  { id: "theme5",    emoji: "🎨", name: "Nhà thiết kế",   desc: "Sở hữu 5 phông nền",   target: 5,    stat: "themesOwned" }
+  { id: "plant100", emoji: "🌾", name: "Nông dân chăm",  desc: "Trồng 100 cây",     target: 100, stat: "plantsTotal" },
+  { id: "carrot100",emoji: "🥕", name: "Vua cà rốt",     desc: "Trồng 100 cà rốt",  target: 100, stat: "carrotsPlanted" },
+  { id: "chicken50",emoji: "🐔", name: "Trại gà",        desc: "Nuôi 50 gà",        target: 50,  stat: "chickensRaised" },
+  { id: "earn10k",  emoji: "💰", name: "Triệu phú nhỏ",  desc: "Kiếm 10.000$",      target: 10000,stat:"totalEarned" },
+  { id: "earn100k", emoji: "💎", name: "Đại gia",        desc: "Kiếm 100.000$",     target: 100000,stat:"totalEarned" },
+  { id: "rareOwn",  emoji: "✨", name: "Sưu tầm gia",    desc: "Sở hữu con quý",    target: 1,   stat: "rareOwned" },
+  { id: "goldOwn",  emoji: "👑", name: "Gà vàng",        desc: "Sở hữu gen vàng",   target: 1,   stat: "goldOwned" },
+  { id: "friend5",  emoji: "❤️", name: "Bạn thân",       desc: "5 NPC thân",        target: 5,   stat: "closeFriends" },
+  { id: "weather5", emoji: "🌦️", name: "Quan sát",       desc: "5 loại thời tiết",  target: 5,   stat: "weatherSeen" },
+  { id: "fullday",  emoji: "📅", name: "Bền bỉ",         desc: "Chơi 7 ngày",       target: 7,   stat: "daysPlayed" },
+  { id: "deliver50",emoji: "📦", name: "Giao hàng siêu", desc: "Giao 50 đơn",       target: 50,  stat: "deliveries" },
+  { id: "bug50",    emoji: "🐛", name: "Diệt sâu",       desc: "Bắt 50 con sâu",    target: 50,  stat: "bugsCaught" },
+  { id: "theme5",   emoji: "🎨", name: "Nhà thiết kế",   desc: "5 phông nền",       target: 5,   stat: "themesOwned" },
+  { id: "dog5",     emoji: "🐕", name: "Trang trại an toàn", desc: "Nuôi 5 chó",    target: 5,   stat: "dogsOwned" }
 ];
 
-/* ====== 10 THEMES (như trước) ====== */
 const THEMES = {
-  "Đồng lúa vàng": {
-    price: 0, rarity: "Khởi đầu",
-    sky: "linear-gradient(180deg,#87CEEB 0%,#B0E0E6 55%,#E0F4FF 100%)",
-    ground: "linear-gradient(180deg,#C9B037 0%,#A08820 50%,#8B7015 100%)",
+  "Đồng lúa vàng": { price: 0, rarity: "Khởi đầu",
+    sky: "linear-gradient(180deg,#87CEEB 0%,#B0E0E6 55%,#E0F4FF 100%)", ground: "linear-gradient(180deg,#C9B037 0%,#A08820 50%,#8B7015 100%)",
     slot: "#A67C52", slotBorder: "#5D4037",
-    decor: [
-      { emoji:"🌾", x:4, y:76, size:30, rot:-8 }, { emoji:"🌾", x:12, y:80, size:34, rot:5 },
-      { emoji:"🌾", x:88, y:78, size:32, rot:-6 }, { emoji:"🌾", x:96, y:82, size:28, rot:8 },
-      { emoji:"🐃", x:92, y:70, size:34, rot:0 }, { emoji:"🌳", x:60, y:68, size:36, rot:0 }
-    ]
-  },
-  "Làng quê Bắc Bộ": {
-    price: 800, rarity: "Phổ thông",
-    sky: "linear-gradient(180deg,#B8D4E0 0%,#D5E5EC 60%,#E8EEF0 100%)",
-    ground: "linear-gradient(180deg,#7CA84A 0%,#5E8A35 50%,#4A6F28 100%)",
+    decor: [{ emoji:"🌾",x:4,y:76,size:28 }, { emoji:"🌾",x:12,y:80,size:32 }, { emoji:"🐃",x:92,y:70,size:30 }, { emoji:"🌳",x:60,y:68,size:32 }] },
+  "Làng quê Bắc Bộ": { price: 800, rarity: "Phổ thông",
+    sky: "linear-gradient(180deg,#B8D4E0 0%,#D5E5EC 60%,#E8EEF0 100%)", ground: "linear-gradient(180deg,#7CA84A 0%,#5E8A35 50%,#4A6F28 100%)",
     slot: "#8D6E63", slotBorder: "#4E342E",
-    decor: [
-      { emoji:"🎋", x:5, y:70, size:36, rot:0 }, { emoji:"🎋", x:12, y:74, size:32, rot:0 },
-      { emoji:"🏠", x:80, y:70, size:40, rot:0 }, { emoji:"🌳", x:90, y:72, size:38, rot:0 },
-      { emoji:"🐕", x:62, y:80, size:26, rot:0 }
-    ]
-  },
-  "Sông nước miền Tây": {
-    price: 1500, rarity: "Phổ thông",
-    sky: "linear-gradient(180deg,#7EC8E3 0%,#A8DCEF 55%,#D9F1F8 100%)",
-    ground: "linear-gradient(180deg,#4BA3A3 0%,#3A8585 40%,#2D6B6B 100%)",
+    decor: [{ emoji:"🎋",x:5,y:70,size:34 }, { emoji:"🏠",x:80,y:70,size:36 }, { emoji:"🌳",x:90,y:72,size:34 }, { emoji:"🐕",x:62,y:80,size:24 }] },
+  "Sông nước miền Tây": { price: 1500, rarity: "Phổ thông",
+    sky: "linear-gradient(180deg,#7EC8E3 0%,#A8DCEF 55%,#D9F1F8 100%)", ground: "linear-gradient(180deg,#4BA3A3 0%,#3A8585 40%,#2D6B6B 100%)",
     slot: "#8D6E63", slotBorder: "#4E342E",
-    decor: [
-      { emoji:"🌴", x:6, y:66, size:38, rot:0 }, { emoji:"🌴", x:14, y:70, size:34, rot:0 },
-      { emoji:"🌴", x:86, y:68, size:36, rot:0 }, { emoji:"🛶", x:55, y:74, size:32, rot:0 },
-      { emoji:"🦆", x:80, y:84, size:24, rot:0 }
-    ]
-  },
-  "Ruộng bậc thang": {
-    price: 3500, rarity: "Hiếm",
-    sky: "linear-gradient(180deg,#E6B8D0 0%,#F0D0DC 30%,#D8D5E5 70%,#B8C5DC 100%)",
-    ground: "linear-gradient(180deg,#8BC34A 0%,#689F38 35%,#4E7D28 65%,#3A5F1F 100%)",
+    decor: [{ emoji:"🌴",x:6,y:66,size:36 }, { emoji:"🛶",x:55,y:74,size:28 }, { emoji:"🦆",x:80,y:84,size:22 }] },
+  "Ruộng bậc thang": { price: 3500, rarity: "Hiếm",
+    sky: "linear-gradient(180deg,#E6B8D0 0%,#F0D0DC 30%,#D8D5E5 70%,#B8C5DC 100%)", ground: "linear-gradient(180deg,#8BC34A 0%,#689F38 35%,#4E7D28 65%,#3A5F1F 100%)",
     slot: "#8D6E63", slotBorder: "#4E342E",
-    decor: [
-      { emoji:"⛰️", x:3, y:58, size:48, rot:0 }, { emoji:"⛰️", x:88, y:56, size:50, rot:0 },
-      { emoji:"☁️", x:22, y:60, size:30, rot:0 }, { emoji:"🏘️", x:48, y:68, size:34, rot:0 }
-    ]
-  },
-  "Rừng dừa xanh": {
-    price: 6000, rarity: "Hiếm",
-    sky: "linear-gradient(180deg,#4FC3F7 0%,#81D4FA 50%,#B3E5FC 100%)",
-    ground: "linear-gradient(180deg,#2E7D32 0%,#1B5E20 50%,#0D3B12 100%)",
+    decor: [{ emoji:"⛰️",x:3,y:58,size:44 }, { emoji:"⛰️",x:88,y:56,size:46 }, { emoji:"🏘️",x:48,y:68,size:30 }] },
+  "Rừng dừa xanh": { price: 6000, rarity: "Hiếm",
+    sky: "linear-gradient(180deg,#4FC3F7 0%,#81D4FA 50%,#B3E5FC 100%)", ground: "linear-gradient(180deg,#2E7D32 0%,#1B5E20 50%,#0D3B12 100%)",
     slot: "#6D4C41", slotBorder: "#3E2723",
-    decor: [
-      { emoji:"🌴", x:4, y:62, size:44, rot:-5 }, { emoji:"🌴", x:15, y:66, size:40, rot:5 },
-      { emoji:"🌴", x:85, y:64, size:42, rot:-4 }, { emoji:"🐒", x:50, y:68, size:30, rot:0 }
-    ]
-  },
-  "Núi đá Đồng Văn": {
-    price: 12000, rarity: "Sử thi",
-    sky: "linear-gradient(180deg,#5C6B85 0%,#8994A5 40%,#C5C9D4 80%,#E8E8EA 100%)",
-    ground: "linear-gradient(180deg,#7A7A7A 0%,#5A5A5A 50%,#3E3E3E 100%)",
+    decor: [{ emoji:"🌴",x:4,y:62,size:40 }, { emoji:"🌴",x:15,y:66,size:36 }, { emoji:"🐒",x:50,y:68,size:26 }] },
+  "Núi đá Đồng Văn": { price: 12000, rarity: "Sử thi",
+    sky: "linear-gradient(180deg,#5C6B85 0%,#8994A5 40%,#C5C9D4 80%,#E8E8EA 100%)", ground: "linear-gradient(180deg,#7A7A7A 0%,#5A5A5A 50%,#3E3E3E 100%)",
     slot: "#6D4C41", slotBorder: "#3E2723",
-    decor: [
-      { emoji:"🏔️", x:2, y:53, size:54, rot:0 }, { emoji:"🏔️", x:20, y:56, size:50, rot:0 },
-      { emoji:"🏔️", x:88, y:54, size:56, rot:0 }, { emoji:"🐎", x:55, y:74, size:34, rot:0 }
-    ]
-  },
-  "Cao nguyên hoa": {
-    price: 25000, rarity: "Sử thi",
-    sky: "linear-gradient(180deg,#87CEEB 0%,#B0E5F5 60%,#E8F5E9 100%)",
-    ground: "linear-gradient(180deg,#A5D6A7 0%,#81C784 45%,#4CAF50 100%)",
+    decor: [{ emoji:"🏔️",x:2,y:53,size:50 }, { emoji:"🏔️",x:88,y:54,size:52 }, { emoji:"🐎",x:55,y:74,size:30 }] },
+  "Cao nguyên hoa": { price: 25000, rarity: "Sử thi",
+    sky: "linear-gradient(180deg,#87CEEB 0%,#B0E5F5 60%,#E8F5E9 100%)", ground: "linear-gradient(180deg,#A5D6A7 0%,#81C784 45%,#4CAF50 100%)",
     slot: "#8D6E63", slotBorder: "#4E342E",
-    decor: [
-      { emoji:"🌸", x:5, y:72, size:30, rot:0 }, { emoji:"🌺", x:12, y:76, size:28, rot:0 },
-      { emoji:"🌻", x:88, y:72, size:32, rot:0 }, { emoji:"🦋", x:45, y:74, size:28, rot:0 },
-      { emoji:"🌷", x:94, y:76, size:28, rot:0 }
-    ]
-  },
-  "Vịnh Hạ Long": {
-    price: 50000, rarity: "Huyền thoại",
-    sky: "linear-gradient(180deg,#FFB74D 0%,#FF8A65 35%,#FFD54F 60%,#FFF8E1 100%)",
-    ground: "linear-gradient(180deg,#4DD0E1 0%,#26A69A 45%,#00838F 100%)",
+    decor: [{ emoji:"🌸",x:5,y:72,size:26 }, { emoji:"🌻",x:88,y:72,size:28 }, { emoji:"🦋",x:45,y:74,size:24 }] },
+  "Vịnh Hạ Long": { price: 50000, rarity: "Huyền thoại",
+    sky: "linear-gradient(180deg,#FFB74D 0%,#FF8A65 35%,#FFD54F 60%,#FFF8E1 100%)", ground: "linear-gradient(180deg,#4DD0E1 0%,#26A69A 45%,#00838F 100%)",
     slot: "#8D6E63", slotBorder: "#4E342E",
-    decor: [
-      { emoji:"🏝️", x:2, y:60, size:46, rot:0 }, { emoji:"🏝️", x:88, y:58, size:50, rot:0 },
-      { emoji:"⛵", x:48, y:68, size:36, rot:0 }, { emoji:"🌅", x:40, y:36, size:54, rot:0 }
-    ]
-  },
-  "Đêm trăng quê": {
-    price: 100000, rarity: "Huyền thoại",
-    sky: "linear-gradient(180deg,#0D1B2A 0%,#1B2A4A 40%,#283D5E 80%,#3A5075 100%)",
-    ground: "linear-gradient(180deg,#1A3A2A 0%,#0F2A1E 50%,#051510 100%)",
+    decor: [{ emoji:"🏝️",x:2,y:60,size:42 }, { emoji:"⛵",x:48,y:68,size:32 }, { emoji:"🌅",x:40,y:36,size:48 }] },
+  "Đêm trăng quê": { price: 100000, rarity: "Huyền thoại",
+    sky: "linear-gradient(180deg,#0D1B2A 0%,#1B2A4A 40%,#283D5E 80%,#3A5075 100%)", ground: "linear-gradient(180deg,#1A3A2A 0%,#0F2A1E 50%,#051510 100%)",
     slot: "#3E2723", slotBorder: "#1B0F0D",
-    decor: [
-      { emoji:"🌙", x:78, y:12, size:56, rot:0 }, { emoji:"⭐", x:15, y:18, size:20, rot:0 },
-      { emoji:"⭐", x:35, y:14, size:16, rot:0 }, { emoji:"🏮", x:10, y:68, size:32, rot:0 },
-      { emoji:"🏮", x:90, y:70, size:30, rot:0 }, { emoji:"🦉", x:22, y:64, size:28, rot:0 }
-    ]
-  },
-  "Thần Nông": {
-    price: 250000, rarity: "Huyền thoại",
-    sky: "linear-gradient(180deg,#FFD700 0%,#FFC107 25%,#FFE082 55%,#FFF9C4 100%)",
-    ground: "linear-gradient(180deg,#8BC34A 0%,#558B2F 35%,#33691E 70%,#1B5E20 100%)",
+    decor: [{ emoji:"🌙",x:78,y:12,size:50 }, { emoji:"🏮",x:10,y:68,size:28 }, { emoji:"🦉",x:22,y:64,size:24 }] },
+  "Thần Nông": { price: 250000, rarity: "Huyền thoại",
+    sky: "linear-gradient(180deg,#FFD700 0%,#FFC107 25%,#FFE082 55%,#FFF9C4 100%)", ground: "linear-gradient(180deg,#8BC34A 0%,#558B2F 35%,#33691E 70%,#1B5E20 100%)",
     slot: "#8D6E63", slotBorder: "#3E2723",
-    decor: [
-      { emoji:"🐉", x:6, y:58, size:56, rot:0 }, { emoji:"🐉", x:86, y:56, size:52, rot:0 },
-      { emoji:"☁️", x:25, y:12, size:40, rot:0 }, { emoji:"✨", x:40, y:28, size:32, rot:0 },
-      { emoji:"🏮", x:12, y:64, size:30, rot:0 }
-    ]
-  }
+    decor: [{ emoji:"🐉",x:6,y:58,size:50 }, { emoji:"🐉",x:86,y:56,size:46 }, { emoji:"✨",x:40,y:28,size:28 }] }
 };
-
-const HO = ["Nguyễn","Trần","Lê","Phạm","Hoàng","Huỳnh","Vũ","Võ","Đặng","Bùi","Đỗ","Hồ","Ngô","Dương","Lý","Đinh","Tạ","Trịnh","Cao","Mai"];
-const DEM = ["Văn","Thị","Minh","Hữu","Thanh","Quốc","Ngọc","Kim","Anh","Đức","Xuân","Thu"];
-const TEN = ["An","Bình","Châu","Dũng","Giang","Hà","Hùng","Lan","Mai","Nam","Oanh","Phúc","Quỳnh","Sơn","Trang","Tuấn","Vy","Yến","Khoa","Linh","My","Nhi","Phong","Thảo","Trâm","Kiệt","Hân","Lộc","Tú","Bảo"];
-const TITLES = ["Anh","Chị","Cô","Chú","Bác","Em","Ông","Bà","Cậu","Dì"];
-const WORKER_QUIRKS = ["thích uống trà sớm","mê chó con","hay ngân nga","có 3 đứa con","vô địch cuốc đất","sợ sâu róm","thạo trồng nho","hát rất hay","nghiện cà phê","hay kể chuyện cười"];
-const REVIEWS_GOOD = ["Tuyệt vời!","Giao nhanh, hàng tươi!","Sẽ quay lại!","Uy tín!","Đúng hẹn!","Chất lượng tuyệt!"];
-const REVIEWS_MID = ["Được, hàng ổn.","Cũng tạm.","Hàng đúng, hơi chậm.","OK."];
-const REVIEWS_BAD = ["Chờ hơi lâu!","Giao trễ!","Không hài lòng.","Thất vọng!"];
 
 function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
 function randomNpcName() {
   if (Math.random() < 0.5) return `${pick(TITLES)} ${pick(HO)} ${pick(TEN)}`;
   return `${pick(TITLES)} ${pick(HO)} ${pick(DEM)} ${pick(TEN)}`;
 }
+function randomWorkerName() {
+  return `${pick(HO)} ${pick(DEM)} ${pick(TEN)}`;
+}
 
 const COLS = 5, ROWS_PER_ZONE = 5;
 const PLOTS_PER_ZONE = COLS * ROWS_PER_ZONE;
 const TOTAL_PLOTS = PLOTS_PER_ZONE * 2;
-const FARM_W = 720, FARM_H = 700;
-const DAY_DURATION = 240; // 4 phút = 24h game
-const SAVE_KEY = 'ntvv_save_v6';
+const FARM_W = 700, FARM_H = 680;
+const DAY_DURATION = 240;
+const SAVE_KEY = 'ntvv_save_v7';
 
-/* ====== STATE ====== */
+/* ============ STATE ============ */
 const G = {
   farmName: "Nông trại", themeKey: "Đồng lúa vàng", ownedThemes: ["Đồng lúa vàng"],
-  money: 500, energy: 100,
+  money: 500, energy: 100, loan: 0,
   inventory: {}, plots: [], customers: [],
-  hiredWorkers: [], unlockedCrops: [], unlockedRowsCrop: 2, unlockedRowsAnimal: 2,
+  workers: [], dogs: [], ownedMills: [],
+  unlockedCrops: [], unlockedRowsCrop: 2, unlockedRowsAnimal: 2,
   reputation: 5.0, relationships: {},
   adTime: 0, spawnCooldown: 3,
   day: 1, dayTime: 0,
   weather: 'sunny', weatherSeen: ['sunny'],
-  marketMul: {}, dailyRevenue: 0, dailyExpense: 0, dailyDeliveries: 0, dailyHarvests: 0,
-  dailyTax: 0,
-  nextEventDay: 3, mysteryDiscoveries: [], mysteryPacketsBought: 0,
+  marketMul: {}, dailyRevenue: 0, dailyExpense: 0, dailySalary: 0, dailyRent: 0, dailyLoanInterest: 0, dailyTax: 0,
+  dailyDeliveries: 0, dailyHarvests: 0,
+  nextEventDay: 3,
   reviews: [], reviewStars: [],
   vaccineActive: false, vaccineDay: 0, birdFluDay: 0,
   zone: 'crop', tool: 'hand',
-  stats: { plantsTotal: 0, carrotsPlanted: 0, chickensRaised: 0, totalEarned: 0, rareOwned: 0, goldOwned: 0, closeFriends: 0, weatherSeen: 1, daysPlayed: 1, deliveries: 0, mysteryPackets: 0, bugsCaught: 0, themesOwned: 1 },
+  stats: { plantsTotal: 0, carrotsPlanted: 0, chickensRaised: 0, totalEarned: 0, rareOwned: 0, goldOwned: 0, closeFriends: 0, weatherSeen: 1, daysPlayed: 1, deliveries: 0, bugsCaught: 0, themesOwned: 1, dogsOwned: 0 },
   unlockedAch: [],
   supermarket: { prices: {}, competitors: {}, salesToday: 0 },
-  onlineOrders: [], onlineSeq: 0, onlineCooldown: 20,
-  secretSellCount: 0, secretSellDay: 0,
-  nextInspectionDay: 5,
+  onlineOrders: [], onlineSeq: 0, onlineCooldown: 30,
+  nextInspectionDay: 6,
   phase: 'playing', userPaused: false,
   running: false, lastTime: 0, lastSave: 0, lastCloudSave: 0
 };
@@ -922,7 +869,6 @@ function toast(msg, cls = '') {
 function setStatus(m) { $('status-bar').textContent = m; }
 function isPaused() { return G.userPaused || G.phase !== 'playing'; }
 
-/* ====== HELPERS ====== */
 function getTheme() { return THEMES[G.themeKey] || THEMES["Đồng lúa vàng"]; }
 function isPlotUnlocked(i) {
   if (i < PLOTS_PER_ZONE) return Math.floor(i / COLS) < G.unlockedRowsCrop;
@@ -953,9 +899,9 @@ function prodItems() {
 }
 function farmScale() { return G.plots.filter((p, i) => isPlotUnlocked(i) && p.kind).length; }
 function itemBasePrice(item) {
-  const c = getCrop(item);
-  if (c) return c.sell;
+  if (CROPS[item]) return CROPS[item].sell;
   for (const a in ANIMALS) if (ANIMALS[a].product === item) return ANIMALS[a].sell;
+  if (PRODUCT_PRICE[item]) return PRODUCT_PRICE[item];
   return 10;
 }
 function itemCurrentPrice(item) {
@@ -964,7 +910,7 @@ function itemCurrentPrice(item) {
   let wMul = 1;
   if (w.marketEffect) {
     if (w.marketEffect.all) wMul = w.marketEffect.all;
-    else if (w.marketEffect.veg && (CROPS[item] || MYSTERY_CROPS[item])) wMul = w.marketEffect.veg;
+    else if (w.marketEffect.veg && CROPS[item]) wMul = w.marketEffect.veg;
   }
   return Math.round(itemBasePrice(item) * mul * wMul);
 }
@@ -972,10 +918,12 @@ function rollDailyMarket() {
   G.marketMul = {};
   for (const item in CROPS) G.marketMul[item] = 0.75 + Math.random() * 0.7;
   for (const a in ANIMALS) G.marketMul[ANIMALS[a].product] = 0.75 + Math.random() * 0.7;
+  for (const item in PRODUCT_PRICE) G.marketMul[item] = 0.85 + Math.random() * 0.5;
 }
 function rollCompetitors() {
   const items = new Set([...Object.keys(CROPS)]);
   for (const a in ANIMALS) items.add(ANIMALS[a].product);
+  for (const item in PRODUCT_PRICE) items.add(item);
   G.supermarket.competitors = {};
   for (const it of items) G.supermarket.competitors[it] = 0.85 + Math.random() * 0.35;
 }
@@ -990,6 +938,11 @@ function addReview(name, stars, text, tier) {
   if (G.reviews.length > 30) G.reviews.pop();
   addStar(stars);
 }
+function totalGuard() {
+  let g = 0;
+  for (const d of G.dogs) g += d.guard;
+  return Math.min(100, g);
+}
 function rescaleFarm() {
   const wrap = $('farm-wrap'), farm = $('farm');
   if (!wrap || !farm) return;
@@ -999,6 +952,7 @@ function rescaleFarm() {
   wrap.style.height = Math.round(FARM_H * scale) + 'px';
 }
 window.addEventListener('resize', rescaleFarm);
+window.addEventListener('orientationchange', () => setTimeout(rescaleFarm, 200));
 
 function timeString() {
   const minutes = 6 * 60 + (G.dayTime / DAY_DURATION) * 24 * 60;
@@ -1012,7 +966,7 @@ function isNight() {
   return h >= 19 || h < 5;
 }
 
-/* ====== START ====== */
+/* ============ START ============ */
 let selectedTheme = "Đồng lúa vàng";
 function buildThemeGrid() {
   const grid = $('theme-grid');
@@ -1021,7 +975,7 @@ function buildThemeGrid() {
     const t = THEMES[key];
     const card = document.createElement('div');
     card.className = 'theme-card' + (key === selectedTheme ? ' active' : '');
-    card.innerHTML = `<div class="theme-preview" style="background:${t.ground}">${t.decor.slice(0,3).map(d=>`<span style="position:absolute;left:${d.x}%;top:${(d.y-50)*0.4}%;font-size:14px;transform:translate(-50%,-50%)">${d.emoji}</span>`).join('')}</div><div class="theme-name">${key}</div><div class="theme-price">${t.rarity}</div>`;
+    card.innerHTML = `<div class="theme-preview" style="background:${t.ground}">${t.decor.slice(0,3).map(d=>`<span style="position:absolute;left:${d.x}%;top:${(d.y-50)*0.4}%;font-size:12px;transform:translate(-50%,-50%)">${d.emoji}</span>`).join('')}</div><div class="theme-name">${key}</div><div class="theme-price">${t.rarity}</div>`;
     card.onclick = () => { selectedTheme = key; document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active')); card.classList.add('active'); };
     grid.appendChild(card);
   }
@@ -1071,23 +1025,23 @@ function applyLoadedData(data) {
   if (!Array.isArray(G.unlockedAch)) G.unlockedAch = [];
   if (!Array.isArray(G.reviews)) G.reviews = [];
   if (!Array.isArray(G.reviewStars)) G.reviewStars = [];
-  if (!Array.isArray(G.mysteryDiscoveries)) G.mysteryDiscoveries = [];
   if (!Array.isArray(G.onlineOrders)) G.onlineOrders = [];
   if (!Array.isArray(G.ownedThemes)) G.ownedThemes = ['Đồng lúa vàng'];
+  if (!Array.isArray(G.workers)) G.workers = [];
+  if (!Array.isArray(G.dogs)) G.dogs = [];
+  if (!Array.isArray(G.ownedMills)) G.ownedMills = [];
+  if (typeof G.loan !== 'number') G.loan = 0;
   if (!G.supermarket) G.supermarket = { prices: {}, competitors: {}, salesToday: 0 };
   if (!G.supermarket.prices) G.supermarket.prices = {};
   if (!G.supermarket.competitors) G.supermarket.competitors = {};
   if (!THEMES[G.themeKey]) G.themeKey = 'Đồng lúa vàng';
-  if (typeof G.dailyTax !== 'number') G.dailyTax = 0;
-  if (typeof G.nextInspectionDay !== 'number') G.nextInspectionDay = 5;
-  if (typeof G.secretSellCount !== 'number') G.secretSellCount = 0;
-  // Đảm bảo mỗi plot có các cờ mới
   if (Array.isArray(G.plots)) G.plots.forEach(p => {
-    if (typeof p.fertilized !== 'boolean') p.fertilized = false;
+    if (typeof p.fert !== 'boolean') p.fert = false;
     if (typeof p.hungry !== 'boolean') p.hungry = p.kind === 'animal';
     if (typeof p.sick !== 'boolean') p.sick = false;
   });
   G.stats.themesOwned = G.ownedThemes.length;
+  G.stats.dogsOwned = G.dogs.length;
 }
 function loadLocalGame() {
   try {
@@ -1099,27 +1053,28 @@ function loadLocalGame() {
 }
 function resetG(name, themeKey) {
   G.farmName = name; G.themeKey = themeKey; G.ownedThemes = [themeKey];
-  G.money = 500; G.energy = 100; G.inventory = {}; G.customers = [];
-  G.hiredWorkers = []; G.unlockedCrops = []; G.unlockedRowsCrop = 2; G.unlockedRowsAnimal = 2;
+  G.money = 500; G.energy = 100; G.loan = 0;
+  G.inventory = {}; G.customers = [];
+  G.workers = []; G.dogs = []; G.ownedMills = [];
+  G.unlockedCrops = []; G.unlockedRowsCrop = 2; G.unlockedRowsAnimal = 2;
   G.reputation = 5.0; G.relationships = {};
   G.adTime = 0; G.spawnCooldown = 3;
   G.plots = Array.from({ length: TOTAL_PLOTS }, () => ({
     kind: null, name: null, progress: 0, ready: false, gene: null,
-    damaged: false, pest: false, fertilized: false, hungry: false, sick: false
+    damaged: false, pest: false, fert: false, hungry: false, sick: false
   }));
   G.day = 1; G.dayTime = 0; G.weather = 'sunny'; G.weatherSeen = ['sunny'];
-  G.marketMul = {}; G.dailyRevenue = 0; G.dailyExpense = 0; G.dailyDeliveries = 0; G.dailyHarvests = 0;
-  G.dailyTax = 0;
-  G.nextEventDay = 3; G.mysteryDiscoveries = []; G.mysteryPacketsBought = 0;
+  G.marketMul = {}; G.dailyRevenue = 0; G.dailyExpense = 0; G.dailySalary = 0; G.dailyRent = 0; G.dailyLoanInterest = 0; G.dailyTax = 0;
+  G.dailyDeliveries = 0; G.dailyHarvests = 0;
+  G.nextEventDay = 3;
   G.reviews = []; G.reviewStars = [];
   G.vaccineActive = false; G.vaccineDay = 0; G.birdFluDay = 0;
   G.zone = 'crop'; G.tool = 'hand';
-  G.stats = { plantsTotal: 0, carrotsPlanted: 0, chickensRaised: 0, totalEarned: 0, rareOwned: 0, goldOwned: 0, closeFriends: 0, weatherSeen: 1, daysPlayed: 1, deliveries: 0, mysteryPackets: 0, bugsCaught: 0, themesOwned: 1 };
+  G.stats = { plantsTotal: 0, carrotsPlanted: 0, chickensRaised: 0, totalEarned: 0, rareOwned: 0, goldOwned: 0, closeFriends: 0, weatherSeen: 1, daysPlayed: 1, deliveries: 0, bugsCaught: 0, themesOwned: 1, dogsOwned: 0 };
   G.unlockedAch = [];
   G.supermarket = { prices: {}, competitors: {}, salesToday: 0 };
-  G.onlineOrders = []; G.onlineSeq = 0; G.onlineCooldown = 20;
-  G.secretSellCount = 0; G.secretSellDay = 0;
-  G.nextInspectionDay = 5;
+  G.onlineOrders = []; G.onlineSeq = 0; G.onlineCooldown = 30;
+  G.nextInspectionDay = 6;
   G.phase = 'playing'; G.userPaused = false;
   for (const c in CROPS) if (CROPS[c].unlockCost === 0) G.unlockedCrops.push(c);
 }
@@ -1127,7 +1082,7 @@ function startNewGame(name, themeKey) {
   resetG(name, themeKey);
   rollDailyMarket(); rollCompetitors();
   openGame();
-  showNews(true);
+  showNews();
 }
 function openGame() {
   $('start-screen').style.display = 'none';
@@ -1139,21 +1094,18 @@ function openGame() {
   if (!G.supermarket.prices || !Object.keys(G.supermarket.prices).length) {
     for (const item in CROPS) G.supermarket.prices[item] = 1.0;
     for (const a in ANIMALS) G.supermarket.prices[ANIMALS[a].product] = 1.0;
+    for (const item in PRODUCT_PRICE) G.supermarket.prices[item] = 1.0;
   }
-  if (!G.reviewStars) G.reviewStars = [];
-  if (!G.onlineOrders) G.onlineOrders = [];
   buildPlots(); applyTheme(); applyWeatherVisual();
   rebuildPanels(); renderAll();
-  requestAnimationFrame(() => { rescaleFarm(); setTimeout(rescaleFarm, 100); });
+  requestAnimationFrame(() => { rescaleFarm(); setTimeout(rescaleFarm, 200); });
   G.running = true; G.lastTime = performance.now();
   requestAnimationFrame(gameLoop);
   setTimeout(() => { if (window.cloudSaveNow) window.cloudSaveNow(); }, 500);
 }
-function updateFarmTitle() {
-  $('hud-title').textContent = `🌾 ${G.farmName}`;
-}
+function updateFarmTitle() { $('hud-title').textContent = `🌾 ${G.farmName}`; }
 
-/* ====== THEME ====== */
+/* ============ THEME ============ */
 function applyTheme() {
   const t = getTheme();
   $('sky').style.background = t.sky;
@@ -1172,7 +1124,7 @@ function applyTheme() {
     span.style.left = d.x + '%';
     span.style.top = d.y + '%';
     span.style.fontSize = d.size + 'px';
-    span.style.transform = `translate(-50%,-50%) rotate(${d.rot || 0}deg)`;
+    span.style.transform = `translate(-50%,-50%)`;
     decorEl.appendChild(span);
   }
 }
@@ -1195,7 +1147,7 @@ function applyWeatherVisual() {
   else if (G.weather === 'rainbow') { sky.style.background = 'linear-gradient(180deg,#FFE4E1,#E6E6FA 40%,#E0FFFF)'; ground.style.background = t.ground; sun.style.opacity = '1'; ov.classList.add('rainbow'); }
   const fx = $('weather-fx'); fx.innerHTML = '';
   if (G.weather === 'rain' || G.weather === 'storm') {
-    for (let i = 0; i < 45; i++) {
+    for (let i = 0; i < 40; i++) {
       const d = document.createElement('div'); d.className = 'raindrop';
       d.style.left = Math.random() * 100 + '%';
       d.style.animationDuration = (0.5 + Math.random() * 0.4) + 's';
@@ -1203,7 +1155,7 @@ function applyWeatherVisual() {
       fx.appendChild(d);
     }
   } else if (G.weather === 'cold') {
-    for (let i = 0; i < 35; i++) {
+    for (let i = 0; i < 30; i++) {
       const s = document.createElement('div'); s.className = 'snow';
       s.style.left = Math.random() * 100 + '%';
       s.style.animationDuration = (3 + Math.random() * 3) + 's';
@@ -1214,7 +1166,7 @@ function applyWeatherVisual() {
   $('hud-weather').textContent = `${w.emoji} ${w.name}`;
 }
 
-/* ====== NEWS / REPORT ====== */
+/* ============ NEWS / REPORT ============ */
 function showNews() {
   $('news-day-label').textContent = `Ngày ${G.day} · ${WEATHERS[G.weather].emoji} ${WEATHERS[G.weather].name}`;
   const body = $('news-body'); body.innerHTML = '';
@@ -1230,16 +1182,14 @@ function showNews() {
     d2.innerHTML = `<strong>📈 ${bestItem} tăng giá!</strong><br>+${pct}% so với hôm qua.`;
     body.appendChild(d2);
   }
+  if (G.loan > 0) {
+    const d = document.createElement('div'); d.className = 'news-item disease';
+    d.innerHTML = `<strong>💳 Đang nợ ${Math.round(G.loan).toLocaleString()}$</strong><br>Lãi 10%/ngày — trả sớm kẻo phình to!`;
+    body.appendChild(d);
+  }
   if (G.vaccineActive) {
     const d = document.createElement('div'); d.className = 'news-item'; d.style.borderLeftColor = '#4CAF50';
     d.innerHTML = `<strong>💉 Vaccine hiệu lực</strong><br>Đàn gia cầm được bảo vệ.`;
-    body.appendChild(d);
-  }
-  const daysToTax = TAX_INTERVAL_DAYS - ((G.day - 1) % TAX_INTERVAL_DAYS);
-  if (daysToTax <= 3) {
-    const d = document.createElement('div'); d.className = 'news-item';
-    d.style.borderLeftColor = '#FF8A80';
-    d.innerHTML = `<strong>📋 Sắp đến kỳ thuế</strong><br>Còn ${daysToTax} ngày nữa. Thuế = ${TAX_PERCENT*100}% số dư.`;
     body.appendChild(d);
   }
   const socials = [
@@ -1269,38 +1219,60 @@ function showReport() {
     ['💵 Thu nhập khác', '+' + Math.max(0, Math.round(G.dailyRevenue - smIncome)) + '$', 'income'],
     ['💸 Chi tiêu', '-' + Math.round(G.dailyExpense) + '$', 'expense']
   ];
-  if (G.dailyTax > 0) rows.push(['📋 Thuế', '-' + Math.round(G.dailyTax) + '$', 'expense']);
+  if (G.dailySalary > 0) rows.push(['🧑‍🌾 Lương nhân công', '-' + Math.round(G.dailySalary) + '$', 'expense']);
+  if (G.dailyRent > 0) rows.push(['🏞️ Thuê đất', '-' + Math.round(G.dailyRent) + '$', 'expense']);
+  if (G.dailyLoanInterest > 0) rows.push(['💳 Lãi ngân hàng', '-' + Math.round(G.dailyLoanInterest) + '$', 'expense']);
+  if (G.dailyTax > 0) rows.push(['📋 Thuế 10%', '-' + Math.round(G.dailyTax) + '$', 'expense']);
   for (const [l, v, c] of rows) {
     const r = document.createElement('div'); r.className = 'report-row';
     r.innerHTML = `<span>${l}</span><span class="val ${c || ''}">${v}</span>`;
     body.appendChild(r);
   }
-  const net = G.dailyRevenue - G.dailyExpense - G.dailyTax;
+  const totalExpense = G.dailyExpense + G.dailySalary + G.dailyRent + G.dailyLoanInterest + G.dailyTax;
+  const net = G.dailyRevenue - totalExpense;
   const nr = document.createElement('div'); nr.className = 'report-row total';
   nr.innerHTML = `<span>💼 Lợi nhuận</span><span style="color:${net >= 0 ? '#A5D6A7' : '#EF9A9A'}">${net >= 0 ? '+' : ''}${Math.round(net)}$</span>`;
   body.appendChild(nr);
   const br = document.createElement('div'); br.className = 'report-row';
   br.innerHTML = `<span>💰 Số dư</span><span class="val" style="color:#FFD54F;font-weight:bold">${Math.round(G.money)}$</span>`;
   body.appendChild(br);
+  if (G.loan > 0) {
+    const lr = document.createElement('div'); lr.className = 'report-row';
+    lr.innerHTML = `<span>💳 Nợ ngân hàng</span><span class="val" style="color:#FF8A80">${Math.round(G.loan).toLocaleString()}$</span>`;
+    body.appendChild(lr);
+  }
   const rr = document.createElement('div'); rr.className = 'report-row';
   rr.innerHTML = `<span>⭐ Danh tiếng</span><span class="val" style="color:#F8BBD0">${G.reputation.toFixed(1)}/10</span>`;
   body.appendChild(rr);
   $('report-overlay').style.display = 'flex';
 }
 
-/* ====== ADVANCE DAY (state machine) ====== */
+/* ============ ADVANCE DAY ============ */
 let reportHandler = null;
 function advanceDay() {
   if (G.phase !== 'playing') return;
   G.phase = 'report';
 
-  // Thuế nếu đúng kỳ
-  if (G.day % TAX_INTERVAL_DAYS === 0) {
-    const tax = Math.floor(G.money * TAX_PERCENT);
-    if (tax > 0) {
-      G.money -= tax;
-      G.dailyTax = tax;
-      toast(`📋 Đã nộp thuế ${tax}$`, 'warn');
+  // Thuế 10% lợi nhuận
+  const dailyProfit = G.dailyRevenue - G.dailyExpense;
+  if (dailyProfit > 0) {
+    const tax = Math.floor(dailyProfit * TAX_RATE);
+    if (tax > 0) { G.money -= tax; G.dailyTax = tax; }
+  }
+  // Lương nhân công
+  let totalSalary = 0;
+  for (const w of G.workers) totalSalary += w.salary;
+  if (totalSalary > 0) { G.money -= totalSalary; G.dailySalary = totalSalary; }
+  // Thuê đất
+  const rent = (G.unlockedRowsCrop + G.unlockedRowsAnimal) * LAND_RENT_PER_ROW;
+  if (rent > 0) { G.money -= rent; G.dailyRent = rent; }
+  // Lãi ngân hàng
+  if (G.loan > 0) {
+    const interest = Math.floor(G.loan * LOAN_INTEREST);
+    G.loan += interest;
+    G.dailyLoanInterest = interest;
+    if (G.loan > 500000 && G.money < G.loan) {
+      toast('💀 Nợ quá lớn! Toà tuyên bố phá sản...', 'error');
     }
   }
 
@@ -1323,8 +1295,8 @@ function advanceDay() {
     if (!G.weatherSeen.includes(chosen)) G.weatherSeen.push(chosen);
     G.stats.weatherSeen = G.weatherSeen.length;
 
-    G.dailyRevenue = 0; G.dailyExpense = 0; G.dailyDeliveries = 0; G.dailyHarvests = 0;
-    G.dailyTax = 0;
+    G.dailyRevenue = 0; G.dailyExpense = 0; G.dailySalary = 0; G.dailyRent = 0; G.dailyLoanInterest = 0; G.dailyTax = 0;
+    G.dailyDeliveries = 0; G.dailyHarvests = 0;
     G.supermarket.salesToday = 0;
     rollDailyMarket(); rollCompetitors();
     applyWeatherVisual(); applyTheme();
@@ -1332,9 +1304,6 @@ function advanceDay() {
 
     if (G.reviewStars.length > 20) G.reviewStars = G.reviewStars.slice(-20);
     if (G.vaccineActive && G.day - G.vaccineDay >= 5) { G.vaccineActive = false; toast('💉 Vaccine hết hiệu lực.', 'info'); }
-
-    // Reset secret sell count sau 3 ngày
-    if (G.secretSellDay && G.day - G.secretSellDay > 3) G.secretSellCount = 0;
 
     G.birdFluDay = 0;
     if (!G.vaccineActive && Math.random() < 0.12) {
@@ -1347,9 +1316,8 @@ function advanceDay() {
     G.phase = 'news';
     showNews();
 
-    // Sự kiện: kiểm dịch hoặc random
     if (G.day >= G.nextInspectionDay && Math.random() < 0.4) {
-      G.nextInspectionDay = G.day + 3 + Math.floor(Math.random() * 3);
+      G.nextInspectionDay = G.day + 4 + Math.floor(Math.random() * 4);
       setTimeout(inspectionEvent, 700);
     } else if (G.birdFluDay === G.day) {
       setTimeout(birdFluEvent, 700);
@@ -1364,13 +1332,59 @@ function advanceDay() {
   $('report-ok').addEventListener('click', reportHandler);
 }
 
-/* ====== EVENTS ====== */
+/* ============ EVENTS ============ */
 function triggerRandomEvent() {
   if (G.phase !== 'playing') return;
   G.phase = 'event';
-  const pool = [chickenEscape, neighborHelp, animalEscape, sickAnimal];
+  const pool = [chickenEscape, neighborHelp, animalEscape, sickAnimal, thiefEvent];
   if (!G.vaccineActive && G.birdFluDay === 0) pool.push(birdFluEvent);
   pick(pool)();
+}
+
+function thiefEvent() {
+  const animals = G.plots.map((p, i) => ({ p, i })).filter(({ p, i }) => isPlotUnlocked(i) && p.kind === 'animal');
+  if (!animals.length) { closeEvent(); return; }
+  const guard = totalGuard();
+  const isThief = Math.random() < 0.5;
+  $('event-icon').textContent = isThief ? '🦹' : '👤';
+  $('event-title').textContent = isThief ? 'KẺ TRỘM ĐỘT NHẬP!' : 'HÀNG XÓM LẤY TRỘM!';
+  $('event-desc').innerHTML = `${isThief ? 'Kẻ trộm' : 'Hàng xóm'} đang lảng vảng quanh chuồng!<br><strong>Chó canh: ${guard}%</strong> cơ hội phát hiện.`;
+  const c = $('event-choices'); c.innerHTML = '';
+  const b1 = document.createElement('button'); b1.className = 'event-btn';
+  b1.innerHTML = `<span class="eb-icon">🐕</span><span class="eb-text">Để chó xử lý</span>`;
+  b1.onclick = () => {
+    if (Math.random() * 100 < guard) {
+      toast('🐕 Chó đã đuổi được trộm!', 'achievement');
+      G.reputation = Math.min(10, G.reputation + 0.2);
+    } else {
+      const lost = pick(animals);
+      const animalName = lost.p.name;
+      lost.p.kind = lost.p.name = null; lost.p.progress = 0; lost.p.ready = false; lost.p.gene = null; lost.p.hungry = false;
+      toast(`😡 Bị trộm mất 1 con ${animalName}!`, 'error');
+      plotSig = '';
+    }
+    closeEvent(); renderAll();
+  };
+  c.appendChild(b1);
+  const b2 = document.createElement('button'); b2.className = 'event-btn';
+  b2.innerHTML = `<span class="eb-icon">📞</span><span class="eb-text">Gọi công an (tốn 200$)</span><span class="eb-cost">200$</span>`;
+  b2.onclick = () => {
+    if (G.money < 200) { toast('Không đủ tiền!', 'error'); return; }
+    G.money -= 200; G.dailyExpense += 200;
+    if (Math.random() < 0.85) {
+      toast('🚔 Công an đã bắt được trộm!', 'info');
+      G.reputation = Math.min(10, G.reputation + 0.3);
+    } else {
+      const lost = pick(animals);
+      const animalName = lost.p.name;
+      lost.p.kind = lost.p.name = null; lost.p.progress = 0; lost.p.ready = false; lost.p.gene = null;
+      toast(`😡 Trộm chạy thoát, mất 1 ${animalName}!`, 'error');
+      plotSig = '';
+    }
+    closeEvent(); renderAll();
+  };
+  c.appendChild(b2);
+  $('event-overlay').style.display = 'flex';
 }
 
 function chickenEscape() {
@@ -1407,8 +1421,7 @@ function chickenEscape() {
 }
 
 function animalEscape() {
-  const animals = G.plots.map((p, i) => ({ p, i })).filter(({ p, i }) =>
-    isPlotUnlocked(i) && p.kind === 'animal');
+  const animals = G.plots.map((p, i) => ({ p, i })).filter(({ p, i }) => isPlotUnlocked(i) && p.kind === 'animal');
   if (!animals.length) { closeEvent(); return; }
   const esc = pick(animals);
   const animalName = esc.p.name;
@@ -1425,14 +1438,10 @@ function animalEscape() {
     if (G.energy < 20) { toast('Không đủ năng lượng!', 'error'); return; }
     G.energy -= 20;
     if (Math.random() < 0.6) {
-      // Trả lại
-      const idx = G.plots.findIndex((p, i) => i === esc.i);
-      if (idx !== -1) {
-        G.plots[idx].kind = 'animal';
-        G.plots[idx].name = animalName;
-        G.plots[idx].hungry = true;
-        toast(`🎉 Bắt được ${animalName}!`, 'info');
-      }
+      G.plots[esc.i].kind = 'animal';
+      G.plots[esc.i].name = animalName;
+      G.plots[esc.i].hungry = true;
+      toast(`🎉 Bắt được ${animalName}!`, 'info');
     } else toast('😢 Không tìm thấy!', 'error');
     closeEvent(); renderAll();
   };
@@ -1443,25 +1452,23 @@ function animalEscape() {
     if (G.money < 50) { toast('Không đủ tiền!', 'error'); return; }
     G.money -= 50; G.dailyExpense += 50;
     if (Math.random() < 0.85) {
-      const idx = esc.i;
-      G.plots[idx].kind = 'animal';
-      G.plots[idx].name = animalName;
-      G.plots[idx].hungry = true;
+      G.plots[esc.i].kind = 'animal';
+      G.plots[esc.i].name = animalName;
+      G.plots[esc.i].hungry = true;
       toast(`🎉 Bắt được ${animalName}!`, 'info');
     } else toast('😢 Không tìm thấy!', 'error');
     closeEvent(); renderAll();
   };
   c.appendChild(b2);
   const b3 = document.createElement('button'); b3.className = 'event-btn';
-  b3.innerHTML = `<span class="eb-icon">🤷</span><span class="eb-text">Bỏ mặc (mất con vật)</span>`;
+  b3.innerHTML = `<span class="eb-icon">🤷</span><span class="eb-text">Bỏ mặc</span>`;
   b3.onclick = () => { toast(`Mất 1 ${animalName}...`, 'error'); G.reputation = Math.max(0, G.reputation - 0.15); closeEvent(); renderAll(); };
   c.appendChild(b3);
   $('event-overlay').style.display = 'flex';
 }
 
 function sickAnimal() {
-  const animals = G.plots.map((p, i) => ({ p, i })).filter(({ p, i }) =>
-    isPlotUnlocked(i) && p.kind === 'animal' && !p.sick);
+  const animals = G.plots.map((p, i) => ({ p, i })).filter(({ p, i }) => isPlotUnlocked(i) && p.kind === 'animal' && !p.sick);
   if (!animals.length) { closeEvent(); return; }
   const sick = pick(animals);
   sick.p.sick = true;
@@ -1470,28 +1477,21 @@ function sickAnimal() {
   plotSig = '';
   $('event-icon').textContent = '🤒';
   $('event-title').textContent = 'ĐỘNG VẬT BỊ BỆNH!';
-  $('event-desc').innerHTML = `<strong>${animalName}</strong> ${emoji} của bạn bị ốm!<br>Bạn xử lý thế nào?`;
+  $('event-desc').innerHTML = `<strong>${animalName}</strong> ${emoji} của bạn bị ốm!`;
   const c = $('event-choices'); c.innerHTML = '';
-
   const healCost = ANIMALS[animalName].cost * 0.6 | 0;
   const b1 = document.createElement('button'); b1.className = 'event-btn';
-  b1.innerHTML = `<span class="eb-icon">💊</span><span class="eb-text">Chữa trị (70% khỏi)</span><span class="eb-cost">${healCost}$</span>`;
+  b1.innerHTML = `<span class="eb-icon">💊</span><span class="eb-text">Chữa trị (70%)</span><span class="eb-cost">${healCost}$</span>`;
   b1.onclick = () => {
     if (G.money < healCost) { toast('Không đủ tiền!', 'error'); return; }
     G.money -= healCost; G.dailyExpense += healCost;
-    if (Math.random() < 0.7) {
-      sick.p.sick = false;
-      toast(`💊 ${animalName} đã khỏi bệnh!`, 'info');
-    } else {
-      toast(`😢 ${animalName} không qua khỏi...`, 'error');
-      sick.p.kind = sick.p.name = null; sick.p.progress = 0; sick.p.ready = false; sick.p.gene = null; sick.p.sick = false;
-    }
+    if (Math.random() < 0.7) { sick.p.sick = false; toast(`💊 Khỏi bệnh!`, 'info'); }
+    else { toast(`😢 Không qua khỏi...`, 'error'); sick.p.kind = sick.p.name = null; sick.p.progress = 0; sick.p.ready = false; sick.p.gene = null; sick.p.sick = false; }
     plotSig = ''; closeEvent(); renderAll();
   };
   c.appendChild(b1);
-
   const b2 = document.createElement('button'); b2.className = 'event-btn danger';
-  b2.innerHTML = `<span class="eb-icon">☠️</span><span class="eb-text">Tiêu huỷ (an toàn, uy tín giảm nhẹ)</span>`;
+  b2.innerHTML = `<span class="eb-icon">☠️</span><span class="eb-text">Tiêu huỷ (an toàn)</span>`;
   b2.onclick = () => {
     sick.p.kind = sick.p.name = null; sick.p.progress = 0; sick.p.ready = false; sick.p.gene = null; sick.p.sick = false; sick.p.hungry = false;
     G.reputation = Math.max(0, G.reputation - 0.15);
@@ -1499,20 +1499,17 @@ function sickAnimal() {
     plotSig = ''; closeEvent(); renderAll();
   };
   c.appendChild(b2);
-
   const sellValue = ANIMALS[animalName].cost * 0.7 | 0;
   const b3 = document.createElement('button'); b3.className = 'event-btn danger';
-  b3.innerHTML = `<span class="eb-icon">💸</span><span class="eb-text">Bán chui (nguy hiểm, +${sellValue}$)</span>`;
+  b3.innerHTML = `<span class="eb-icon">💸</span><span class="eb-text">Bán chui (+${sellValue}$)</span>`;
   b3.onclick = () => {
     G.money += sellValue; G.dailyRevenue += sellValue; G.stats.totalEarned += sellValue;
-    G.secretSellCount++;
-    G.secretSellDay = G.day;
+    G.secretSellCount = (G.secretSellCount || 0) + 1;
     sick.p.kind = sick.p.name = null; sick.p.progress = 0; sick.p.ready = false; sick.p.gene = null; sick.p.sick = false;
-    toast(`💰 Bán chui +${sellValue}$ (nguy cơ bị phạt!)`, 'warn');
+    toast(`💰 Bán chui +${sellValue}$ (nguy hiểm!)`, 'warn');
     plotSig = ''; closeEvent(); renderAll();
   };
   c.appendChild(b3);
-
   $('event-overlay').style.display = 'flex';
 }
 
@@ -1520,18 +1517,15 @@ function inspectionEvent() {
   $('event-icon').textContent = '🚔';
   $('event-title').textContent = 'KIỂM DỊCH ĐỘT XUẤT!';
   const c = $('event-choices'); c.innerHTML = '';
-
-  // Đếm cây/gia cầm bệnh
   const sickPlots = G.plots.filter((p, i) => isPlotUnlocked(i) && p.sick);
-  const secretCount = G.secretSellCount;
-
+  const secretCount = G.secretSellCount || 0;
   if (sickPlots.length === 0 && secretCount === 0) {
-    $('event-desc').innerHTML = `Đội kiểm dịch đến kiểm tra.<br><strong style="color:#A5D6A7">Trang trại của bạn sạch sẽ! Không phát hiện vấn đề gì.</strong>`;
+    $('event-desc').innerHTML = `Đội kiểm dịch đến kiểm tra.<br><strong style="color:#A5D6A7">Trang trại sạch sẽ!</strong>`;
     const b = document.createElement('button'); b.className = 'event-btn';
-    b.innerHTML = `<span class="eb-icon">✅</span><span class="eb-text">Tiễn đoàn kiểm dịch ra về</span>`;
+    b.innerHTML = `<span class="eb-icon">✅</span><span class="eb-text">Tiễn đoàn ra về</span>`;
     b.onclick = () => {
       G.reputation = Math.min(10, G.reputation + 0.3);
-      toast('✅ Trang trại đạt chuẩn!', 'achievement');
+      toast('✅ Đạt chuẩn!', 'achievement');
       closeEvent(); renderAll();
     };
     c.appendChild(b);
@@ -1539,26 +1533,23 @@ function inspectionEvent() {
     let fine = 0;
     let desc = 'Phát hiện:<br>';
     if (sickPlots.length > 0) {
-      desc += `🚨 <strong>${sickPlots.length} con vật bị bệnh</strong> chưa xử lý<br>`;
+      desc += `🚨 <strong>${sickPlots.length} con bệnh</strong><br>`;
       fine += sickPlots.length * 500;
-      for (const s of sickPlots) {
-        s.kind = s.name = null; s.progress = 0; s.ready = false; s.gene = null; s.sick = false; s.hungry = false;
-      }
+      for (const s of sickPlots) { s.kind = s.name = null; s.progress = 0; s.ready = false; s.gene = null; s.sick = false; s.hungry = false; }
       plotSig = '';
     }
     if (secretCount > 0) {
-      desc += `🚨 <strong>Phát hiện ${secretCount} vụ bán chui</strong> qua camera an ninh!<br>`;
+      desc += `🚨 <strong>${secretCount} vụ bán chui</strong><br>`;
       fine += 20000 * secretCount;
     }
     fine = Math.min(fine, G.money);
-    G.money -= fine;
-    G.dailyExpense += fine;
+    G.money -= fine; G.dailyExpense += fine;
     G.reputation = Math.max(0, G.reputation - 1.5);
     G.secretSellCount = 0;
-    $('event-desc').innerHTML = desc + `<br><strong style="color:#EF9A9A">Phạt ${fine}$ và trừ uy tín!</strong>`;
+    $('event-desc').innerHTML = desc + `<br><strong style="color:#EF9A9A">Phạt ${fine.toLocaleString()}$!</strong>`;
     const b = document.createElement('button'); b.className = 'event-btn';
-    b.innerHTML = `<span class="eb-icon">😰</span><span class="eb-text">Chấp nhận nộp phạt ${fine}$</span>`;
-    b.onclick = () => { toast(`💸 Nộp phạt ${fine}$`, 'error'); closeEvent(); renderAll(); };
+    b.innerHTML = `<span class="eb-icon">😰</span><span class="eb-text">Nộp phạt ${fine.toLocaleString()}$</span>`;
+    b.onclick = () => { toast(`💸 Nộp ${fine}$`, 'error'); closeEvent(); renderAll(); };
     c.appendChild(b);
   }
   $('event-overlay').style.display = 'flex';
@@ -1579,7 +1570,7 @@ function neighborHelp() {
     if (invCount(want) < qty) { toast(`Không đủ ${want}!`, 'error'); return; }
     invSub(want, qty);
     addRelationship(nb, 2); G.reputation = Math.min(10, G.reputation + 0.35);
-    toast(`❤️ ${nb} rất cảm kích!`, 'info');
+    toast(`❤️ ${nb} cảm kích!`, 'info');
     closeEvent(); renderAll();
   };
   c.appendChild(b1);
@@ -1610,7 +1601,7 @@ function birdFluEvent() {
   $('event-desc').innerHTML = `<strong>${cp.length} con gà</strong> có nguy cơ nhiễm bệnh!`;
   const c = $('event-choices'); c.innerHTML = '';
   const b1 = document.createElement('button'); b1.className = 'event-btn';
-  b1.innerHTML = `<span class="eb-icon">💉</span><span class="eb-text">Mua vaccine khẩn</span><span class="eb-cost">${VACCINE_COST}$</span>`;
+  b1.innerHTML = `<span class="eb-icon">💉</span><span class="eb-text">Vaccine khẩn</span><span class="eb-cost">${VACCINE_COST}$</span>`;
   b1.onclick = () => {
     if (G.money < VACCINE_COST) { toast('Không đủ tiền!', 'error'); return; }
     G.money -= VACCINE_COST; G.dailyExpense += VACCINE_COST;
@@ -1630,7 +1621,7 @@ function birdFluEvent() {
   };
   c.appendChild(b2);
   const b3 = document.createElement('button'); b3.className = 'event-btn danger';
-  b3.innerHTML = `<span class="eb-icon">🤷</span><span class="eb-text">Mặc kệ (rủi ro cao)</span>`;
+  b3.innerHTML = `<span class="eb-icon">🤷</span><span class="eb-text">Mặc kệ</span>`;
   b3.onclick = () => {
     if (Math.random() < 0.7) {
       const kill = Math.ceil(cp.length * 0.6);
@@ -1653,42 +1644,228 @@ function addRelationship(npc, delta) {
   G.stats.closeFriends = Object.values(G.relationships).filter(v => v >= 3).length;
 }
 
-/* ====== PANELS ====== */
-function rebuildPanels() {
-  buildShop(); buildUnlockList(); buildLandList(); buildWorkerList(); buildVaccineList(); buildThemeShop();
+/* ============ WORKER MANAGEMENT ============ */
+function createWorker(type) {
+  const cfg = WORKER_TYPES[type];
+  const exp = Math.floor(Math.random() * 10);
+  const personality = pick(PERSONALITIES);
+  const expMul = 0.6 + exp * 0.06;
+  const personalityMul = personality === 'chăm chỉ' ? 1.2 : personality === 'lười biếng' ? 0.7 : 1;
+  const interval = Math.max(2, Math.round(cfg.baseCost > 3000 ? 3 : 6) / (expMul * personalityMul));
+  return {
+    id: Date.now() + Math.random(),
+    type,
+    name: randomWorkerName(),
+    age: 20 + Math.floor(Math.random() * 40),
+    exp,
+    personality,
+    salary: Math.round(cfg.salary * (1 + exp * 0.05)),
+    interval: Math.max(2, interval),
+    timer: interval,
+    hired: G.day
+  };
 }
+
+/* ============ PANELS ============ */
+function rebuildPanels() {
+  buildShop(); buildUnlockList(); buildLandList(); buildVaccineList(); buildThemeShop();
+  buildWorkersPanel(); buildDogsPanel(); buildMillPanel(); buildBankPanel();
+}
+
+function buildBankPanel() {
+  $('bank-badge').textContent = G.loan > 0 ? Math.round(G.loan).toLocaleString() + '$' : '0$';
+  document.querySelectorAll('[data-loan]').forEach(btn => {
+    btn.onclick = () => {
+      const amt = parseInt(btn.dataset.loan, 10);
+      if (!confirm(`Vay ${amt.toLocaleString()}$? Lãi 10%/ngày sẽ cộng vào nợ.`)) return;
+      G.money += amt;
+      G.loan += amt;
+      toast(`💳 Đã vay ${amt.toLocaleString()}$`, 'warn');
+      renderAll(); rebuildPanels();
+    };
+  });
+  $('repay-all').onclick = () => {
+    if (G.loan <= 0) { toast('Không có nợ!', 'info'); return; }
+    if (G.money < G.loan) { toast(`Cần ${Math.round(G.loan).toLocaleString()}$ để trả!`, 'error'); return; }
+    const amt = G.loan;
+    G.money -= amt;
+    G.loan = 0;
+    toast(`💳 Đã trả hết nợ ${Math.round(amt).toLocaleString()}$!`, 'achievement');
+    renderAll(); rebuildPanels();
+  };
+}
+
+function buildMillPanel() {
+  const box = $('mill-panel');
+  $('mill-badge').textContent = G.ownedMills.length;
+  box.innerHTML = '';
+  if (!G.ownedMills.length) {
+    box.innerHTML = '<div class="inv-empty">Chưa có máy. Mua ở Cửa hàng!</div>';
+    return;
+  }
+  for (const m of G.ownedMills) {
+    const cfg = MILLS[m];
+    const row = document.createElement('div');
+    row.className = 'sm-row';
+    const inStock = invCount(cfg.input);
+    row.innerHTML = `<span class="sm-item">${cfg.emoji} ${m}<br><span style="font-size:9px;color:#90A4AE">${cfg.input} → ${cfg.output}</span></span><span style="color:#FFD54F;font-size:11px;font-weight:bold">${inStock} ${cfg.input}</span>`;
+    const b = document.createElement('button');
+    b.className = 'shop-btn';
+    b.style.background = '#43A047';
+    b.innerHTML = `Chế biến tất cả`;
+    b.onclick = () => {
+      if (inStock <= 0) { toast(`Không có ${cfg.input}!`, 'error'); return; }
+      invSub(cfg.input, inStock);
+      invAdd(cfg.output, inStock * cfg.ratio);
+      toast(`⚙️ Xay ${inStock} ${cfg.input} → ${inStock * cfg.ratio} ${cfg.output}`, 'info');
+      renderAll(); rebuildPanels();
+    };
+    row.appendChild(b);
+    box.appendChild(row);
+  }
+}
+
+function buildWorkersPanel() {
+  const box = $('workers-panel');
+  $('worker-badge').textContent = G.workers.length;
+  box.innerHTML = '';
+  // Hire section
+  for (const type in WORKER_TYPES) {
+    const cfg = WORKER_TYPES[type];
+    const b = document.createElement('button');
+    b.className = 'unlock-btn';
+    b.innerHTML = `<span>${cfg.emoji}</span><span class="unlock-name">${type}<span class="worker-detail">${cfg.desc} · Lương ${cfg.salary}$/ngày</span></span><span class="unlock-cost">${cfg.baseCost}$</span>`;
+    b.onclick = () => {
+      if (G.money < cfg.baseCost) { toast(`Cần ${cfg.baseCost}$ để thuê!`, 'error'); return; }
+      G.money -= cfg.baseCost; G.dailyExpense += cfg.baseCost;
+      const w = createWorker(type);
+      G.workers.push(w);
+      toast(`🧑‍🌾 Đã thuê ${w.name} (${w.age}t, ${w.exp}/10 kinh nghiệm, ${w.personality})`, 'info');
+      rebuildPanels(); renderAll();
+    };
+    box.appendChild(b);
+  }
+  // List hired
+  if (G.workers.length) {
+    const hdr = document.createElement('div');
+    hdr.style.cssText = 'font-size:10px;color:#90A4AE;margin-top:8px;margin-bottom:4px;font-weight:600';
+    hdr.textContent = '📋 Nhân công đang làm:';
+    box.appendChild(hdr);
+    for (const w of G.workers) {
+      const card = document.createElement('div');
+      card.className = 'review-item';
+      card.style.borderLeftColor = '#FFD54F';
+      card.innerHTML = `<div class="review-header"><span class="review-name">${w.name} (${w.age}t)</span><span style="color:#A5D6A7;font-size:10.5px">${w.salary}$/ngày</span></div><div style="color:#CFD8DC;font-size:10.5px">${WORKER_TYPES[w.type].emoji} ${w.type} · Kinh nghiệm: ${w.exp}/10 · Tính: <strong style="color:#FFD54F">${w.personality}</strong></div><div style="font-size:9.5px;color:#78909C;margin-top:2px">Vào làm ngày ${w.hired}</div>`;
+      const fireBtn = document.createElement('button');
+      fireBtn.style.cssText = 'margin-top:4px;padding:5px 10px;border-radius:6px;background:#B71C1C;color:#fff;font-size:10px;font-weight:bold';
+      fireBtn.textContent = '🚪 Sa thải';
+      fireBtn.onclick = () => {
+        if (!confirm(`Sa thải ${w.name}?`)) return;
+        G.workers = G.workers.filter(x => x.id !== w.id);
+        toast(`Đã sa thải ${w.name}`, 'info');
+        rebuildPanels(); renderAll();
+      };
+      card.appendChild(fireBtn);
+      box.appendChild(card);
+    }
+  }
+}
+
+function buildDogsPanel() {
+  const box = $('dogs-panel');
+  $('dog-badge').textContent = G.dogs.length;
+  box.innerHTML = '';
+  if (!G.dogs.length) {
+    box.innerHTML = '<div class="inv-empty">Chưa có chó. Mua ở Cửa hàng để canh trại!</div>';
+    return;
+  }
+  const totalG = totalGuard();
+  const total = document.createElement('div');
+  total.style.cssText = 'background:#1f2b30;padding:6px 10px;border-radius:8px;font-size:11px;margin-bottom:6px';
+  total.innerHTML = `🐕 <strong>${G.dogs.length} chó</strong> · Tổng bảo vệ: <strong style="color:#A5D6A7">${totalG}%</strong>`;
+  box.appendChild(total);
+  for (const d of G.dogs) {
+    const card = document.createElement('div');
+    card.className = 'review-item';
+    card.style.borderLeftColor = '#8D6E63';
+    card.innerHTML = `<div class="review-header"><span class="review-name">${d.emoji} ${d.type}</span><span style="color:#A5D6A7;font-size:10.5px">${d.guard}%</span></div><div style="color:#CFD8DC;font-size:10.5px">Mua ngày ${d.day}</div>`;
+    box.appendChild(card);
+  }
+}
+
 function buildShop() {
-  const cb = $('shop-crops'), ab = $('shop-animals'), sb = $('shop-supplies');
-  cb.innerHTML = ''; ab.innerHTML = ''; sb.innerHTML = '';
+  const cb = $('shop-crops'), ab = $('shop-animals'), db = $('shop-dogs'), mb = $('shop-mills'), tb = $('shop-tools');
+  cb.innerHTML = ''; ab.innerHTML = ''; db.innerHTML = ''; mb.innerHTML = ''; tb.innerHTML = '';
   for (const name in CROPS) {
     if (!G.unlockedCrops.includes(name)) continue;
     const d = CROPS[name];
     const b = document.createElement('button'); b.className = 'shop-btn';
-    b.innerHTML = `<span>${d.emoji} ${name}</span><span class="price">${d.seed}$</span>`;
+    b.innerHTML = `<span class="name">${d.emoji} ${name}</span><span class="price">${d.seed}$</span>`;
     b.onclick = () => buySeedBulk(name);
     cb.appendChild(b);
   }
   for (const name in ANIMALS) {
     const d = ANIMALS[name];
     const b = document.createElement('button'); b.className = 'shop-btn';
-    b.innerHTML = `<span>${d.emoji} ${name}</span><span class="price">${d.cost}$</span>`;
+    b.innerHTML = `<span class="name">${d.emoji} ${name}</span><span class="price">${d.cost}$</span>`;
     b.onclick = () => buyAnimalBulk(name);
     ab.appendChild(b);
   }
-  for (const name in SUPPLIES) {
-    const s = SUPPLIES[name];
+  for (const name in DOGS) {
+    const d = DOGS[name];
     const b = document.createElement('button'); b.className = 'shop-btn';
-    b.innerHTML = `<span>${s.emoji} ${name}</span><span class="price">${s.cost}$</span>`;
-    b.onclick = () => buySuppliesBulk(name);
-    sb.appendChild(b);
+    b.innerHTML = `<span class="name">${d.emoji} ${name}</span><span class="price">${(d.cost/1000).toFixed(0)}k$</span>`;
+    b.onclick = () => buyDog(name);
+    db.appendChild(b);
   }
+  for (const name in MILLS) {
+    const d = MILLS[name];
+    const owned = G.ownedMills.includes(name);
+    const b = document.createElement('button'); b.className = 'shop-btn';
+    b.style.opacity = owned ? '.5' : '1';
+    b.innerHTML = `<span class="name">${d.emoji} ${name}</span><span class="price">${owned ? '✓' : d.price + '$'}</span>`;
+    if (!owned) b.onclick = () => buyMill(name);
+    mb.appendChild(b);
+  }
+  const st = document.createElement('button'); st.className = 'shop-btn';
+  st.innerHTML = `<span class="name">💨 Thuốc trừ sâu</span><span class="price">${SPRAY_COST}$</span>`;
+  st.onclick = () => buySpray();
+  tb.appendChild(st);
+
   document.querySelectorAll('.ad-btn').forEach(btn => {
     btn.onclick = () => { if (btn.dataset.ad === 'flyer') buyAd(20, 100, 'Tờ rơi'); else buyAd(45, 300, 'Radio'); };
   });
-  $('buy-mystery-1').onclick = () => buyMysteryPackets(1);
-  $('buy-mystery-10').onclick = () => buyMysteryPackets(10);
-  $('mystery-count').textContent = `${G.mysteryDiscoveries.length}/1000`;
 }
+function buySpray() {
+  const max = Math.floor(G.money / SPRAY_COST);
+  if (max < 1) { toast('Không đủ tiền!', 'error'); return; }
+  const qStr = prompt(`Mua bao nhiêu thuốc trừ sâu? (tối đa ${max})`, '5');
+  if (!qStr) return;
+  const q = Math.max(1, Math.min(max, parseInt(qStr, 10) || 1));
+  const cost = q * SPRAY_COST;
+  G.money -= cost; G.dailyExpense += cost;
+  invAdd('Thuốc trừ sâu', q);
+  toast(`🛒 ${q} thuốc trừ sâu (-${cost}$)`, 'info');
+  renderAll();
+}
+function buyMill(name) {
+  const d = MILLS[name];
+  if (G.money < d.price) { toast(`Cần ${d.price}$!`, 'error'); return; }
+  G.money -= d.price; G.dailyExpense += d.price;
+  G.ownedMills.push(name);
+  toast(`🏭 Đã mua ${name}!`, 'achievement');
+  renderAll(); rebuildPanels();
+}
+function buyDog(name) {
+  const d = DOGS[name];
+  if (G.money < d.cost) { toast(`Cần ${d.cost.toLocaleString()}$!`, 'error'); return; }
+  G.money -= d.cost; G.dailyExpense += d.cost;
+  G.dogs.push({ type: name, emoji: d.emoji, guard: d.guard, day: G.day });
+  G.stats.dogsOwned = G.dogs.length;
+  toast(`🐕 Đã mua ${name} (${d.guard}% bảo vệ)`, 'achievement');
+  checkAchievements(); renderAll(); rebuildPanels();
+}
+
 function buildThemeShop() {
   const box = $('theme-shop-list');
   if (!box) return;
@@ -1701,9 +1878,9 @@ function buildThemeShop() {
     const row = document.createElement('div');
     row.className = 'sm-row';
     let action;
-    if (equipped) action = `<button class="shop-btn" disabled style="background:#FFC107;color:#1B5E20;opacity:1">✓ Đang dùng</button>`;
-    else if (owned) action = `<button class="shop-btn" data-theme="${key}" data-act="equip" style="background:#43A047">Dùng</button>`;
-    else action = `<button class="shop-btn" data-theme="${key}" data-act="buy"><span>Mua</span><span class="price">${t.price}$</span></button>`;
+    if (equipped) action = `<button class="shop-btn" disabled style="background:#FFC107;color:#1B5E20;opacity:1;font-size:10.5px;padding:5px 8px">✓ Dùng</button>`;
+    else if (owned) action = `<button class="shop-btn" data-theme="${key}" data-act="equip" style="background:#43A047;font-size:10.5px;padding:5px 8px">Dùng</button>`;
+    else action = `<button class="shop-btn" data-theme="${key}" data-act="buy" style="font-size:10.5px;padding:5px 8px"><span>Mua</span><span class="price">${t.price}$</span></button>`;
     row.innerHTML = `<span class="sm-item">${key}<br><span style="font-size:9px;color:#90A4AE">${t.rarity}</span></span>${action}`;
     box.appendChild(row);
   }
@@ -1750,24 +1927,13 @@ function buildLandList() {
   if (rC === 0 && rA === 0) { const d = document.createElement('div'); d.className = 'inv-empty'; d.textContent = '✅ Tối đa 50 ô!'; box.appendChild(d); return; }
   if (rC > 0) {
     const b = document.createElement('button'); b.className = 'land-btn';
-    b.innerHTML = `<span>🌱 +5 ô trồng</span><span class="land-cost">${ROW_COST_PER_ROW}$</span>`;
+    b.innerHTML = `<span>🌱 +5 ô trồng</span><span class="land-cost">${ROW_COST}$</span>`;
     b.onclick = () => unlockRow('crop'); box.appendChild(b);
   }
   if (rA > 0) {
     const b = document.createElement('button'); b.className = 'land-btn';
-    b.innerHTML = `<span>🐄 +5 ô nuôi</span><span class="land-cost">${ROW_COST_PER_ROW}$</span>`;
+    b.innerHTML = `<span>🐄 +5 ô nuôi</span><span class="land-cost">${ROW_COST}$</span>`;
     b.onclick = () => unlockRow('animal'); box.appendChild(b);
-  }
-}
-function buildWorkerList() {
-  const box = $('worker-list'); box.innerHTML = '';
-  for (const name in WORKERS) {
-    const w = WORKERS[name];
-    const hired = G.hiredWorkers.some(h => h.name === name);
-    const b = document.createElement('button'); b.className = 'worker-btn' + (hired ? ' hired' : '');
-    b.innerHTML = `<span>${w.emoji}</span><span class="worker-name">${name}<span class="worker-detail">${w.desc}</span></span><span class="worker-cost">${hired ? '✓' : w.cost + '$'}</span>`;
-    if (!hired) b.onclick = () => hireWorker(name);
-    box.appendChild(b);
   }
 }
 function buildVaccineList() {
@@ -1797,52 +1963,29 @@ function unlockCrop(name) {
   rebuildPanels(); renderAll();
 }
 function unlockRow(zone) {
-  if (G.money < ROW_COST_PER_ROW) { toast(`Cần ${ROW_COST_PER_ROW}$!`, 'error'); return; }
-  G.money -= ROW_COST_PER_ROW; G.dailyExpense += ROW_COST_PER_ROW;
+  if (G.money < ROW_COST) { toast(`Cần ${ROW_COST}$!`, 'error'); return; }
+  G.money -= ROW_COST; G.dailyExpense += ROW_COST;
   if (zone === 'crop') G.unlockedRowsCrop++; else G.unlockedRowsAnimal++;
   toast(`🏗️ Mở 5 ô!`, 'info');
   plotSig = ''; rebuildPanels(); renderAll();
-}
-function hireWorker(name) {
-  const w = WORKERS[name];
-  if (G.hiredWorkers.some(h => h.name === name)) return;
-  if (G.money < w.cost) { toast(`Cần ${w.cost}$!`, 'error'); return; }
-  G.money -= w.cost; G.dailyExpense += w.cost;
-  const profile = { displayName: randomNpcName(), quirk: pick(WORKER_QUIRKS), age: 20 + Math.floor(Math.random() * 40) };
-  G.hiredWorkers.push({ name, timer: w.interval, profile });
-  toast(`🧑‍🌾 ${profile.displayName} đã vào làm!`, 'info');
-  rebuildPanels(); renderAll();
 }
 function buyAd(sec, cost, label) {
   if (G.money < cost) { toast('Không đủ tiền!', 'error'); return; }
   G.money -= cost; G.dailyExpense += cost; G.adTime += sec;
   toast(`📢 ${label} kích hoạt!`); renderAll();
 }
-function buySuppliesBulk(name) {
-  const s = SUPPLIES[name];
-  const max = Math.floor(G.money / s.cost);
-  if (max < 1) { toast('Không đủ tiền!', 'error'); return; }
-  const qtyStr = prompt(`Mua bao nhiêu ${name}? (tối đa ${max}, mỗi cái ${s.cost}$)`, '10');
-  if (!qtyStr) return;
-  const q = Math.max(1, Math.min(max, parseInt(qtyStr, 10) || 1));
-  const cost = q * s.cost;
-  G.money -= cost; G.dailyExpense += cost;
-  invAdd(name, q);
-  toast(`🛒 ${q} ${name} (-${cost}$)`, 'info');
-  renderAll();
-}
 
-/* ====== BULK ====== */
+/* ============ BULK ============ */
 let bulkState = null;
 function openBulkModal(kind, key, name, unitCost, maxBuy) {
   bulkState = { kind, key, name, unitCost, maxBuy };
-  $('bulk-title').textContent = kind === 'seed' ? '🌱 Mua hạt giống' : kind === 'animal' ? '🐾 Mua con giống' : '🎁 Mua gói bí ẩn';
+  $('bulk-title').textContent = kind === 'seed' ? '🌱 Mua hạt giống' : '🐾 Mua con giống';
   $('bulk-sub').textContent = name;
   $('bulk-unit').textContent = unitCost + '$';
   $('bulk-max').textContent = maxBuy;
   $('bulk-qty').value = 1; $('bulk-qty').max = maxBuy;
   updateBulkTotal();
-  $('bulk-overlay').style.display = 'flex';
+  $('bulk-overlay').classList.add('show');
   G.userPaused = true;
 }
 function updateBulkTotal() {
@@ -1866,7 +2009,7 @@ document.querySelectorAll('.bulk-qty-row button').forEach(btn => {
   };
 });
 $('bulk-qty').addEventListener('input', updateBulkTotal);
-$('bulk-cancel').onclick = () => { $('bulk-overlay').style.display = 'none'; bulkState = null; G.userPaused = false; };
+$('bulk-cancel').onclick = () => { $('bulk-overlay').classList.remove('show'); bulkState = null; G.userPaused = false; };
 $('bulk-buy').onclick = () => {
   if (!bulkState) return;
   const { kind, key, unitCost } = bulkState;
@@ -1885,11 +2028,8 @@ $('bulk-buy').onclick = () => {
       if (gene === 'gold') { G.stats.rareOwned = 1; G.stats.goldOwned = 1; }
     }
     toast(`🛒 ${q} con ${key}`, 'info');
-  } else if (kind === 'mystery') {
-    for (let i = 0; i < q; i++) openMysteryPacket(true);
-    toast(`🎁 Mở ${q} gói`, 'achievement');
   }
-  $('bulk-overlay').style.display = 'none'; bulkState = null; G.userPaused = false;
+  $('bulk-overlay').classList.remove('show'); bulkState = null; G.userPaused = false;
   checkAchievements(); rebuildPanels(); renderAll();
 };
 function buySeedBulk(crop) {
@@ -1904,22 +2044,8 @@ function buyAnimalBulk(animal) {
   if (max < 1) { toast('Không đủ tiền!', 'error'); return; }
   openBulkModal('animal', animal, animal, d.cost, max);
 }
-function buyMysteryPackets(n) {
-  const unit = n === 10 ? 180 : MYSTERY_PACKET_COST;
-  const max = Math.floor(G.money / unit);
-  if (max < 1) { toast('Không đủ tiền!', 'error'); return; }
-  openBulkModal('mystery', 'mystery', 'Gói bí ẩn', unit, max);
-}
-function openMysteryPacket(silent) {
-  const names = Object.keys(MYSTERY_CROPS);
-  const name = names[Math.floor(Math.random() * names.length)];
-  invAdd('Hạt ' + name, 1);
-  G.mysteryPacketsBought++; G.stats.mysteryPackets++;
-  if (!G.mysteryDiscoveries.includes(name)) G.mysteryDiscoveries.push(name);
-  if (!silent) toast(`🎁 ${MYSTERY_CROPS[name].emoji} ${name} (T${MYSTERY_CROPS[name].tier})`, 'achievement');
-}
 
-/* ====== PLOTS ====== */
+/* ============ PLOTS ============ */
 let plotSig = '';
 function buildPlots() {
   const container = $('plots');
@@ -1930,7 +2056,7 @@ function buildPlots() {
     const el = document.createElement('div');
     el.className = 'plot';
     el.dataset.index = idx;
-    el.onclick = () => onPlotClick(idx);
+    el.addEventListener('click', () => onPlotClick(idx));
     container.appendChild(el);
   }
   plotSig = '';
@@ -1940,7 +2066,7 @@ function renderPlots() {
   const t = getTheme();
   const start = G.zone === 'crop' ? 0 : PLOTS_PER_ZONE;
   const sig = G.plots.slice(start, start + PLOTS_PER_ZONE).map((p, i) =>
-    `${isPlotUnlocked(start + i) ? 1 : 0}${p.kind || '-'}|${p.name || '-'}|${p.ready ? 1 : 0}|${p.gene || '-'}|${p.pest ? 1 : 0}|${p.fertilized ? 1 : 0}|${p.hungry ? 1 : 0}|${p.sick ? 1 : 0}`
+    `${isPlotUnlocked(start + i) ? 1 : 0}${p.kind || '-'}|${p.name || '-'}|${p.ready ? 1 : 0}|${p.gene || '-'}|${p.pest ? 1 : 0}|${p.fert ? 1 : 0}|${p.hungry ? 1 : 0}|${p.sick ? 1 : 0}`
   ).join(',') + `|${t.slot}|${G.zone}|${G.unlockedRowsCrop}|${G.unlockedRowsAnimal}`;
   if (sig !== plotSig) {
     plotSig = sig;
@@ -1955,7 +2081,7 @@ function renderPlots() {
       el.classList.toggle('locked', !unlocked);
       el.classList.toggle('ready', unlocked && p.ready && !p.pest && !p.hungry);
       if (!unlocked) {
-        el.innerHTML = `<span class="lock-icon">🔒</span><span class="lock-hint">${isNextRow ? ROW_COST_PER_ROW + '$' : 'Khoá'}</span><span class="lock-sub">${isNextRow ? 'Hàng ' + (row + 1) : ''}</span>`;
+        el.innerHTML = `<span class="lock-icon">🔒</span><span class="lock-hint">${isNextRow ? ROW_COST + '$' : 'Khoá'}</span><span class="lock-sub">${isNextRow ? 'Hàng ' + (row + 1) : ''}</span>`;
         el.style.background = ''; el.style.borderColor = '';
         continue;
       }
@@ -1963,24 +2089,22 @@ function renderPlots() {
       el.style.borderColor = t.slotBorder;
       if (!p.kind) { el.innerHTML = `<span class="plus">+</span><span class="hint-line">Trồng</span>`; continue; }
       const isCrop = p.kind === 'crop';
-      const data = isCrop ? getCrop(p.name) : ANIMALS[p.name];
+      const data = isCrop ? CROPS[p.name] : ANIMALS[p.name];
       if (!data) { el.innerHTML = ''; continue; }
       let html = '';
       if (p.ready && !p.pest && !p.hungry) html += `<div class="ready-tag">${isCrop ? 'THU' : 'LẤY'}</div>`;
-      // Badges
       let badges = '';
-      if (p.pest) badges += `<span class="badge-mini bug-badge" style="animation:bugWiggle .8s ease infinite">🐛</span>`;
+      if (p.pest) badges += `<span class="badge-mini" style="background:rgba(200,30,30,.85)">🐛</span>`;
       if (p.sick) badges += `<span class="badge-mini sick">🤒</span>`;
       else if (p.hungry && !isCrop) badges += `<span class="badge-mini hungry">🍽️</span>`;
-      else if (p.fertilized) badges += `<span class="badge-mini fert">🧪</span>`;
-      else if (!isCrop && !p.hungry) badges += `<span class="badge-mini feed">✅</span>`;
+      else if (p.fert) badges += `<span class="badge-mini fert">💩</span>`;
       html += badges;
       if (!isCrop && p.gene && p.gene !== 'normal') html += `<div class="gene-badge gene-${p.gene}">${GENES[p.gene].emoji}</div>`;
       html += `<div class="emoji">${data.emoji}</div>`;
       let cls = '';
       if (p.pest) cls = 'slow';
       else if (p.ready) cls = 'done';
-      else if (p.fertilized) cls = 'fert';
+      else if (p.fert) cls = 'fert';
       html += `<div class="progress-track"><div class="progress-fill ${cls}" style="width:${p.ready ? 100 : 0}%"></div></div>`;
       el.innerHTML = html;
     }
@@ -1990,7 +2114,7 @@ function renderPlots() {
     if (!isPlotUnlocked(idx)) continue;
     const p = G.plots[idx];
     if (!p.kind || p.ready) continue;
-    const data = p.kind === 'crop' ? getCrop(p.name) : ANIMALS[p.name];
+    const data = p.kind === 'crop' ? CROPS[p.name] : ANIMALS[p.name];
     if (!data) continue;
     const total = p.kind === 'crop' ? data.grow : data.time;
     const pct = Math.min(100, (p.progress / total) * 100);
@@ -2009,57 +2133,50 @@ function onPlotClick(i) {
   }
   const p = G.plots[i];
   const curZone = plotZoneOf(i);
-  if (G.tool === 'shovel') {
-    if (!p.kind) { setStatus('🪏 Ô trống.'); return; }
-    shovelPlot(i);
+  if (G.tool === 'shovel') { if (!p.kind) { setStatus('🪏 Ô trống.'); return; } shovelPlot(i); return; }
+  if (G.tool === 'spray') {
+    if (invCount('Thuốc trừ sâu') <= 0) { toast('Không có thuốc trừ sâu! Mua ở Cửa hàng.', 'error'); return; }
+    if (!p.pest) { toast('Ô này không có sâu.', 'info'); return; }
+    invSub('Thuốc trừ sâu', 1);
+    p.pest = false;
+    setStatus('💨 Đã xịt thuốc diệt sâu!');
+    toast('💨 Sâu đã chết!', 'info');
+    plotSig = ''; renderAll();
     return;
   }
   if (p.pest) {
-    if (G.energy < BUG_ENERGY_COST) { toast('Không đủ năng lượng!', 'error'); return; }
-    G.energy -= BUG_ENERGY_COST;
+    if (G.energy < BUG_ENERGY) { toast('Không đủ năng lượng!', 'error'); return; }
+    G.energy -= BUG_ENERGY;
     p.pest = false;
     G.stats.bugsCaught++;
     setStatus(`🐛 Đã bắt sâu! (${G.stats.bugsCaught})`);
-    toast('🐛 Sâu đã bắt!', 'info');
     checkAchievements(); plotSig = ''; renderAll();
     return;
   }
   if (!p.kind) { openPlantModal(i); return; }
   if (p.kind === 'crop' && curZone !== 'crop') return;
   if (p.kind === 'animal' && curZone !== 'animal') return;
-
-  // Sick animal
   if (p.sick) {
-    if (confirm(`Động vật bị bệnh! Chữa trị tốn ${ANIMALS[p.name].cost * 0.6 | 0}$?`)) {
+    if (confirm(`Động vật bị bệnh! Chữa trị ${(ANIMALS[p.name].cost * 0.6 | 0)}$?`)) {
       const cost = ANIMALS[p.name].cost * 0.6 | 0;
       if (G.money < cost) { toast('Không đủ tiền!', 'error'); return; }
       G.money -= cost; G.dailyExpense += cost;
-      if (Math.random() < 0.7) {
-        p.sick = false;
-        toast(`💊 ${p.name} đã khỏi!`, 'info');
-      } else {
-        toast(`😢 ${p.name} không qua khỏi`, 'error');
-        p.kind = p.name = null; p.progress = 0; p.ready = false; p.gene = null; p.sick = false;
-      }
+      if (Math.random() < 0.7) { p.sick = false; toast(`💊 Khỏi!`, 'info'); }
+      else { toast(`😢 Không qua khỏi`, 'error'); p.kind = p.name = null; p.progress = 0; p.ready = false; p.gene = null; p.sick = false; }
       plotSig = ''; renderAll();
     }
     return;
   }
-
-  // Hungry animal
   if (p.kind === 'animal' && p.hungry) {
-    if (invCount('Cám') <= 0) { toast('Không có cám! Mua ở Cửa hàng.', 'error'); return; }
-    if (G.energy < FEED_ENERGY_COST) { toast('Không đủ năng lượng!', 'error'); return; }
+    if (invCount('Cám') <= 0) { toast('Không có cám! Mua máy nghiền ngô về chế biến.', 'error'); return; }
+    if (G.energy < FEED_ENERGY) { toast('Không đủ năng lượng!', 'error'); return; }
     invSub('Cám', 1);
-    G.energy -= FEED_ENERGY_COST;
+    G.energy -= FEED_ENERGY;
     p.hungry = false;
     setStatus(`🍽️ Đã cho ${p.name} ăn!`);
-    toast(`🍽️ ${p.name} đã ăn no!`, 'info');
     plotSig = ''; renderAll();
     return;
   }
-
-  // Ready to harvest
   if (p.ready) {
     if (G.energy < 2) { toast('Không đủ năng lượng!', 'error'); return; }
     G.energy -= 2;
@@ -2067,30 +2184,30 @@ function onPlotClick(i) {
     renderAll();
     return;
   }
-
-  // Growing crop: apply fertilizer
-  if (p.kind === 'crop' && !p.fertilized) {
-    if (invCount('Phân bón') > 0) {
-      if (confirm(`Bón phân để cây lớn nhanh ×2?`)) {
-        if (G.energy < FERT_ENERGY_COST) { toast('Không đủ năng lượng!', 'error'); return; }
-        invSub('Phân bón', 1);
-        G.energy -= FERT_ENERGY_COST;
-        p.fertilized = true;
-        toast('🧪 Đã bón phân! Cây lớn nhanh hơn.', 'info');
+  // Cây đang lớn: bón phân bằng "Phân" (chất thải động vật)
+  if (p.kind === 'crop' && !p.fert) {
+    if (invCount('Phân') > 0) {
+      if (confirm(`Bón phân (💩) để cây lớn nhanh ×2?`)) {
+        if (G.energy < FERT_ENERGY) { toast('Không đủ năng lượng!', 'error'); return; }
+        invSub('Phân', 1);
+        G.energy -= FERT_ENERGY;
+        p.fert = true;
+        toast('💩 Đã bón phân! Cây lớn nhanh hơn.', 'info');
         plotSig = ''; renderAll();
         return;
       }
+    } else {
+      toast('Không có phân! Nuôi động vật để lấy phân.', 'info');
     }
   }
-
-  const data = p.kind === 'crop' ? getCrop(p.name) : ANIMALS[p.name];
+  const data = p.kind === 'crop' ? CROPS[p.name] : ANIMALS[p.name];
   const total = p.kind === 'crop' ? data.grow : data.time;
   setStatus(`${p.kind === 'crop' ? '🌱' : '🐾'} ${p.name} (${p.progress.toFixed(1)}/${total}s)`);
 }
 function shovelPlot(i) {
   const p = G.plots[i];
   if (!p.kind) return;
-  if (p.kind === 'crop') { invAdd('Hạt ' + p.name, 1); setStatus(`🪏 Nhổ ${p.name}, trả hạt về kho.`); }
+  if (p.kind === 'crop') { invAdd('Hạt ' + p.name, 1); setStatus(`🪏 Nhổ ${p.name}, trả hạt.`); }
   else {
     const key = p.name + '|' + (p.gene || 'normal');
     if (!G.inventory[key]) G.inventory[key] = { count: 0, base: p.name, gene: p.gene || 'normal' };
@@ -2098,7 +2215,7 @@ function shovelPlot(i) {
     setStatus(`🪏 Dời ${p.name} về kho.`);
   }
   p.kind = p.name = null; p.progress = 0; p.ready = false; p.gene = null;
-  p.damaged = false; p.pest = false; p.fertilized = false; p.hungry = false; p.sick = false;
+  p.damaged = false; p.pest = false; p.fert = false; p.hungry = false; p.sick = false;
   plotSig = ''; renderAll();
 }
 function harvestPlot(i) {
@@ -2108,21 +2225,24 @@ function harvestPlot(i) {
     invAdd(p.name, 1);
     G.dailyHarvests++;
     setStatus(`🌾 Thu hoạch 1 ${p.name}!`);
-    p.kind = p.name = null; p.progress = 0; p.ready = false; p.fertilized = false;
+    p.kind = p.name = null; p.progress = 0; p.ready = false; p.fert = false;
   } else {
     const prod = ANIMALS[p.name].product;
     const gene = p.gene || 'normal';
     const y = GENES[gene].yield;
     invAdd(prod, y);
+    // Sản xuất phân
+    const waste = ANIMALS[p.name].waste || 1;
+    invAdd('Phân', waste);
     G.dailyHarvests++;
-    setStatus(`📦 Thu ${y} ${prod}!`);
+    setStatus(`📦 Thu ${y} ${prod} + ${waste} phân!`);
     p.ready = false; p.progress = 0; p.hungry = true;
   }
   checkAchievements();
   return true;
 }
 
-/* ====== MODAL ====== */
+/* ============ PLANT MODAL ============ */
 function openPlantModal(i) {
   G.userPaused = true;
   const body = $('modal-body'); body.innerHTML = '';
@@ -2135,21 +2255,10 @@ function openPlantModal(i) {
       if (n > 0) {
         hasAny = true;
         const b = document.createElement('button'); b.className = 'modal-option';
-        b.innerHTML = `<span>🌱 Trồng ${crop}</span><span class="count">còn ${n}</span>`;
+        b.innerHTML = `<span>🌱 ${crop}</span><span class="count">còn ${n}</span>`;
         b.onclick = () => { plantCrop(i, crop); closeModal(); };
         body.appendChild(b);
       }
-    }
-    const mysterySeeds = Object.keys(MYSTERY_CROPS).filter(nm => invCount('Hạt ' + nm) > 0);
-    mysterySeeds.sort((a, b) => MYSTERY_CROPS[b].tier - MYSTERY_CROPS[a].tier);
-    for (const nm of mysterySeeds) {
-      hasAny = true;
-      const n = invCount('Hạt ' + nm);
-      const d = MYSTERY_CROPS[nm];
-      const b = document.createElement('button'); b.className = 'modal-option';
-      b.innerHTML = `<span>${d.emoji} ${nm} <small style="color:#FFD54F">[T${d.tier}]</small></span><span class="count">còn ${n}</span>`;
-      b.onclick = () => { plantCrop(i, nm); closeModal(); };
-      body.appendChild(b);
     }
   } else {
     const seen = new Set();
@@ -2160,7 +2269,7 @@ function openPlantModal(i) {
       hasAny = true;
       const g = GENES[it.gene] || GENES.normal;
       const b = document.createElement('button'); b.className = 'modal-option';
-      b.innerHTML = `<span>${ANIMALS[it.base].emoji} ${it.base} ${g.emoji || ''}${g.label !== 'Thường' ? g.label : ''}</span><span class="count">còn ${it.count}</span>`;
+      b.innerHTML = `<span>${ANIMALS[it.base].emoji} ${it.base} ${g.emoji || ''}</span><span class="count">còn ${it.count}</span>`;
       b.onclick = () => { placeAnimal(i, it.base, it.gene); closeModal(); };
       body.appendChild(b);
     }
@@ -2169,10 +2278,6 @@ function openPlantModal(i) {
     const d = document.createElement('div'); d.className = 'modal-empty';
     d.innerHTML = `Chưa có ${zone === 'crop' ? 'hạt giống' : 'con giống'}.<br>Mua ở Cửa hàng!`;
     body.appendChild(d);
-    const sb = document.createElement('button'); sb.className = 'modal-shop-btn';
-    sb.textContent = '🛒 Đi tới Cửa hàng';
-    sb.onclick = () => { closeModal(); $('panel-shop').scrollIntoView({ behavior: 'smooth', block: 'center' }); };
-    body.appendChild(sb);
   }
   $('modal-overlay').classList.add('show');
 }
@@ -2185,7 +2290,7 @@ function plantCrop(i, name) {
   invSub(key, 1);
   const p = G.plots[i];
   p.kind = 'crop'; p.name = name; p.progress = 0; p.ready = false; p.gene = null;
-  p.pest = false; p.fertilized = false;
+  p.pest = false; p.fert = false;
   G.stats.plantsTotal++;
   if (name === 'Cà rốt') G.stats.carrotsPlanted++;
   setStatus(`🌱 Trồng ${name}!`);
@@ -2203,10 +2308,7 @@ function placeAnimal(i, animal, gene) {
   checkAchievements(); renderAll();
 }
 
-/* ====== INVENTORY ====== */
-const PRODUCT_PRICE = {};
-for (const k in CROPS) PRODUCT_PRICE[k] = CROPS[k].sell;
-for (const k in ANIMALS) PRODUCT_PRICE[ANIMALS[k].product] = ANIMALS[k].sell;
+/* ============ INVENTORY ============ */
 function renderInventory() {
   const box = $('inventory-list');
   const keys = Object.keys(G.inventory).filter(k => G.inventory[k].count > 0);
@@ -2215,10 +2317,9 @@ function renderInventory() {
     const it = G.inventory[k];
     let label = k;
     if (it.base) { const g = GENES[it.gene] || GENES.normal; label = it.base + (g.emoji ? ' ' + g.emoji : ''); }
-    else if (SUPPLIES[k]) label = SUPPLIES[k].emoji + ' ' + k;
     let priceStr = '';
     if (it.base && ANIMALS[it.base]) priceStr = `<span class="chip-price">${itemCurrentPrice(ANIMALS[it.base].product)}$</span>`;
-    else if (PRODUCT_PRICE[k]) priceStr = `<span class="chip-price">${itemCurrentPrice(k)}$</span>`;
+    else if (PRODUCT_PRICE[k] || CROPS[k]) priceStr = `<span class="chip-price">${itemCurrentPrice(k)}$</span>`;
     return `<span class="inv-chip">${label} ×${it.count}${priceStr}</span>`;
   }).join('');
 }
@@ -2226,7 +2327,7 @@ $('sell-all-btn').onclick = () => {
   let total = 0;
   for (const k in G.inventory) {
     const it = G.inventory[k];
-    if (it.count > 0 && !it.base && !k.startsWith('Hạt ') && !SUPPLIES[k] && PRODUCT_PRICE[k]) {
+    if (it.count > 0 && !it.base && !k.startsWith('Hạt ') && k !== 'Thuốc trừ sâu' && (PRODUCT_PRICE[k] || CROPS[k])) {
       total += itemCurrentPrice(k) * it.count;
       it.count = 0;
     }
@@ -2238,14 +2339,15 @@ $('sell-all-btn').onclick = () => {
   checkAchievements(); renderAll();
 };
 
-/* ====== SUPERMARKET ====== */
+/* ============ SUPERMARKET ============ */
 function renderSupermarket() {
   const box = $('supermarket-list');
   box.innerHTML = '';
   const items = [];
   for (const c in CROPS) items.push(c);
   for (const a in ANIMALS) items.push(ANIMALS[a].product);
-  const common = ['Cà rốt', 'Cà chua', 'Trứng'];
+  for (const item in PRODUCT_PRICE) items.push(item);
+  const common = ['Cà rốt','Cà chua','Trứng','Gạo','Cám'];
   for (const it of items) {
     const stock = invCount(it);
     const isCommon = common.includes(it);
@@ -2258,7 +2360,7 @@ function renderSupermarket() {
     const winning = myPrice < compPrice;
     const row = document.createElement('div');
     row.className = 'sm-row';
-    row.innerHTML = `<span class="sm-item">${getCrop(it) ? getCrop(it).emoji : ''}${it}</span><span class="sm-price">${myPrice}$</span><span class="sm-comp ${winning ? 'win' : 'lose'}">${compPrice}$</span><div class="sm-slider"><input type="range" min="50" max="150" value="${Math.round(myMul * 100)}"></div>`;
+    row.innerHTML = `<span class="sm-item">${it}</span><span class="sm-price">${myPrice}$</span><span class="sm-comp ${winning ? 'win' : 'lose'}">${compPrice}$</span><div class="sm-slider"><input type="range" min="50" max="150" value="${Math.round(myMul * 100)}"></div>`;
     const slider = row.querySelector('input');
     slider.oninput = () => {
       G.supermarket.prices[it] = parseInt(slider.value, 10) / 100;
@@ -2271,7 +2373,7 @@ function renderSupermarket() {
     };
     box.appendChild(row);
   }
-  if (!box.children.length) box.innerHTML = `<div class="inv-empty" style="padding:8px 0;text-align:center">Chưa có hàng để bán sỉ.</div>`;
+  if (!box.children.length) box.innerHTML = `<div class="inv-empty" style="padding:6px 0;text-align:center">Chưa có hàng để bán sỉ.</div>`;
   $('sm-sales-today').textContent = Math.round(G.supermarket.salesToday) + '$';
 }
 function trySupermarketSale(dt) {
@@ -2279,8 +2381,8 @@ function trySupermarketSale(dt) {
   for (const k of itemKeys) {
     const it = G.inventory[k];
     if (!it || it.count <= 0) continue;
-    if (it.base || k.startsWith('Hạt ') || SUPPLIES[k]) continue;
-    if (!PRODUCT_PRICE[k] && !getCrop(k)) continue;
+    if (it.base || k.startsWith('Hạt ') || k === 'Thuốc trừ sâu') continue;
+    if (!PRODUCT_PRICE[k] && !CROPS[k]) continue;
     const myMul = G.supermarket.prices[k] || 1;
     const compMul = G.supermarket.competitors[k] || 1;
     const diff = compMul / myMul;
@@ -2294,7 +2396,7 @@ function trySupermarketSale(dt) {
   }
 }
 
-/* ====== ONLINE ORDERS ====== */
+/* ============ ONLINE ORDERS ============ */
 function spawnOnlineOrder() {
   const pool = prodItems();
   if (!pool.length) return;
@@ -2307,8 +2409,8 @@ function spawnOnlineOrder() {
     tv += itemCurrentPrice(it) * q;
   }
   const reward = Math.floor(tv * 1.8 + 300 + Math.random() * 400);
-  const prepTime = 60 + Math.random() * 60;
-  const shipTime = 60 + Math.random() * 60;
+  const prepTime = 300 + Math.random() * 300; // 5-10 phút
+  const shipTime = 300 + Math.random() * 300; // 5-10 phút
   G.onlineOrders.push({ id: ++G.onlineSeq, name: randomNpcName(), order, reward, prepTime, prepMax: prepTime, shipTime, shipMax: shipTime, phase: 'prep' });
   toast(`📦 Đơn online mới!`, 'info');
 }
@@ -2335,13 +2437,13 @@ function updateOnlineOrders(dt) {
     }
   }
   G.onlineCooldown -= dt;
-  if (G.onlineCooldown <= 0) { spawnOnlineOrder(); G.onlineCooldown = 45 + Math.random() * 60; }
+  if (G.onlineCooldown <= 0) { spawnOnlineOrder(); G.onlineCooldown = 90 + Math.random() * 60; }
 }
 function renderOnlineOrders() {
   const box = $('online-list');
   $('online-count').textContent = G.onlineOrders.length;
   box.innerHTML = '';
-  if (!G.onlineOrders.length) { box.innerHTML = `<div class="inv-empty" style="padding:8px 0;text-align:center">Chưa có đơn online.</div>`; return; }
+  if (!G.onlineOrders.length) { box.innerHTML = `<div class="inv-empty" style="padding:6px 0;text-align:center">Chưa có đơn online.</div>`; return; }
   for (const o of G.onlineOrders) {
     const card = document.createElement('div');
     card.className = 'online-card' + (o.phase === 'shipping' ? ' shipping' : '');
@@ -2358,7 +2460,7 @@ function renderOnlineOrders() {
   }
 }
 
-/* ====== CUSTOMERS ====== */
+/* ============ CUSTOMERS ============ */
 let custIdSeq = 0;
 let lastCustSig = '';
 function maxCustomers() {
@@ -2396,7 +2498,7 @@ function spawnCustomer() {
     tv += itemCurrentPrice(it) * q;
   }
   const reward = Math.floor(tv * TIER_MUL[tier] * (1.15 + Math.random() * 0.3));
-  const patience = 180 + Math.random() * 240;
+  const patience = 240 + Math.random() * 300;
   G.customers.push({ id: ++custIdSeq, name: randomNpcName(), order, reward, patience, maxPatience: patience, tier });
 }
 function canDeliver(cu) { for (const it in cu.order) if (invCount(it) < cu.order[it]) return false; return true; }
@@ -2428,7 +2530,6 @@ function partialDeliver(cu) {
   G.reputation = Math.max(0, G.reputation - 0.15);
   const stars = ratio >= 0.7 ? 3 : ratio >= 0.5 ? 2 : 1;
   addReview(cu.name, stars, `Giao một phần`, cu.tier);
-  setStatus(`⚠️ Giao một phần — ${reward}$`);
   toast(`⚠️ Giao một phần (+${reward}$)`, 'warn');
   return true;
 }
@@ -2436,7 +2537,6 @@ function rejectCustomer(cu) {
   G.reputation = Math.max(0, G.reputation - 0.5);
   addRelationship(cu.name, -2);
   addReview(cu.name, 1, 'Bị từ chối đơn!', cu.tier);
-  setStatus(`❌ Từ chối đơn của ${cu.name}!`);
   toast(`❌ Từ chối — mất uy tín`, 'error');
 }
 function deliver(id) {
@@ -2445,7 +2545,6 @@ function deliver(id) {
   const cu = G.customers[idx];
   if (!canDeliver(cu)) { toast('Không đủ hàng!', 'error'); return; }
   performDeliver(cu);
-  setStatus(`✅ Giao cho ${cu.name} — ${cu.reward}$!`);
   toast(`+${cu.reward}$ từ ${cu.name}`, cu.tier === 'special' ? 'achievement' : '');
   G.customers.splice(idx, 1);
   lastCustSig = ''; checkAchievements(); renderAll();
@@ -2499,7 +2598,7 @@ function renderCustomers() {
       const btFull = document.createElement('button'); btFull.className = 'deliver-btn';
       btFull.textContent = 'GIAO'; btFull.disabled = !ok;
       const btPart = document.createElement('button'); btPart.className = 'partial-btn';
-      btPart.textContent = 'MỘT PHẦN'; btPart.disabled = !any;
+      btPart.textContent = '1 PHẦN'; btPart.disabled = !any;
       const btRej = document.createElement('button'); btRej.className = 'reject-btn';
       btRej.textContent = 'TỪ CHỐI';
       bot.appendChild(tr);
@@ -2527,10 +2626,10 @@ function renderCustomers() {
 function renderReviews() {
   const box = $('review-list');
   $('review-count').textContent = G.reviews.length;
-  if (!G.reviews.length) { box.innerHTML = `<div class="inv-empty" style="padding:12px 0;text-align:center">Chưa có nhận xét.</div>`; return; }
+  if (!G.reviews.length) { box.innerHTML = `<div class="inv-empty" style="padding:10px 0;text-align:center">Chưa có nhận xét.</div>`; return; }
   box.innerHTML = G.reviews.slice(0, 12).map(r => {
     const stars = '⭐'.repeat(r.stars);
-    return `<div class="review-item"><div class="review-header"><span class="review-name">${r.name}</span><span class="review-stars">${stars}</span></div><div class="review-text">"${r.text}"</div><div style="color:#607D8B;font-size:9.5px;margin-top:2px">Ngày ${r.day}</div></div>`;
+    return `<div class="review-item"><div class="review-header"><span class="review-name">${r.name}</span><span class="review-stars">${stars}</span></div><div class="review-text">"${r.text}"</div><div style="color:#607D8B;font-size:9px;margin-top:2px">Ngày ${r.day}</div></div>`;
   }).join('');
 }
 function checkAchievements() {
@@ -2567,11 +2666,13 @@ function renderHUD() {
   $('hud-energy').textContent = `⚡ ${Math.floor(G.energy)}`;
   $('hud-day').textContent = `📅 Ngày ${G.day}`;
   $('hud-clock').textContent = `🕐 ${timeString()}`;
-  const daysToTax = TAX_INTERVAL_DAYS - ((G.day - 1) % TAX_INTERVAL_DAYS);
-  $('hud-tax').textContent = `📋 Thuế còn ${daysToTax} ngày`;
+  $('hud-tax').textContent = `📋 Thuế 10%`;
+  const loanEl = $('hud-loan');
+  if (G.loan > 0) { loanEl.style.display = 'inline-flex'; loanEl.textContent = `💳 ${Math.round(G.loan).toLocaleString()}$`; }
+  else loanEl.style.display = 'none';
   const adEl = $('hud-ad');
-  if (G.adTime > 0) { adEl.textContent = `📢 QC: ${Math.ceil(G.adTime)}s`; adEl.classList.remove('inactive'); }
-  else { adEl.textContent = '📢 Không QC'; adEl.classList.add('inactive'); }
+  if (G.adTime > 0) { adEl.textContent = `📢 ${Math.ceil(G.adTime)}s`; adEl.classList.remove('inactive'); }
+  else { adEl.textContent = '📢 QC'; adEl.classList.add('inactive'); }
 }
 function renderAll() {
   renderPlots(); renderInventory(); renderCustomers();
@@ -2579,7 +2680,7 @@ function renderAll() {
   renderSupermarket(); renderOnlineOrders();
 }
 
-/* ====== GAME LOOP ====== */
+/* ============ GAME LOOP ============ */
 function gameLoop(now) {
   if (!G.running) return;
   let dt = (now - G.lastTime) / 1000;
@@ -2602,19 +2703,19 @@ function gameLoop(now) {
     const p = G.plots[i];
     if (!p.kind || p.ready) continue;
     const isCrop = p.kind === 'crop';
-    const data = isCrop ? getCrop(p.name) : ANIMALS[p.name];
+    const data = isCrop ? CROPS[p.name] : ANIMALS[p.name];
     if (!data) continue;
     if (isCrop && !p.pest && Math.random() < 0.005 * dt) { p.pest = true; plotSig = ''; }
-    if (!isCrop && p.hungry) continue; // ĐV đói không sản xuất
-    if (!isCrop && p.sick) continue; // ĐV bệnh không sản xuất
+    if (!isCrop && p.hungry) continue;
+    if (!isCrop && p.sick) continue;
     let mul = w.growMul;
     if (G.weather === 'cold' && isCrop && !data.coldResist) mul = 0.1;
-    if (p.fertilized) mul *= 2;
+    if (p.fert) mul *= 2;
     if (p.pest) mul *= 0.3;
     if (night) mul *= 0.7;
     if (G.weather === 'storm' && !p.damaged && isCrop && Math.random() < (w.stormChance || 0) * dt) {
       p.damaged = true; p.kind = p.name = null; p.progress = 0; p.ready = false;
-      p.gene = null; p.pest = false; p.fertilized = false;
+      p.gene = null; p.pest = false; p.fert = false;
       toast(`⛈️ Bão phá hủy một cây!`, 'error');
       plotSig = ''; continue;
     }
@@ -2626,40 +2727,57 @@ function gameLoop(now) {
   if (G.adTime > 0) G.adTime = Math.max(0, G.adTime - dt);
   G.energy = Math.min(100, G.energy + dt * 1.5);
 
-  for (const wrk of G.hiredWorkers) {
+  // Workers
+  for (const wrk of G.workers) {
     wrk.timer -= dt;
     if (wrk.timer <= 0) {
-      const cfg = WORKERS[wrk.name];
-      wrk.timer = cfg.interval;
-      for (let i = 0; i < G.plots.length; i++) {
-        if (isPlotUnlocked(i) && G.plots[i].ready && !G.plots[i].pest && !G.plots[i].hungry) { harvestPlot(i); break; }
+      const cfg = WORKER_TYPES[wrk.type];
+      wrk.timer = wrk.interval;
+      // Auto harvest
+      if (cfg.skill === 'harvest' || cfg.skill === 'plant' || cfg.skill === 'all' || cfg.skill === 'feed') {
+        for (let i = 0; i < G.plots.length; i++) {
+          if (isPlotUnlocked(i) && G.plots[i].ready && !G.plots[i].pest && !G.plots[i].hungry) { harvestPlot(i); break; }
+        }
       }
-      if (cfg.autoPlant) {
+      // Feed animals
+      if (cfg.skill === 'feed' || cfg.skill === 'all') {
+        for (let i = 0; i < G.plots.length; i++) {
+          if (!isPlotUnlocked(i)) continue;
+          const p = G.plots[i];
+          if (p.kind === 'animal' && p.hungry && invCount('Cám') > 0) {
+            invSub('Cám', 1);
+            p.hungry = false;
+            break;
+          }
+        }
+      }
+      // Plant
+      if (cfg.skill === 'plant' || cfg.skill === 'all') {
         for (let i = 0; i < G.plots.length; i++) {
           if (!isPlotUnlocked(i)) continue;
           const p = G.plots[i];
           if (p.kind) continue;
           if (plotZoneOf(i) !== 'crop') continue;
-          let found = false;
           for (const crop in CROPS) {
             if (!G.unlockedCrops.includes(crop)) continue;
             if (invCount('Hạt ' + crop) > 0) {
               invSub('Hạt ' + crop, 1);
-              p.kind = 'crop'; p.name = crop; p.progress = 0; p.ready = false; p.pest = false; p.fertilized = false;
+              p.kind = 'crop'; p.name = crop; p.progress = 0; p.ready = false; p.pest = false; p.fert = false;
               G.stats.plantsTotal++;
               if (crop === 'Cà rốt') G.stats.carrotsPlanted++;
-              found = true; break;
+              break;
             }
           }
           plotSig = ''; break;
         }
       }
-      if (cfg.autoDeliver) {
+      // Deliver
+      if (cfg.skill === 'all') {
         for (let i = G.customers.length - 1; i >= 0; i--) {
           const cu = G.customers[i];
           if (canDeliver(cu)) {
             performDeliver(cu);
-            toast(`🧑‍💼 ${wrk.profile.displayName} giao ${cu.reward}$`, 'info');
+            toast(`🧑‍🌾 ${wrk.name} giao đơn ${cu.reward}$`, 'info');
             G.customers.splice(i, 1); lastCustSig = '';
           }
         }
@@ -2701,10 +2819,9 @@ function gameLoop(now) {
     if (window.cloudSaveNow) window.cloudSaveNow();
   }
 
-  // Update sun position with time
   const dayFrac = G.dayTime / DAY_DURATION;
   const sunAngle = -Math.PI / 2 + dayFrac * Math.PI * 2;
-  $('sunEl').style.transform = `translate(${Math.cos(sunAngle) * 30}px, ${Math.sin(sunAngle) * 15}px)`;
+  $('sunEl').style.transform = `translate(${Math.cos(sunAngle) * 25}px, ${Math.sin(sunAngle) * 12}px)`;
 
   renderPlots(); renderCustomers(); renderInventory();
   renderReviews(); renderAchievements(); renderHUD();
@@ -2712,7 +2829,7 @@ function gameLoop(now) {
   requestAnimationFrame(gameLoop);
 }
 
-/* ====== SAVE ====== */
+/* ============ SAVE ============ */
 function getSaveData() {
   return JSON.parse(JSON.stringify({
     ...G, running: false, lastTime: 0, lastSave: 0, lastCloudSave: 0, phase: 'playing', userPaused: false
@@ -2741,41 +2858,32 @@ window.cloudSaveNow = cloudSaveNow;
 $('save-btn').onclick = async () => {
   saveGame(); toast('💾 Đang lưu...', 'info');
   const ok = await cloudSaveNow();
-  if (ok) toast('☁️ Đã lưu Cloud!', 'info');
-  else toast('💾 Đã lưu máy (Cloud lỗi)', 'warn');
-};
-$('reset-btn').onclick = async () => {
-  if (!confirm('Chơi lại?')) return;
-  try { localStorage.removeItem(SAVE_KEY); } catch(e) {}
-  if (window.Cloud && window.Cloud.ready) await window.Cloud.deleteSave();
-  location.reload();
+  toast(ok ? '☁️ Đã lưu Cloud!' : '💾 Đã lưu máy', ok ? 'info' : 'warn');
 };
 
-/* ====== PAUSE ====== */
+/* ============ PAUSE ============ */
 $('pause-btn').onclick = () => {
   G.userPaused = !G.userPaused;
-  $('pause-btn').textContent = G.userPaused ? '▶ Tiếp tục' : '⏸ Tạm dừng';
+  $('pause-btn').textContent = G.userPaused ? '▶' : '⏸';
   $('pause-btn').className = 'top-btn ' + (G.userPaused ? 'active' : 'warn');
   $('paused-overlay').classList.toggle('show', G.userPaused);
   setStatus(G.userPaused ? '⏸ Đã tạm dừng' : '▶ Tiếp tục chơi');
 };
 
-/* ====== RENAME ====== */
+/* ============ RENAME ============ */
 $('rename-btn').onclick = () => {
   const newName = prompt(`Đổi tên nông trại (phí ${RENAME_COST.toLocaleString()}$):\nTên hiện tại: "${G.farmName}"`, G.farmName);
   if (!newName || newName.trim() === G.farmName) return;
-  if (G.money < RENAME_COST) { toast(`Cần ${RENAME_COST.toLocaleString()}$ để đổi tên!`, 'error'); return; }
-  if (!confirm(`Đổi tên thành "${newName.trim()}" với phí ${RENAME_COST.toLocaleString()}$?`)) return;
+  if (G.money < RENAME_COST) { toast(`Cần ${RENAME_COST.toLocaleString()}$!`, 'error'); return; }
   G.money -= RENAME_COST;
   G.dailyExpense += RENAME_COST;
   G.farmName = newName.trim();
   updateFarmTitle();
   toast(`✏️ Đã đổi tên: ${G.farmName}`, 'achievement');
-  setStatus(`Trang trại đã được đổi tên thành "${G.farmName}"`);
   renderAll();
 };
 
-/* ====== ZONE / TOOL ====== */
+/* ============ ZONE / TOOL ============ */
 document.querySelectorAll('.zone-tab').forEach(tab => {
   tab.onclick = () => {
     document.querySelectorAll('.zone-tab').forEach(t => t.classList.remove('active'));
@@ -2789,11 +2897,12 @@ document.querySelectorAll('.tool-btn[data-tool]').forEach(btn => {
     document.querySelectorAll('.tool-btn[data-tool]').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     G.tool = btn.dataset.tool;
-    $('tool-info').textContent = G.tool === 'shovel' ? '🪏 Bấm ô để xoá / trả về kho' : 'Bấm ô để trồng / thu hoạch / bón phân / cho ăn';
+    const msgs = { hand: 'Bấm ô để trồng / thu hoạch / bón phân', shovel: '🪏 Bấm ô để xoá', spray: '💨 Bấm cây có sâu để xịt thuốc' };
+    $('tool-info').textContent = msgs[G.tool] || '';
   };
 });
 
-/* ====== COLLAPSIBLE PANELS ====== */
+/* ============ COLLAPSIBLE PANELS ============ */
 document.querySelectorAll('.panel-header').forEach(h => {
   h.onclick = () => {
     const panel = document.getElementById(h.dataset.panel);
@@ -2801,7 +2910,22 @@ document.querySelectorAll('.panel-header').forEach(h => {
   };
 });
 
+/* Prevent double-tap zoom on iOS */
+let lastTouch = 0;
+document.addEventListener('touchend', e => {
+  const now = Date.now();
+  if (now - lastTouch <= 300) e.preventDefault();
+  lastTouch = now;
+}, { passive: false });
+
 window.addEventListener('beforeunload', () => { saveGame(); });
+
+/* Auto-collapse panels on mobile by default */
+if (window.innerWidth < 700) {
+  document.querySelectorAll('#side-panel .panel').forEach(p => {
+    if (!p.classList.contains('collapsed') && p.id !== 'panel-cust') p.classList.add('collapsed');
+  });
+}
 </script>
 </body>
 </html>
