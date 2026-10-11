@@ -8,640 +8,695 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
 body{
-  background:radial-gradient(ellipse at 50% -10%,#c1121f 0%,#8b0000 45%,#4a0000 100%);
-  color:#ffe9c4;user-select:none;
+  background:linear-gradient(180deg,#ffd7a0 0%,#ffb37a 30%,#f47c4a 60%,#7a2418 100%);
+  color:#3a1208;user-select:none;position:relative;
+}
+/* Phông nền chợ Tết */
+#bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+#bg::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 90% 40% at 50% 105%,rgba(120,30,10,.55),transparent 70%),
+    radial-gradient(ellipse 70% 30% at 50% 0%,rgba(255,240,200,.6),transparent 60%);
+}
+/* Cây mai/đào 2 bên */
+.branch{position:absolute;font-size:clamp(60px,12vw,110px);opacity:.85;filter:drop-shadow(0 6px 10px rgba(0,0,0,.25))}
+.branch.l{top:-6px;left:-14px;transform:rotate(-18deg)}
+.branch.r{top:-6px;right:-14px;transform:rotate(18deg) scaleX(-1)}
+/* Mái chợ */
+.roof{position:absolute;bottom:0;left:0;right:0;height:34vh;
+  background:
+    linear-gradient(180deg,transparent 0%,rgba(140,40,20,.15) 40%,rgba(70,15,5,.45) 100%),
+    repeating-linear-gradient(90deg,transparent 0 40px,rgba(0,0,0,.05) 40px 42px);
 }
 #fx{position:fixed;inset:0;pointer-events:none;z-index:1}
 #app{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;overflow:hidden}
 
-/* ===== DECOR ===== */
+/* Đèn lồng */
 .decor-top{position:fixed;top:0;left:0;right:0;height:0;z-index:3;pointer-events:none}
-.lantern{position:absolute;top:-10px;font-size:clamp(28px,5vw,46px);animation:sway 3.5s ease-in-out infinite;filter:drop-shadow(0 0 14px rgba(255,180,60,.85))}
+.lantern{position:absolute;top:-10px;font-size:clamp(26px,4.6vw,42px);
+  animation:sway 3.5s ease-in-out infinite;filter:drop-shadow(0 0 14px rgba(255,120,60,.9))}
 .lantern:nth-child(1){left:4%;animation-delay:0s}
-.lantern:nth-child(2){left:22%;animation-delay:.6s;font-size:clamp(20px,3.4vw,32px)}
-.lantern:nth-child(3){right:22%;animation-delay:1.1s;font-size:clamp(20px,3.4vw,32px)}
-.lantern:nth-child(4){right:4%;animation-delay:.3s}
+.lantern:nth-child(2){left:20%;animation-delay:.6s;font-size:clamp(18px,3vw,28px)}
+.lantern:nth-child(3){left:36%;animation-delay:1.2s;font-size:clamp(16px,2.6vw,24px)}
+.lantern:nth-child(4){right:36%;animation-delay:1.1s;font-size:clamp(16px,2.6vw,24px)}
+.lantern:nth-child(5){right:20%;animation-delay:.4s;font-size:clamp(18px,3vw,28px)}
+.lantern:nth-child(6){right:4%;animation-delay:.3s}
 @keyframes sway{0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg)}}
 
-/* ===== SCREENS ===== */
 .screen{display:none;height:100%;flex-direction:column;overflow:hidden}
 .screen.active{display:flex}
 
-/* ===== INTRO ===== */
-#screen-intro{align-items:center;justify-content:center;padding:16px;overflow-y:auto}
+/* ========== INTRO ========== */
+#screen-intro{align-items:center;justify-content:center;padding:14px;overflow-y:auto}
 .intro-card{
-  width:min(560px,100%);background:linear-gradient(160deg,rgba(120,0,0,.94),rgba(70,0,0,.96));
-  border:2px solid #ffcf5c;border-radius:20px;padding:22px 20px 24px;text-align:center;
-  box-shadow:0 0 0 4px rgba(255,207,92,.12),0 18px 50px rgba(0,0,0,.65);
+  width:min(560px,100%);
+  background:linear-gradient(160deg,#fff8e8,#ffe0b6);
+  border:3px solid #c1272d;border-radius:22px;padding:20px 18px 22px;text-align:center;
+  box-shadow:0 0 0 6px rgba(193,39,45,.14),0 20px 50px rgba(0,0,0,.5);
   position:relative;overflow:hidden;
 }
-.intro-card::before{content:'';position:absolute;inset:0;background:
-  repeating-linear-gradient(45deg,transparent 0 18px,rgba(255,207,92,.05) 18px 19px);pointer-events:none}
-.intro-card h1{
-  font-size:clamp(22px,5.5vw,34px);letter-spacing:2px;color:#ffd966;
-  text-shadow:0 0 18px rgba(255,180,60,.8),0 3px 0 #6b0000;margin-bottom:4px;
-}
-.sub{font-size:13px;color:#ffcf9a;opacity:.85;margin-bottom:14px}
-.story{
-  background:rgba(0,0,0,.28);border-left:3px solid #ffcf5c;border-radius:10px;
-  padding:10px 12px;text-align:left;font-size:13.5px;line-height:1.65;margin-bottom:16px;color:#ffe9c4;
-}
+.intro-card::before{content:'';position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(45deg,transparent 0 20px,rgba(193,39,45,.05) 20px 21px)}
+.intro-card h1{font-size:clamp(22px,5.4vw,32px);letter-spacing:3px;color:#a51118;
+  text-shadow:0 2px 0 #ffd18a,0 0 18px rgba(255,180,60,.5);margin-bottom:4px;font-weight:900}
+.sub{font-size:12.5px;color:#8a4018;margin-bottom:14px;font-weight:600}
+.story{background:rgba(255,240,215,.7);border-left:4px solid #c1272d;border-radius:10px;
+  padding:10px 12px;text-align:left;font-size:13px;line-height:1.65;margin-bottom:16px;color:#4a1c08}
 .story p+p{margin-top:6px}
-label{display:block;font-size:13px;color:#ffcf9a;margin-bottom:7px;text-align:left}
-#shopNameInput{
-  width:100%;padding:12px 14px;border-radius:12px;border:2px solid #ffcf5c;
-  background:rgba(0,0,0,.4);color:#fff2d0;font-size:16px;font-weight:600;text-align:center;
-  outline:none;transition:.2s;font-family:inherit;
-}
-#shopNameInput:focus{border-color:#fff;box-shadow:0 0 0 4px rgba(255,207,92,.25)}
-#shopNameInput::placeholder{color:#a8776a;font-weight:400}
+label{display:block;font-size:13px;color:#8a4018;margin-bottom:7px;text-align:left;font-weight:700}
+#shopNameInput{width:100%;padding:12px 14px;border-radius:12px;border:2px solid #c1272d;
+  background:#fff;color:#4a1c08;font-size:16px;font-weight:700;text-align:center;outline:none;
+  transition:.2s;font-family:inherit}
+#shopNameInput:focus{border-color:#a51118;box-shadow:0 0 0 4px rgba(193,39,45,.2)}
+#shopNameInput::placeholder{color:#b59378;font-weight:400}
 .suggestions{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:10px 0 16px}
-.chip{
-  font-size:11.5px;padding:5px 11px;border-radius:20px;cursor:pointer;
-  background:rgba(255,207,92,.14);border:1px solid rgba(255,207,92,.45);color:#ffd98a;transition:.15s;
-}
-.chip:active{transform:scale(.94);background:rgba(255,207,92,.3)}
-.btn-main{
-  width:100%;padding:15px;border:none;border-radius:14px;cursor:pointer;
-  background:linear-gradient(180deg,#ffd966,#e8a317);color:#6b0000;
+.chip{font-size:11.5px;padding:5px 11px;border-radius:20px;cursor:pointer;
+  background:#fff;border:1px solid #e8a870;color:#8a4018;transition:.15s;font-weight:600}
+.chip:active{transform:scale(.94);background:#ffe8c8}
+.btn-main{width:100%;padding:15px;border:none;border-radius:14px;cursor:pointer;
+  background:linear-gradient(180deg,#e63946,#a51118);color:#fff8e0;
   font-size:17px;font-weight:800;letter-spacing:1px;font-family:inherit;
-  box-shadow:0 5px 0 #a06d00,0 10px 24px rgba(255,180,60,.35);transition:.1s;
-}
-.btn-main:active{transform:translateY(4px);box-shadow:0 1px 0 #a06d00}
+  box-shadow:0 5px 0 #6b0a0e,0 12px 24px rgba(165,17,24,.4);transition:.1s;
+  text-shadow:0 1px 2px rgba(0,0,0,.4)}
+.btn-main:active{transform:translateY(4px);box-shadow:0 1px 0 #6b0a0e}
 .btn-main:disabled{filter:grayscale(.7);opacity:.5;cursor:not-allowed}
 
-/* ===== HUD ===== */
-.hud{
-  display:flex;justify-content:space-between;align-items:center;gap:8px;
-  padding:10px 12px;background:rgba(0,0,0,.35);border-bottom:2px solid rgba(255,207,92,.35);
-  backdrop-filter:blur(8px);flex-shrink:0;flex-wrap:wrap;
-}
-.hud-shop{font-size:13px;font-weight:700;color:#ffd966;text-shadow:0 0 10px rgba(255,180,60,.6);
-  max-width:42vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.hud-right{display:flex;gap:8px;align-items:center}
-.hud-money,.hud-time{
-  font-size:12.5px;font-weight:700;padding:5px 10px;border-radius:20px;
-  background:rgba(255,207,92,.16);border:1px solid rgba(255,207,92,.4);color:#ffe08a;white-space:nowrap;
-}
-.hud-time.warn{background:rgba(255,80,80,.25);border-color:#ff6b6b;color:#ffb3b3;animation:pulseW .8s infinite}
+/* ========== HUD ========== */
+.hud{display:flex;justify-content:space-between;align-items:center;gap:6px;
+  padding:8px 10px;background:linear-gradient(180deg,rgba(120,20,10,.75),rgba(80,10,5,.6));
+  border-bottom:2px solid rgba(255,207,92,.5);backdrop-filter:blur(8px);flex-shrink:0;flex-wrap:wrap}
+.hud-shop{font-size:12.5px;font-weight:800;color:#ffd966;text-shadow:0 0 10px rgba(255,180,60,.7);
+  max-width:38vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hud-right{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.hud-money,.hud-time,.hud-weather,.hud-rep{
+  font-size:11.5px;font-weight:800;padding:4px 9px;border-radius:20px;
+  background:rgba(255,207,92,.22);border:1px solid rgba(255,207,92,.5);color:#ffe08a;white-space:nowrap}
+.hud-weather.rain{background:rgba(90,140,220,.3);border-color:#7eaaff;color:#cfe0ff}
+.hud-time.warn{background:rgba(255,80,80,.28);border-color:#ff6b6b;color:#ffb3b3;animation:pulseW .8s infinite}
 @keyframes pulseW{50%{opacity:.55}}
 
-/* ===== PREP ===== */
+/* ========== PREP ========== */
 .prep-body{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0}
-.scene{
-  position:relative;height:clamp(96px,17vh,150px);flex-shrink:0;
-  background:linear-gradient(180deg,rgba(255,140,60,.13),rgba(0,0,0,.32));
-  border-bottom:1px solid rgba(255,207,92,.2);display:flex;align-items:flex-end;
-  justify-content:center;gap:14px;padding-bottom:8px;overflow:hidden;
-}
-.scene::after{content:'🏮  🏮  🏮';position:absolute;top:4px;left:0;right:0;text-align:center;
-  font-size:12px;letter-spacing:26px;opacity:.5}
-.char{font-size:clamp(40px,10vw,64px);filter:drop-shadow(0 6px 12px rgba(0,0,0,.5));animation:bob 2.4s ease-in-out infinite}
+.scene{position:relative;height:clamp(88px,15vh,130px);flex-shrink:0;
+  background:linear-gradient(180deg,rgba(255,220,180,.35),rgba(180,80,40,.3));
+  border-bottom:1px solid rgba(120,20,10,.3);display:flex;align-items:flex-end;
+  justify-content:center;gap:14px;padding-bottom:8px;overflow:hidden}
+.scene::after{content:'';position:absolute;bottom:0;left:0;right:0;height:40%;
+  background:linear-gradient(180deg,transparent,rgba(120,40,20,.25))}
+.char{font-size:clamp(40px,10vw,62px);filter:drop-shadow(0 6px 12px rgba(0,0,0,.5));
+  animation:bob 2.4s ease-in-out infinite;position:relative;z-index:2}
 .char.me{animation-delay:.7s}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
-.speech{
-  position:absolute;top:6px;left:50%;transform:translateX(-50%);
-  background:rgba(255,250,235,.96);color:#5a0000;font-size:11.5px;font-weight:600;
+.speech{position:absolute;top:6px;left:50%;transform:translateX(-50%);
+  background:rgba(255,250,235,.97);color:#5a0000;font-size:11.5px;font-weight:700;
   padding:6px 13px;border-radius:14px;max-width:92%;text-align:center;line-height:1.35;
-  box-shadow:0 4px 14px rgba(0,0,0,.4);
-}
+  box-shadow:0 4px 14px rgba(0,0,0,.4);z-index:3}
 .speech::after{content:'';position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);
-  border:6px solid transparent;border-top-color:rgba(255,250,235,.96);border-bottom:0}
+  border:6px solid transparent;border-top-color:rgba(255,250,235,.97);border-bottom:0}
 
-.panel{flex:1;display:flex;flex-direction:column;min-height:0}
-.panel-tabs{display:flex;gap:5px;padding:8px 10px 0;flex-shrink:0}
-.tab{
-  flex:1;padding:9px 4px;border:1px solid rgba(255,207,92,.4);border-bottom:none;
-  border-radius:11px 11px 0 0;background:rgba(0,0,0,.22);color:#d9a86a;
-  font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:.15s;
-}
-.tab.active{background:rgba(255,207,92,.2);color:#ffd966;border-color:#ffcf5c}
-.tab-content{
-  flex:1;overflow-y:auto;padding:10px;background:rgba(0,0,0,.22);
-  border-top:1px solid rgba(255,207,92,.4);-webkit-overflow-scrolling:touch;
-}
+.panel{flex:1;display:flex;flex-direction:column;min-height:0;background:rgba(255,245,225,.92)}
+.panel-tabs{display:flex;gap:4px;padding:8px 10px 0;flex-shrink:0}
+.tab{flex:1;padding:9px 4px;border:1px solid #e8a870;border-bottom:none;
+  border-radius:11px 11px 0 0;background:#ffe0b6;color:#8a4018;font-size:12px;font-weight:800;
+  cursor:pointer;font-family:inherit;transition:.15s}
+.tab.active{background:#fff8e8;color:#a51118;border-color:#c1272d}
+.tab-content{flex:1;overflow-y:auto;padding:10px;background:#fff8e8;
+  border-top:1px solid #c1272d;-webkit-overflow-scrolling:touch}
 .tab-content::-webkit-scrollbar{width:5px}
-.tab-content::-webkit-scrollbar-thumb{background:rgba(255,207,92,.4);border-radius:3px}
+.tab-content::-webkit-scrollbar-thumb{background:#e8a870;border-radius:3px}
 
-.recipe{
-  display:flex;gap:10px;align-items:center;padding:10px;margin-bottom:8px;
-  background:rgba(255,255,255,.055);border:1px solid rgba(255,207,92,.25);border-radius:12px;
-}
-.recipe.disabled{opacity:.42}
-.r-icon{font-size:26px;flex-shrink:0;filter:drop-shadow(0 2px 5px rgba(0,0,0,.4))}
+.recipe{display:flex;gap:10px;align-items:center;padding:10px;margin-bottom:8px;
+  background:#fff;border:1px solid #e8c898;border-radius:12px;box-shadow:0 2px 6px rgba(160,80,30,.08)}
+.recipe.disabled{opacity:.5}
+.r-icon{font-size:26px;flex-shrink:0}
 .r-info{flex:1;min-width:0}
-.r-name{font-size:13px;font-weight:700;color:#ffd966;display:flex;justify-content:space-between;gap:6px}
-.r-time{font-size:10.5px;color:#ffb36b;font-weight:600;white-space:nowrap}
+.r-name{font-size:13px;font-weight:800;color:#a51118;display:flex;justify-content:space-between;gap:6px}
+.r-time{font-size:10.5px;color:#c96a20;font-weight:700;white-space:nowrap}
 .r-needs{display:flex;flex-wrap:wrap;gap:5px;margin:4px 0;font-size:10.5px}
-.r-needs span{padding:2px 6px;border-radius:6px;background:rgba(0,0,0,.3)}
-.r-needs .ok{color:#8ee68e;border:1px solid rgba(140,230,140,.35)}
-.r-needs .no{color:#ff8f8f;border:1px solid rgba(255,120,120,.3)}
-.r-out{font-size:10.5px;color:#c9a37a}
-.btn-make{
-  padding:9px 15px;border-radius:10px;border:none;cursor:pointer;flex-shrink:0;
-  background:linear-gradient(180deg,#ffd966,#e0a015);color:#6b0000;font-weight:800;
-  font-size:12px;font-family:inherit;box-shadow:0 3px 0 #a06d00;transition:.1s;
-}
-.btn-make:active{transform:translateY(2px);box-shadow:0 1px 0 #a06d00}
-.btn-make:disabled{background:#5a4038;color:#8a7068;box-shadow:0 3px 0 #3a2a24;cursor:not-allowed}
+.r-needs span{padding:2px 6px;border-radius:6px;background:#fdf2dd}
+.r-needs .ok{color:#2d7a2d;border:1px solid rgba(60,160,60,.4)}
+.r-needs .no{color:#b02828;border:1px solid rgba(200,60,60,.35)}
+.r-out{font-size:10.5px;color:#8a4018}
+.btn-make{padding:9px 15px;border-radius:10px;border:none;cursor:pointer;flex-shrink:0;
+  background:linear-gradient(180deg,#e63946,#a51118);color:#fff8e0;font-weight:800;
+  font-size:12px;font-family:inherit;box-shadow:0 3px 0 #6b0a0e;transition:.1s}
+.btn-make:active{transform:translateY(2px);box-shadow:0 1px 0 #6b0a0e}
+.btn-make:disabled{background:#c9b8a8;color:#7a6a58;box-shadow:0 3px 0 #9a8878;cursor:not-allowed}
 
-.market-item{
-  display:flex;align-items:center;gap:10px;padding:9px 10px;margin-bottom:7px;
-  background:rgba(255,255,255,.055);border:1px solid rgba(255,207,92,.25);border-radius:12px;
-}
+.market-item{display:flex;align-items:center;gap:10px;padding:9px 10px;margin-bottom:7px;
+  background:#fff;border:1px solid #e8c898;border-radius:12px}
 .m-icon{font-size:23px}
 .m-info{flex:1;min-width:0}
-.m-name{font-size:12.5px;font-weight:700;color:#ffe9c4}
-.m-price{font-size:11px;color:#ffb36b}
-.m-have{font-size:10.5px;color:#9ad4a0}
+.m-name{font-size:12.5px;font-weight:800;color:#5a1c08}
+.m-price{font-size:11px;color:#c96a20;font-weight:700}
+.m-have{font-size:10.5px;color:#2d7a2d;font-weight:600}
 .m-btns{display:flex;gap:5px}
-.m-btn{
-  width:34px;height:34px;border-radius:9px;border:1px solid rgba(255,207,92,.5);
-  background:rgba(255,207,92,.14);color:#ffd966;font-size:17px;font-weight:800;
-  cursor:pointer;font-family:inherit;transition:.1s;
-}
-.m-btn:active{transform:scale(.9);background:rgba(255,207,92,.35)}
-.m-btn.plus{background:linear-gradient(180deg,#ffd966,#e0a015);color:#6b0000;border:none}
+.m-btn{width:34px;height:34px;border-radius:9px;border:1px solid #c1272d;background:#fff;
+  color:#a51118;font-size:17px;font-weight:800;cursor:pointer;font-family:inherit;transition:.1s}
+.m-btn:active{transform:scale(.9);background:#ffe0b6}
+.m-btn.plus{background:linear-gradient(180deg,#e63946,#a51118);color:#fff8e0;border:none}
 
-.inv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
-.inv-cell{
-  background:rgba(255,255,255,.055);border:1px solid rgba(255,207,92,.25);
-  border-radius:11px;padding:10px 6px;text-align:center;
-}
-.inv-cell .ic{font-size:24px;display:block;margin-bottom:3px}
-.inv-cell .in{font-size:10.5px;color:#d9b98a;line-height:1.3}
-.inv-cell .iv{font-size:15px;font-weight:800;color:#ffd966}
+.inv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:7px}
+.inv-cell{background:#fff;border:1px solid #e8c898;border-radius:11px;padding:9px 5px;text-align:center}
+.inv-cell .ic{font-size:22px;display:block;margin-bottom:3px}
+.inv-cell .in{font-size:10px;color:#8a4018;line-height:1.25;display:block;font-weight:600}
+.inv-cell .iv{font-size:14px;font-weight:900;color:#a51118}
 .inv-cell.empty{opacity:.3}
 
-.prep-footer{
-  padding:8px 12px 12px;flex-shrink:0;display:flex;gap:8px;
-  background:rgba(0,0,0,.3);border-top:1px solid rgba(255,207,92,.2);
-}
-.btn-ghost{
-  flex:1;padding:12px;border-radius:12px;cursor:pointer;font-family:inherit;
-  background:rgba(255,207,92,.14);border:1px solid rgba(255,207,92,.45);
-  color:#ffd966;font-weight:700;font-size:13px;transition:.12s;
-}
-.btn-ghost:active{transform:scale(.97);background:rgba(255,207,92,.3)}
-.btn-ghost:disabled{opacity:.35;cursor:not-allowed}
+.prep-footer{padding:8px 12px 12px;flex-shrink:0;display:flex;gap:8px;
+  background:rgba(120,20,10,.55);border-top:1px solid rgba(255,207,92,.35)}
+.btn-ghost{flex:1;padding:12px;border-radius:12px;cursor:pointer;font-family:inherit;
+  background:rgba(255,207,92,.2);border:1px solid rgba(255,207,92,.6);
+  color:#ffd966;font-weight:800;font-size:12.5px;transition:.12s}
+.btn-ghost:active{transform:scale(.97);background:rgba(255,207,92,.35)}
+.btn-ghost:disabled{opacity:.4;cursor:not-allowed}
 
-/* ===== NIGHT ===== */
-#screen-night{align-items:center;justify-content:center;padding:16px;text-align:center}
-.night-wrap{width:min(480px,100%)}
-.night-title{font-size:clamp(19px,4.5vw,26px);color:#ffd966;margin-bottom:6px;letter-spacing:1px;
-  text-shadow:0 0 20px rgba(255,180,60,.7)}
-.night-sub{font-size:12.5px;color:#d9a86a;margin-bottom:18px}
-.pot{font-size:clamp(62px,18vw,96px);filter:drop-shadow(0 0 26px rgba(255,140,40,.85));
+/* ========== NIGHT ========== */
+#screen-night{align-items:center;justify-content:center;padding:14px;text-align:center}
+.night-wrap{width:min(480px,100%);background:linear-gradient(160deg,#1b0a2a,#3a1230 60%,#5a1a1e);
+  border:2px solid #ffcf5c;border-radius:18px;padding:18px;color:#ffe9c4;
+  box-shadow:0 0 40px rgba(255,140,40,.35)}
+.night-title{font-size:clamp(18px,4.4vw,24px);color:#ffd966;margin-bottom:6px;letter-spacing:2px;
+  text-shadow:0 0 20px rgba(255,180,60,.8);font-weight:900}
+.night-sub{font-size:12px;color:#d9a86a;margin-bottom:16px}
+.pot{font-size:clamp(60px,17vw,92px);filter:drop-shadow(0 0 26px rgba(255,140,40,.9));
   animation:potbob 1.6s ease-in-out infinite;display:inline-block}
 @keyframes potbob{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-9px) scale(1.05)}}
-.fire-bar-wrap{
-  height:20px;border-radius:12px;background:rgba(0,0,0,.45);overflow:hidden;
-  border:2px solid rgba(255,207,92,.4);margin:18px 0 8px;position:relative;
-}
-#fireBar{
-  height:100%;width:100%;border-radius:10px;transition:width .18s linear;
+.fire-bar-wrap{height:20px;border-radius:12px;background:rgba(0,0,0,.55);overflow:hidden;
+  border:2px solid rgba(255,207,92,.4);margin:16px 0 8px;position:relative}
+#fireBar{height:100%;width:100%;border-radius:10px;transition:width .18s linear;
   background:linear-gradient(90deg,#ff3d00,#ff9100,#ffd54f);
-  box-shadow:0 0 18px rgba(255,140,40,.9) inset;
-}
+  box-shadow:0 0 18px rgba(255,140,40,.9) inset}
 .fire-label{display:flex;justify-content:space-between;font-size:11px;color:#ffb36b;margin-bottom:10px}
-.night-log{
-  height:70px;overflow:hidden;font-size:12px;color:#ffcf9a;line-height:1.7;
-  background:rgba(0,0,0,.3);border-radius:11px;padding:9px;margin-bottom:12px;
-  border:1px solid rgba(255,207,92,.2);
-}
+.night-log{height:66px;overflow:hidden;font-size:12px;color:#ffcf9a;line-height:1.7;
+  background:rgba(0,0,0,.35);border-radius:11px;padding:9px;margin-bottom:12px;
+  border:1px solid rgba(255,207,92,.25);text-align:left}
 .night-log div{animation:slideIn .35s ease}
 @keyframes slideIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none}}
-#btnFire{width:100%;margin-bottom:9px;font-size:15px;padding:16px}
-.night-time{font-size:13px;color:#ffd966;font-weight:700;margin-top:8px}
+#btnFire{width:100%;margin-bottom:9px;font-size:15px;padding:15px}
+.night-time{font-size:13px;color:#ffd966;font-weight:800;margin-top:8px}
 
-/* ===== SELL ===== */
+/* ========== SELL ========== */
 .sell-body{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0}
-.market-scene{
-  height:clamp(84px,15vh,124px);flex-shrink:0;position:relative;overflow:hidden;
-  background:linear-gradient(180deg,#2a0a0a 0%,#5a1010 55%,#7a1a1a 100%);
-  display:flex;align-items:center;justify-content:center;gap:18px;
-  border-bottom:1px solid rgba(255,207,92,.25);
-}
-.stall{font-size:clamp(38px,9vw,58px);filter:drop-shadow(0 5px 12px rgba(0,0,0,.6))}
-.stall-label{
-  position:absolute;top:6px;left:50%;transform:translateX(-50%);
-  font-size:11px;font-weight:800;color:#ffd966;background:rgba(180,0,0,.85);
+.market-scene{height:clamp(80px,13vh,116px);flex-shrink:0;position:relative;overflow:hidden;
+  background:linear-gradient(180deg,#ffdfb0 0%,#ff9a5c 40%,#c1512c 100%);
+  display:flex;align-items:center;justify-content:center;gap:16px;
+  border-bottom:1px solid rgba(120,20,10,.4)}
+.market-scene::before{content:'';position:absolute;top:0;left:0;right:0;height:36%;
+  background:repeating-linear-gradient(90deg,rgba(200,40,40,.55) 0 28px,rgba(255,220,120,.7) 28px 56px)}
+.stall{font-size:clamp(38px,9vw,58px);filter:drop-shadow(0 5px 12px rgba(0,0,0,.5));position:relative;z-index:2}
+.stall-label{position:absolute;top:6px;left:50%;transform:translateX(-50%);z-index:3;
+  font-size:11px;font-weight:900;color:#ffd966;background:rgba(140,10,10,.9);
   padding:4px 14px;border-radius:8px;border:1px solid #ffcf5c;white-space:nowrap;
-  max-width:90%;overflow:hidden;text-overflow:ellipsis;letter-spacing:.5px;
-}
-.queue{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:8px}
+  max-width:90%;overflow:hidden;text-overflow:ellipsis;letter-spacing:.5px}
+.rain-layer{position:absolute;inset:0;pointer-events:none;opacity:.7;
+  background:repeating-linear-gradient(110deg,transparent 0 3px,rgba(200,220,255,.4) 3px 5px);
+  animation:rainMove .6s linear infinite}
+@keyframes rainMove{to{background-position:-30px 60px}}
+.queue{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:8px;
+  background:linear-gradient(180deg,rgba(255,240,215,.15),rgba(120,40,20,.35))}
 .queue::-webkit-scrollbar{width:5px}
-.queue::-webkit-scrollbar-thumb{background:rgba(255,207,92,.4);border-radius:3px}
-.customer{
-  display:flex;gap:10px;align-items:center;padding:9px 10px;border-radius:13px;
-  background:linear-gradient(100deg,rgba(255,207,92,.13),rgba(255,255,255,.05));
-  border:1px solid rgba(255,207,92,.35);position:relative;overflow:hidden;
-  animation:custIn .3s cubic-bezier(.34,1.56,.64,1);
-}
+.queue::-webkit-scrollbar-thumb{background:rgba(255,207,92,.5);border-radius:3px}
+.customer{display:flex;gap:10px;align-items:center;padding:9px 10px;border-radius:13px;
+  background:linear-gradient(100deg,rgba(255,250,235,.96),rgba(255,235,200,.94));
+  border:2px solid rgba(200,60,40,.35);position:relative;overflow:hidden;
+  animation:custIn .3s cubic-bezier(.34,1.56,.64,1)}
 @keyframes custIn{from{opacity:0;transform:translateX(40px) scale(.9)}to{opacity:1;transform:none}}
 .customer.leaving{animation:custOut .3s ease forwards}
 @keyframes custOut{to{opacity:0;transform:translateX(-60px);height:0;padding:0;margin:0}}
-.c-face{font-size:29px;flex-shrink:0;filter:drop-shadow(0 3px 6px rgba(0,0,0,.4))}
+.customer.named{border-color:#ffb020;background:linear-gradient(100deg,#fff8e0,#ffe8c0)}
+.c-face{font-size:28px;flex-shrink:0;filter:drop-shadow(0 3px 6px rgba(0,0,0,.3))}
 .c-info{flex:1;min-width:0}
-.c-name{font-size:12.5px;font-weight:800;color:#ffd966;display:flex;align-items:center;gap:5px}
-.c-role{font-size:10px;color:#c9a37a;font-style:italic}
-.c-want{font-size:11.5px;color:#ffe9c4;margin-top:2px}
-.c-patience{
-  height:4px;border-radius:3px;background:rgba(0,0,0,.45);margin-top:5px;overflow:hidden;
-}
-.c-patience i{display:block;height:100%;background:linear-gradient(90deg,#4caf50,#ffeb3b,#ff5722);
-  background-size:300% 100%;background-position:0 0;transition:width .15s linear}
-.btn-serve{
-  padding:9px 14px;border-radius:10px;border:none;cursor:pointer;flex-shrink:0;
+.c-name{font-size:12.5px;font-weight:900;color:#a51118;display:flex;align-items:center;gap:5px}
+.c-role{font-size:10px;color:#8a4018;font-style:italic}
+.c-want{font-size:11.5px;color:#4a1c08;margin-top:2px;font-weight:600}
+.c-patience{height:4px;border-radius:3px;background:rgba(0,0,0,.2);margin-top:5px;overflow:hidden}
+.c-patience i{display:block;height:100%;width:100%;
+  background:linear-gradient(90deg,#4caf50,#ffeb3b,#ff5722);transition:width .15s linear}
+.btn-serve{padding:9px 14px;border-radius:10px;border:none;cursor:pointer;flex-shrink:0;
   background:linear-gradient(180deg,#7ee87e,#2fa32f);color:#04380b;font-weight:800;
-  font-size:12px;font-family:inherit;box-shadow:0 3px 0 #1a6b1a;transition:.1s;
-}
+  font-size:12px;font-family:inherit;box-shadow:0 3px 0 #1a6b1a;transition:.1s}
 .btn-serve:active{transform:translateY(2px);box-shadow:0 1px 0 #1a6b1a}
-.empty-queue{text-align:center;color:#a8776a;font-size:12.5px;padding:28px 10px;line-height:1.7}
-.float-money{
-  position:fixed;font-weight:800;font-size:15px;color:#8eff8e;pointer-events:none;z-index:99;
-  text-shadow:0 2px 8px rgba(0,0,0,.85);animation:floatUp 1.1s ease-out forwards;
-}
+.badge-story{font-size:9px;padding:2px 6px;background:#ffb020;color:#4a1c08;
+  border-radius:10px;font-weight:900;letter-spacing:.3px}
+.empty-queue{text-align:center;color:#ffe9c4;font-size:12.5px;padding:28px 10px;line-height:1.7;
+  text-shadow:0 1px 3px rgba(0,0,0,.5)}
+.float-money{position:fixed;font-weight:900;font-size:15px;color:#8eff8e;pointer-events:none;z-index:99;
+  text-shadow:0 2px 8px rgba(0,0,0,.9);animation:floatUp 1.1s ease-out forwards}
 .float-money.lucky{color:#ffd966;font-size:18px;text-shadow:0 0 14px rgba(255,200,60,.95),0 2px 8px #000}
-@keyframes floatUp{0%{opacity:1;transform:translateY(0) scale(.8)}25%{transform:translateY(-16px) scale(1.15)}
+.float-money.bad{color:#ff8080}
+@keyframes floatUp{0%{opacity:1;transform:translateY(0) scale(.8)}
+  25%{transform:translateY(-16px) scale(1.15)}
   100%{opacity:0;transform:translateY(-62px) scale(1)}}
 
-/* ===== REPORT ===== */
-#screen-report{overflow-y:auto;padding:16px;align-items:center}
-.report-card{
-  width:min(520px,100%);background:linear-gradient(160deg,rgba(120,0,0,.95),rgba(60,0,0,.97));
-  border:2px solid #ffcf5c;border-radius:18px;padding:18px;margin:auto;
-  box-shadow:0 0 0 4px rgba(255,207,92,.12),0 16px 46px rgba(0,0,0,.7);
-}
-.report-card h2{text-align:center;color:#ffd966;font-size:19px;margin-bottom:3px;letter-spacing:1px}
-.report-sub{text-align:center;font-size:11.5px;color:#d9a86a;margin-bottom:15px}
-.stat-row{
-  display:flex;justify-content:space-between;padding:9px 11px;border-radius:9px;
-  font-size:13px;margin-bottom:6px;background:rgba(0,0,0,.25);
-}
-.stat-row.total{
-  background:linear-gradient(90deg,rgba(255,207,92,.28),rgba(255,207,92,.13));
-  border:1px solid #ffcf5c;font-weight:800;font-size:15px;color:#ffd966;margin-top:9px;
-}
-.stat-row .v{font-weight:800}
-.stat-row .v.plus{color:#8eff8e}
-.stat-row .v.minus{color:#ff9a9a}
+/* ========== REPORT ========== */
+#screen-report{overflow-y:auto;padding:14px;align-items:center}
+.report-card{width:min(540px,100%);
+  background:linear-gradient(160deg,#fff8e8,#ffe0b6);
+  border:3px solid #c1272d;border-radius:18px;padding:16px;margin:auto;
+  box-shadow:0 0 0 6px rgba(193,39,45,.14),0 16px 46px rgba(0,0,0,.55);color:#4a1c08}
+.report-card h2{text-align:center;color:#a51118;font-size:19px;margin-bottom:3px;letter-spacing:1px;font-weight:900}
+.report-sub{text-align:center;font-size:11.5px;color:#8a4018;margin-bottom:14px;font-weight:600}
+.stat-row{display:flex;justify-content:space-between;padding:8px 11px;border-radius:9px;
+  font-size:13px;margin-bottom:6px;background:rgba(255,255,255,.7)}
+.stat-row.total{background:linear-gradient(90deg,#ffe8a0,#ffd966);
+  border:1px solid #c1272d;font-weight:900;font-size:15px;color:#a51118;margin-top:8px}
+.stat-row .v{font-weight:900}
+.stat-row .v.plus{color:#2d7a2d}
+.stat-row .v.minus{color:#c1272d}
 .sold-list{margin:11px 0;font-size:12px}
-.sold-list .h{color:#ffd966;font-weight:800;margin-bottom:6px}
+.sold-list .h{color:#a51118;font-weight:900;margin-bottom:6px}
 .sold-item{display:flex;justify-content:space-between;padding:5px 10px;border-radius:7px;
-  background:rgba(0,0,0,.2);margin-bottom:4px;color:#e8d0aa}
-.rank{
-  text-align:center;font-size:15px;font-weight:800;padding:12px;border-radius:12px;
-  margin:14px 0;background:linear-gradient(135deg,rgba(255,207,92,.22),rgba(255,140,40,.12));
-  border:1px solid rgba(255,207,92,.5);color:#ffd966;line-height:1.5;
-}
-.rank small{display:block;font-size:11.5px;font-weight:500;color:#d9b98a;margin-top:5px}
-.grandma-say{
-  background:rgba(255,250,235,.95);color:#5a0000;border-radius:12px;padding:11px 13px;
-  font-size:12.5px;line-height:1.6;margin-bottom:14px;font-weight:600;
-}
+  background:rgba(255,255,255,.7);margin-bottom:4px;color:#4a1c08}
+.rank{text-align:center;font-size:15px;font-weight:900;padding:12px;border-radius:12px;
+  margin:14px 0;background:linear-gradient(135deg,#ffe8a0,#ffc86a);border:1px solid #c1272d;
+  color:#a51118;line-height:1.5}
+.rank small{display:block;font-size:11.5px;font-weight:600;color:#8a4018;margin-top:5px}
+.grandma-say{background:#fff;border-left:4px solid #c1272d;border-radius:10px;padding:10px 12px;
+  font-size:12.5px;line-height:1.6;margin-bottom:14px;font-weight:600}
+
+/* Nâng cấp */
+.upgrade-section{margin:14px 0;padding:12px;background:rgba(255,255,255,.7);border-radius:12px;
+  border:1px dashed #c1272d}
+.upgrade-section h3{font-size:13px;color:#a51118;margin-bottom:8px;font-weight:900;letter-spacing:.5px}
+.shop-tier{display:flex;gap:8px;align-items:center;padding:8px;border-radius:10px;
+  background:#fff;border:1px solid #e8c898;margin-bottom:6px;font-size:12px}
+.shop-tier.current{background:linear-gradient(90deg,#ffe8a0,#ffd966);border-color:#a51118}
+.shop-tier .tier-icon{font-size:24px}
+.shop-tier .tier-info{flex:1;min-width:0}
+.shop-tier .tier-name{font-weight:900;color:#a51118;font-size:12.5px}
+.shop-tier .tier-desc{font-size:10.5px;color:#8a4018}
+.shop-tier .tier-cost{font-weight:900;color:#c96a20;font-size:11px;white-space:nowrap}
+.btn-buy{padding:7px 12px;border-radius:9px;border:none;cursor:pointer;font-family:inherit;
+  background:linear-gradient(180deg,#e63946,#a51118);color:#fff8e0;font-weight:800;font-size:11px;
+  box-shadow:0 3px 0 #6b0a0e;transition:.1s;flex-shrink:0}
+.btn-buy:active{transform:translateY(2px);box-shadow:0 1px 0 #6b0a0e}
+.btn-buy:disabled{background:#c9b8a8;box-shadow:0 3px 0 #9a8878;cursor:not-allowed}
+
+.deco-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+.deco-card{background:#fff;border:1px solid #e8c898;border-radius:10px;padding:8px;text-align:center;
+  font-size:11px;position:relative}
+.deco-card.owned{border-color:#2d7a2d;background:#eaffea}
+.deco-card .deco-ic{font-size:22px;display:block;margin-bottom:2px}
+.deco-card .deco-name{font-weight:800;color:#a51118}
+.deco-card .deco-desc{font-size:10px;color:#8a4018;margin:2px 0}
+.deco-card .deco-cost{font-weight:900;color:#c96a20;font-size:10.5px}
+
+/* ========== MODAL ========== */
+.modal-overlay{position:fixed;inset:0;background:rgba(20,0,0,.72);z-index:200;
+  display:none;align-items:center;justify-content:center;padding:16px;
+  backdrop-filter:blur(6px);animation:fadeIn .2s ease}
+.modal-overlay.show{display:flex}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal-card{width:min(420px,100%);background:linear-gradient(160deg,#fff8e8,#ffe0b6);
+  border:3px solid #c1272d;border-radius:18px;padding:16px;
+  box-shadow:0 0 0 6px rgba(193,39,45,.15),0 20px 60px rgba(0,0,0,.7);
+  animation:modalIn .3s cubic-bezier(.34,1.56,.64,1);color:#4a1c08}
+@keyframes modalIn{from{transform:scale(.85) translateY(20px);opacity:0}to{transform:none;opacity:1}}
+.modal-head{display:flex;gap:10px;align-items:center;margin-bottom:10px}
+.modal-face{font-size:38px;filter:drop-shadow(0 3px 6px rgba(0,0,0,.25))}
+.modal-name{font-size:14px;font-weight:900;color:#a51118}
+.modal-role{font-size:11px;color:#8a4018;font-style:italic}
+.modal-text{background:#fff;border-radius:12px;padding:12px;font-size:13px;line-height:1.6;
+  margin-bottom:12px;border-left:4px solid #c1272d;font-weight:600}
+.modal-btns{display:flex;flex-direction:column;gap:7px}
+.modal-btn{padding:11px 14px;border-radius:11px;border:none;cursor:pointer;font-family:inherit;
+  font-weight:800;font-size:13px;transition:.1s;letter-spacing:.3px}
+.modal-btn.primary{background:linear-gradient(180deg,#e63946,#a51118);color:#fff8e0;box-shadow:0 3px 0 #6b0a0e}
+.modal-btn.success{background:linear-gradient(180deg,#7ee87e,#2fa32f);color:#04380b;box-shadow:0 3px 0 #1a6b1a}
+.modal-btn.warn{background:linear-gradient(180deg,#ffc86a,#e09020);color:#4a1c08;box-shadow:0 3px 0 #a06d00}
+.modal-btn.ghost{background:#fff;color:#8a4018;border:2px solid #e8a870;box-shadow:0 3px 0 #e8a870}
+.modal-btn:active{transform:translateY(2px);box-shadow:none}
 </style>
 </head>
 <body>
+<div id="bg">
+  <div class="branch l">🌸</div>
+  <div class="branch r">🌼</div>
+  <div class="roof"></div>
+</div>
 <canvas id="fx"></canvas>
 <div class="decor-top">
-  <div class="lantern">🏮</div><div class="lantern">🏮</div>
-  <div class="lantern">🏮</div><div class="lantern">🏮</div>
+  <div class="lantern">🏮</div><div class="lantern">🏮</div><div class="lantern">🏮</div>
+  <div class="lantern">🏮</div><div class="lantern">🏮</div><div class="lantern">🏮</div>
 </div>
 
 <div id="app">
 
-  <!-- ========== INTRO ========== -->
-  <section id="screen-intro" class="screen active">
-    <div class="intro-card">
-      <div style="font-size:26px;margin-bottom:6px">🏮 🧧 🏮</div>
-      <h1>CHỢ TẾT QUÊ EM</h1>
-      <p class="sub">Cháu từ thành phố về quê ăn Tết, phụ bà bán hàng</p>
-      <div class="story">
-        <p>👵 <b>Bà:</b> "Cháu về rồi à! Năm nay bà yếu quá, cháu giúp bà gói bánh, ra chợ bán Tết nhé!"</p>
-        <p>🧑 <b>Cháu:</b> "Vâng ạ! Bà cứ nghỉ ngơi, để cháu lo hết!"</p>
-        <p>👵 <b>Bà:</b> "Đây, bà có 500.000đ, cháu cầm lấy mà sắm đồ. Tết nhất phải tươm tất nghe con."</p>
-      </div>
-      <label>🏮 Đặt tên gian hàng của bạn:</label>
-      <input id="shopNameInput" maxlength="22" placeholder="Nhập tên gian hàng...">
-      <div class="suggestions">
-        <span class="chip">Gian Hàng Bà Tư</span>
-        <span class="chip">Tết Quê Ngoại</span>
-        <span class="chip">Bánh Chưng Cô Ba</span>
-        <span class="chip">Chợ Tết Xóm Mít</span>
-        <span class="chip">Gánh Hàng Ngày Tết</span>
-      </div>
-      <button id="btnStart" class="btn-main" disabled>🧧 MỞ HÀNG 🧧</button>
+<section id="screen-intro" class="screen active">
+  <div class="intro-card">
+    <div style="font-size:26px;margin-bottom:6px">🏮 🧧 🏮</div>
+    <h1>CHỢ TẾT QUÊ EM</h1>
+    <p class="sub">Cháu từ thành phố về quê ăn Tết, phụ bà bán hàng</p>
+    <div class="story">
+      <p>👵 <b>Bà:</b> "Cháu về rồi à! Năm nay bà yếu quá, cháu giúp bà gói bánh, ra chợ bán Tết nhé!"</p>
+      <p>🧑 <b>Cháu:</b> "Vâng ạ! Bà cứ nghỉ ngơi, để cháu lo hết!"</p>
+      <p>👵 <b>Bà:</b> "Đây, bà có 500.000đ, cháu cầm lấy mà sắm đồ. Tết nhất phải tươm tất nghe con."</p>
     </div>
-  </section>
+    <label>🏮 Đặt tên gian hàng của bạn:</label>
+    <input id="shopNameInput" maxlength="22" placeholder="Nhập tên gian hàng...">
+    <div class="suggestions">
+      <span class="chip">Gian Hàng Bà Tư</span>
+      <span class="chip">Tết Quê Ngoại</span>
+      <span class="chip">Bánh Chưng Cô Ba</span>
+      <span class="chip">Chợ Tết Xóm Mít</span>
+    </div>
+    <button id="btnStart" class="btn-main" disabled>🧧 MỞ HÀNG 🧧</button>
+  </div>
+</section>
 
-  <!-- ========== PREP ========== -->
-  <section id="screen-prep" class="screen">
-    <div class="hud">
-      <span class="hud-shop" id="hudShop">🏮 Gian hàng</span>
-      <div class="hud-right">
-        <span class="hud-money" id="hudMoney">💰 0đ</span>
-        <span class="hud-time" id="hudTime">🕐 12:00</span>
-      </div>
+<section id="screen-prep" class="screen">
+  <div class="hud">
+    <span class="hud-shop" id="hudShop">🏮 Gian hàng</span>
+    <div class="hud-right">
+      <span class="hud-weather" id="hudWeather">☀️ Nắng</span>
+      <span class="hud-money" id="hudMoney">💰 0đ</span>
+      <span class="hud-time" id="hudTime">🕐 12:00</span>
     </div>
-    <div class="prep-body">
-      <div class="scene">
-        <div class="speech" id="speech">Bà: Cháu mau đi chợ mua đồ về gói bánh nào!</div>
-        <div class="char grandma">👵</div>
-        <div class="char me">🧑</div>
-      </div>
-      <div class="panel">
-        <div class="panel-tabs">
-          <button class="tab active" data-tab="cook">🍳 Nấu nướng</button>
-          <button class="tab" data-tab="market">🛒 Đi chợ</button>
-          <button class="tab" data-tab="inv">📦 Kho</button>
-        </div>
-        <div class="tab-content" id="tabContent"></div>
-      </div>
+  </div>
+  <div class="prep-body">
+    <div class="scene">
+      <div class="speech" id="speech">Bà: Cháu mau đi chợ mua đồ về gói bánh nào!</div>
+      <div class="char grandma">👵</div>
+      <div class="char me">🧑</div>
     </div>
-    <div class="prep-footer">
-      <button class="btn-ghost" id="btnRest">😴 Nghỉ 1 giờ</button>
-      <button class="btn-ghost" id="btnReady">⏭️ Sẵn sàng qua đêm</button>
+    <div class="panel">
+      <div class="panel-tabs">
+        <button class="tab active" data-tab="cook">🍳 Nấu</button>
+        <button class="tab" data-tab="market">🛒 Chợ</button>
+        <button class="tab" data-tab="inv">📦 Kho</button>
+      </div>
+      <div class="tab-content" id="tabContent"></div>
     </div>
-  </section>
+  </div>
+  <div class="prep-footer">
+    <button class="btn-ghost" id="btnRest">😴 Nghỉ 1h</button>
+    <button class="btn-ghost" id="btnReady">⏭️ Qua đêm</button>
+  </div>
+</section>
 
-  <!-- ========== NIGHT ========== -->
-  <section id="screen-night" class="screen">
-    <div class="night-wrap">
-      <div class="night-title">🌙 ĐÊM GIAO THỪA 🌙</div>
-      <div class="night-sub">Canh lửa luộc bánh chưng — đừng để lửa tắt!</div>
-      <div class="pot" id="potIcon">🍲</div>
-      <div class="fire-bar-wrap"><div id="fireBar"></div></div>
-      <div class="fire-label">
-        <span>🔥 Lửa</span>
-        <span id="firePct">100%</span>
-      </div>
-      <div class="night-log" id="nightLog"></div>
-      <button class="btn-main" id="btnFire">🪵 THÊM CỦI</button>
-      <button class="btn-ghost" id="btnSkipNight" style="width:100%">😴 Ngủ một giấc (bỏ qua)</button>
-      <div class="night-time" id="nightTime">🕐 23:00</div>
-    </div>
-  </section>
+<section id="screen-night" class="screen">
+  <div class="night-wrap">
+    <div class="night-title">🌙 ĐÊM GIAO THỪA 🌙</div>
+    <div class="night-sub">Canh lửa luộc bánh chưng — đừng để lửa tắt!</div>
+    <div class="pot" id="potIcon">🍲</div>
+    <div class="fire-bar-wrap"><div id="fireBar"></div></div>
+    <div class="fire-label"><span>🔥 Lửa</span><span id="firePct">100%</span></div>
+    <div class="night-log" id="nightLog"></div>
+    <button class="btn-main" id="btnFire">🪵 THÊM CỦI</button>
+    <button class="btn-ghost" id="btnSkipNight" style="width:100%">😴 Ngủ một giấc</button>
+    <div class="night-time" id="nightTime">🕐 23:00</div>
+  </div>
+</section>
 
-  <!-- ========== SELL ========== -->
-  <section id="screen-sell" class="screen">
-    <div class="hud">
-      <span class="hud-shop" id="sellShop">🏮 Gian hàng</span>
-      <div class="hud-right">
-        <span class="hud-money" id="sellMoney">💰 0đ</span>
-        <span class="hud-time" id="sellTime">🕐 05:00</span>
-      </div>
+<section id="screen-sell" class="screen">
+  <div class="hud">
+    <span class="hud-shop" id="sellShop">🏮 Gian hàng</span>
+    <div class="hud-right">
+      <span class="hud-weather" id="sellWeather">☀️</span>
+      <span class="hud-rep" id="sellRep">❤️ 100</span>
+      <span class="hud-money" id="sellMoney">💰 0đ</span>
+      <span class="hud-time" id="sellTime">🕐 05:00</span>
     </div>
-    <div class="sell-body">
-      <div class="market-scene">
-        <div class="stall-label" id="stallLabel">GIAN HÀNG</div>
-        <div class="stall">🏪</div>
-        <div class="stall">🧑</div>
-      </div>
-      <div class="queue" id="queue">
-        <div class="empty-queue">Chợ còn vắng...<br>Khách sẽ tới ngay thôi!</div>
-      </div>
+  </div>
+  <div class="sell-body">
+    <div class="market-scene" id="marketScene">
+      <div class="stall-label" id="stallLabel">GIAN HÀNG</div>
+      <div class="stall" id="stallIcon1">🎋</div>
+      <div class="stall">🧑</div>
     </div>
-  </section>
+    <div class="queue" id="queue">
+      <div class="empty-queue">Chợ còn vắng...<br>Khách sẽ tới ngay thôi!</div>
+    </div>
+  </div>
+</section>
 
-  <!-- ========== REPORT ========== -->
-  <section id="screen-report" class="screen">
-    <div class="report-card" id="reportCard"></div>
-  </section>
+<section id="screen-report" class="screen">
+  <div class="report-card" id="reportCard"></div>
+</section>
 
 </div>
 
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-card">
+    <div class="modal-head">
+      <div class="modal-face" id="modalFace">👩</div>
+      <div>
+        <div class="modal-name" id="modalName">Khách</div>
+        <div class="modal-role" id="modalRole"></div>
+      </div>
+    </div>
+    <div class="modal-text" id="modalText"></div>
+    <div class="modal-btns" id="modalBtns"></div>
+  </div>
+</div>
+
 <script>
-/* =========================================================
-   CHỢ TẾT QUÊ EM — Game 2D
-   ========================================================= */
+/* ============ HELPERS ============ */
 const $ = s => document.querySelector(s);
 const rand = (a,b) => Math.random()*(b-a)+a;
 const ri = (a,b) => Math.floor(rand(a,b+1));
 const pick = a => a[Math.floor(Math.random()*a.length)];
 const fmt = n => Math.round(n).toLocaleString('vi-VN') + 'đ';
 
-/* ---------- DATA ---------- */
+/* ============ DATA ============ */
 const MARKET = {
-  gaonep:{ name:'Gạo nếp',    emoji:'🌾', price:25000 },
-  dau:   { name:'Đậu xanh',   emoji:'🫘', price:15000 },
-  thit:  { name:'Thịt heo',   emoji:'🥩', price:60000 },
-  la:    { name:'Lá dong',    emoji:'🍃', price:15000 },
-  lat:   { name:'Lạt buộc',   emoji:'🎋', price:10000 },
-  dua:   { name:'Dừa',        emoji:'🥥', price:20000 },
-  duong: { name:'Đường',      emoji:'🍬', price:15000 },
-  hanh:  { name:'Hành',       emoji:'🧅', price:20000 },
-  giam:  { name:'Giấm',       emoji:'🧴', price:12000 },
+  gaonep:{name:'Gạo nếp',emoji:'🌾',price:25000},
+  dau:   {name:'Đậu xanh',emoji:'🫘',price:15000},
+  thit:  {name:'Thịt heo',emoji:'🥩',price:60000},
+  la:    {name:'Lá dong',emoji:'🍃',price:15000},
+  lat:   {name:'Lạt buộc',emoji:'🎋',price:10000},
+  dua:   {name:'Dừa',emoji:'🥥',price:20000},
+  duong: {name:'Đường',emoji:'🍬',price:15000},
+  hanh:  {name:'Hành',emoji:'🧅',price:20000},
+  giam:  {name:'Giấm',emoji:'🧴',price:12000},
+  carot: {name:'Cà rốt',emoji:'🥕',price:12000},
+  gung:  {name:'Gừng',emoji:'🫚',price:18000},
+  bi:    {name:'Bí đỏ',emoji:'🎃',price:14000},
+  lac:   {name:'Lạc rang',emoji:'🥜',price:22000},
 };
-const DECOR = { name:'Cành hoa đào', emoji:'🌸', price:120000 };
+const FLOWER_BUY = {
+  quat:  {name:'Cây quất',emoji:'🍊',price:120000,sell:180000},
+  hoamai:{name:'Hoa mai',emoji:'🌼',price:90000, sell:150000},
+  hoadao:{name:'Hoa đào',emoji:'🌸',price:100000,sell:160000},
+};
 
 const GOODS = {
-  banhchung:{ name:'Bánh chưng', emoji:'🟩', price:50000 },
-  banhgiay: { name:'Bánh giầy',  emoji:'⚪', price:15000 },
-  mutdua:   { name:'Mứt dừa',    emoji:'🍬', price:35000 },
-  duahang:  { name:'Dưa hành',   emoji:'🥒', price:30000 },
-  thitdong: { name:'Thịt đông',  emoji:'🍲', price:50000 },
+  banhchung:{name:'Bánh chưng',emoji:'🟩',price:50000},
+  banhgiay:{name:'Bánh giầy',emoji:'⚪',price:15000},
+  mutdua:  {name:'Mứt dừa',emoji:'🥥',price:35000},
+  mutcarot:{name:'Mứt cà rốt',emoji:'🥕',price:28000},
+  mutgung: {name:'Mứt gừng',emoji:'🫚',price:30000},
+  mutbi:   {name:'Mứt bí',emoji:'🎃',price:26000},
+  keolac:  {name:'Kẹo lạc',emoji:'🥜',price:30000},
+  duahang: {name:'Dưa hành',emoji:'🥒',price:30000},
+  thitdong:{name:'Thịt đông',emoji:'🍲',price:50000},
+  quat:    {name:'Cây quất',emoji:'🍊',price:180000},
+  hoamai:  {name:'Hoa mai',emoji:'🌼',price:150000},
+  hoadao:  {name:'Hoa đào',emoji:'🌸',price:160000},
 };
-const RAW_NAMES = { ...Object.fromEntries(Object.entries(MARKET).map(([k,v])=>[k,v.name])),
-  banhchung_raw:'Bánh chưng sống' };
 
 const RECIPES = [
-  { id:'banhchung', name:'Gói bánh chưng', emoji:'🟩', time:1,
-    needs:{gaonep:1,dau:1,thit:1,la:1,lat:1}, makes:{banhchung_raw:6},
-    note:'Đặt lá → gạo → đậu → thịt → gói → buộc lạt' },
-  { id:'banhgiay', name:'Bánh giầy', emoji:'⚪', time:2.5,
-    needs:{gaonep:1}, makes:{banhgiay:12},
-    note:'Ngâm gạo → đồ xôi → giã → nặn' },
-  { id:'mutdua', name:'Mứt dừa', emoji:'🍬', time:2,
-    needs:{dua:3,duong:1}, makes:{mutdua:10},
-    note:'Nạo dừa → sên với đường' },
-  { id:'duahang', name:'Dưa hành', emoji:'🥒', time:2,
-    needs:{hanh:1,duong:1,giam:1}, makes:{duahang:8},
-    note:'Muối hành → ngâm giấm đường' },
-  { id:'thitdong', name:'Thịt đông', emoji:'🍲', time:2,
-    needs:{thit:1,duong:1}, makes:{thitdong:6},
-    note:'Ninh thịt → đổ khuôn → để đông' },
+  {id:'banhchung',name:'Gói bánh chưng',emoji:'🟩',time:1,
+    needs:{gaonep:1,dau:1,thit:1,la:1,lat:1},makes:{banhchung_raw:6},
+    note:'Đặt lá → gạo → đậu → thịt → gói → buộc lạt'},
+  {id:'banhgiay',name:'Bánh giầy',emoji:'⚪',time:2.5,
+    needs:{gaonep:1},makes:{banhgiay:12},note:'Ngâm gạo → đồ xôi → giã → nặn'},
+  {id:'mutdua',name:'Mứt dừa',emoji:'🥥',time:2,
+    needs:{dua:2,duong:1},makes:{mutdua:10},note:'Nạo dừa → sên đường'},
+  {id:'mutcarot',name:'Mứt cà rốt',emoji:'🥕',time:1.5,
+    needs:{carot:2,duong:1},makes:{mutcarot:10},note:'Cà rốt thái sợi → sên đường'},
+  {id:'mutgung',name:'Mứt gừng',emoji:'🫚',time:1.5,
+    needs:{gung:2,duong:1},makes:{mutgung:10},note:'Gừng thái lát → rim đường'},
+  {id:'mutbi',name:'Mứt bí',emoji:'🎃',time:1.5,
+    needs:{bi:1,duong:1},makes:{mutbi:10},note:'Bí đỏ cắt miếng → sên đường'},
+  {id:'keolac',name:'Kẹo lạc',emoji:'🥜',time:1.5,
+    needs:{lac:2,duong:2},makes:{keolac:12},note:'Nấu mạch nha → trộn lạc'},
+  {id:'duahang',name:'Dưa hành',emoji:'🥒',time:2,
+    needs:{hanh:1,duong:1,giam:1},makes:{duahang:8},note:'Muối hành → ngâm giấm đường'},
+  {id:'thitdong',name:'Thịt đông',emoji:'🍲',time:2,
+    needs:{thit:1,duong:1},makes:{thitdong:6},note:'Ninh thịt → đổ khuôn → để đông'},
 ];
 
-const FIRST = ['Bà','Ông','Cô','Chú','Anh','Chị','Em','Bác','Cậu','Dì','Thím'];
-const LAST  = ['Tư','Bảy','Ba','Năm','Sáu','Hoa','Mai','Lan','Hùng','Dũng','Thắm','Lộc','Phúc'];
-const ROLES = ['đi chợ sớm','mua quà biếu Tết','về quê ăn Tết','mua lễ cúng','sắm Tết cho gia đình',
-  'mua cho con cháu','đi dạo chợ hoa','khách quen của bà','mua về làm quà'];
-const FACES = ['👴','👵','👨','👩','🧑','👦','👧','👨‍🦳','👩‍🦰','🧔','👩‍🦱','🧓'];
+const SHOP_LEVELS = [
+  {name:'Gánh tre',emoji:'🎋',cost:0,spawn:1.00,price:1.00,desc:'Gánh hàng đơn sơ của bà'},
+  {name:'Sạp nhỏ',emoji:'🏪',cost:300000,spawn:1.15,price:1.05,desc:'Sạp gỗ gọn gàng'},
+  {name:'Sạp đẹp',emoji:'🏬',cost:900000,spawn:1.35,price:1.12,desc:'Sạp trang trí Tết'},
+  {name:'Cửa hàng Tết',emoji:'🏮',cost:2500000,spawn:1.65,price:1.25,desc:'Cửa hàng khang trang'},
+];
 
-/* ---------- STATE ---------- */
-const G = {
-  shopName:'', money:500000, time:12, phase:'intro',
-  raw:{ gaonep:0,dau:0,thit:0,la:0,lat:0,dua:0,duong:0,hanh:0,giam:0 },
-  goods:{ banhchung_raw:0, banhchung:0, banhgiay:0, mutdua:0, duahang:0, thitdong:0 },
-  decor:0,
-  stats:{ revenue:0, spent:0, lucky:0, served:0, lost:0, soldCounts:{}, made:{} },
+const DECOS = [
+  {id:'sign',name:'Biển hiệu',emoji:'🪧',cost:80000,desc:'+10% khách tới'},
+  {id:'lantern',name:'Đèn lồng',emoji:'🏮',cost:120000,desc:'+15% khách tới'},
+  {id:'basket',name:'Rổ mẹt đẹp',emoji:'🧺',cost:100000,desc:'+5% giá bán'},
+  {id:'table',name:'Bàn gỗ',emoji:'🪵',cost:150000,desc:'+2 khách đồng thời'},
+];
+
+const WEATHERS = {
+  sunny:{name:'Nắng đẹp',emoji:'☀️',spawn:1.0,hot:[]},
+  cool: {name:'Se lạnh',emoji:'🌤️',spawn:1.15,hot:[]},
+  rain: {name:'Mưa phùn',emoji:'🌧️',spawn:0.65,hot:['banhchung','thitdong','mutgung']},
 };
 
-/* =========================================================
-   CANVAS FX — cánh hoa + pháo hoa
-   ========================================================= */
+const FIRST=['Bà','Ông','Cô','Chú','Anh','Chị','Em','Bác','Cậu','Dì','Thím'];
+const LAST=['Tư','Bảy','Ba','Năm','Sáu','Hoa','Mai','Lan','Hùng','Dũng','Thắm','Lộc','Phúc'];
+const ROLES=['đi chợ sớm','mua quà biếu Tết','về quê ăn Tết','mua lễ cúng',
+  'sắm Tết cho gia đình','mua cho con cháu','đi dạo chợ hoa','khách quen của bà','mua làm quà'];
+const FACES=['👴','👵','👨','👩','🧑','👦','👧','👨‍🦳','👩‍🦰','🧔','👩‍🦱','🧓'];
+
+/* NPC cốt truyện */
+const NAMED_NPCS = [
+  {id:'ong_minh',face:'👴',name:'Ông Minh',role:'về quê ăn Tết',wants:['banhchung'],
+   lines:['Năm nào ông cũng mua bánh chưng cho cháu.',
+          'Cháu ông năm nay vào đại học rồi, ông tự hào lắm.',
+          'Cảm ơn cháu, Tết này ông cháu sum vầy.']},
+  {id:'co_lan',face:'👩',name:'Cô Lan',role:'đi chợ Tết',wants:['mutdua','keolac'],
+   lines:['Năm nay lần đầu cô tự chuẩn bị Tết.',
+          'Cô muốn mua gì đó thật ý nghĩa cho gia đình.',
+          'Cô mua được rồi, cảm ơn cháu nhé!']},
+  {id:'be_mai',face:'👧',name:'Bé Mai',role:'mua quà cho mẹ',wants:['mutdua'],
+   lines:['Bé tiết kiệm tiền để mua quà cho mẹ đó!',
+          'Mẹ bé thích mứt dừa lắm, bé mua tặng mẹ.',
+          'Cảm ơn chị, mẹ bé sẽ vui lắm!']},
+  {id:'chu_hung',face:'🧔',name:'Chú Hùng',role:'về quê đón Tết',wants:['thitdong','duahang'],
+   lines:['Chú đi làm xa, Tết mới về được.',
+          'Mua ít quà biếu ông bà nội.',
+          'Cảm ơn cháu, Tết ấm cúng quá.']},
+  {id:'ba_hoa',face:'👵',name:'Bà Hoa',role:'hàng xóm nhà bà',wants:['banhchung','banhgiay'],
+   lines:['Bà với bà cháu là hàng xóm lâu năm.',
+          'Bà ghé mua ủng hộ cháu, bán đắt khách nha.',
+          'Cháu bà giỏi quá, bà về khoe với bà cháu.']},
+];
+
+/* ============ STATE ============ */
+const G = {
+  shopName:'', money:500000, reputation:100,
+  time:12, day:1, phase:'intro',
+  weather:'sunny',
+  shopLevel:0, decos:{},
+  raw:{}, goods:{},
+  npcMemory:{}, // {npcId: count}
+  stats:{}
+};
+
+function initDay(){
+  G.time = 12;
+  G.weather = pick(['sunny','sunny','sunny','cool','rain']);
+  G.raw = {gaonep:0,dau:0,thit:0,la:0,lat:0,dua:0,duong:0,hanh:0,giam:0,carot:0,gung:0,bi:0,lac:0};
+  G.goods = {banhchung_raw:0,banhchung:0,banhgiay:0,mutdua:0,mutcarot:0,mutgung:0,mutbi:0,keolac:0,duahang:0,thitdong:0,quat:0,hoamai:0,hoadao:0};
+  G.stats = {revenue:0,spent:0,lucky:0,served:0,lost:0,wrongKept:0,wrongReturned:0,
+    bargainsWon:0,bargainsLost:0,soldCounts:{},made:{}};
+}
+
+/* ============ CANVAS FX ============ */
 (function(){
-  const cv = $('#fx'), ctx = cv.getContext('2d');
-  let W,H;
-  function resize(){ W = cv.width = innerWidth; H = cv.height = innerHeight; }
-  addEventListener('resize', resize); resize();
-
-  const petals = [];
-  function newPetal(init){
-    return {
-      x: rand(0,W), y: init ? rand(-H,H) : rand(-120,-20),
-      s: rand(4,10), vy: rand(.25,1.1), vx: rand(-.35,.35),
-      rot: rand(0,Math.PI*2), vr: rand(-.025,.025),
-      sway: rand(0,Math.PI*2), swSp: rand(.012,.03),
-      c: Math.random()<.55 ? '#ffb7c5' : (Math.random()<.5 ? '#ffd97a' : '#ff8fa3')
-    };
-  }
-  for(let i=0;i<44;i++) petals.push(newPetal(true));
-
-  const sparks = [];
-  function firework(){
-    const x = rand(W*.12,W*.88), y = rand(H*.08,H*.45);
-    const hue = pick([0,40,320,280,15]);
-    for(let i=0;i<42;i++){
-      const a = (Math.PI*2*i)/42 + rand(-.1,.1), sp = rand(1.4,4.6);
-      sparks.push({ x,y, vx:Math.cos(a)*sp, vy:Math.sin(a)*sp, life:1,
-        c:`hsl(${hue+rand(-18,18)},100%,${rand(58,76)}%)`, r:rand(1.4,2.8) });
-    }
-  }
-  let fwT = rand(2,5);
-
-  let last = performance.now();
-  function loop(t){
-    const dt = Math.min((t-last)/1000,.05); last = t;
-    ctx.clearRect(0,0,W,H);
-
-    // petals
-    for(const p of petals){
-      p.sway += p.swSp;
-      p.x += p.vx + Math.sin(p.sway)*.7;
-      p.y += p.vy; p.rot += p.vr;
-      if(p.y > H+24){ Object.assign(p, newPetal(false)); }
-      if(p.x < -24) p.x = W+20; if(p.x > W+24) p.x = -20;
-      ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot);
-      ctx.globalAlpha = .75; ctx.fillStyle = p.c;
-      ctx.beginPath();
-      ctx.ellipse(0,0,p.s,p.s*.6,0,0,Math.PI*2); ctx.fill();
-      ctx.restore();
-    }
-    ctx.globalAlpha = 1;
-
-    // fireworks
-    fwT -= dt;
-    if(fwT <= 0){ firework(); fwT = rand(3.5,8); }
-    for(let i=sparks.length-1;i>=0;i--){
-      const s = sparks[i];
-      s.x += s.vx; s.y += s.vy; s.vy += .045; s.vx *= .985; s.vy *= .985;
-      s.life -= dt*1.05;
-      if(s.life <= 0){ sparks.splice(i,1); continue; }
-      ctx.globalAlpha = Math.max(0,s.life);
-      ctx.fillStyle = s.c;
-      ctx.shadowBlur = 10; ctx.shadowColor = s.c;
-      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fill();
-    }
-    ctx.globalAlpha = 1; ctx.shadowBlur = 0;
-    requestAnimationFrame(loop);
-  }
-  requestAnimationFrame(loop);
+  const cv=$('#fx'),ctx=cv.getContext('2d');let W,H;
+  function rs(){W=cv.width=innerWidth;H=cv.height=innerHeight}
+  addEventListener('resize',rs);rs();
+  const petals=[];
+  function nw(i){return{x:rand(0,W),y:i?rand(-H,H):rand(-120,-20),s:rand(4,10),vy:rand(.25,1.1),
+    vx:rand(-.35,.35),rot:rand(0,Math.PI*2),vr:rand(-.025,.025),sway:rand(0,6.28),
+    sw:rand(.012,.03),c:Math.random()<.55?'#ffb7c5':(Math.random()<.5?'#ffd97a':'#ff8fa3')}}
+  for(let i=0;i<40;i++)petals.push(nw(true));
+  const sp=[];function fw(){const x=rand(W*.12,W*.88),y=rand(H*.08,H*.4),h=pick([0,40,320,280,15]);
+    for(let i=0;i<42;i++){const a=(6.28*i)/42+rand(-.1,.1),s=rand(1.4,4.6);
+      sp.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,
+        c:`hsl(${h+rand(-18,18)},100%,${rand(58,76)}%)`,r:rand(1.4,2.8)})}}
+  let ft=rand(2,5),last=performance.now();
+  function lp(t){const dt=Math.min((t-last)/1000,.05);last=t;ctx.clearRect(0,0,W,H);
+    for(const p of petals){p.sway+=p.sw;p.x+=p.vx+Math.sin(p.sway)*.7;p.y+=p.vy;p.rot+=p.vr;
+      if(p.y>H+24)Object.assign(p,nw(false));
+      if(p.x<-24)p.x=W+20;if(p.x>W+24)p.x=-20;
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.globalAlpha=.75;
+      ctx.fillStyle=p.c;ctx.beginPath();ctx.ellipse(0,0,p.s,p.s*.6,0,0,6.28);ctx.fill();ctx.restore()}
+    ctx.globalAlpha=1;ft-=dt;if(ft<=0){fw();ft=rand(3.5,8)}
+    for(let i=sp.length-1;i>=0;i--){const s=sp[i];s.x+=s.vx;s.y+=s.vy;s.vy+=.045;s.vx*=.985;s.vy*=.985;
+      s.life-=dt*1.05;if(s.life<=0){sp.splice(i,1);continue}
+      ctx.globalAlpha=Math.max(0,s.life);ctx.fillStyle=s.c;ctx.shadowBlur=10;ctx.shadowColor=s.c;
+      ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,6.28);ctx.fill()}
+    ctx.globalAlpha=1;ctx.shadowBlur=0;requestAnimationFrame(lp)}
+  requestAnimationFrame(lp);
 })();
 
-/* =========================================================
-   HELPERS
-   ========================================================= */
-function timeStr(t){
-  const h = Math.floor(t) % 24, m = Math.floor((t%1)*60);
-  return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0');
-}
-function showScreen(id){
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  $('#'+id).classList.add('active');
-}
-function floatText(x, y, text, lucky){
-  const d = document.createElement('div');
-  d.className = 'float-money' + (lucky?' lucky':'');
-  d.textContent = text;
-  d.style.left = x+'px'; d.style.top = y+'px';
-  document.body.appendChild(d);
-  setTimeout(()=>d.remove(), 1150);
-}
-function say(text){ const e=$('#speech'); if(e) e.textContent = text; }
+/* ============ UI UTILS ============ */
+function timeStr(t){const h=Math.floor(t)%24,m=Math.floor((t%1)*60);
+  return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')}
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  $('#'+id).classList.add('active')}
+function floatText(x,y,text,cls){const d=document.createElement('div');
+  d.className='float-money'+(cls?' '+cls:'');d.textContent=text;
+  d.style.left=x+'px';d.style.top=y+'px';document.body.appendChild(d);
+  setTimeout(()=>d.remove(),1150)}
+function say(text){const e=$('#speech');if(e)e.textContent=text}
 
-/* =========================================================
-   INTRO
-   ========================================================= */
-const nameInput = $('#shopNameInput'), btnStart = $('#btnStart');
-nameInput.addEventListener('input', () => {
-  btnStart.disabled = nameInput.value.trim().length < 2;
-});
-document.querySelectorAll('.chip').forEach(c => {
-  c.addEventListener('click', () => {
-    nameInput.value = c.textContent;
-    btnStart.disabled = false;
-  });
-});
-btnStart.addEventListener('click', () => {
-  G.shopName = nameInput.value.trim() || 'Gian Hàng Tết';
-  $('#hudShop').textContent = '🏮 ' + G.shopName;
-  $('#sellShop').textContent = '🏮 ' + G.shopName;
-  $('#stallLabel').textContent = G.shopName.toUpperCase();
-  G.phase = 'prep';
-  showScreen('screen-prep');
-  renderPrep();
+let modalCb=null;
+function showModal({face='👩',name='',role='',text='',buttons=[]}){
+  $('#modalFace').textContent=face;$('#modalName').textContent=name;$('#modalRole').textContent=role;
+  $('#modalText').innerHTML=text;
+  const bc=$('#modalBtns');bc.innerHTML='';
+  buttons.forEach(b=>{const el=document.createElement('button');
+    el.className='modal-btn '+(b.cls||'primary');el.textContent=b.label;
+    el.onclick=()=>{closeModal();b.onClick&&b.onClick()};
+    bc.appendChild(el)});
+  $('#modalOverlay').classList.add('show');
+}
+function closeModal(){$('#modalOverlay').classList.remove('show')}
+
+/* ============ INTRO ============ */
+const nameInput=$('#shopNameInput'),btnStart=$('#btnStart');
+nameInput.addEventListener('input',()=>{btnStart.disabled=nameInput.value.trim().length<2});
+document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{
+  nameInput.value=c.textContent;btnStart.disabled=false}));
+btnStart.addEventListener('click',()=>{
+  G.shopName=nameInput.value.trim()||'Gian Hàng Tết';
+  $('#hudShop').textContent='🏮 '+G.shopName;
+  $('#sellShop').textContent='🏮 '+G.shopName;
+  $('#stallLabel').textContent=G.shopName.toUpperCase();
+  G.phase='prep';initDay();
+  showScreen('screen-prep');updateWeatherUI();renderPrep();
   say('Bà: Cháu mau đi chợ mua đồ về gói bánh nào!');
 });
 
-/* =========================================================
-   PREP PHASE
-   ========================================================= */
-let currentTab = 'cook';
-
-document.querySelectorAll('.tab').forEach(t => {
-  t.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
-    t.classList.add('active');
-    currentTab = t.dataset.tab;
-    renderTab();
-  });
-});
+/* ============ PREP ============ */
+let currentTab='cook';
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');currentTab=t.dataset.tab;renderTab()}));
 
 function updateHUD(){
-  $('#hudMoney').textContent = '💰 ' + fmt(G.money);
-  const t = $('#hudTime');
-  t.textContent = '🕐 ' + timeStr(G.time);
-  t.classList.toggle('warn', G.time >= 21);
+  $('#hudMoney').textContent='💰 '+fmt(G.money);
+  $('#hudTime').textContent='🕐 '+timeStr(G.time);
+  $('#hudTime').classList.toggle('warn',G.time>=21);
 }
-function renderPrep(){ updateHUD(); renderTab(); }
-
+function updateWeatherUI(){
+  const w=WEATHERS[G.weather];
+  const el=$('#hudWeather');
+  el.textContent=w.emoji+' '+w.name;
+  el.classList.toggle('rain',G.weather==='rain');
+}
+function renderPrep(){updateHUD();renderTab()}
 function renderTab(){
-  if(currentTab === 'cook')   renderCook();
-  if(currentTab === 'market') renderMarket();
-  if(currentTab === 'inv')    renderInv();
+  if(currentTab==='cook')renderCook();
+  if(currentTab==='market')renderMarket();
+  if(currentTab==='inv')renderInv();
 }
-
 function canMake(r){
-  if(G.time + r.time > 23) return false;
-  for(const k in r.needs) if((G.raw[k]||0) < r.needs[k]) return false;
+  if(G.time+r.time>23)return false;
+  for(const k in r.needs)if((G.raw[k]||0)<r.needs[k])return false;
   return true;
 }
-
 function renderCook(){
-  const el = $('#tabContent');
-  el.innerHTML = RECIPES.map(r => {
-    const can = canMake(r);
-    const needsHTML = Object.entries(r.needs).map(([k,v]) => {
-      const ok = (G.raw[k]||0) >= v;
-      return `<span class="${ok?'ok':'no'}">${MARKET[k].emoji} ${MARKET[k].name} ${G.raw[k]||0}/${v}</span>`;
-    }).join('');
-    const outHTML = Object.entries(r.makes).map(([k,v]) => {
-      const nm = GOODS[k] ? GOODS[k].name : 'Bánh chưng sống';
-      const em = GOODS[k] ? GOODS[k].emoji : '🟩';
-      return `${em} ${nm} ×${v}`;
-    }).join(', ');
+  const el=$('#tabContent');
+  el.innerHTML=RECIPES.map(r=>{
+    const can=canMake(r);
+    const needsHTML=Object.entries(r.needs).map(([k,v])=>{
+      const ok=(G.raw[k]||0)>=v;
+      return `<span class="${ok?'ok':'no'}">${MARKET[k].emoji}${MARKET[k].name} ${G.raw[k]||0}/${v}</span>`}).join('');
+    const outHTML=Object.entries(r.makes).map(([k,v])=>{
+      const nm=GOODS[k]?GOODS[k].name:'Bánh chưng sống';
+      const em=GOODS[k]?GOODS[k].emoji:'🟩';
+      return `${em}${nm} ×${v}`}).join(', ');
     return `<div class="recipe ${can?'':'disabled'}">
       <div class="r-icon">${r.emoji}</div>
       <div class="r-info">
@@ -650,530 +705,532 @@ function renderCook(){
         <div class="r-out">→ ${outHTML}</div>
       </div>
       <button class="btn-make" data-recipe="${r.id}" ${can?'':'disabled'}>Làm</button>
-    </div>`;
-  }).join('') + `
-    <div style="text-align:center;font-size:11px;color:#a8776a;padding:6px 0 4px">
-      Thời gian còn lại: <b style="color:#ffd966">${(23-G.time).toFixed(1)}h</b> (đến 23:00)
-    </div>`;
-
-  el.querySelectorAll('.btn-make').forEach(b => {
-    b.addEventListener('click', () => doRecipe(b.dataset.recipe));
-  });
+    </div>`}).join('')+
+    `<div style="text-align:center;font-size:11px;color:#8a4018;padding:6px 0 4px;font-weight:600">
+      Thời gian còn: <b style="color:#a51118">${(23-G.time).toFixed(1)}h</b> (đến 23:00)</div>`;
+  el.querySelectorAll('.btn-make').forEach(b=>b.addEventListener('click',()=>doRecipe(b.dataset.recipe)));
 }
-
 function doRecipe(id){
-  const r = RECIPES.find(x => x.id === id);
-  if(!r || !canMake(r)) return;
-  for(const k in r.needs) G.raw[k] -= r.needs[k];
-  for(const k in r.makes){
-    G.goods[k] = (G.goods[k]||0) + r.makes[k];
-    G.stats.made[k] = (G.stats.made[k]||0) + r.makes[k];
-  }
-  G.time = Math.min(23, G.time + r.time);
-
-  const made = Object.entries(r.makes).map(([k,v]) =>
-    (GOODS[k]?GOODS[k].name:'Bánh chưng sống') + ' ×' + v).join(', ');
+  const r=RECIPES.find(x=>x.id===id);
+  if(!r||!canMake(r))return;
+  for(const k in r.needs)G.raw[k]-=r.needs[k];
+  for(const k in r.makes){G.goods[k]=(G.goods[k]||0)+r.makes[k];
+    G.stats.made[k]=(G.stats.made[k]||0)+r.makes[k]}
+  G.time=Math.min(23,G.time+r.time);
+  const made=Object.entries(r.makes).map(([k,v])=>(GOODS[k]?GOODS[k].name:'Bánh chưng sống')+' ×'+v).join(', ');
   say(`🧑 Cháu vừa ${r.name.toLowerCase()} xong! Được ${made}.`);
-
-  updateHUD();
-  renderTab();
-  if(G.time >= 23){ setTimeout(startNight, 700); }
+  updateHUD();renderTab();
+  if(G.time>=23)setTimeout(startNight,700);
 }
-
 function renderMarket(){
-  const el = $('#tabContent');
-  let html = Object.entries(MARKET).map(([k,m]) => `
+  const el=$('#tabContent');
+  let html=Object.entries(MARKET).map(([k,m])=>`
     <div class="market-item">
       <span class="m-icon">${m.emoji}</span>
       <div class="m-info">
         <div class="m-name">${m.name}</div>
-        <div class="m-price">${fmt(m.price)} <span class="m-have">· đang có ${G.raw[k]||0}</span></div>
+        <div class="m-price">${fmt(m.price)} <span class="m-have">· có ${G.raw[k]||0}</span></div>
       </div>
       <div class="m-btns">
         <button class="m-btn" data-buy="${k}" data-q="-1">−</button>
         <button class="m-btn plus" data-buy="${k}" data-q="1">+</button>
       </div>
     </div>`).join('');
-
-  html += `
-    <div class="market-item" style="border-color:#ffcf5c;background:rgba(255,207,92,.1)">
-      <span class="m-icon">${DECOR.emoji}</span>
+  html+=`<div style="margin:12px 0 8px;font-size:12px;font-weight:800;color:#a51118;
+    padding:6px 0;border-top:1px dashed #e8a870">🌸 Cây cảnh, hoa Tết (bán lại kiếm lời)</div>`;
+  html+=Object.entries(FLOWER_BUY).map(([k,f])=>`
+    <div class="market-item">
+      <span class="m-icon">${f.emoji}</span>
       <div class="m-info">
-        <div class="m-name">${DECOR.name}</div>
-        <div class="m-price">${fmt(DECOR.price)} <span class="m-have">· trang trí: ${G.decor}</span></div>
+        <div class="m-name">${f.name}</div>
+        <div class="m-price">Nhập ${fmt(f.price)} → Bán ${fmt(f.sell)}</div>
+        <div class="m-have">· có ${G.goods[k]||0}</div>
       </div>
-      <div class="m-btns">
-        <button class="m-btn plus" data-decor="1">+</button>
-      </div>
-    </div>
-    <div style="text-align:center;font-size:11px;color:#a8776a;padding:8px 0">
-      🌸 Hoa đào giúp gian hàng đông khách hơn!
-    </div>`;
-
-  el.innerHTML = html;
-
-  el.querySelectorAll('[data-buy]').forEach(b => {
-    b.addEventListener('click', () => {
-      const k = b.dataset.buy, q = +b.dataset.q;
-      if(q > 0){
-        if(G.money < MARKET[k].price){ say('👵 Bà: Hết tiền rồi cháu ơi, tính toán cho kỹ!'); return; }
-        G.money -= MARKET[k].price; G.stats.spent += MARKET[k].price;
-        G.raw[k] = (G.raw[k]||0) + 1;
-      } else {
-        if((G.raw[k]||0) <= 0) return;
-        G.raw[k]--; G.money += Math.floor(MARKET[k].price*0.7); // bán lại lỗ
-      }
-      updateHUD(); renderMarket();
-    });
-  });
-  el.querySelectorAll('[data-decor]').forEach(b => {
-    b.addEventListener('click', () => {
-      if(G.money < DECOR.price){ say('👵 Bà: Hoa đắt quá, thôi để dành tiền mua thịt!'); return; }
-      G.money -= DECOR.price; G.stats.spent += DECOR.price; G.decor++;
-      updateHUD(); renderMarket();
-    });
-  });
+      <div class="m-btns"><button class="m-btn plus" data-buy-flower="${k}">+</button></div>
+    </div>`).join('');
+  el.innerHTML=html;
+  el.querySelectorAll('[data-buy]').forEach(b=>b.addEventListener('click',()=>{
+    const k=b.dataset.buy,q=+b.dataset.q;
+    if(q>0){
+      if(G.money<MARKET[k].price){say('👵 Bà: Hết tiền rồi cháu, tính cho kỹ!');return}
+      G.money-=MARKET[k].price;G.stats.spent+=MARKET[k].price;G.raw[k]=(G.raw[k]||0)+1;
+    }else{
+      if((G.raw[k]||0)<=0)return;
+      G.raw[k]--;G.money+=Math.floor(MARKET[k].price*0.7);
+    }
+    updateHUD();renderMarket();
+  }));
+  el.querySelectorAll('[data-buy-flower]').forEach(b=>b.addEventListener('click',()=>{
+    const k=b.dataset.buyFlower,f=FLOWER_BUY[k];
+    if(G.money<f.price){say('👵 Bà: Đắt quá cháu, để dành vốn!');return}
+    G.money-=f.price;G.stats.spent+=f.price;G.goods[k]=(G.goods[k]||0)+1;
+    updateHUD();renderMarket();
+  }));
 }
-
 function renderInv(){
-  const el = $('#tabContent');
-  let html = '<div class="inv-grid">';
-  for(const k in MARKET){
-    const has = G.raw[k]||0;
-    html += `<div class="inv-cell ${has?'':'empty'}">
+  const el=$('#tabContent');
+  let html='<div class="inv-grid">';
+  for(const k in MARKET){const has=G.raw[k]||0;
+    html+=`<div class="inv-cell ${has?'':'empty'}">
       <span class="ic">${MARKET[k].emoji}</span>
       <span class="in">${MARKET[k].name}</span>
-      <span class="iv">${has}</span>
-    </div>`;
-  }
-  for(const k in GOODS){
-    const has = G.goods[k]||0;
-    html += `<div class="inv-cell ${has?'':'empty'}">
+      <span class="iv">${has}</span></div>`}
+  for(const k in GOODS){const has=G.goods[k]||0;
+    html+=`<div class="inv-cell ${has?'':'empty'}">
       <span class="ic">${GOODS[k].emoji}</span>
       <span class="in">${GOODS[k].name}</span>
-      <span class="iv">${has}</span>
-    </div>`;
-  }
-  html += `<div class="inv-cell ${G.goods.banhchung_raw?'':'empty'}">
-      <span class="ic">🟩</span><span class="in">Bánh chưng sống</span>
-      <span class="iv">${G.goods.banhchung_raw}</span></div>`;
-  html += `<div class="inv-cell ${G.decor?'':'empty'}">
-      <span class="ic">🌸</span><span class="in">Hoa đào</span>
-      <span class="iv">${G.decor}</span></div>`;
-  html += '</div>';
-  el.innerHTML = html;
+      <span class="iv">${has}</span></div>`}
+  html+=`<div class="inv-cell ${G.goods.banhchung_raw?'':'empty'}">
+    <span class="ic">🟩</span><span class="in">Bánh chưng sống</span>
+    <span class="iv">${G.goods.banhchung_raw}</span></div>`;
+  html+='</div>';
+  el.innerHTML=html;
 }
-
-$('#btnRest').addEventListener('click', () => {
-  G.time = Math.min(23, G.time + 1);
-  say(pick([
-    '🧑 Cháu tranh thủ nghỉ một chút...',
-    '👵 Bà: Nghỉ tay đi cháu, còn nhiều việc lắm đó.',
-    '🧑 Cháu ngồi ngắm cây mai trước sân.',
-  ]));
-  updateHUD(); renderTab();
-  if(G.time >= 23) setTimeout(startNight, 700);
+$('#btnRest').addEventListener('click',()=>{
+  G.time=Math.min(23,G.time+1);
+  say(pick(['🧑 Cháu tranh thủ nghỉ một chút...','👵 Bà: Nghỉ tay đi cháu.','🧑 Cháu ngồi ngắm cây mai.']));
+  updateHUD();renderTab();
+  if(G.time>=23)setTimeout(startNight,700);
 });
+$('#btnReady').addEventListener('click',startNight);
 
-$('#btnReady').addEventListener('click', startNight);
-
-/* =========================================================
-   NIGHT PHASE
-   ========================================================= */
-const night = { fire:100, running:false, t:23, last:0, damage:0, spoiled:0 };
-
+/* ============ NIGHT ============ */
+const night={fire:100,running:false,t:23,last:0,damage:0,spoiled:0};
 function startNight(){
-  if(G.phase === 'night') return;
-  G.phase = 'night';
-  G.time = 23;
-  night.fire = 100; night.running = true; night.t = 23; night.damage = 0; night.spoiled = 0;
-  night.last = performance.now();
-  $('#nightLog').innerHTML = '';
-  $('#fireBar').style.width = '100%';
-  $('#firePct').textContent = '100%';
-  $('#nightTime').textContent = '🕐 23:00';
-  $('#potIcon').textContent = '🍲';
+  if(G.phase==='night')return;
+  G.phase='night';G.time=23;
+  Object.assign(night,{fire:100,running:true,t:23,damage:0,spoiled:0,last:performance.now()});
+  $('#nightLog').innerHTML='';$('#fireBar').style.width='100%';$('#firePct').textContent='100%';
+  $('#nightTime').textContent='🕐 23:00';$('#potIcon').textContent='🍲';
   showScreen('screen-night');
   logNight('🔥 Bà nhóm lửa, cháu canh nồi bánh chưng...');
-  setTimeout(()=>logNight('🟩 Đang luộc ' + G.goods.banhchung_raw + ' chiếc bánh chưng'), 900);
+  setTimeout(()=>logNight('🟩 Đang luộc '+G.goods.banhchung_raw+' chiếc bánh chưng'),800);
 }
-
-function logNight(msg){
-  const el = $('#nightLog');
-  const d = document.createElement('div');
-  d.textContent = msg;
-  el.appendChild(d);
-  if(el.children.length > 4) el.removeChild(el.firstChild);
-  el.scrollTop = el.scrollHeight;
-}
-
-$('#btnFire').addEventListener('click', () => {
-  if(!night.running) return;
-  night.fire = Math.min(100, night.fire + 32);
-  $('#fireBar').style.width = night.fire + '%';
-  $('#firePct').textContent = Math.round(night.fire) + '%';
-  const btn = $('#btnFire');
-  btn.style.transform = 'scale(.94)';
-  setTimeout(()=>btn.style.transform='', 90);
+function logNight(m){const el=$('#nightLog');const d=document.createElement('div');
+  d.textContent=m;el.appendChild(d);if(el.children.length>4)el.removeChild(el.firstChild);
+  el.scrollTop=el.scrollHeight}
+$('#btnFire').addEventListener('click',()=>{
+  if(!night.running)return;
+  night.fire=Math.min(100,night.fire+32);
+  $('#fireBar').style.width=night.fire+'%';$('#firePct').textContent=Math.round(night.fire)+'%';
+  const b=$('#btnFire');b.style.transform='scale(.94)';setTimeout(()=>b.style.transform='',90);
 });
-
-$('#btnSkipNight').addEventListener('click', () => {
-  night.running = false;
-  finishNight(true);
-});
-
+$('#btnSkipNight').addEventListener('click',()=>{night.running=false;finishNight()});
 function updateNight(dt){
-  if(!night.running) return;
-  night.t += dt * (6/16); // 6 giờ game trong ~16s thật
-  night.fire -= dt * 5.2;
-
-  if(night.fire <= 0){
-    night.fire = 0;
-    night.damage += dt;
-    if(night.damage > 1.1){
-      night.damage = 0;
-      if(G.goods.banhchung_raw > 0){
-        G.goods.banhchung_raw--;
-        night.spoiled++;
-        logNight('⚠️ Lửa tắt! Một chiếc bánh bị sống...');
-      }
-    }
-  } else if(night.fire < 25 && Math.random() < dt*1.6){
-    logNight(pick(['🔥 Lửa yếu rồi, thêm củi mau!','💨 Khói bay nghi ngút...','🪵 Củi sắp hết!']));
-  }
-
-  $('#fireBar').style.width = Math.max(0,night.fire) + '%';
-  $('#firePct').textContent = Math.round(Math.max(0,night.fire)) + '%';
-  $('#nightTime').textContent = '🕐 ' + timeStr(Math.min(29, night.t));
-  $('#potIcon').textContent = night.fire > 50 ? '🍲' : (night.fire > 15 ? '♨️' : '🥶');
-
-  if(night.t >= 28.6 && Math.random() < dt*2.5){
-    logNight(pick(['🌾 Mùi bánh chưng thơm phức...','🌙 Ngoài trời yên tĩnh, chỉ nghe tiếng củi nổ.','⭐ Sao đêm giao thừa sáng lắm.']));
-  }
-  if(night.t >= 29){ night.running = false; finishNight(false); }
+  if(!night.running)return;
+  night.t+=dt*(6/16);
+  night.fire-=dt*5.2;
+  if(night.fire<=0){night.fire=0;night.damage+=dt;
+    if(night.damage>1.1){night.damage=0;
+      if(G.goods.banhchung_raw>0){G.goods.banhchung_raw--;night.spoiled++;
+        logNight('⚠️ Lửa tắt! Một chiếc bánh bị sống...')}}}
+  else if(night.fire<25&&Math.random()<dt*1.6){
+    logNight(pick(['🔥 Lửa yếu rồi, thêm củi mau!','💨 Khói bay nghi ngút...','🪵 Củi sắp hết!']))}
+  $('#fireBar').style.width=Math.max(0,night.fire)+'%';
+  $('#firePct').textContent=Math.round(Math.max(0,night.fire))+'%';
+  $('#nightTime').textContent='🕐 '+timeStr(Math.min(29,night.t));
+  $('#potIcon').textContent=night.fire>50?'🍲':(night.fire>15?'♨️':'🥶');
+  if(night.t>=28.6&&Math.random()<dt*2.5){
+    logNight(pick(['🌾 Mùi bánh chưng thơm phức...','🌙 Ngoài trời yên tĩnh.','⭐ Sao đêm giao thừa sáng lắm.']))}
+  if(night.t>=29){night.running=false;finishNight()}
+}
+function finishNight(){
+  G.goods.banhchung+=G.goods.banhchung_raw;
+  const boiled=G.goods.banhchung_raw;
+  G.goods.banhchung_raw=0;
+  setTimeout(()=>startSell(boiled,night.spoiled),250);
 }
 
-function finishNight(skipped){
-  const raw = G.goods.banhchung_raw;
-  G.goods.banhchung += raw;
-  G.goods.banhchung_raw = 0;
-  showScreen('screen-prep'); // tạm
-  // chuyển sang bán hàng
-  setTimeout(() => {
-    if(raw > 0) logNight('✅ Bánh chưng chín rồi!');
-    startSell(raw, night.spoiled, skipped);
-  }, 250);
-}
+/* ============ SELL ============ */
+const sell={running:false,t:5,customers:[],spawnT:0,last:0,uid:0,ended:false,paused:false};
 
-/* =========================================================
-   SELL PHASE
-   ========================================================= */
-const sell = {
-  running:false, t:5, customers:[], spawnT:0, last:0, uid:0, ended:false
-};
-
-function startSell(boiled, spoiled, skipped){
-  G.phase = 'sell';
-  sell.running = true; sell.t = 5; sell.customers = []; sell.spawnT = 0.6;
-  sell.last = performance.now(); sell.uid = 0; sell.ended = false;
-  $('#queue').innerHTML = '<div class="empty-queue">Chợ còn vắng...<br>Khách sẽ tới ngay thôi!</div>';
-  $('#sellMoney').textContent = '💰 ' + fmt(G.money);
-  $('#sellTime').textContent = '🕐 05:00';
+function startSell(boiled,spoiled){
+  G.phase='sell';
+  Object.assign(sell,{running:true,t:5,customers:[],spawnT:0.6,last:performance.now(),uid:0,ended:false,paused:false});
+  $('#queue').innerHTML='<div class="empty-queue">Chợ còn vắng...<br>Khách sẽ tới ngay thôi!</div>';
+  $('#sellMoney').textContent='💰 '+fmt(G.money);
+  $('#sellTime').textContent='🕐 05:00';
+  $('#sellRep').textContent='❤️ '+G.reputation;
+  const w=WEATHERS[G.weather];
+  $('#sellWeather').textContent=w.emoji;
+  // Cập nhật bối cảnh theo cấp
+  const lvl=SHOP_LEVELS[G.shopLevel];
+  $('#stallIcon1').textContent=lvl.emoji;
+  // Mưa
+  const scene=$('#marketScene');
+  scene.querySelectorAll('.rain-layer').forEach(x=>x.remove());
+  if(G.weather==='rain'){const r=document.createElement('div');r.className='rain-layer';scene.appendChild(r)}
   showScreen('screen-sell');
-  if(boiled > 0){
-    setTimeout(()=>flashQueue(`🟩 ${boiled} chiếc bánh chưng đã chín vàng!`), 300);
-  }
+  if(boiled>0)setTimeout(()=>flashQueue(`🟩 ${boiled} chiếc bánh chưng chín vàng!`),300);
+  if(spoiled>0)setTimeout(()=>flashQueue(`⚠️ ${spoiled} chiếc bánh bị sống do lửa tắt`),600);
+  if(G.weather==='rain')setTimeout(()=>flashQueue('🌧️ Trời mưa! Khách ít hơn, nhưng đồ nóng bán chạy.'),900);
 }
+function flashQueue(m){const el=$('#queue');const emp=el.querySelector('.empty-queue');if(emp)emp.remove();
+  const d=document.createElement('div');
+  d.style.cssText='text-align:center;font-size:12px;color:#fff8e0;padding:8px;background:rgba(140,10,10,.6);border-radius:10px;border:1px dashed rgba(255,207,92,.6);font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,.5)';
+  d.textContent=m;el.prepend(d);setTimeout(()=>d.remove(),2800)}
 
-function flashQueue(msg){
-  const el = $('#queue');
-  if(el.querySelector('.empty-queue')) el.innerHTML = '';
-  const d = document.createElement('div');
-  d.style.cssText = 'text-align:center;font-size:12px;color:#ffd966;padding:8px;background:rgba(255,207,92,.12);border-radius:10px;border:1px dashed rgba(255,207,92,.45)';
-  d.textContent = msg;
-  el.prepend(d);
-  setTimeout(()=>d.remove(), 2600);
-}
-
-function availableGoods(){
-  return Object.keys(GOODS).filter(k => (G.goods[k]||0) > 0);
-}
+function availableGoods(){return Object.keys(GOODS).filter(k=>(G.goods[k]||0)>0)}
 
 function spawnCustomer(){
-  const avail = availableGoods();
-  if(avail.length === 0) return;
-
-  const nItems = Math.min(avail.length, ri(1,2));
-  const shuffled = avail.sort(()=>Math.random()-.5).slice(0, nItems);
-  const wants = [];
-  for(const k of shuffled){
-    const maxQ = Math.min(G.goods[k], 3);
-    if(maxQ > 0) wants.push({ id:k, qty: ri(1, Math.max(1,maxQ)) });
+  const avail=availableGoods();
+  if(!avail.length)return;
+  // 25% ra NPC có cốt truyện
+  let npcDef=null;
+  if(Math.random()<0.28){
+    const candidates=NAMED_NPCS.filter(n=>n.wants.some(w=>(G.goods[w]||0)>0));
+    if(candidates.length)npcDef=pick(candidates);
   }
-  if(!wants.length) return;
-
-  const isRich = Math.random() < 0.12;
-  const c = {
-    uid: ++sell.uid,
-    face: pick(FACES),
-    name: pick(FIRST) + ' ' + pick(LAST),
-    role: isRich ? 'khách sộp 🤑' : pick(ROLES),
-    wants,
-    patience: 1,
-    speed: rand(0.055, 0.11) * (isRich ? 1.35 : 1),
-    rich: isRich,
-    el: null,
+  const wants=[];
+  if(npcDef){
+    for(const k of npcDef.wants){if((G.goods[k]||0)>0){wants.push({id:k,qty:ri(1,Math.min(G.goods[k],2))})}}
+  }else{
+    const nItems=Math.min(avail.length,ri(1,2));
+    const shuffled=[...avail].sort(()=>Math.random()-.5).slice(0,nItems);
+    for(const k of shuffled){const mq=Math.min(G.goods[k],3);if(mq>0)wants.push({id:k,qty:ri(1,mq)})}
+  }
+  if(!wants.length)return;
+  const isRich=Math.random()<0.12;
+  const c={
+    uid:++sell.uid,
+    face:npcDef?npcDef.face:pick(FACES),
+    name:npcDef?npcDef.name:(pick(FIRST)+' '+pick(LAST)),
+    role:npcDef?npcDef.role:(isRich?'khách sộp 🤑':pick(ROLES)),
+    wants,npcId:npcDef?npcDef.id:null,npcDef,
+    patience:1,speed:rand(0.05,0.1)*(isRich?1.35:1),rich:isRich,el:null,
   };
   sell.customers.push(c);
   renderQueue();
 }
 
 function renderQueue(){
-  const q = $('#queue');
-  const empt = q.querySelector('.empty-queue');
-  if(sell.customers.length === 0){
-    if(!empt){
-      q.innerHTML = '<div class="empty-queue">Chợ còn vắng...<br>Khách sẽ tới ngay thôi!</div>';
-    }
-    return;
-  }
-  if(empt) empt.remove();
-
-  // rebuild
-  q.innerHTML = '';
+  const q=$('#queue');
+  if(!sell.customers.length){q.innerHTML='<div class="empty-queue">Chợ còn vắng...<br>Khách sẽ tới ngay thôi!</div>';return}
+  q.innerHTML='';
   for(const c of sell.customers){
-    const wantHTML = c.wants.map(w =>
-      `${GOODS[w.id].emoji} ${GOODS[w.id].name} ×${w.qty}`).join(' &nbsp;·&nbsp; ');
-    const el = document.createElement('div');
-    el.className = 'customer';
-    el.dataset.uid = c.uid;
-    el.innerHTML = `
+    const wHTML=c.wants.map(w=>`${GOODS[w.id].emoji} ${GOODS[w.id].name} ×${w.qty}`).join(' · ');
+    const met=G.npcMemory[c.npcId]||0;
+    const el=document.createElement('div');
+    el.className='customer'+(c.npcId?' named':'');
+    el.dataset.uid=c.uid;
+    el.innerHTML=`
       <span class="c-face">${c.face}</span>
       <div class="c-info">
-        <div class="c-name">${c.name}${c.rich?' 💰':''}</div>
+        <div class="c-name">${c.name}${c.rich?' 💰':''}${c.npcId?` <span class="badge-story">GẶP ${met} LẦN</span>`:''}</div>
         <div class="c-role">${c.role}</div>
-        <div class="c-want">${wantHTML}</div>
+        <div class="c-want">${wHTML}</div>
         <div class="c-patience"><i style="width:${c.patience*100}%"></i></div>
       </div>
       <button class="btn-serve" data-uid="${c.uid}">Bán</button>`;
     q.appendChild(el);
-    c.el = el;
+    c.el=el;
   }
-  q.querySelectorAll('.btn-serve').forEach(b => {
-    b.addEventListener('click', e => serveCustomer(+b.dataset.uid, e));
-  });
+  q.querySelectorAll('.btn-serve').forEach(b=>b.addEventListener('click',e=>serveCustomer(+b.dataset.uid,e)));
 }
 
-function serveCustomer(uid, ev){
-  const idx = sell.customers.findIndex(c => c.uid === uid);
-  if(idx < 0) return;
-  const c = sell.customers[idx];
+function computeWantTotal(wants){
+  let total=0,ok=[];
+  for(const w of wants){
+    const have=G.goods[w.id]||0;
+    const q=Math.min(have,w.qty);
+    if(q>0){ok.push({id:w.id,q});total+=q*GOODS[w.id].price}
+  }
+  return {total,sold:ok};
+}
 
-  let total = 0, soldAny = false, soldLines = [];
-  for(const w of c.wants){
-    const have = G.goods[w.id] || 0;
-    const q = Math.min(have, w.qty);
-    if(q <= 0) continue;
-    G.goods[w.id] -= q;
-    const gain = q * GOODS[w.id].price;
-    total += gain;
-    soldAny = true;
-    G.stats.soldCounts[w.id] = (G.stats.soldCounts[w.id]||0) + q;
-    soldLines.push(`${GOODS[w.id].emoji}${q}`);
+function serveCustomer(uid,ev){
+  const idx=sell.customers.findIndex(c=>c.uid===uid);
+  if(idx<0)return;
+  const c=sell.customers[idx];
+  const {total,sold}=computeWantTotal(c.wants);
+  if(!sold.length){removeCustomer(idx,true);return}
+
+  // Ghi nhớ NPC
+  if(c.npcId)G.npcMemory[c.npcId]=(G.npcMemory[c.npcId]||0)+1;
+
+  // 30% mặc cả
+  const isNamed=c.npcId&&G.npcMemory[c.npcId]>=1;
+  if(!isNamed&&Math.random()<0.32&&total>0){
+    const firstId=sold[0].id;
+    const qty=sold[0].q;
+    const orig=GOODS[firstId].price;
+    const bid=Math.round(orig*rand(0.6,0.82)/1000)*1000;
+    const count=Math.max(1,qty);
+    const origTotal=orig*count,bidTotal=bid*count;
+    sell.paused=true;
+    showModal({
+      face:c.face,name:c.name,role:c.role,
+      text:`"${GOODS[firstId].emoji} ${GOODS[firstId].name} này bao nhiêu cháu?"<br>
+            <b>Cháu: ${fmt(origTotal)}</b><br>
+            "${c.face} ${fmt(bidTotal)} được không cháu?"`,
+      buttons:[
+        {label:`Bán ${fmt(bidTotal)} (vừa lòng khách)`,cls:'success',onClick:()=>{sell.paused=false;completeSale(idx,bidTotal,sold,{bargained:true,accepted:true})}},
+        {label:`Giữ giá ${fmt(origTotal)}`,cls:'warn',onClick:()=>{sell.paused=false;completeSale(idx,origTotal,sold,{bargained:true,keptPrice:true})}},
+        {label:'Không bán',cls:'ghost',onClick:()=>{sell.paused=false;G.stats.bargainsLost++;G.reputation=Math.max(0,G.reputation-2);removeCustomer(idx,true)}},
+      ]
+    });
+    return;
+  }
+  completeSale(idx,total,sold,{});
+}
+
+function completeSale(idx,total,sold,opts){
+  const c=sell.customers[idx];
+  if(!c)return;
+  // Trừ hàng
+  for(const s of sold){G.goods[s.id]-=s.q;G.stats.soldCounts[s.id]=(G.stats.soldCounts[s.id]||0)+s.q}
+  G.money+=total;G.stats.revenue+=total;G.stats.served++;
+  if(opts.bargained){
+    if(opts.accepted){G.stats.bargainsWon++;G.reputation=Math.min(150,G.reputation+1)}
+    if(opts.keptPrice){G.reputation=Math.min(150,G.reputation+1)}
+  }else{
+    G.reputation=Math.min(150,G.reputation+1);
+  }
+  // NPC cốt truyện đôi khi có thêm lì xì
+  const isNamed=c.npcId!=null;
+  const met=isNamed?(G.npcMemory[c.npcId]||1):0;
+
+  // Lì xì
+  let lucky=0;
+  const luckyChance=(c.rich?0.42:0.15)+Math.min(0.15,G.reputation/1000);
+  if(Math.random()<luckyChance){
+    lucky=c.rich?ri(20,60)*1000:ri(5,20)*1000;
+    G.money+=lucky;G.stats.lucky+=lucky;
   }
 
-  if(!soldAny){
-    // không còn hàng -> khách bỏ đi
-    removeCustomer(idx, true);
+  // 12% khách đưa nhầm tiền
+  if(Math.random()<0.12&&total>0){
+    sell.paused=true;
+    const over=ri(3,8)*10000;
+    showModal({
+      face:c.face,name:c.name,role:c.role,
+      text:`Khách đưa <b>${fmt(total+over)}</b> cho đơn <b>${fmt(total)}</b>.<br>
+            Có vẻ họ đưa dư <b style="color:#c1272d">${fmt(over)}</b>...`,
+      buttons:[
+        {label:'💚 Trả lại tiền thừa',cls:'success',onClick:()=>{sell.paused=false;G.stats.wrongReturned++;G.reputation=Math.min(150,G.reputation+3);finalizeSale(c,idx,lucky)}},
+        {label:'😈 Im lặng nhận thêm',cls:'warn',onClick:()=>{sell.paused=false;G.money+=over;G.stats.revenue+=over;G.stats.wrongKept++;G.reputation=Math.max(0,G.reputation-4);finalizeSale(c,idx,lucky)}},
+      ]
+    });
     return;
   }
 
-  G.money += total;
-  G.stats.revenue += total;
-  G.stats.served++;
-
-  // lì xì
-  let lucky = 0;
-  const luckyChance = c.rich ? 0.42 : 0.15;
-  if(Math.random() < luckyChance){
-    lucky = c.rich ? ri(20,60)*1000 : ri(5,20)*1000;
-    G.money += lucky;
-    G.stats.lucky += lucky;
-  }
-
-  const rect = c.el.getBoundingClientRect();
-  const x = rect.left + rect.width/2 - 40, y = rect.top + 6;
-  floatText(x, y, '+' + fmt(total), false);
-  if(lucky > 0){
-    setTimeout(() => {
-      floatText(x-16, y-14, '🧧 LÌ XÌ +' + fmt(lucky), true);
-    }, 260);
-  }
-
-  $('#sellMoney').textContent = '💰 ' + fmt(G.money);
-
-  // khách hài lòng -> đi ngay
-  removeCustomer(idx, false, true);
+  finalizeSale(c,idx,lucky,isNamed,met);
 }
 
-function removeCustomer(idx, angry, happy){
-  const c = sell.customers[idx];
-  if(!c) return;
-  if(c.el){
-    c.el.classList.add('leaving');
-    if(angry) c.el.style.borderColor = '#ff6b6b';
+function finalizeSale(c,idx,lucky,isNamed,met){
+  const rect=c.el?c.el.getBoundingClientRect():{left:200,top:200,width:100};
+  const x=rect.left+rect.width/2-40,y=rect.top+6;
+  const gain=G.stats.revenue;
+  floatText(x,y,'+'+fmt(gain),false);
+  if(lucky>0)setTimeout(()=>floatText(x-16,y-14,'🧧 +'+fmt(lucky),'lucky'),260);
+  $('#sellMoney').textContent='💰 '+fmt(G.money);
+  $('#sellRep').textContent='❤️ '+G.reputation;
+
+  // Cốt truyện NPC
+  if(isNamed&&c.npcDef){
+    const mem=G.npcMemory[c.npcId]||1;
+    const lineIdx=Math.min(c.npcDef.lines.length-1,Math.floor((mem-1)/2));
+    if(mem===1||mem%2===0){
+      setTimeout(()=>{
+        showModal({
+          face:c.npcDef.face,name:c.npcDef.name,role:c.npcDef.role,
+          text:`"${c.npcDef.lines[lineIdx]}"`,
+          buttons:[{label:'Tiếp tục',cls:'primary',onClick:()=>{}}]
+        });
+      },450);
+    }
   }
-  sell.customers.splice(idx, 1);
-  if(angry) G.stats.lost++;
-  setTimeout(renderQueue, 280);
+  removeCustomer(idx,false,true);
+}
+
+function removeCustomer(idx,angry,happy){
+  const c=sell.customers[idx];
+  if(!c)return;
+  if(c.el){c.el.classList.add('leaving');if(angry)c.el.style.borderColor='#ff6b6b'}
+  sell.customers.splice(idx,1);
+  if(angry)G.stats.lost++;
+  setTimeout(renderQueue,280);
 }
 
 function updateSell(dt){
-  if(!sell.running) return;
+  if(!sell.running||sell.paused)return;
+  sell.t+=dt*(7/30);
+  $('#sellTime').textContent='🕐 '+timeStr(Math.min(12,sell.t));
+  $('#sellTime').classList.toggle('warn',sell.t>=11);
 
-  // thời gian: 5h -> 12h trong ~30 giây
-  sell.t += dt * (7/30);
-  $('#sellTime').textContent = '🕐 ' + timeStr(Math.min(12, sell.t));
-  $('#sellTime').classList.toggle('warn', sell.t >= 11);
-
-  // spawn
-  sell.spawnT -= dt;
-  if(sell.spawnT <= 0){
-    const base = 1.9;
-    const decorBonus = Math.max(0.55, 1 - G.decor * 0.13);
-    sell.spawnT = rand(base*0.7, base*1.25) * decorBonus;
-    if(sell.customers.length < 6) spawnCustomer();
+  sell.spawnT-=dt;
+  if(sell.spawnT<=0){
+    const lvl=SHOP_LEVELS[G.shopLevel];
+    let spawnMod=lvl.spawn*WEATHERS[G.weather].spawn;
+    if(G.decos.sign)spawnMod*=1.10;
+    if(G.decos.lantern)spawnMod*=1.15;
+    if(G.reputation>=120)spawnMod*=1.10;
+    if(G.reputation<70)spawnMod*=0.8;
+    const base=1.9/spawnMod;
+    sell.spawnT=rand(base*0.7,base*1.25);
+    const maxC=4+(G.decos.table?2:0)+G.shopLevel;
+    if(sell.customers.length<maxC)spawnCustomer();
   }
-
-  // patience
-  for(let i = sell.customers.length-1; i >= 0; i--){
-    const c = sell.customers[i];
-    c.patience -= c.speed * dt;
-    if(c.el){
-      const bar = c.el.querySelector('.c-patience i');
-      if(bar) bar.style.width = Math.max(0, c.patience*100) + '%';
-    }
-    if(c.patience <= 0){
-      // bỏ đi
-      if(c.el){
-        const r = c.el.getBoundingClientRect();
-        floatText(r.left + r.width/2 - 30, r.top + 6, '😤 Bỏ đi', false);
-      }
-      removeCustomer(i, true);
+  for(let i=sell.customers.length-1;i>=0;i--){
+    const c=sell.customers[i];
+    c.patience-=c.speed*dt;
+    if(c.el){const bar=c.el.querySelector('.c-patience i');if(bar)bar.style.width=Math.max(0,c.patience*100)+'%'}
+    if(c.patience<=0){
+      if(c.el){const r=c.el.getBoundingClientRect();
+        floatText(r.left+r.width/2-30,r.top+6,'😤 Bỏ đi','bad')}
+      removeCustomer(i,true);
     }
   }
-
-  if(sell.t >= 12){ sell.running = false; endSell(); }
+  if(sell.t>=12){sell.running=false;endSell()}
 }
 
-/* =========================================================
-   REPORT
-   ========================================================= */
+/* ============ REPORT ============ */
 function endSell(){
-  if(sell.ended) return;
-  sell.ended = true;
-  G.phase = 'report';
+  if(sell.ended)return;
+  sell.ended=true;G.phase='report';
+  const revenue=G.stats.revenue;
+  const profit=revenue-G.stats.spent;
 
-  const revenue = G.stats.revenue + G.stats.lucky;
-  const profit = revenue - G.stats.spent;
+  let leftover=0,leftoverHTML='';
+  for(const k in GOODS){if((G.goods[k]||0)>0){leftover+=G.goods[k];
+    leftoverHTML+=`<div class="sold-item"><span>${GOODS[k].emoji} ${GOODS[k].name}</span><span>còn ${G.goods[k]}</span></div>`}}
 
-  // tồn kho
-  let leftover = 0, leftoverHTML = '';
-  for(const k in GOODS){
-    if((G.goods[k]||0) > 0){
-      leftover += G.goods[k];
-      leftoverHTML += `<div class="sold-item"><span>${GOODS[k].emoji} ${GOODS[k].name}</span><span>còn ${G.goods[k]}</span></div>`;
-    }
-  }
+  let soldHTML='';
+  for(const k in G.stats.soldCounts){const q=G.stats.soldCounts[k];if(q<=0)continue;
+    soldHTML+=`<div class="sold-item"><span>${GOODS[k].emoji} ${GOODS[k].name}</span>
+      <span>${q} × ${fmt(GOODS[k].price)} = <b style="color:#2d7a2d">${fmt(q*GOODS[k].price)}</b></span></div>`}
+  if(!soldHTML)soldHTML='<div class="sold-item" style="justify-content:center;color:#8a4018">Không bán được gì 😢</div>';
 
-  // sold list
-  let soldHTML = '';
-  let bestKey = null, bestQty = 0;
-  for(const k in G.stats.soldCounts){
-    const q = G.stats.soldCounts[k];
-    if(q <= 0) continue;
-    if(q > bestQty){ bestQty = q; bestKey = k; }
-    soldHTML += `<div class="sold-item">
-      <span>${GOODS[k].emoji} ${GOODS[k].name}</span>
-      <span>${q} × ${fmt(GOODS[k].price)} = <b style="color:#8eff8e">${fmt(q*GOODS[k].price)}</b></span>
-    </div>`;
-  }
-  if(!soldHTML) soldHTML = '<div class="sold-item" style="justify-content:center;color:#a8776a">Không bán được gì 😢</div>';
+  let rank,rankSub;
+  if(profit>=1500000){rank='🏆 TRẠNG NGUYÊN CHỢ TẾT';rankSub='Bà nở mày nở mặt cả xóm!'}
+  else if(profit>=900000){rank='🥇 THẦN TÀI BUÔN BÁN';rankSub='Phiên chợ đắt như tôm tươi!'}
+  else if(profit>=500000){rank='🥈 TAY BUÔN CÓ NGHỀ';rankSub='Bà gật gù khen cháu giỏi.'}
+  else if(profit>=200000){rank='🥉 TẠM ĐƯỢC';rankSub='Có lãi, cố thêm nhé!'}
+  else if(profit>=0){rank='😅 HÒA VỐN';rankSub='Bán được nhưng chưa ăn thua.'}
+  else{rank='💸 LỖ VỐN';rankSub='Bà cười: "Không sao, Tết mà con!"'}
 
-  // xếp hạng
-  let rank, rankSub;
-  if(profit >= 900000){ rank = '🏆 TRẠNG NGUYÊN CHỢ TẾT'; rankSub = 'Bà nở mày nở mặt với cả xóm!'; }
-  else if(profit >= 600000){ rank = '🥇 THẦN TÀI BUÔN BÁN'; rankSub = 'Phiên chợ đắt như tôm tươi!'; }
-  else if(profit >= 350000){ rank = '🥈 TAY BUÔN CÓ NGHỀ'; rankSub = 'Bà gật gù khen cháu giỏi.'; }
-  else if(profit >= 120000){ rank = '🥉 TẠM ĐƯỢC'; rankSub = 'Cũng gọi là có lãi, cố thêm nhé!'; }
-  else if(profit >= 0){ rank = '😅 HÒA VỐN'; rankSub = 'Bán được nhưng chưa ăn thua.'; }
-  else { rank = '💸 LỖ VỐN'; rankSub = 'Bà cười: "Không sao, Tết mà con!"'; }
+  const gLines=[];
+  if(profit>800000)gLines.push('👵 "Cháu bà giỏi quá! Năm sau bà giao cả sạp!"');
+  else if(profit>300000)gLines.push('👵 "Khá lắm! Bán thế này bà yên tâm rồi."');
+  else if(profit>0)gLines.push('👵 "Được rồi cháu, Tết kiếm chút là vui."');
+  else gLines.push('👵 "Thôi không sao, Tết phải vui. Năm sau làm lại!"');
+  if(G.stats.lucky>0)gLines.push(`🧧 Khách lì xì tổng ${fmt(G.stats.lucky)}`);
+  if(G.stats.wrongReturned>0)gLines.push(`💚 Trả lại tiền thừa ${G.stats.wrongReturned} lần — bà tự hào về cháu.`);
+  if(G.stats.wrongKept>0)gLines.push(`😈 Giữ tiền thừa ${G.stats.wrongKept} lần... bà nhíu mày nhẹ.`);
+  if(G.stats.bargainsWon>0)gLines.push(`💬 Mặc cả vừa lòng khách ${G.stats.bargainsWon} lần.`);
+  if(G.stats.bargainsLost>0)gLines.push(`😤 Từ chối bán ${G.stats.bargainsLost} lần.`);
+  if(leftover>0)gLines.push(`📦 Còn ${leftover} món chưa bán hết.`);
 
-  const grandmaLines = [];
-  if(profit > 600000) grandmaLines.push('👵 "Cháu bà giỏi quá! Năm sau bà giao cả sạp luôn!"');
-  else if(profit > 200000) grandmaLines.push('👵 "Khá lắm! Bán thế này bà yên tâm rồi."');
-  else if(profit > 0) grandmaLines.push('👵 "Được rồi cháu, Tết nhất kiếm được chút là vui."');
-  else grandmaLines.push('👵 "Thôi không sao, Tết là phải vui. Năm sau làm lại!"');
-  if(G.stats.lucky > 0) grandmaLines.push(`🧧 Khách lì xì tổng cộng ${fmt(G.stats.lucky)} — hên quá!`);
-  if(leftover > 0) grandmaLines.push(`📦 Còn ${leftover} món chưa bán hết, để dành ăn Tết.`);
+  // Nâng cấp cấp sạp
+  const nextLvl=SHOP_LEVELS[G.shopLevel+1];
+  const tierHTML=SHOP_LEVELS.map((l,i)=>{
+    const isCurrent=i===G.shopLevel,isNext=i===G.shopLevel+1;
+    const canBuy=isNext&&G.money>=l.cost;
+    const stat=i<=G.shopLevel?'Đang dùng':'';
+    return `<div class="shop-tier ${isCurrent?'current':''}">
+      <span class="tier-icon">${l.emoji}</span>
+      <div class="tier-info">
+        <div class="tier-name">Cấp ${i+1}: ${l.name} ${isCurrent?'⭐':''}</div>
+        <div class="tier-desc">${l.desc} · ×${l.spawn} khách, ×${l.price} giá</div>
+      </div>
+      ${i>G.shopLevel?`<button class="btn-buy" ${canBuy?'':'disabled'} data-upgrade="${i}">
+        ${fmt(l.cost)}</button>`:`<span style="color:#2d7a2d;font-weight:800;font-size:11px">${stat}</span>`}
+    </div>`}).join('');
 
-  $('#reportCard').innerHTML = `
+  const decoHTML=DECOS.map(d=>{
+    const owned=!!G.decos[d.id];
+    const canBuy=!owned&&G.money>=d.cost;
+    return `<div class="deco-card ${owned?'owned':''}">
+      <span class="deco-ic">${d.emoji}</span>
+      <div class="deco-name">${d.name}</div>
+      <div class="deco-desc">${d.desc}</div>
+      ${owned?'<div style="color:#2d7a2d;font-weight:800;font-size:11px">✓ Đã mua</div>':
+        `<div class="deco-cost">${fmt(d.cost)}</div>
+         <button class="btn-buy" style="margin-top:4px;width:100%" ${canBuy?'':'disabled'} data-deco="${d.id}">Mua</button>`}
+    </div>`}).join('');
+
+  $('#reportCard').innerHTML=`
     <h2>🧾 BÁO CÁO DOANH THU</h2>
-    <div class="report-sub">${G.shopName} · Ngày 1 Tết · 05:00 → 12:00</div>
+    <div class="report-sub">${G.shopName} · Ngày ${G.day} Tết · ${WEATHERS[G.weather].emoji} ${WEATHERS[G.weather].name}</div>
 
     <div class="stat-row"><span>💵 Tiền bán hàng</span><span class="v plus">${fmt(G.stats.revenue)}</span></div>
     <div class="stat-row"><span>🧧 Khách lì xì</span><span class="v plus">${fmt(G.stats.lucky)}</span></div>
-    <div class="stat-row"><span>🛒 Chi phí nguyên liệu</span><span class="v minus">−${fmt(G.stats.spent)}</span></div>
+    <div class="stat-row"><span>🛒 Chi phí</span><span class="v minus">−${fmt(G.stats.spent)}</span></div>
     <div class="stat-row total"><span>💰 LỢI NHUẬN</span><span class="v">${fmt(profit)}</span></div>
-    <div class="stat-row"><span>🏦 Tiền mặt còn lại</span><span class="v">${fmt(G.money)}</span></div>
-    <div class="stat-row"><span>👥 Khách phục vụ</span><span class="v">${G.stats.served} người</span></div>
-    <div class="stat-row"><span>😤 Khách bỏ đi</span><span class="v">${G.stats.lost} người</span></div>
+    <div class="stat-row"><span>🏦 Tiền mặt</span><span class="v">${fmt(G.money)}</span></div>
+    <div class="stat-row"><span>❤️ Uy tín</span><span class="v">${G.reputation}/150</span></div>
+    <div class="stat-row"><span>👥 Phục vụ</span><span class="v">${G.stats.served} khách</span></div>
+    <div class="stat-row"><span>😤 Bỏ đi</span><span class="v">${G.stats.lost} khách</span></div>
 
-    <div class="sold-list">
-      <div class="h">📊 Mặt hàng đã bán</div>
-      ${soldHTML}
-    </div>
-
-    ${leftoverHTML ? `<div class="sold-list"><div class="h">📦 Tồn kho cuối ngày</div>${leftoverHTML}</div>` : ''}
+    <div class="sold-list"><div class="h">📊 Mặt hàng đã bán</div>${soldHTML}</div>
+    ${leftoverHTML?`<div class="sold-list"><div class="h">📦 Tồn kho</div>${leftoverHTML}</div>`:''}
 
     <div class="rank">${rank}<small>${rankSub}</small></div>
+    <div class="grandma-say">${gLines.join('<br>')}</div>
 
-    <div class="grandma-say">${grandmaLines.join('<br>')}</div>
+    <div class="upgrade-section">
+      <h3>🛖 NÂNG CẤP GÁNH HÀNG</h3>
+      ${tierHTML}
+    </div>
 
-    <button class="btn-main" id="btnNextDay">🌅 SANG NGÀY MỚI</button>
+    <div class="upgrade-section">
+      <h3>🎁 TRANG TRÍ GIAN HÀNG</h3>
+      <div class="deco-grid">${decoHTML}</div>
+    </div>
+
+    <button class="btn-main" id="btnNextDay" style="margin-top:8px">🌅 SANG NGÀY MỚI</button>
   `;
 
   showScreen('screen-report');
-  $('#btnNextDay').addEventListener('click', nextDay);
+  $('#reportCard').querySelectorAll('[data-upgrade]').forEach(b=>b.addEventListener('click',()=>{
+    const i=+b.dataset.upgrade,l=SHOP_LEVELS[i];
+    if(G.money<l.cost)return;
+    G.money-=l.cost;G.shopLevel=i;G.stats.spent+=l.cost;
+    // Cập nhật label
+    $('#stallIcon1').textContent=l.emoji;
+    $('#btnNextDay').scrollIntoView({behavior:'smooth',block:'end'});
+    // Re-render report
+    const scroll=$('#screen-report').scrollTop;
+    endSell_render();
+    $('#screen-report').scrollTop=scroll;
+  }));
+  $('#reportCard').querySelectorAll('[data-deco]').forEach(b=>b.addEventListener('click',()=>{
+    const id=b.dataset.deco,d=DECOS.find(x=>x.id===id);
+    if(G.decos[id]||G.money<d.cost)return;
+    G.money-=d.cost;G.decos[id]=true;G.stats.spent+=d.cost;
+    const scroll=$('#screen-report').scrollTop;
+    endSell_render();
+    $('#screen-report').scrollTop=scroll;
+  }));
+  $('#btnNextDay').addEventListener('click',nextDay);
+}
+
+// Re-render report sau khi mua (tách riêng để giữ scroll)
+function endSell_render(){
+  sell.ended=false;
+  endSell();
 }
 
 function nextDay(){
-  // reset nhẹ, giữ tiền, tăng độ khó nhẹ
-  G.time = 12;
-  G.raw = { gaonep:0,dau:0,thit:0,la:0,lat:0,dua:0,duong:0,hanh:0,giam:0 };
-  G.goods = { banhchung_raw:0, banhchung:0, banhgiay:0, mutdua:0, duahang:0, thitdong:0 };
-  G.decor = 0;
-  G.stats = { revenue:0, spent:0, lucky:0, served:0, lost:0, soldCounts:{}, made:{} };
-  G.phase = 'prep';
+  G.day++;
+  initDay();
+  G.phase='prep';
   showScreen('screen-prep');
-  renderPrep();
-  say('👵 Bà: Ngày mới rồi, cháu ra chợ sớm nghe!');
+  updateWeatherUI();renderPrep();
+  say(pick(['👵 Bà: Ngày mới rồi, cháu ra chợ sớm nghe!',
+    '👵 Bà: Hôm nay bán đắt khách nha cháu.',
+    '🧑 Cháu sẵn sàng rồi bà ơi!']));
 }
 
-/* =========================================================
-   MAIN LOOP
-   ========================================================= */
-let lastT = performance.now();
-function gameLoop(t){
-  const dt = Math.min((t - lastT)/1000, 0.08);
-  lastT = t;
-
-  if(G.phase === 'night') updateNight(dt);
-  if(G.phase === 'sell')  updateSell(dt);
-
-  requestAnimationFrame(gameLoop);
+/* ============ MAIN LOOP ============ */
+let lastT=performance.now();
+function loop(t){
+  const dt=Math.min((t-lastT)/1000,0.08);lastT=t;
+  if(G.phase==='night')updateNight(dt);
+  if(G.phase==='sell')updateSell(dt);
+  requestAnimationFrame(loop);
 }
-requestAnimationFrame(gameLoop);
+requestAnimationFrame(loop);
 </script>
 </body>
 </html>
