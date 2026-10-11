@@ -78,6 +78,33 @@ select{font-size:16px!important}
 #ground{position:absolute;top:125px;left:0;right:0;bottom:0;transition:background .6s}
 #farm-decor{position:absolute;inset:0;pointer-events:none;z-index:1}
 #farm-decor span{position:absolute;filter:drop-shadow(0 3px 4px rgba(0,0,0,.4));user-select:none}
+
+/* ==== THEME PARTICLES ==== */
+#theme-fx{position:absolute;inset:0;pointer-events:none;z-index:2;overflow:hidden}
+.theme-particle{position:absolute;pointer-events:none;user-select:none;font-size:16px;opacity:.9}
+@keyframes pButterfly{0%,100%{transform:translate(0,0) rotate(0)}25%{transform:translate(30px,-20px) rotate(15deg)}50%{transform:translate(60px,0) rotate(-10deg)}75%{transform:translate(30px,20px) rotate(10deg)}}
+@keyframes pLeaf{0%{transform:translate(0,0) rotate(0);opacity:0}10%{opacity:1}100%{transform:translate(-80px,200px) rotate(360deg);opacity:0}}
+@keyframes pDragonfly{0%,100%{transform:translate(0,0)}50%{transform:translate(60px,-30px)}}
+@keyframes pCloud{0%{transform:translateX(-60px)}100%{transform:translateX(800px)}}
+@keyframes pSunray{0%,100%{opacity:.2;transform:scale(1)}50%{opacity:.6;transform:scale(1.15)}}
+@keyframes pMist{0%{transform:translateX(-100px);opacity:0}30%{opacity:.6}100%{transform:translateX(800px);opacity:0}}
+@keyframes pPetal{0%{transform:translate(0,0) rotate(0);opacity:0}10%{opacity:1}100%{transform:translate(-40px,300px) rotate(540deg);opacity:0}}
+@keyframes pSeagull{0%{transform:translateX(-100px) scaleX(1)}100%{transform:translateX(800px) scaleX(1)}}
+@keyframes pFirefly{0%,100%{opacity:.2;transform:translate(0,0)}25%{opacity:1;transform:translate(20px,-15px)}50%{opacity:.5;transform:translate(40px,0)}75%{opacity:1;transform:translate(20px,15px)}}
+@keyframes pSparkle{0%,100%{opacity:.2;transform:scale(.8) rotate(0)}50%{opacity:1;transform:scale(1.3) rotate(180deg)}}
+
+/* ==== HOLIDAY ==== */
+#holiday-overlay{position:absolute;inset:0;pointer-events:none;z-index:3;transition:background .8s,opacity .8s}
+#holiday-decor{position:absolute;inset:0;pointer-events:none;z-index:4;overflow:hidden}
+.holiday-lantern{position:absolute;font-size:22px;animation:lanternSwing 3s ease-in-out infinite;transform-origin:top center;filter:drop-shadow(0 3px 6px rgba(0,0,0,.4))}
+@keyframes lanternSwing{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+.holiday-petal{position:absolute;top:-20px;font-size:16px;animation:petalFall linear infinite;pointer-events:none}
+@keyframes petalFall{to{transform:translateY(750px) rotate(720deg)}}
+.holiday-star{position:absolute;font-size:12px;animation:starTwinkle 2s ease-in-out infinite}
+@keyframes starTwinkle{0%,100%{opacity:.3;transform:scale(.7)}50%{opacity:1;transform:scale(1.3)}}
+.holiday-moon{position:absolute;top:20px;right:60px;font-size:60px;filter:drop-shadow(0 0 30px #FFF59D);animation:moonFloat 4s ease-in-out infinite}
+@keyframes moonFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
 #weather-fx{position:absolute;inset:0;pointer-events:none;z-index:50;overflow:hidden}
 .raindrop{position:absolute;width:2px;height:12px;background:linear-gradient(180deg,rgba(174,214,241,0),#AED6F1);top:-20px;animation:fall linear infinite}
 @keyframes fall{to{transform:translateY(900px)}}
@@ -88,6 +115,7 @@ select{font-size:16px!important}
 #weather-overlay.rainbow{background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,193,7,.08))}
 #weather-overlay.cold{background:rgba(120,180,240,.20)}
 #weather-overlay.rain{background:rgba(80,110,140,.22)}
+#weather-overlay.hot{background:linear-gradient(180deg,rgba(255,180,60,.18),rgba(255,120,30,.10))}
 #paused-overlay{position:absolute;inset:0;background:rgba(0,0,0,.55);z-index:70;display:none;align-items:center;justify-content:center;flex-direction:column;color:#FFEB3B;font-size:22px;font-weight:bold;pointer-events:none}
 #paused-overlay.show{display:flex}
 #paused-overlay small{font-size:12px;color:#A5D6A7;margin-top:6px;font-weight:400}
@@ -111,7 +139,7 @@ select{font-size:16px!important}
 .tool-btn{padding:7px 12px;background:#37474F;color:#eceff1;border:2px solid transparent;border-radius:8px;font-size:11.5px;font-weight:600;min-height:36px;touch-action:manipulation;cursor:pointer}
 .tool-btn.active{background:#FFC107;color:#1B5E20;border-color:#FFA000}
 .tool-info{flex:1;display:flex;align-items:center;font-size:10.5px;color:#90A4AE;padding-left:6px;min-width:100px}
-#plots{position:absolute;top:160px;left:16px;right:16px;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,96px);gap:7px;z-index:3}
+#plots{position:absolute;top:160px;left:16px;right:16px;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,96px);gap:7px;z-index:5}
 .plot{border-radius:9px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid rgba(0,0,0,.45);overflow:hidden;box-shadow:inset 0 -4px 0 rgba(0,0,0,.15),0 2px 5px rgba(0,0,0,.3);position:relative;touch-action:manipulation;-webkit-user-select:none;user-select:none}
 .plot:active{transform:scale(.96)}
 .plot .plus{font-size:26px;color:rgba(255,255,255,.55);font-weight:900;pointer-events:none}
@@ -126,7 +154,8 @@ select{font-size:16px!important}
 .badge-mini.fert{border-color:#8BC34A;color:#C5E1A5}
 .badge-mini.hungry{border-color:#EF5350;color:#FFCDD2}
 .badge-mini.sick{border-color:#B71C1C;color:#FF8A80}
-.badge-mini.dog{border-color:#8D6E63;color:#D7CCC8}
+.badge-mini.thirsty{border-color:#29B6F6;color:#81D4FA;animation:thirstyPulse 1.2s ease-in-out infinite}
+@keyframes thirstyPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
 .plot.locked{background:#4E342E!important;border-color:#3E2723!important}
 .plot .lock-icon{font-size:22px;pointer-events:none}
 .plot .lock-hint{font-size:9.5px;color:#FFD54F;margin-top:3px;font-weight:700;pointer-events:none}
@@ -138,6 +167,8 @@ select{font-size:16px!important}
 .plot.ready{animation:pulse 1.2s infinite}
 @keyframes pulse{0%,100%{box-shadow:inset 0 -4px 0 rgba(0,0,0,.15),0 0 0 0 rgba(255,213,79,.85)}50%{box-shadow:inset 0 -4px 0 rgba(0,0,0,.15),0 0 0 8px rgba(255,213,79,0)}}
 .ready-tag{position:absolute;top:3px;left:50%;transform:translateX(-50%);background:#FFD54F;color:#3E2723;font-size:7.5px;font-weight:bold;padding:2px 5px;border-radius:6px;white-space:nowrap;pointer-events:none}
+.water-bar{position:absolute;bottom:14px;left:6px;right:6px;height:3px;background:rgba(0,0,0,.4);border-radius:2px;overflow:hidden}
+.water-fill{height:100%;background:linear-gradient(90deg,#29B6F6,#81D4FA);border-radius:2px}
 
 #side-panel{flex:1 1 380px;min-width:280px;display:flex;flex-direction:column;gap:6px}
 .panel{background:#263238;border-radius:10px;border:1px solid #37474F;overflow:hidden}
@@ -149,7 +180,6 @@ select{font-size:16px!important}
 .panel-body{padding:9px 11px;max-height:4000px;overflow:hidden;transition:max-height .3s ease,padding .3s ease}
 .panel.collapsed .panel-body{max-height:0;padding:0 11px}
 
-/* Feedback panel — highlight */
 #panel-feedback{border:2px solid #FFC107;background:#2a2414}
 #panel-feedback .panel-header{background:#3a2f1a;color:#FFD54F}
 #panel-feedback textarea{width:100%;min-height:80px;background:#1f1a0e;border:2px solid #5D4037;border-radius:8px;color:#FFEB3B;padding:8px;resize:vertical;font-family:inherit;outline:none}
@@ -212,6 +242,7 @@ select{font-size:16px!important}
 .sm-comp.win{color:#A5D6A7}.sm-comp.lose{color:#EF9A9A}
 .sm-slider{width:80px;flex-shrink:0}
 .sm-slider input{width:100%}
+.sm-remove{background:#B71C1C;color:#fff;border-radius:6px;padding:4px 8px;font-size:10px;min-height:26px;touch-action:manipulation;font-weight:bold}
 .online-card{background:#1f2b30;border-radius:9px;padding:8px 10px;margin-bottom:5px;border-left:4px solid #29B6F6}
 .online-card.shipping{border-left-color:#FFB300}
 .online-top{display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap}
@@ -314,7 +345,7 @@ select{font-size:16px!important}
 
 <div id="start-screen">
   <h1>🌾 NÔNG TRẠI VUI VẺ 🌾</h1>
-  <p class="subtitle">50 ô · 24h/ngày · Nhân công · Thuế · Ngân hàng · Chó canh · Ong mật</p>
+  <p class="subtitle">50 ô · 24h/ngày · Nhân công · Thuế · Ngân hàng · Chó canh · Ong mật · Lễ Tết</p>
   <div id="auth-area">
     <p class="auth-label">🔐 Đăng nhập để đồng bộ save</p>
     <div class="auth-buttons">
@@ -375,20 +406,24 @@ select{font-size:16px!important}
       </div>
       <div id="tools-bar">
         <button class="tool-btn active" data-tool="hand">✋ Tay</button>
+        <button class="tool-btn" data-tool="water">💧 Tưới nước</button>
         <button class="tool-btn" data-tool="shovel">🪏 Xẻng</button>
-        <button class="tool-btn" data-tool="spray">💨 Thuốc sâu (3×3)</button>
+        <button class="tool-btn" data-tool="spray">💨 Thuốc sâu 3×3</button>
         <div class="tool-info" id="tool-info">Bấm ô để trồng / thu hoạch / bón phân</div>
       </div>
       <div id="farm-wrap">
         <div id="farm">
           <div id="sky"></div><div id="ground"></div>
           <div id="farm-decor"></div>
+          <div id="theme-fx"></div>
           <div class="sun" id="sunEl"></div>
           <div class="cloud" style="top:26px;left:180px;width:65px;height:22px;"></div>
           <div class="cloud" style="top:55px;left:360px;width:50px;height:16px;"></div>
           <div class="cloud" style="top:16px;left:500px;width:55px;height:18px;"></div>
           <div class="barn"><div class="barn-roof"></div><div class="barn-body"></div><div class="barn-door"></div><div class="barn-window"></div></div>
           <div id="plots"></div>
+          <div id="holiday-overlay"></div>
+          <div id="holiday-decor"></div>
           <div id="weather-fx"></div>
           <div id="weather-overlay"></div>
           <div id="weather-badge"><span id="wb-emoji">☀️</span><span id="wb-name">Nắng</span><span class="wdesc" id="wb-desc"></span></div>
@@ -398,16 +433,6 @@ select{font-size:16px!important}
     </div>
 
     <div id="side-panel">
-      <!-- ⭐ GÓP Ý — đặt trên cùng ⭐ -->
-      <div class="panel" id="panel-feedback">
-        <div class="panel-header" data-panel="panel-feedback"><span>💌 Góp ý nhà phát hành</span><span class="chevron">▼</span></div>
-        <div class="panel-body">
-          <textarea id="feedback-text" placeholder="Bạn muốn góp ý gì cho nhà phát triển? (bug, ý tưởng, cân bằng game...)"></textarea>
-          <button id="feedback-send">📨 Gửi góp ý</button>
-          <div id="feedback-note">💡 Góp ý được lưu trên máy bạn. Nhấn giữ để copy sang email/chat.</div>
-        </div>
-      </div>
-
       <div class="panel collapsed" id="panel-theme">
         <div class="panel-header" data-panel="panel-theme"><span>🎨 Phông nền <span class="badge" id="theme-count">1/10</span></span><span class="chevron">▼</span></div>
         <div class="panel-body"><div id="theme-shop-list"></div></div>
@@ -428,6 +453,11 @@ select{font-size:16px!important}
             </div>
           </div>
         </div>
+      </div>
+
+      <div class="panel collapsed" id="panel-warehouse">
+        <div class="panel-header" data-panel="panel-warehouse"><span>📦 Kho hàng <span class="badge" id="wh-badge">0/80</span></span><span class="chevron">▼</span></div>
+        <div class="panel-body" id="warehouse-panel"></div>
       </div>
 
       <div class="panel collapsed" id="panel-bank">
@@ -459,12 +489,13 @@ select{font-size:16px!important}
         <div class="panel-body" id="dogs-panel"></div>
       </div>
 
-      <div class="panel collapsed" id="panel-supermarket">
+      <div class="panel" id="panel-supermarket">
         <div class="panel-header" data-panel="panel-supermarket"><span>🏪 Siêu thị <span class="badge" id="sm-sales-today">0$</span></span><span class="chevron">▼</span></div>
         <div class="panel-body">
-          <div style="font-size:9.5px;color:#90A4AE;margin-bottom:5px">🤖 Tự động chọn tối đa 10 món từ kho</div>
+          <div style="font-size:10px;color:#90A4AE;margin-bottom:5px">Kệ hàng: <span id="sm-shelf-count">0/10</span></div>
           <div class="sm-row" style="font-size:10px;color:#607D8B;font-weight:600"><span style="flex:1">Mặt hàng</span><span>Giá bạn</span><span>Đối thủ</span><span style="width:80px"></span></div>
           <div id="supermarket-list"></div>
+          <button class="sell-btn" id="sm-add-btn" style="margin-top:6px">➕ Chọn món lên kệ</button>
         </div>
       </div>
 
@@ -488,7 +519,7 @@ select{font-size:16px!important}
       </div>
 
       <div class="panel" id="panel-inv">
-        <div class="panel-header" data-panel="panel-inv"><span>🎒 Kho hàng</span><span class="chevron">▼</span></div>
+        <div class="panel-header" data-panel="panel-inv"><span>🎒 Túi đồ</span><span class="chevron">▼</span></div>
         <div class="panel-body">
           <div id="inventory-list"></div>
           <button class="sell-btn" id="sell-all-btn">🏪 Bán lẻ ở chợ (80%)</button>
@@ -503,6 +534,16 @@ select{font-size:16px!important}
       <div class="panel" id="panel-cust">
         <div class="panel-header" data-panel="panel-cust"><span>👥 Khách hàng <span class="badge" id="cust-count">0</span></span><span class="chevron">▼</span></div>
         <div class="panel-body"><div id="customer-list"></div></div>
+      </div>
+
+      <!-- ⭐ GÓP Ý — đặt dưới cùng ⭐ -->
+      <div class="panel" id="panel-feedback">
+        <div class="panel-header" data-panel="panel-feedback"><span>💌 Góp ý nhà phát hành</span><span class="chevron">▼</span></div>
+        <div class="panel-body">
+          <textarea id="feedback-text" placeholder="Bạn muốn góp ý gì cho nhà phát triển? (bug, ý tưởng, cân bằng game...)"></textarea>
+          <button id="feedback-send">📨 Gửi góp ý</button>
+          <div id="feedback-note">💡 Góp ý được lưu trên máy bạn. Nhấn giữ để copy sang email/chat.</div>
+        </div>
       </div>
     </div>
   </div>
@@ -575,7 +616,7 @@ window.Cloud = {
     try {
       const json = JSON.stringify(data);
       if (json.length > 900000) return false;
-      await setDoc(doc(db, 'saves', this.userId), { data: json, updatedAt: serverTimestamp(), version: 8, day: data.day || 1, money: data.money || 0 });
+      await setDoc(doc(db, 'saves', this.userId), { data: json, updatedAt: serverTimestamp(), version: 9, day: data.day || 1, money: data.money || 0 });
       this.lastSync = Date.now();
       return true;
     } catch (e) { return false; }
@@ -701,36 +742,67 @@ window.updateCloudHUD = state => {
 <script>
 /* ============================================================
    POINTER TAP — pointerdown + delegation + device check
-   KHÔNG dùng click / pointerup / touchend
+   GIẢM ĐỘ NHẠY:
+     - Chuột (PC): fire ngay lập tức
+     - Cảm ứng: delay 90ms — nếu scroll bắt đầu hoặc di >10px thì huỷ
    ============================================================ */
-const IS_TOUCH = (('ontouchstart' in window) || (navigator.maxTouchPoints > 0));
 const tapHandlers = new WeakMap();
+function tap(el, fn) { if (el) tapHandlers.set(el, fn); }
 
-function tap(el, fn) {
-  if (!el) return;
-  tapHandlers.set(el, fn);
+let pendingTap = null;
+let pendingTimer = null;
+let pointerStartX = 0, pointerStartY = 0;
+
+function cancelPendingTap() {
+  if (pendingTimer) { clearTimeout(pendingTimer); pendingTimer = null; }
+  pendingTap = null;
 }
 
-// Global delegation handler — pointerdown trên document
 document.addEventListener('pointerdown', (e) => {
-  // Bỏ qua chuột phải / giữa
   if (e.pointerType === 'mouse' && e.button !== 0) return;
-  // Bỏ qua khi tap vào input/textarea/select (để slider, textarea hoạt động)
   const tag = (e.target.tagName || '').toUpperCase();
   if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
 
-  // Walk up tìm phần tử có handler
+  // Ghi nhớ vị trí bắt đầu
+  pointerStartX = e.clientX; pointerStartY = e.clientY;
+
   let node = e.target;
   while (node && node !== document) {
     if (tapHandlers.has(node)) {
       const fn = tapHandlers.get(node);
       e.stopPropagation();
-      fn(e, node);
+      if (e.pointerType === 'mouse') {
+        // Chuột — fire ngay
+        fn(e, node);
+      } else {
+        // Cảm ứng — delay 90ms để chờ xem có scroll không
+        cancelPendingTap();
+        const data = { fn, node, event: e };
+        pendingTap = data;
+        pendingTimer = setTimeout(() => {
+          if (pendingTap === data) {
+            pendingTap = null;
+            pendingTimer = null;
+            fn(e, node);
+          }
+        }, 90);
+      }
       return;
     }
     node = node.parentNode;
   }
 }, { passive: true });
+
+// Huỷ pending tap nếu bắt đầu scroll
+document.addEventListener('scroll', cancelPendingTap, { passive: true, capture: true });
+
+// Huỷ nếu người dùng di chuyển ngón tay >10px
+document.addEventListener('pointermove', (e) => {
+  if (!pendingTap) return;
+  if (Math.abs(e.clientX - pointerStartX) > 10 || Math.abs(e.clientY - pointerStartY) > 10) {
+    cancelPendingTap();
+  }
+}, { passive: true, capture: true });
 
 /* ============ DATA ============ */
 const CROPS = {
@@ -770,8 +842,8 @@ const PRODUCT_PRICE = {
 };
 const WORKER_TYPES = {
   "Nông dân": { baseCost: 500,   salary: 150, skill: "harvest", emoji: "🧑‍🌾", desc: "Thu hoạch tự động" },
-  "Kỹ sư":    { baseCost: 2000,  salary: 600, skill: "plant",   emoji: "👨‍🌾", desc: "Trồng + thu hoạch" },
-  "Quản lý":  { baseCost: 5000,  salary: 1500,skill: "all",     emoji: "🧑‍💼", desc: "Toàn quyền + giao hàng" },
+  "Kỹ sư":    { baseCost: 2000,  salary: 600, skill: "plant",   emoji: "👨‍🌾", desc: "Trồng cây tự động" },
+  "Quản lý":  { baseCost: 5000,  salary: 1500,skill: "deliver", emoji: "🧑‍💼", desc: "Giao đơn + thông báo" },
   "Chăn nuôi":{ baseCost: 1200,  salary: 400, skill: "feed",    emoji: "👩‍🌾", desc: "Cho ăn + thu hoạch" }
 };
 const PERSONALITIES = ["chăm chỉ","lười biếng","nhanh nhẹn","cẩn thận","vụng về","thông minh","vui tính","trầm lặng","nóng tính","kiên nhẫn"];
@@ -795,23 +867,32 @@ function rollGene() {
   for (const k in GENES) { r -= GENES[k].weight; if (r <= 0) return k; }
   return 'normal';
 }
+
+/* ==== WEATHERS: mưa grow nhanh; nắng gắt làm cây khát nước ==== */
 const WEATHERS = {
-  sunny:   { emoji: "☀️", name: "Nắng",     growMul: 1.4,  desc: "Cây lớn +40%",          marketEffect: { veg: 0.95 } },
-  rain:    { emoji: "🌧️", name: "Mưa",      growMul: 1.15, desc: "Không cần tưới",         marketEffect: { veg: 1.25 } },
-  storm:   { emoji: "⛈️", name: "Bão",      growMul: 0.7,  desc: "Cây có thể hỏng",        marketEffect: { veg: 1.35 }, stormChance: 0.02 },
-  cold:    { emoji: "❄️", name: "Lạnh",     growMul: 0.6,  desc: "Cây ưa nóng ngừng lớn",  marketEffect: { veg: 1.30 } },
-  rainbow: { emoji: "🌈", name: "Cầu vồng", growMul: 1.2,  desc: "Tất cả giá +30%",        marketEffect: { all: 1.30 } }
+  sunny:   { emoji: "☀️", name: "Nắng gắt",  growMul: 1.15, desc: "Cây cần tưới nước!",   marketEffect: { veg: 1.05 }, hot: true },
+  rain:    { emoji: "🌧️", name: "Mưa",      growMul: 1.6,  desc: "Cây lớn cực nhanh!",   marketEffect: { veg: 1.25 } },
+  storm:   { emoji: "⛈️", name: "Bão",      growMul: 0.7,  desc: "Cây có thể hỏng",       marketEffect: { veg: 1.35 }, stormChance: 0.02 },
+  cold:    { emoji: "❄️", name: "Lạnh",     growMul: 0.6,  desc: "Cây ưa nóng ngừng lớn", marketEffect: { veg: 1.30 } },
+  rainbow: { emoji: "🌈", name: "Cầu vồng", growMul: 1.3,  desc: "Tất cả giá +30%",       marketEffect: { all: 1.30 } }
 };
 const ROW_COST = 2500;
 const VACCINE_COST = 800;
 const BUG_ENERGY = 3;
 const FERT_ENERGY = 1;
 const FEED_ENERGY = 1;
+const WATER_ENERGY = 1;
 const SPRAY_COST = 60;
 const RENAME_COST = 100000;
 const TAX_RATE = 0.10;
 const LOAN_INTEREST = 0.10;
 const LAND_RENT_PER_ROW = 30;
+
+const WAREHOUSE_TIERS = [
+  { cap: 80,  cost: 0 },
+  { cap: 150, cost: 20000 },
+  { cap: 200, cost: 50000 }
+];
 
 const ACHIEVEMENTS = [
   { id: "plant100", emoji: "🌾", name: "Nông dân chăm",  desc: "Trồng 100 cây",     target: 100, stat: "plantsTotal" },
@@ -830,47 +911,99 @@ const ACHIEVEMENTS = [
   { id: "dog5",     emoji: "🐕", name: "Trang trại an toàn", desc: "Nuôi 5 chó",    target: 5,   stat: "dogsOwned" }
 ];
 
+/* ==== THEMES: chi tiết hơn, thêm particle ==== */
 const THEMES = {
-  "Đồng lúa vàng": { price: 0, rarity: "Khởi đầu",
+  "Đồng lúa vàng": { price: 0, rarity: "Khởi đầu", particles: 'butterfly',
     sky: "linear-gradient(180deg,#87CEEB 0%,#B0E0E6 55%,#E0F4FF 100%)", ground: "linear-gradient(180deg,#C9B037 0%,#A08820 50%,#8B7015 100%)",
     slot: "#A67C52", slotBorder: "#5D4037",
-    decor: [{ emoji:"🌾",x:4,y:76,size:28 }, { emoji:"🌾",x:12,y:80,size:32 }, { emoji:"🐃",x:92,y:70,size:30 }, { emoji:"🌳",x:60,y:68,size:32 }] },
-  "Làng quê Bắc Bộ": { price: 800, rarity: "Phổ thông",
+    decor: [
+      { emoji:"🌾",x:3,y:76,size:26 }, { emoji:"🌾",x:8,y:80,size:30 }, { emoji:"🌾",x:14,y:78,size:28 },
+      { emoji:"🌾",x:20,y:82,size:26 }, { emoji:"🐃",x:88,y:70,size:32 },
+      { emoji:"🌳",x:56,y:68,size:34 }, { emoji:"🌳",x:64,y:72,size:30 },
+      { emoji:"🍚",x:30,y:74,size:22 }, { emoji:"🐓",x:72,y:82,size:22 }
+    ] },
+  "Làng quê Bắc Bộ": { price: 800, rarity: "Phổ thông", particles: 'leaf',
     sky: "linear-gradient(180deg,#B8D4E0 0%,#D5E5EC 60%,#E8EEF0 100%)", ground: "linear-gradient(180deg,#7CA84A 0%,#5E8A35 50%,#4A6F28 100%)",
     slot: "#8D6E63", slotBorder: "#4E342E",
-    decor: [{ emoji:"🎋",x:5,y:70,size:34 }, { emoji:"🏠",x:80,y:70,size:36 }, { emoji:"🌳",x:90,y:72,size:34 }, { emoji:"🐕",x:62,y:80,size:24 }] },
-  "Sông nước miền Tây": { price: 1500, rarity: "Phổ thông",
+    decor: [
+      { emoji:"🎋",x:3,y:70,size:34 }, { emoji:"🎋",x:8,y:74,size:30 },
+      { emoji:"🏠",x:78,y:70,size:38 }, { emoji:"🏠",x:88,y:74,size:30 },
+      { emoji:"🌳",x:68,y:72,size:34 }, { emoji:"🐕",x:58,y:82,size:24 },
+      { emoji:"🐖",x:22,y:82,size:26 }, { emoji:"🐔",x:38,y:84,size:22 },
+      { emoji:"🌾",x:48,y:80,size:22 }
+    ] },
+  "Sông nước miền Tây": { price: 1500, rarity: "Phổ thông", particles: 'dragonfly',
     sky: "linear-gradient(180deg,#7EC8E3 0%,#A8DCEF 55%,#D9F1F8 100%)", ground: "linear-gradient(180deg,#4BA3A3 0%,#3A8585 40%,#2D6B6B 100%)",
     slot: "#8D6E63", slotBorder: "#4E342E",
-    decor: [{ emoji:"🌴",x:6,y:66,size:36 }, { emoji:"🛶",x:55,y:74,size:28 }, { emoji:"🦆",x:80,y:84,size:22 }] },
-  "Ruộng bậc thang": { price: 3500, rarity: "Hiếm",
+    decor: [
+      { emoji:"🌴",x:4,y:66,size:38 }, { emoji:"🌴",x:12,y:70,size:34 },
+      { emoji:"🛶",x:52,y:74,size:30 }, { emoji:"🦆",x:78,y:84,size:24 },
+      { emoji:"🐟",x:88,y:80,size:22 }, { emoji:"🌺",x:24,y:80,size:22 },
+      { emoji:"🏮",x:60,y:66,size:20 }
+    ] },
+  "Ruộng bậc thang": { price: 3500, rarity: "Hiếm", particles: 'cloud',
     sky: "linear-gradient(180deg,#E6B8D0 0%,#F0D0DC 30%,#D8D5E5 70%,#B8C5DC 100%)", ground: "linear-gradient(180deg,#8BC34A 0%,#689F38 35%,#4E7D28 65%,#3A5F1F 100%)",
     slot: "#8D6E63", slotBorder: "#4E342E",
-    decor: [{ emoji:"⛰️",x:3,y:58,size:44 }, { emoji:"⛰️",x:88,y:56,size:46 }, { emoji:"🏘️",x:48,y:68,size:30 }] },
-  "Rừng dừa xanh": { price: 6000, rarity: "Hiếm",
+    decor: [
+      { emoji:"⛰️",x:2,y:56,size:50 }, { emoji:"⛰️",x:90,y:54,size:52 },
+      { emoji:"⛰️",x:20,y:58,size:34 }, { emoji:"🏘️",x:48,y:68,size:30 },
+      { emoji:"🌾",x:14,y:80,size:24 }, { emoji:"🌾",x:30,y:82,size:22 },
+      { emoji:"🐃",x:70,y:80,size:28 }
+    ] },
+  "Rừng dừa xanh": { price: 6000, rarity: "Hiếm", particles: 'sunray',
     sky: "linear-gradient(180deg,#4FC3F7 0%,#81D4FA 50%,#B3E5FC 100%)", ground: "linear-gradient(180deg,#2E7D32 0%,#1B5E20 50%,#0D3B12 100%)",
     slot: "#6D4C41", slotBorder: "#3E2723",
-    decor: [{ emoji:"🌴",x:4,y:62,size:40 }, { emoji:"🌴",x:15,y:66,size:36 }, { emoji:"🐒",x:50,y:68,size:26 }] },
-  "Núi đá Đồng Văn": { price: 12000, rarity: "Sử thi",
+    decor: [
+      { emoji:"🌴",x:3,y:60,size:42 }, { emoji:"🌴",x:12,y:64,size:38 },
+      { emoji:"🌴",x:22,y:68,size:34 }, { emoji:"🐒",x:48,y:66,size:28 },
+      { emoji:"🥥",x:36,y:82,size:22 }, { emoji:"🦜",x:60,y:64,size:26 },
+      { emoji:"🍌",x:80,y:78,size:24 }
+    ] },
+  "Núi đá Đồng Văn": { price: 12000, rarity: "Sử thi", particles: 'mist',
     sky: "linear-gradient(180deg,#5C6B85 0%,#8994A5 40%,#C5C9D4 80%,#E8E8EA 100%)", ground: "linear-gradient(180deg,#7A7A7A 0%,#5A5A5A 50%,#3E3E3E 100%)",
     slot: "#6D4C41", slotBorder: "#3E2723",
-    decor: [{ emoji:"🏔️",x:2,y:53,size:50 }, { emoji:"🏔️",x:88,y:54,size:52 }, { emoji:"🐎",x:55,y:74,size:30 }] },
-  "Cao nguyên hoa": { price: 25000, rarity: "Sử thi",
+    decor: [
+      { emoji:"🏔️",x:1,y:52,size:56 }, { emoji:"🏔️",x:86,y:50,size:58 },
+      { emoji:"🏔️",x:44,y:56,size:40 }, { emoji:"🐎",x:55,y:76,size:30 },
+      { emoji:"🌸",x:20,y:80,size:22 }, { emoji:"🌺",x:74,y:80,size:22 },
+      { emoji:"⛰️",x:32,y:60,size:32 }
+    ] },
+  "Cao nguyên hoa": { price: 25000, rarity: "Sử thi", particles: 'petal',
     sky: "linear-gradient(180deg,#87CEEB 0%,#B0E5F5 60%,#E8F5E9 100%)", ground: "linear-gradient(180deg,#A5D6A7 0%,#81C784 45%,#4CAF50 100%)",
     slot: "#8D6E63", slotBorder: "#4E342E",
-    decor: [{ emoji:"🌸",x:5,y:72,size:26 }, { emoji:"🌻",x:88,y:72,size:28 }, { emoji:"🦋",x:45,y:74,size:24 }] },
-  "Vịnh Hạ Long": { price: 50000, rarity: "Huyền thoại",
+    decor: [
+      { emoji:"🌸",x:4,y:72,size:26 }, { emoji:"🌻",x:12,y:74,size:30 },
+      { emoji:"🌷",x:90,y:72,size:28 }, { emoji:"🌹",x:82,y:76,size:26 },
+      { emoji:"🦋",x:44,y:74,size:24 }, { emoji:"🌼",x:60,y:70,size:24 },
+      { emoji:"🐝",x:72,y:66,size:22 }, { emoji:"🌸",x:30,y:78,size:22 }
+    ] },
+  "Vịnh Hạ Long": { price: 50000, rarity: "Huyền thoại", particles: 'seagull',
     sky: "linear-gradient(180deg,#FFB74D 0%,#FF8A65 35%,#FFD54F 60%,#FFF8E1 100%)", ground: "linear-gradient(180deg,#4DD0E1 0%,#26A69A 45%,#00838F 100%)",
     slot: "#8D6E63", slotBorder: "#4E342E",
-    decor: [{ emoji:"🏝️",x:2,y:60,size:42 }, { emoji:"⛵",x:48,y:68,size:32 }, { emoji:"🌅",x:40,y:36,size:48 }] },
-  "Đêm trăng quê": { price: 100000, rarity: "Huyền thoại",
+    decor: [
+      { emoji:"🏝️",x:2,y:60,size:44 }, { emoji:"🏝️",x:88,y:62,size:40 },
+      { emoji:"⛵",x:48,y:68,size:34 }, { emoji:"🌅",x:40,y:34,size:52 },
+      { emoji:"🐬",x:72,y:76,size:28 }, { emoji:"🦅",x:20,y:36,size:24 },
+      { emoji:"⛰️",x:34,y:56,size:32 }
+    ] },
+  "Đêm trăng quê": { price: 100000, rarity: "Huyền thoại", particles: 'firefly',
     sky: "linear-gradient(180deg,#0D1B2A 0%,#1B2A4A 40%,#283D5E 80%,#3A5075 100%)", ground: "linear-gradient(180deg,#1A3A2A 0%,#0F2A1E 50%,#051510 100%)",
     slot: "#3E2723", slotBorder: "#1B0F0D",
-    decor: [{ emoji:"🌙",x:78,y:12,size:50 }, { emoji:"🏮",x:10,y:68,size:28 }, { emoji:"🦉",x:22,y:64,size:24 }] },
-  "Thần Nông": { price: 250000, rarity: "Huyền thoại",
+    decor: [
+      { emoji:"🌙",x:76,y:12,size:56 }, { emoji:"⭐",x:14,y:10,size:18 },
+      { emoji:"⭐",x:38,y:16,size:14 }, { emoji:"⭐",x:60,y:8,size:20 },
+      { emoji:"🏮",x:8,y:68,size:28 }, { emoji:"🏮",x:24,y:72,size:24 },
+      { emoji:"🦉",x:48,y:62,size:26 }, { emoji:"🌾",x:86,y:80,size:26 }
+    ] },
+  "Thần Nông": { price: 250000, rarity: "Huyền thoại", particles: 'sparkle',
     sky: "linear-gradient(180deg,#FFD700 0%,#FFC107 25%,#FFE082 55%,#FFF9C4 100%)", ground: "linear-gradient(180deg,#8BC34A 0%,#558B2F 35%,#33691E 70%,#1B5E20 100%)",
     slot: "#8D6E63", slotBorder: "#3E2723",
-    decor: [{ emoji:"🐉",x:6,y:58,size:50 }, { emoji:"🐉",x:86,y:56,size:46 }, { emoji:"✨",x:40,y:28,size:28 }] }
+    decor: [
+      { emoji:"🐉",x:4,y:56,size:52 }, { emoji:"🐉",x:88,y:54,size:48 },
+      { emoji:"✨",x:40,y:26,size:30 }, { emoji:"🌾",x:18,y:80,size:32 },
+      { emoji:"🌾",x:30,y:82,size:30 }, { emoji:"🏮",x:60,y:68,size:28 },
+      { emoji:"💎",x:78,y:74,size:24 }
+    ] }
 };
 
 function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
@@ -878,17 +1011,14 @@ function randomNpcName() {
   if (Math.random() < 0.5) return `${pick(TITLES)} ${pick(HO)} ${pick(TEN)}`;
   return `${pick(TITLES)} ${pick(HO)} ${pick(DEM)} ${pick(TEN)}`;
 }
-function randomWorkerName() {
-  return `${pick(HO)} ${pick(DEM)} ${pick(TEN)}`;
-}
+function randomWorkerName() { return `${pick(HO)} ${pick(DEM)} ${pick(TEN)}`; }
 
 const COLS = 5, ROWS_PER_ZONE = 5;
 const PLOTS_PER_ZONE = COLS * ROWS_PER_ZONE;
 const TOTAL_PLOTS = PLOTS_PER_ZONE * 2;
 const FARM_W = 700, FARM_H = 680;
-// 24h/ngày — 240s real = 24h game
 const DAY_DURATION = 240;
-const SAVE_KEY = 'ntvv_save_v8';
+const SAVE_KEY = 'ntvv_save_v9';
 
 /* ============ STATE ============ */
 const G = {
@@ -909,13 +1039,13 @@ const G = {
   zone: 'crop', tool: 'hand',
   stats: { plantsTotal: 0, carrotsPlanted: 0, chickensRaised: 0, totalEarned: 0, rareOwned: 0, goldOwned: 0, closeFriends: 0, weatherSeen: 1, daysPlayed: 1, deliveries: 0, bugsCaught: 0, themesOwned: 1, dogsOwned: 0 },
   unlockedAch: [],
-  supermarket: { prices: {}, competitors: {}, salesToday: 0, activeItems: [] },
+  supermarket: { prices: {}, competitors: {}, salesToday: 0, shelved: [] },
   onlineOrders: [], onlineSeq: 0, onlineCooldown: 30,
   nextInspectionDay: 6,
-  // holiday
   holidayToday: null,
-  workerHappiness: 1, // 0..1
+  workerHappiness: 1,
   holidayBoostDays: 0,
+  warehouseCap: 80,
   phase: 'playing', userPaused: false,
   running: false, lastTime: 0, lastSave: 0, lastCloudSave: 0
 };
@@ -937,11 +1067,28 @@ function isPlotUnlocked(i) {
   return Math.floor((i - PLOTS_PER_ZONE) / COLS) < G.unlockedRowsAnimal;
 }
 function plotZoneOf(i) { return i < PLOTS_PER_ZONE ? 'crop' : 'animal'; }
+
+/* ==== WAREHOUSE ==== */
+function invStackCount() {
+  let n = 0;
+  for (const k in G.inventory) if (G.inventory[k].count > 0) n++;
+  return n;
+}
+function invHasSpace(newKey) {
+  if (G.inventory[newKey] && G.inventory[newKey].count > 0) return true;
+  return invStackCount() < G.warehouseCap;
+}
+
 function invCount(k) { return (G.inventory[k] && G.inventory[k].count) || 0; }
 function invAdd(k, n = 1, meta) {
+  if (!invHasSpace(k)) {
+    toast('📦 Kho đầy! Nâng cấp kho để chứa thêm.', 'warn');
+    return false;
+  }
   if (!G.inventory[k]) G.inventory[k] = { count: 0 };
   G.inventory[k].count += n;
   if (meta) Object.assign(G.inventory[k], meta);
+  return true;
 }
 function invSub(k, n = 1) {
   if (!G.inventory[k]) return false;
@@ -1000,11 +1147,8 @@ function addReview(name, stars, text, tier) {
   if (G.reviews.length > 30) G.reviews.pop();
   addStar(stars);
 }
-function totalGuard() {
-  let g = 0;
-  for (const d of G.dogs) g += d.guard;
-  return Math.min(100, g);
-}
+function totalGuard() { let g = 0; for (const d of G.dogs) g += d.guard; return Math.min(100, g); }
+
 function rescaleFarm() {
   const wrap = $('farm-wrap'), farm = $('farm');
   if (!wrap || !farm) return;
@@ -1016,7 +1160,6 @@ function rescaleFarm() {
 window.addEventListener('resize', rescaleFarm);
 window.addEventListener('orientationchange', () => setTimeout(rescaleFarm, 200));
 
-/* ============ 24H CLOCK ============ */
 function timeString() {
   const minutes = (G.dayTime / DAY_DURATION) * 24 * 60;
   const h = Math.floor(minutes / 60) % 24;
@@ -1046,7 +1189,7 @@ function buildThemeGrid() {
     const t = THEMES[key];
     const card = document.createElement('div');
     card.className = 'theme-card' + (key === selectedTheme ? ' active' : '');
-    card.innerHTML = `<div class="theme-preview" style="background:${t.ground}">${t.decor.slice(0,3).map(d=>`<span style="position:absolute;left:${d.x}%;top:${(d.y-50)*0.4}%;font-size:12px;transform:translate(-50%,-50%)">${d.emoji}</span>`).join('')}</div><div class="theme-name">${key}</div><div class="theme-price">${t.rarity}</div>`;
+    card.innerHTML = `<div class="theme-preview" style="background:${t.ground}">${t.decor.slice(0,4).map(d=>`<span style="position:absolute;left:${d.x}%;top:${(d.y-50)*0.4}%;font-size:12px;transform:translate(-50%,-50%)">${d.emoji}</span>`).join('')}</div><div class="theme-name">${key}</div><div class="theme-price">${t.rarity}</div>`;
     tap(card, () => {
       selectedTheme = key;
       document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active'));
@@ -1108,17 +1251,19 @@ function applyLoadedData(data) {
   if (!Array.isArray(G.dogs)) G.dogs = [];
   if (!Array.isArray(G.ownedMills)) G.ownedMills = [];
   if (typeof G.loan !== 'number') G.loan = 0;
-  if (!G.supermarket) G.supermarket = { prices: {}, competitors: {}, salesToday: 0, activeItems: [] };
+  if (!G.supermarket) G.supermarket = { prices: {}, competitors: {}, salesToday: 0, shelved: [] };
   if (!G.supermarket.prices) G.supermarket.prices = {};
   if (!G.supermarket.competitors) G.supermarket.competitors = {};
-  if (!Array.isArray(G.supermarket.activeItems)) G.supermarket.activeItems = [];
+  if (!Array.isArray(G.supermarket.shelved)) G.supermarket.shelved = [];
   if (!THEMES[G.themeKey]) G.themeKey = 'Đồng lúa vàng';
   if (typeof G.workerHappiness !== 'number') G.workerHappiness = 1;
   if (typeof G.holidayBoostDays !== 'number') G.holidayBoostDays = 0;
+  if (typeof G.warehouseCap !== 'number') G.warehouseCap = 80;
   if (Array.isArray(G.plots)) G.plots.forEach(p => {
     if (typeof p.fert !== 'boolean') p.fert = false;
-    if (typeof p.hungry !== 'boolean') p.hungry = p.kind === 'animal';
+    if (typeof p.hungry !== 'boolean') p.hungry = p.kind === 'animal' && !ANIMALS[p.name]?.noFeed;
     if (typeof p.sick !== 'boolean') p.sick = false;
+    if (typeof p.water !== 'number') p.water = 100;
   });
   G.stats.themesOwned = G.ownedThemes.length;
   G.stats.dogsOwned = G.dogs.length;
@@ -1141,7 +1286,7 @@ function resetG(name, themeKey) {
   G.adTime = 0; G.spawnCooldown = 3;
   G.plots = Array.from({ length: TOTAL_PLOTS }, () => ({
     kind: null, name: null, progress: 0, ready: false, gene: null,
-    damaged: false, pest: false, fert: false, hungry: false, sick: false
+    damaged: false, pest: false, fert: false, hungry: false, sick: false, water: 100
   }));
   G.day = 1; G.dayTime = 0; G.weather = 'sunny'; G.weatherSeen = ['sunny'];
   G.marketMul = {}; G.dailyRevenue = 0; G.dailyExpense = 0; G.dailySalary = 0; G.dailyRent = 0; G.dailyLoanInterest = 0; G.dailyTax = 0;
@@ -1152,12 +1297,13 @@ function resetG(name, themeKey) {
   G.zone = 'crop'; G.tool = 'hand';
   G.stats = { plantsTotal: 0, carrotsPlanted: 0, chickensRaised: 0, totalEarned: 0, rareOwned: 0, goldOwned: 0, closeFriends: 0, weatherSeen: 1, daysPlayed: 1, deliveries: 0, bugsCaught: 0, themesOwned: 1, dogsOwned: 0 };
   G.unlockedAch = [];
-  G.supermarket = { prices: {}, competitors: {}, salesToday: 0, activeItems: [] };
+  G.supermarket = { prices: {}, competitors: {}, salesToday: 0, shelved: [] };
   G.onlineOrders = []; G.onlineSeq = 0; G.onlineCooldown = 30;
   G.nextInspectionDay = 6;
   G.holidayToday = null;
   G.workerHappiness = 1;
   G.holidayBoostDays = 0;
+  G.warehouseCap = 80;
   G.phase = 'playing'; G.userPaused = false;
   for (const c in CROPS) if (CROPS[c].unlockCost === 0) G.unlockedCrops.push(c);
 }
@@ -1179,7 +1325,7 @@ function openGame() {
     for (const a in ANIMALS) G.supermarket.prices[ANIMALS[a].product] = 1.0;
     for (const item in PRODUCT_PRICE) G.supermarket.prices[item] = 1.0;
   }
-  buildPlots(); applyTheme(); applyWeatherVisual();
+  buildPlots(); applyTheme(); applyWeatherVisual(); applyHolidayDecor();
   rebuildPanels(); renderAll();
   requestAnimationFrame(() => { rescaleFarm(); setTimeout(rescaleFarm, 200); });
   G.running = true; G.lastTime = performance.now();
@@ -1188,7 +1334,98 @@ function openGame() {
 }
 function updateFarmTitle() { $('hud-title').textContent = `🌾 ${G.farmName}`; }
 
-/* ============ THEME ============ */
+/* ============ THEME + PARTICLES ============ */
+const THEME_PARTICLES = {
+  "Đồng lúa vàng":      { type: 'butterfly',  emoji: '🦋', count: 4,  zone: 'top' },
+  "Làng quê Bắc Bộ":    { type: 'leaf',       emoji: '🍃', count: 8,  zone: 'full' },
+  "Sông nước miền Tây": { type: 'dragonfly',  emoji: '🪰', count: 4,  zone: 'mid' },
+  "Ruộng bậc thang":    { type: 'cloud',      emoji: '☁️', count: 3,  zone: 'top' },
+  "Rừng dừa xanh":      { type: 'sunray',     emoji: '✨', count: 5,  zone: 'mid' },
+  "Núi đá Đồng Văn":    { type: 'mist',       emoji: '🌫️', count: 4,  zone: 'mid' },
+  "Cao nguyên hoa":     { type: 'petal',      emoji: '🌸', count: 10, zone: 'full' },
+  "Vịnh Hạ Long":       { type: 'seagull',    emoji: '🕊️', count: 3,  zone: 'top' },
+  "Đêm trăng quê":      { type: 'firefly',    emoji: '✨', count: 12, zone: 'mid' },
+  "Thần Nông":          { type: 'sparkle',    emoji: '⭐', count: 10, zone: 'mid' }
+};
+function applyThemeParticles() {
+  const fx = $('theme-fx');
+  if (!fx) return;
+  fx.innerHTML = '';
+  const cfg = THEME_PARTICLES[G.themeKey] || { type: 'leaf', emoji: '🍃', count: 6, zone: 'mid' };
+  for (let i = 0; i < cfg.count; i++) {
+    const el = document.createElement('span');
+    el.className = 'theme-particle';
+    el.textContent = cfg.emoji;
+    if (cfg.type === 'butterfly') {
+      el.style.left = (10 + Math.random() * 80) + '%';
+      el.style.top = (20 + Math.random() * 40) + '%';
+      el.style.animation = `pButterfly ${3 + Math.random() * 3}s ease-in-out infinite`;
+      el.style.animationDelay = (Math.random() * 3) + 's';
+      el.style.fontSize = (14 + Math.random() * 8) + 'px';
+    } else if (cfg.type === 'leaf') {
+      el.style.left = (Math.random() * 100) + '%';
+      el.style.top = '-30px';
+      el.style.animation = `pLeaf ${6 + Math.random() * 4}s linear infinite`;
+      el.style.animationDelay = (Math.random() * 6) + 's';
+      el.style.fontSize = (14 + Math.random() * 8) + 'px';
+    } else if (cfg.type === 'dragonfly') {
+      el.style.left = (20 + Math.random() * 60) + '%';
+      el.style.top = (30 + Math.random() * 30) + '%';
+      el.style.animation = `pDragonfly ${4 + Math.random() * 3}s ease-in-out infinite`;
+      el.style.animationDelay = (Math.random() * 3) + 's';
+      el.style.fontSize = (14 + Math.random() * 6) + 'px';
+    } else if (cfg.type === 'cloud') {
+      el.style.left = '-80px';
+      el.style.top = (5 + Math.random() * 30) + '%';
+      el.style.animation = `pCloud ${15 + Math.random() * 10}s linear infinite`;
+      el.style.animationDelay = (Math.random() * 10) + 's';
+      el.style.fontSize = (20 + Math.random() * 14) + 'px';
+      el.style.opacity = '0.7';
+    } else if (cfg.type === 'sunray') {
+      el.style.left = (Math.random() * 100) + '%';
+      el.style.top = (Math.random() * 100) + '%';
+      el.style.animation = `pSunray ${2 + Math.random() * 2}s ease-in-out infinite`;
+      el.style.animationDelay = (Math.random() * 3) + 's';
+      el.style.fontSize = (10 + Math.random() * 8) + 'px';
+      el.style.color = '#FFEB3B';
+    } else if (cfg.type === 'mist') {
+      el.style.left = '-80px';
+      el.style.top = (20 + Math.random() * 60) + '%';
+      el.style.animation = `pMist ${12 + Math.random() * 8}s linear infinite`;
+      el.style.animationDelay = (Math.random() * 8) + 's';
+      el.style.fontSize = (30 + Math.random() * 30) + 'px';
+      el.style.opacity = '0.3';
+    } else if (cfg.type === 'petal') {
+      el.style.left = (Math.random() * 100) + '%';
+      el.style.top = '-30px';
+      el.style.animation = `pPetal ${7 + Math.random() * 5}s linear infinite`;
+      el.style.animationDelay = (Math.random() * 7) + 's';
+      el.style.fontSize = (14 + Math.random() * 8) + 'px';
+    } else if (cfg.type === 'seagull') {
+      el.style.left = '-100px';
+      el.style.top = (10 + Math.random() * 40) + '%';
+      el.style.animation = `pSeagull ${18 + Math.random() * 10}s linear infinite`;
+      el.style.animationDelay = (Math.random() * 12) + 's';
+      el.style.fontSize = (18 + Math.random() * 8) + 'px';
+    } else if (cfg.type === 'firefly') {
+      el.style.left = (Math.random() * 100) + '%';
+      el.style.top = (20 + Math.random() * 70) + '%';
+      el.style.animation = `pFirefly ${2 + Math.random() * 3}s ease-in-out infinite`;
+      el.style.animationDelay = (Math.random() * 3) + 's';
+      el.style.fontSize = (8 + Math.random() * 6) + 'px';
+      el.style.color = '#FFEB3B';
+      el.style.textShadow = '0 0 8px #FFEB3B';
+    } else if (cfg.type === 'sparkle') {
+      el.style.left = (Math.random() * 100) + '%';
+      el.style.top = (Math.random() * 100) + '%';
+      el.style.animation = `pSparkle ${1.5 + Math.random() * 2}s ease-in-out infinite`;
+      el.style.animationDelay = (Math.random() * 2) + 's';
+      el.style.fontSize = (12 + Math.random() * 8) + 'px';
+    }
+    fx.appendChild(el);
+  }
+}
+
 function applyTheme() {
   const t = getTheme();
   $('sky').style.background = t.sky;
@@ -1210,7 +1447,86 @@ function applyTheme() {
     span.style.transform = `translate(-50%,-50%)`;
     decorEl.appendChild(span);
   }
+  applyThemeParticles();
 }
+
+/* ============ HOLIDAY DECOR ============ */
+function applyHolidayDecor() {
+  const hd = $('holiday-decor');
+  const ho = $('holiday-overlay');
+  if (!hd || !ho) return;
+  hd.innerHTML = '';
+  ho.style.background = '';
+  if (!G.holidayToday) return;
+
+  if (G.holidayToday === 'tet') {
+    // Nền đỏ + vàng ấm
+    ho.style.background = 'radial-gradient(circle at 50% 100%, rgba(255,215,0,.20), rgba(200,30,30,.18) 55%, rgba(150,10,10,.10) 100%)';
+    // Đèn lồng treo trên
+    for (let i = 0; i < 8; i++) {
+      const el = document.createElement('span');
+      el.className = 'holiday-lantern';
+      el.textContent = '🏮';
+      el.style.left = (3 + i * 13) + '%';
+      el.style.top = (12 + Math.random() * 30) + 'px';
+      el.style.animationDelay = (Math.random() * 2) + 's';
+      el.style.fontSize = (18 + Math.random() * 10) + 'px';
+      hd.appendChild(el);
+    }
+    // Hoa mai rơi
+    for (let i = 0; i < 18; i++) {
+      const el = document.createElement('span');
+      el.className = 'holiday-petal';
+      el.textContent = Math.random() < 0.5 ? '🌸' : '🏵️';
+      el.style.left = Math.random() * 100 + '%';
+      el.style.animationDuration = (8 + Math.random() * 6) + 's';
+      el.style.animationDelay = (Math.random() * 5) + 's';
+      el.style.fontSize = (12 + Math.random() * 8) + 'px';
+      hd.appendChild(el);
+    }
+    // Pháo đỏ dưới
+    const firecracker = document.createElement('span');
+    firecracker.textContent = '🧨🧨🧨';
+    firecracker.style.cssText = 'position:absolute;bottom:10px;left:50%;transform:translateX(-50%);font-size:30px;opacity:.9';
+    hd.appendChild(firecracker);
+  } else {
+    // Trung Thu — nền tím + xanh, trăng sáng
+    ho.style.background = 'radial-gradient(circle at 78% 12%, rgba(255,255,200,.35), transparent 25%), radial-gradient(circle at 50% 50%, rgba(100,100,180,.20), transparent 75%)';
+    // Mặt trăng lớn
+    const moon = document.createElement('span');
+    moon.className = 'holiday-moon';
+    moon.textContent = '🌕';
+    hd.appendChild(moon);
+    // Đèn lồng
+    for (let i = 0; i < 9; i++) {
+      const el = document.createElement('span');
+      el.className = 'holiday-lantern';
+      el.textContent = '🏮';
+      el.style.left = (2 + i * 12) + '%';
+      el.style.top = (30 + Math.random() * 60) + 'px';
+      el.style.animationDelay = (Math.random() * 2) + 's';
+      el.style.fontSize = (16 + Math.random() * 8) + 'px';
+      hd.appendChild(el);
+    }
+    // Sao nhấp nháy
+    for (let i = 0; i < 14; i++) {
+      const el = document.createElement('span');
+      el.className = 'holiday-star';
+      el.textContent = '⭐';
+      el.style.left = Math.random() * 100 + '%';
+      el.style.top = (Math.random() * 110) + 'px';
+      el.style.fontSize = (8 + Math.random() * 8) + 'px';
+      el.style.animationDelay = (Math.random() * 2) + 's';
+      hd.appendChild(el);
+    }
+    // Bánh trung thu dưới
+    const cake = document.createElement('span');
+    cake.textContent = '🥮🥮🥮';
+    cake.style.cssText = 'position:absolute;bottom:10px;left:50%;transform:translateX(-50%);font-size:28px;opacity:.9';
+    hd.appendChild(cake);
+  }
+}
+
 function applyWeatherVisual() {
   const w = WEATHERS[G.weather];
   $('wb-emoji').textContent = w.emoji;
@@ -1223,6 +1539,7 @@ function applyWeatherVisual() {
   if (G.weather === 'sunny') {
     if (night) { sky.style.background = 'linear-gradient(180deg,#0D1B2A,#1B2A4A 60%,#3A5075)'; ground.style.background = t.ground; sun.style.opacity = '0'; }
     else { sky.style.background = t.sky; ground.style.background = t.ground; sun.style.opacity = '1'; }
+    if (!night) ov.classList.add('hot');
   }
   else if (G.weather === 'rain') { sky.style.background = 'linear-gradient(180deg,#3d5a75,#89a2b5)'; ground.style.background = 'linear-gradient(180deg,#3d6028,#2f5220)'; sun.style.opacity = '0.1'; ov.classList.add('rain'); }
   else if (G.weather === 'storm') { sky.style.background = 'linear-gradient(180deg,#1c2e40,#3a4e60)'; ground.style.background = 'linear-gradient(180deg,#2a4a1e,#1e3a15)'; sun.style.opacity = '0'; ov.classList.add('storm'); }
@@ -1230,7 +1547,8 @@ function applyWeatherVisual() {
   else if (G.weather === 'rainbow') { sky.style.background = 'linear-gradient(180deg,#FFE4E1,#E6E6FA 40%,#E0FFFF)'; ground.style.background = t.ground; sun.style.opacity = '1'; ov.classList.add('rainbow'); }
   const fx = $('weather-fx'); fx.innerHTML = '';
   if (G.weather === 'rain' || G.weather === 'storm') {
-    for (let i = 0; i < 40; i++) {
+    const cnt = G.weather === 'storm' ? 60 : 40;
+    for (let i = 0; i < cnt; i++) {
       const d = document.createElement('div'); d.className = 'raindrop';
       d.style.left = Math.random() * 100 + '%';
       d.style.animationDuration = (0.5 + Math.random() * 0.4) + 's';
@@ -1373,11 +1691,11 @@ function advanceDay() {
     G.dayTime = 0;
     G.stats.daysPlayed = G.day;
 
-    // Holiday detection
+    // Holiday
     G.holidayToday = checkHolidayFor(G.day);
     if (G.holidayBoostDays > 0) G.holidayBoostDays--;
 
-    const weights = { sunny: 30, rain: 25, cold: 20, storm: 15, rainbow: 10 };
+    const weights = { sunny: 35, rain: 25, cold: 15, storm: 15, rainbow: 10 };
     let total = Object.values(weights).reduce((s, w) => s + w, 0);
     let r = Math.random() * total; let chosen = 'sunny';
     for (const k in weights) { r -= weights[k]; if (r <= 0) { chosen = k; break; } }
@@ -1389,8 +1707,10 @@ function advanceDay() {
     G.dailyDeliveries = 0; G.dailyHarvests = 0;
     G.supermarket.salesToday = 0;
     rollDailyMarket(); rollCompetitors();
-    applyWeatherVisual(); applyTheme();
+    applyWeatherVisual(); applyTheme(); applyHolidayDecor();
     G.energy = Math.min(100, G.energy + 40);
+    // Reset water cho tất cả cây khi mưa hoặc ngày mới
+    for (const p of G.plots) if (p.kind === 'crop') p.water = Math.max(p.water, 60);
 
     if (G.reviewStars.length > 20) G.reviewStars = G.reviewStars.slice(-20);
     if (G.vaccineActive && G.day - G.vaccineDay >= 5) { G.vaccineActive = false; toast('💉 Vaccine hết hiệu lực.', 'info'); }
@@ -1406,7 +1726,7 @@ function advanceDay() {
     G.phase = 'news';
     showNews();
 
-    // Event priorities: Holiday > Inspection > BirdFlu > Thief (high chance) > Random
+    // Priority: Holiday > Inspection > BirdFlu > Thief (35%) > Random
     if (G.holidayToday) {
       setTimeout(holidayEvent, 700);
     } else if (G.day >= G.nextInspectionDay && Math.random() < 0.4) {
@@ -1416,9 +1736,7 @@ function advanceDay() {
       setTimeout(birdFluEvent, 700);
       G.nextEventDay = G.day + 2;
     } else {
-      // Thief: 35% mỗi ngày
-      const thiefChance = 0.35;
-      if (Math.random() < thiefChance && G.plots.some((p, i) => isPlotUnlocked(i) && p.kind === 'animal')) {
+      if (Math.random() < 0.35 && G.plots.some((p, i) => isPlotUnlocked(i) && p.kind === 'animal')) {
         setTimeout(thiefEvent, 700);
       } else if (G.day >= G.nextEventDay && Math.random() < 0.6) {
         setTimeout(triggerRandomEvent, 700);
@@ -1440,7 +1758,6 @@ function triggerRandomEvent() {
   pick(pool)();
 }
 
-/* ============ HOLIDAY EVENTS ============ */
 function holidayEvent() {
   if (G.phase === 'news') G.phase = 'event';
   const isTet = G.holidayToday === 'tet';
@@ -1457,7 +1774,7 @@ function holidayEvent() {
     const moonAmount = 500 * n;
 
     const b1 = document.createElement('button'); b1.className = 'event-btn';
-    b1.innerHTML = `<span class="eb-icon">🧧</span><span class="eb-text">Lì xì ${n} nhân viên<br><small style="color:#A5D6A7">Nhân viên vui vẻ, tăng tốc 3 ngày</small></span><span class="eb-cost">${luckyAmount.toLocaleString()}$</span>`;
+    b1.innerHTML = `<span class="eb-icon">🧧</span><span class="eb-text">Lì xì ${n} nhân viên<br><small style="color:#A5D6A7">Vui vẻ, tăng tốc 3 ngày</small></span><span class="eb-cost">${luckyAmount.toLocaleString()}$</span>`;
     tap(b1, () => {
       if (G.money < luckyAmount) { toast('Không đủ tiền!', 'error'); return; }
       G.money -= luckyAmount; G.dailyExpense += luckyAmount;
@@ -1483,7 +1800,7 @@ function holidayEvent() {
     c.appendChild(b2);
 
     const b3 = document.createElement('button'); b3.className = 'event-btn danger';
-    b3.innerHTML = `<span class="eb-icon">😐</span><span class="eb-text">Không tặng gì<br><small style="color:#EF9A9A">30% mỗi nhân viên sẽ nghỉ việc</small></span>`;
+    b3.innerHTML = `<span class="eb-icon">😐</span><span class="eb-text">Không tặng gì<br><small style="color:#EF9A9A">30% mỗi nhân viên nghỉ việc</small></span>`;
     tap(b3, () => {
       let quit = 0;
       G.workers = G.workers.filter(w => {
@@ -1514,7 +1831,7 @@ function holidayEvent() {
     c.appendChild(b1);
 
     const b2 = document.createElement('button'); b2.className = 'event-btn';
-    b2.innerHTML = `<span class="eb-icon">🏮</span><span class="eb-text">Tổ chức rước đèn<br><small style="color:#A5D6A7">Uy tín +1, tốn ít tiền</small></span><span class="eb-cost">${(80 * n).toLocaleString()}$</span>`;
+    b2.innerHTML = `<span class="eb-icon">🏮</span><span class="eb-text">Tổ chức rước đèn<br><small style="color:#A5D6A7">Uy tín +1</small></span><span class="eb-cost">${(80 * n).toLocaleString()}$</span>`;
     tap(b2, () => {
       if (G.money < 80 * n) { toast('Không đủ tiền!', 'error'); return; }
       G.money -= 80 * n; G.dailyExpense += 80 * n;
@@ -1526,7 +1843,7 @@ function holidayEvent() {
     c.appendChild(b2);
 
     const b3 = document.createElement('button'); b3.className = 'event-btn danger';
-    b3.innerHTML = `<span class="eb-icon">😐</span><span class="eb-text">Không tặng gì<br><small style="color:#EF9A9A">20% mỗi nhân viên sẽ nghỉ</small></span>`;
+    b3.innerHTML = `<span class="eb-icon">😐</span><span class="eb-text">Không tặng gì<br><small style="color:#EF9A9A">20% mỗi nhân viên nghỉ</small></span>`;
     tap(b3, () => {
       let quit = 0;
       G.workers = G.workers.filter(w => {
@@ -1643,7 +1960,7 @@ function animalEscape() {
     if (Math.random() < 0.6) {
       G.plots[esc.i].kind = 'animal';
       G.plots[esc.i].name = animalName;
-      G.plots[esc.i].hungry = true;
+      G.plots[esc.i].hungry = !ANIMALS[animalName].noFeed;
       toast(`🎉 Bắt được ${animalName}!`, 'info');
     } else toast('😢 Không tìm thấy!', 'error');
     closeEvent(); renderAll();
@@ -1657,7 +1974,7 @@ function animalEscape() {
     if (Math.random() < 0.85) {
       G.plots[esc.i].kind = 'animal';
       G.plots[esc.i].name = animalName;
-      G.plots[esc.i].hungry = true;
+      G.plots[esc.i].hungry = !ANIMALS[animalName].noFeed;
       toast(`🎉 Bắt được ${animalName}!`, 'info');
     } else toast('😢 Không tìm thấy!', 'error');
     closeEvent(); renderAll();
@@ -1872,13 +2189,56 @@ function createWorker(type) {
 /* ============ PANELS ============ */
 function rebuildPanels() {
   buildShop(); buildUnlockList(); buildLandList(); buildVaccineList(); buildThemeShop();
-  buildWorkersPanel(); buildDogsPanel(); buildMillPanel(); buildBankPanel();
+  buildWorkersPanel(); buildDogsPanel(); buildMillPanel(); buildBankPanel(); buildWarehousePanel();
+}
+
+function buildWarehousePanel() {
+  const box = $('warehouse-panel');
+  if (!box) return;
+  box.innerHTML = '';
+  const used = invStackCount();
+  $('wh-badge').textContent = `${used}/${G.warehouseCap}`;
+
+  const info = document.createElement('div');
+  info.style.cssText = 'background:#1f2b30;padding:8px 10px;border-radius:8px;font-size:11px;margin-bottom:6px';
+  info.innerHTML = `📦 Đang dùng: <strong style="color:#FFD54F">${used}/${G.warehouseCap}</strong> ô`;
+  box.appendChild(info);
+
+  for (const tier of WAREHOUSE_TIERS) {
+    if (tier.cap === 80) continue;
+    if (G.warehouseCap >= tier.cap) {
+      const d = document.createElement('div');
+      d.className = 'inv-empty'; d.style.color = '#A5D6A7';
+      d.textContent = `✅ Đã nâng lên ${tier.cap} ô`;
+      box.appendChild(d);
+      continue;
+    }
+    // Chỉ hiện tier kế tiếp
+    const prevCap = tier.cap === 150 ? 80 : 150;
+    if (G.warehouseCap !== prevCap) continue;
+    const b = document.createElement('button');
+    b.className = 'unlock-btn';
+    b.innerHTML = `<span>📦</span><span class="unlock-name">Nâng lên ${tier.cap} ô<span class="worker-detail">Dung lượng kho</span></span><span class="unlock-cost">${tier.cost.toLocaleString()}$</span>`;
+    tap(b, () => {
+      if (G.money < tier.cost) { toast('Không đủ tiền!', 'error'); return; }
+      G.money -= tier.cost; G.dailyExpense += tier.cost;
+      G.warehouseCap = tier.cap;
+      toast(`📦 Đã nâng kho lên ${tier.cap} ô!`, 'achievement');
+      rebuildPanels(); renderAll();
+    });
+    box.appendChild(b);
+  }
+  if (G.warehouseCap >= 200) {
+    const d = document.createElement('div');
+    d.className = 'inv-empty'; d.style.color = '#A5D6A7';
+    d.textContent = '🏆 Kho đã đạt tối đa 200 ô!';
+    box.appendChild(d);
+  }
 }
 
 function buildBankPanel() {
   $('bank-badge').textContent = G.loan > 0 ? Math.round(G.loan).toLocaleString() + '$' : '0$';
   document.querySelectorAll('[data-loan]').forEach(btn => {
-    // Re-register to clear old handlers
     tap(btn, () => {
       const amt = parseInt(btn.dataset.loan, 10);
       if (!confirm(`Vay ${amt.toLocaleString()}$? Lãi 10%/ngày sẽ cộng vào nợ.`)) return;
@@ -1943,7 +2303,7 @@ function buildWorkersPanel() {
       G.money -= cfg.baseCost; G.dailyExpense += cfg.baseCost;
       const w = createWorker(type);
       G.workers.push(w);
-      toast(`🧑‍🌾 Đã thuê ${w.name} (${w.age}t, ${w.exp}/10 kinh nghiệm, ${w.personality})`, 'info');
+      toast(`🧑‍🌾 Đã thuê ${w.name} (${w.age}t, ${w.exp}/10, ${w.personality})`, 'info');
       rebuildPanels(); renderAll();
     });
     box.appendChild(b);
@@ -2091,7 +2451,7 @@ function buildThemeShop() {
       const key = btn.dataset.theme;
       if (btn.dataset.act === 'equip') {
         G.themeKey = key;
-        applyTheme(); rebuildPanels();
+        applyTheme(); applyHolidayDecor(); rebuildPanels();
         setStatus(`🎨 Đã đổi phông nền ${key}`);
       } else if (btn.dataset.act === 'buy') {
         const price = THEMES[key].price;
@@ -2101,7 +2461,7 @@ function buildThemeShop() {
         G.ownedThemes.push(key);
         G.stats.themesOwned = G.ownedThemes.length;
         G.themeKey = key;
-        applyTheme();
+        applyTheme(); applyHolidayDecor();
         toast(`🎨 Mở khoá ${key}!`, 'achievement');
         checkAchievements(); rebuildPanels(); renderAll();
       }
@@ -2224,12 +2584,13 @@ tap($('bulk-buy'), () => {
     for (let i = 0; i < q; i++) {
       const gene = rollGene();
       const k = key + '|' + gene;
+      if (!invHasSpace(k)) { toast('📦 Kho đầy! Một số con không mua được.', 'warn'); break; }
       if (!G.inventory[k]) G.inventory[k] = { count: 0, base: key, gene };
       G.inventory[k].count++;
       if (gene === 'rainbow' || gene === 'royal') G.stats.rareOwned = 1;
       if (gene === 'gold') { G.stats.rareOwned = 1; G.stats.goldOwned = 1; }
     }
-    toast(`🛒 ${q} con ${key}`, 'info');
+    toast(`🛒 Đã mua ${key}`, 'info');
   }
   $('bulk-overlay').classList.remove('show'); bulkState = null; G.userPaused = false;
   checkAchievements(); rebuildPanels(); renderAll();
@@ -2265,7 +2626,6 @@ function buildPlots() {
   plotSig = '';
 }
 
-/* === SPRAY AREA 3×3 === */
 function getSprayArea(idx) {
   const zone = plotZoneOf(idx);
   const start = zone === 'crop' ? 0 : PLOTS_PER_ZONE;
@@ -2290,7 +2650,7 @@ function renderPlots() {
   const t = getTheme();
   const start = G.zone === 'crop' ? 0 : PLOTS_PER_ZONE;
   const sig = G.plots.slice(start, start + PLOTS_PER_ZONE).map((p, i) =>
-    `${isPlotUnlocked(start + i) ? 1 : 0}${p.kind || '-'}|${p.name || '-'}|${p.ready ? 1 : 0}|${p.gene || '-'}|${p.pest ? 1 : 0}|${p.fert ? 1 : 0}|${p.hungry ? 1 : 0}|${p.sick ? 1 : 0}`
+    `${isPlotUnlocked(start + i) ? 1 : 0}${p.kind || '-'}|${p.name || '-'}|${p.ready ? 1 : 0}|${p.gene || '-'}|${p.pest ? 1 : 0}|${p.fert ? 1 : 0}|${p.hungry ? 1 : 0}|${p.sick ? 1 : 0}|${Math.floor((p.water||100)/20)}`
   ).join(',') + `|${t.slot}|${G.zone}|${G.unlockedRowsCrop}|${G.unlockedRowsAnimal}`;
   if (sig !== plotSig) {
     plotSig = sig;
@@ -2322,6 +2682,10 @@ function renderPlots() {
       if (p.sick) badges += `<span class="badge-mini sick">🤒</span>`;
       else if (p.hungry && !isCrop && !ANIMALS[p.name].noFeed) badges += `<span class="badge-mini hungry">🍽️</span>`;
       else if (p.fert) badges += `<span class="badge-mini fert">💩</span>`;
+      // Thirsty badge khi cây thiếu nước và trời nắng
+      if (isCrop && (p.water || 100) < 30 && WEATHERS[G.weather].hot) {
+        badges += `<span class="badge-mini thirsty">💧</span>`;
+      }
       html += badges;
       if (!isCrop && p.gene && p.gene !== 'normal') html += `<div class="gene-badge gene-${p.gene}">${GENES[p.gene].emoji}</div>`;
       html += `<div class="emoji">${data.emoji}</div>`;
@@ -2330,6 +2694,10 @@ function renderPlots() {
       else if (p.ready) cls = 'done';
       else if (p.fert) cls = 'fert';
       html += `<div class="progress-track"><div class="progress-fill ${cls}" style="width:${p.ready ? 100 : 0}%"></div></div>`;
+      // Water bar cho cây
+      if (isCrop && (p.water || 100) < 100) {
+        html += `<div class="water-bar"><div class="water-fill" style="width:${Math.max(0, p.water || 0)}%"></div></div>`;
+      }
       el.innerHTML = html;
     }
   }
@@ -2359,15 +2727,27 @@ function onPlotClick(i) {
   const p = G.plots[i];
   const curZone = plotZoneOf(i);
 
-  // XẺNG
+  // ==== TƯỚI NƯỚC ====
+  if (G.tool === 'water') {
+    if (p.kind !== 'crop') { toast('Chỉ tưới được cây trồng!', 'info'); return; }
+    if ((p.water || 100) >= 95) { toast('Cây này đủ nước rồi!', 'info'); return; }
+    if (G.energy < WATER_ENERGY) { toast('Không đủ năng lượng!', 'error'); return; }
+    G.energy -= WATER_ENERGY;
+    p.water = 100;
+    setStatus('💧 Đã tưới cây!');
+    toast('💧 Cây đã được tưới nước!', 'info');
+    plotSig = ''; renderAll();
+    return;
+  }
+
+  // ==== XẺNG ====
   if (G.tool === 'shovel') { if (!p.kind) { setStatus('🪏 Ô trống.'); return; } shovelPlot(i); return; }
 
-  // THUỐC SÂU — phạm vi 3×3
+  // ==== THUỐC SÂU 3×3 ====
   if (G.tool === 'spray') {
     if (invCount('Thuốc trừ sâu') <= 0) { toast('Không có thuốc trừ sâu! Mua ở Cửa hàng.', 'error'); return; }
     const area = getSprayArea(i);
-    let killed = 0;
-    let eligible = 0;
+    let killed = 0, eligible = 0;
     for (const gi of area) {
       const gp = G.plots[gi];
       if (gp.kind && gp.pest) eligible++;
@@ -2379,19 +2759,18 @@ function onPlotClick(i) {
       if (gp.pest) {
         gp.pest = false;
         killed++;
-        // visual pulse
         const visIdx = gi - (G.zone === 'crop' ? 0 : PLOTS_PER_ZONE);
         const el = $('plots').children[visIdx];
         if (el) { el.classList.add('spray-target'); setTimeout(() => el.classList.remove('spray-target'), 500); }
       }
     }
     setStatus(`💨 Xịt 3×3 — diệt ${killed} con sâu!`);
-    toast(`💨 Đã diệt ${killed} con sâu (3×3)!`, 'info');
+    toast(`💨 Đã diệt ${killed} con sâu!`, 'info');
     plotSig = ''; renderAll();
     return;
   }
 
-  // SÂU — bắt tay
+  // ==== SÂU — bắt tay ====
   if (p.pest) {
     if (G.energy < BUG_ENERGY) { toast('Không đủ năng lượng!', 'error'); return; }
     G.energy -= BUG_ENERGY;
@@ -2417,7 +2796,6 @@ function onPlotClick(i) {
     }
     return;
   }
-  // Cho ăn — Ong mật không cần ăn
   if (p.kind === 'animal' && p.hungry && !ANIMALS[p.name].noFeed) {
     if (invCount('Cám') <= 0) { toast('Không có cám! Mua máy nghiền ngô về chế biến.', 'error'); return; }
     if (G.energy < FEED_ENERGY) { toast('Không đủ năng lượng!', 'error'); return; }
@@ -2435,6 +2813,7 @@ function onPlotClick(i) {
     renderAll();
     return;
   }
+  // Bón phân
   if (p.kind === 'crop' && !p.fert) {
     if (invCount('Phân') > 0) {
       if (confirm(`Bón phân (💩) để cây lớn nhanh ×2?`)) {
@@ -2452,7 +2831,7 @@ function onPlotClick(i) {
   }
   const data = p.kind === 'crop' ? CROPS[p.name] : ANIMALS[p.name];
   const total = p.kind === 'crop' ? data.grow : data.time;
-  setStatus(`${p.kind === 'crop' ? '🌱' : '🐾'} ${p.name} (${p.progress.toFixed(1)}/${total}s)`);
+  setStatus(`${p.kind === 'crop' ? '🌱' : '🐾'} ${p.name} (${p.progress.toFixed(1)}/${total}s, nước ${Math.round(p.water||0)}%)`);
 }
 function shovelPlot(i) {
   const p = G.plots[i];
@@ -2465,7 +2844,7 @@ function shovelPlot(i) {
     setStatus(`🪏 Dời ${p.name} về kho.`);
   }
   p.kind = p.name = null; p.progress = 0; p.ready = false; p.gene = null;
-  p.damaged = false; p.pest = false; p.fert = false; p.hungry = false; p.sick = false;
+  p.damaged = false; p.pest = false; p.fert = false; p.hungry = false; p.sick = false; p.water = 100;
   plotSig = ''; renderAll();
 }
 function harvestPlot(i) {
@@ -2475,7 +2854,7 @@ function harvestPlot(i) {
     invAdd(p.name, 1);
     G.dailyHarvests++;
     setStatus(`🌾 Thu hoạch 1 ${p.name}!`);
-    p.kind = p.name = null; p.progress = 0; p.ready = false; p.fert = false;
+    p.kind = p.name = null; p.progress = 0; p.ready = false; p.fert = false; p.water = 100;
   } else {
     const prod = ANIMALS[p.name].product;
     const gene = p.gene || 'normal';
@@ -2542,7 +2921,7 @@ function plantCrop(i, name) {
   invSub(key, 1);
   const p = G.plots[i];
   p.kind = 'crop'; p.name = name; p.progress = 0; p.ready = false; p.gene = null;
-  p.pest = false; p.fert = false;
+  p.pest = false; p.fert = false; p.water = 100;
   G.stats.plantsTotal++;
   if (name === 'Cà rốt') G.stats.carrotsPlanted++;
   setStatus(`🌱 Trồng ${name}!`);
@@ -2591,36 +2970,23 @@ tap($('sell-all-btn'), () => {
   checkAchievements(); renderAll();
 });
 
-/* ============ SUPERMARKET — TỰ CHỌN TỐI ĐA 10 MÓN ============ */
+/* ============ SUPERMARKET — THỦ CÔNG ============ */
 function pickSupermarketItems() {
-  const pool = [];
-  for (const c in CROPS) pool.push(c);
-  for (const a in ANIMALS) pool.push(ANIMALS[a].product);
-  for (const p in PRODUCT_PRICE) pool.push(p);
-  // Unique
-  const unique = [...new Set(pool)];
   const COMMON = ['Cà rốt', 'Cà chua', 'Trứng', 'Gạo', 'Cám'];
-  const scored = unique.map(name => {
+  const shelved = G.supermarket.shelved || [];
+  return shelved.map(name => {
     const stock = invCount(name);
     const price = itemBasePrice(name);
     const isCommon = COMMON.includes(name);
-    // Ưu tiên: có stock × giá cao; món phổ biến cộng điểm nhẹ
-    const score = stock * price + (isCommon ? 5 : 0);
-    return { name, stock, price, isCommon, score };
+    return { name, stock, price, isCommon };
   });
-  // Sắp xếp: có stock trước, score cao trước
-  scored.sort((a, b) => {
-    if ((a.stock > 0) !== (b.stock > 0)) return (b.stock > 0 ? 1 : -1);
-    return b.score - a.score;
-  });
-  return scored.slice(0, 10);
 }
 
 function renderSupermarket() {
   const box = $('supermarket-list');
   box.innerHTML = '';
   const items = pickSupermarketItems();
-  G.supermarket.activeItems = items.map(it => it.name);
+  $('sm-shelf-count').textContent = `${items.length}/10`;
   for (const item of items) {
     const it = item.name;
     const baseP = itemBasePrice(it);
@@ -2632,7 +2998,7 @@ function renderSupermarket() {
     const row = document.createElement('div');
     row.className = 'sm-row';
     const stockBadge = item.stock > 0 ? `<span style="color:#A5D6A7;font-size:9px;margin-left:4px">×${item.stock}</span>` : `<span style="color:#EF9A9A;font-size:9px;margin-left:4px">hết</span>`;
-    row.innerHTML = `<span class="sm-item">${it}${stockBadge}</span><span class="sm-price">${myPrice}$</span><span class="sm-comp ${winning ? 'win' : 'lose'}">${compPrice}$</span><div class="sm-slider"><input type="range" min="50" max="150" value="${Math.round(myMul * 100)}"></div>`;
+    row.innerHTML = `<span class="sm-item">${it}${stockBadge}</span><span class="sm-price">${myPrice}$</span><span class="sm-comp ${winning ? 'win' : 'lose'}">${compPrice}$</span><button class="sm-remove" data-item="${it}">✕</button><div class="sm-slider"><input type="range" min="50" max="150" value="${Math.round(myMul * 100)}"></div>`;
     const slider = row.querySelector('input');
     slider.addEventListener('input', () => {
       G.supermarket.prices[it] = parseInt(slider.value, 10) / 100;
@@ -2643,13 +3009,72 @@ function renderSupermarket() {
       comp.classList.toggle('win', nowWin);
       comp.classList.toggle('lose', !nowWin);
     });
+    const rmBtn = row.querySelector('.sm-remove');
+    tap(rmBtn, () => {
+      G.supermarket.shelved = G.supermarket.shelved.filter(x => x !== it);
+      renderSupermarket();
+    });
     box.appendChild(row);
   }
-  if (!box.children.length) box.innerHTML = `<div class="inv-empty" style="padding:6px 0;text-align:center">Chưa có hàng để bán sỉ.</div>`;
+  if (!box.children.length) box.innerHTML = `<div class="inv-empty" style="padding:6px 0;text-align:center">Kệ trống. Bấm "Chọn món lên kệ".</div>`;
   $('sm-sales-today').textContent = Math.round(G.supermarket.salesToday) + '$';
 }
+
+/* Modal chọn món lên kệ */
+tap($('sm-add-btn'), () => {
+  G.userPaused = true;
+  const body = $('modal-body'); body.innerHTML = '';
+  const title = document.createElement('div');
+  title.style.cssText = 'font-size:11px;color:#90A4AE;margin-bottom:8px';
+  title.textContent = `Chọn tối đa 10 món (hiện có ${G.supermarket.shelved.length})`;
+  body.appendChild(title);
+
+  // Gom tất cả món có thể bán
+  const allItems = new Set();
+  for (const k in G.inventory) {
+    const it = G.inventory[k];
+    if (it.base || k.startsWith('Hạt ') || k === 'Thuốc trừ sâu') continue;
+    if (PRODUCT_PRICE[k] || CROPS[k] || Object.values(ANIMALS).some(a => a.product === k)) allItems.add(k);
+  }
+  for (const c in CROPS) allItems.add(c);
+  for (const a in ANIMALS) allItems.add(ANIMALS[a].product);
+  for (const p in PRODUCT_PRICE) allItems.add(p);
+
+  const sorted = [...allItems].sort((a, b) => {
+    const sa = invCount(a), sb = invCount(b);
+    if ((sa > 0) !== (sb > 0)) return sb - sa;
+    return sb - sa;
+  });
+
+  for (const it of sorted) {
+    const onShelf = G.supermarket.shelved.includes(it);
+    const stock = invCount(it);
+    const b = document.createElement('button');
+    b.className = 'modal-option';
+    b.style.background = onShelf ? '#2E7D32' : '#37474F';
+    b.innerHTML = `<span>${onShelf ? '✓ ' : ''}${it}</span><span class="count">có ${stock}</span>`;
+    tap(b, () => {
+      const idx = G.supermarket.shelved.indexOf(it);
+      if (idx >= 0) {
+        G.supermarket.shelved.splice(idx, 1);
+        b.style.background = '#37474F';
+        b.innerHTML = `<span>${it}</span><span class="count">có ${stock}</span>`;
+      } else {
+        if (G.supermarket.shelved.length >= 10) { toast('Kệ đã đầy 10 món!', 'warn'); return; }
+        G.supermarket.shelved.push(it);
+        b.style.background = '#2E7D32';
+        b.innerHTML = `<span>✓ ${it}</span><span class="count">có ${stock}</span>`;
+      }
+      title.textContent = `Chọn tối đa 10 món (hiện có ${G.supermarket.shelved.length})`;
+      renderSupermarket();
+    });
+    body.appendChild(b);
+  }
+  $('modal-overlay').classList.add('show');
+});
+
 function trySupermarketSale(dt) {
-  for (const k of (G.supermarket.activeItems || [])) {
+  for (const k of (G.supermarket.shelved || [])) {
     const it = G.inventory[k];
     if (!it || it.count <= 0) continue;
     if (it.base || k.startsWith('Hạt ') || k === 'Thuốc trừ sâu') continue;
@@ -2787,11 +3212,11 @@ function performDeliver(cu) {
   addReview(cu.name, stars, text, cu.tier);
 }
 function partialDeliver(cu) {
-  const delivered = {}; let deliveredValue = 0; let totalValue = 0;
+  let deliveredValue = 0, totalValue = 0;
   for (const it in cu.order) {
     totalValue += cu.order[it];
     const have = Math.min(invCount(it), cu.order[it]);
-    if (have > 0) { delivered[it] = have; deliveredValue += have; invSub(it, have); }
+    if (have > 0) { deliveredValue += have; invSub(it, have); }
   }
   if (deliveredValue === 0) { toast('Không có hàng!', 'error'); return; }
   const ratio = deliveredValue / totalValue;
@@ -2943,7 +3368,6 @@ function renderHUD() {
   const adEl = $('hud-ad');
   if (G.adTime > 0) { adEl.textContent = `📢 ${Math.ceil(G.adTime)}s`; adEl.classList.remove('inactive'); }
   else { adEl.textContent = '📢 QC'; adEl.classList.add('inactive'); }
-  // Holiday badge
   const holEl = $('hud-holiday');
   if (G.holidayToday) {
     holEl.style.display = 'inline-flex';
@@ -2953,7 +3377,7 @@ function renderHUD() {
 function renderAll() {
   renderPlots(); renderInventory(); renderCustomers();
   renderReviews(); renderAchievements(); renderHUD();
-  renderSupermarket(); renderOnlineOrders();
+  renderSupermarket(); renderOnlineOrders(); buildWarehousePanel();
 }
 
 /* ============ GAME LOOP ============ */
@@ -2973,8 +3397,7 @@ function gameLoop(now) {
 
   const w = WEATHERS[G.weather];
   const night = isNight();
-  // Holiday: cây vẫn lớn bình thường, chỉ nhân viên nghỉ
-  // Worker speed multiplier khi có holiday boost
+  const isHot = !!w.hot;
   const boost = G.holidayBoostDays > 0 ? (1 + G.workerHappiness * 0.5) : 1;
 
   for (let i = 0; i < G.plots.length; i++) {
@@ -2992,6 +3415,23 @@ function gameLoop(now) {
     if (p.fert) mul *= 2;
     if (p.pest) mul *= 0.3;
     if (night) mul *= 0.7;
+
+    // ==== HỆ THỐNG NƯỚC ====
+    if (isCrop) {
+      if (p.water === undefined) p.water = 100;
+      if (isHot) {
+        p.water = Math.max(0, p.water - 2.5 * dt);
+      } else if (G.weather === 'rain' || G.weather === 'storm') {
+        p.water = 100;
+      } else if (G.weather === 'cold') {
+        p.water = Math.max(0, p.water - 0.3 * dt);
+      } else {
+        // rainbow - bình thường
+        p.water = Math.max(0, p.water - 0.8 * dt);
+      }
+      if (p.water < 30) mul *= 0.3;
+    }
+
     if (G.weather === 'storm' && !p.damaged && isCrop && Math.random() < (w.stormChance || 0) * dt) {
       p.damaged = true; p.kind = p.name = null; p.progress = 0; p.ready = false;
       p.gene = null; p.pest = false; p.fert = false;
@@ -3006,20 +3446,23 @@ function gameLoop(now) {
   if (G.adTime > 0) G.adTime = Math.max(0, G.adTime - dt);
   G.energy = Math.min(100, G.energy + dt * 1.5);
 
-  // Workers — nghỉ vào ngày lễ
+  // Workers — nghỉ lễ
   const holiday = isHolidayToday();
   for (const wrk of G.workers) {
-    if (holiday) continue; // Nghỉ lễ
+    if (holiday) continue;
     wrk.timer -= dt;
     if (wrk.timer <= 0) {
       const cfg = WORKER_TYPES[wrk.type];
       wrk.timer = wrk.interval / boost;
-      if (cfg.skill === 'harvest' || cfg.skill === 'plant' || cfg.skill === 'all' || cfg.skill === 'feed') {
+
+      // Nông dân / Kỹ sư / Chăn nuôi — thu hoạch
+      if (cfg.skill === 'harvest' || cfg.skill === 'plant' || cfg.skill === 'feed') {
         for (let i = 0; i < G.plots.length; i++) {
           if (isPlotUnlocked(i) && G.plots[i].ready && !G.plots[i].pest && !G.plots[i].hungry) { harvestPlot(i); break; }
         }
       }
-      if (cfg.skill === 'feed' || cfg.skill === 'all') {
+      // Chăn nuôi — cho ăn
+      if (cfg.skill === 'feed') {
         for (let i = 0; i < G.plots.length; i++) {
           if (!isPlotUnlocked(i)) continue;
           const p = G.plots[i];
@@ -3030,7 +3473,8 @@ function gameLoop(now) {
           }
         }
       }
-      if (cfg.skill === 'plant' || cfg.skill === 'all') {
+      // Kỹ sư — trồng
+      if (cfg.skill === 'plant') {
         for (let i = 0; i < G.plots.length; i++) {
           if (!isPlotUnlocked(i)) continue;
           const p = G.plots[i];
@@ -3040,7 +3484,7 @@ function gameLoop(now) {
             if (!G.unlockedCrops.includes(crop)) continue;
             if (invCount('Hạt ' + crop) > 0) {
               invSub('Hạt ' + crop, 1);
-              p.kind = 'crop'; p.name = crop; p.progress = 0; p.ready = false; p.pest = false; p.fert = false;
+              p.kind = 'crop'; p.name = crop; p.progress = 0; p.ready = false; p.pest = false; p.fert = false; p.water = 100;
               G.stats.plantsTotal++;
               if (crop === 'Cà rốt') G.stats.carrotsPlanted++;
               break;
@@ -3049,13 +3493,17 @@ function gameLoop(now) {
           plotSig = ''; break;
         }
       }
-      if (cfg.skill === 'all') {
+      // ===== QUẢN LÝ — CHỈ GIAO HÀNG + THÔNG BÁO =====
+      if (cfg.skill === 'deliver') {
         for (let i = G.customers.length - 1; i >= 0; i--) {
           const cu = G.customers[i];
           if (canDeliver(cu)) {
+            const reward = cu.reward;
+            const cname = cu.name;
             performDeliver(cu);
-            toast(`🧑‍🌾 ${wrk.name} giao đơn ${cu.reward}$`, 'info');
             G.customers.splice(i, 1); lastCustSig = '';
+            toast(`🧑‍💼 ${wrk.name} giao đơn ${cname}: +${reward}$`, 'info');
+            break; // mỗi nhịp chỉ giao 1 đơn
           }
         }
       }
@@ -3166,7 +3614,7 @@ document.querySelectorAll('.zone-tab').forEach(tab => {
     document.querySelectorAll('.zone-tab').forEach(t => t.classList.remove('active'));
     tab.classList.add('active');
     G.zone = tab.dataset.zone;
-    buildPlots(); applyTheme(); renderAll();
+    buildPlots(); applyTheme(); applyHolidayDecor(); renderAll();
   });
 });
 document.querySelectorAll('.tool-btn[data-tool]').forEach(btn => {
@@ -3176,6 +3624,7 @@ document.querySelectorAll('.tool-btn[data-tool]').forEach(btn => {
     G.tool = btn.dataset.tool;
     const msgs = {
       hand: 'Bấm ô để trồng / thu hoạch / bón phân',
+      water: '💧 Bấm ô cây để tưới nước',
       shovel: '🪏 Bấm ô để xoá',
       spray: '💨 Bấm ô có sâu — xịt cả vùng 3×3!'
     };
@@ -3202,8 +3651,6 @@ tap($('feedback-send'), () => {
   } catch (e) {}
   $('feedback-text').value = '';
   toast('📨 Cảm ơn góp ý của bạn!', 'achievement');
-  // Có thể mở mailto để gửi trực tiếp (tuỳ chọn)
-  // window.location.href = 'mailto:nha.phat.hanh@example.com?subject=Gop y Nong Trai&body=' + encodeURIComponent(txt);
 });
 
 window.addEventListener('beforeunload', () => { saveGame(); });
