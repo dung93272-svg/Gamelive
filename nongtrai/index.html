@@ -5,343 +5,273 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🌾 Nông Trại Vui Vẻ 🌾</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { background: #10161a; color: #eceff1; font-family: 'Segoe UI', Tahoma, sans-serif; min-height: 100vh; }
-  body { padding: 10px; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #10161a; color: #eceff1; font-family: 'Segoe UI', Tahoma, sans-serif; min-height: 100vh; }
+body { padding: 10px; }
 
-  #start-screen {
-    background: linear-gradient(160deg, #1B5E20, #0d3b12);
-    border-radius: 20px; padding: 36px 24px; max-width: 640px; width: 100%;
-    margin: 24px auto; text-align: center;
-    box-shadow: 0 20px 60px rgba(0,0,0,.6); border: 2px solid #2E7D32;
-  }
-  #start-screen h1 { font-size: clamp(24px, 5vw, 40px); color: #FFEB3B; margin-bottom: 8px; }
-  .subtitle { color: #C8E6C9; font-size: 14px; margin-bottom: 26px; }
-  .field-label { font-size: 13px; color: #fff; margin-bottom: 10px; display: block; }
-  #farm-name-input {
-    font-size: 18px; padding: 11px 16px; width: 100%; max-width: 300px;
-    text-align: center; border-radius: 10px; border: 2px solid #4CAF50;
-    background: #0d2b10; color: #FFEB3B; outline: none; font-weight: bold;
-  }
-  .theme-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; margin: 14px 0 24px; }
-  .theme-card { border-radius: 12px; padding: 8px; cursor: pointer; border: 3px solid transparent; transition: transform .15s, border-color .15s; text-align: center; }
-  .theme-card:hover { transform: translateY(-3px); }
-  .theme-card.active { border-color: #FFC107; }
-  .theme-preview { height: 42px; border-radius: 8px; margin-bottom: 6px; }
-  .theme-name { font-size: 11px; color: #fff; font-weight: 600; }
-  .btn-primary {
-    background: #FFC107; color: #1B5E20; font-size: 18px; font-weight: bold;
-    padding: 13px 46px; border: none; border-radius: 12px; cursor: pointer;
-    box-shadow: 0 5px 0 #c79100;
-  }
-  .btn-primary:active { transform: translateY(3px); box-shadow: 0 2px 0 #c79100; }
-  .hint { margin-top: 18px; color: #A5D6A7; font-size: 12px; }
+/* START */
+#start-screen { background: linear-gradient(160deg, #1B5E20, #0d3b12); border-radius: 20px; padding: 36px 24px; max-width: 640px; width: 100%; margin: 24px auto; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,.6); border: 2px solid #2E7D32; }
+#start-screen h1 { font-size: clamp(24px, 5vw, 40px); color: #FFEB3B; margin-bottom: 8px; }
+.subtitle { color: #C8E6C9; font-size: 14px; margin-bottom: 20px; }
+.field-label { font-size: 13px; color: #fff; margin-bottom: 10px; display: block; }
+#farm-name-input { font-size: 18px; padding: 11px 16px; width: 100%; max-width: 300px; text-align: center; border-radius: 10px; border: 2px solid #4CAF50; background: #0d2b10; color: #FFEB3B; outline: none; font-weight: bold; }
+.theme-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; margin: 14px 0 20px; }
+.theme-card { border-radius: 12px; padding: 8px; cursor: pointer; border: 3px solid transparent; text-align: center; }
+.theme-card.active { border-color: #FFC107; }
+.theme-preview { height: 42px; border-radius: 8px; margin-bottom: 6px; }
+.theme-name { font-size: 11px; color: #fff; font-weight: 600; }
+.btn-primary { background: #FFC107; color: #1B5E20; font-size: 18px; font-weight: bold; padding: 13px 46px; border: none; border-radius: 12px; cursor: pointer; box-shadow: 0 5px 0 #c79100; }
+.btn-primary:active { transform: translateY(3px); box-shadow: 0 2px 0 #c79100; }
+.hint { margin-top: 16px; color: #A5D6A7; font-size: 12px; }
+#resume-btn { background: #4CAF50; color: #fff; margin-top: 12px; padding: 10px 30px; border: none; border-radius: 10px; font-size: 14px; cursor: pointer; display: none; }
 
-  #game-screen {
-    display: none; width: 100%; max-width: 1240px; margin: 0 auto;
-    background: #182228; border-radius: 16px; overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0,0,0,.7); border: 2px solid #263238;
-  }
-  #hud {
-    background: linear-gradient(90deg, #2E7D32, #1B5E20);
-    padding: 8px 12px; display: flex; align-items: center; gap: 8px;
-    flex-wrap: wrap; border-bottom: 3px solid #0d3b12;
-  }
-  #hud .farm-title { font-size: 14px; font-weight: bold; color: #FFF9C4; }
-  .stat { font-size: 11.5px; font-weight: 600; background: rgba(0,0,0,.28); padding: 4px 10px; border-radius: 18px; white-space: nowrap; }
-  .stat.money { color: #FFD54F; }
-  .stat.scale { color: #B3E5FC; }
-  .stat.rep   { color: #F8BBD0; }
-  .stat.ad    { color: #FFAB91; }
-  .stat.energy { color: #FFE082; }
-  .stat.weather { color: #FFCCBC; }
-  .stat.day { color: #B39DDB; }
-  .stat.ach { color: #FFD54F; }
-  .stat.ad.inactive { opacity: .45; }
-  .spacer { flex: 1; }
+/* GAME */
+#game-screen { display: none; width: 100%; max-width: 1320px; margin: 0 auto; background: #182228; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.7); border: 2px solid #263238; }
+#hud { background: linear-gradient(90deg, #2E7D32, #1B5E20); padding: 8px 12px; display: flex; align-items: center; gap: 7px; flex-wrap: wrap; border-bottom: 3px solid #0d3b12; }
+#hud .farm-title { font-size: 14px; font-weight: bold; color: #FFF9C4; }
+.stat { font-size: 11px; font-weight: 600; background: rgba(0,0,0,.28); padding: 4px 9px; border-radius: 16px; white-space: nowrap; }
+.stat.money { color: #FFD54F; }
+.stat.scale { color: #B3E5FC; }
+.stat.rep { color: #F8BBD0; }
+.stat.energy { color: #FFE082; }
+.stat.weather { color: #FFCCBC; }
+.stat.day { color: #B39DDB; }
+.stat.ach { color: #FFD54F; }
+.stat.ad { color: #FFAB91; }
+.stat.ad.inactive { opacity: .45; }
+.spacer { flex: 1; }
 
-  #main { display: flex; flex-wrap: wrap; gap: 12px; padding: 12px; align-items: flex-start; }
-  #farm-area { flex: 1 1 700px; min-width: 0; max-width: 100%; }
+#main { display: flex; flex-wrap: wrap; gap: 12px; padding: 12px; align-items: flex-start; }
+#farm-area { flex: 1 1 720px; min-width: 0; max-width: 100%; }
 
-  #farm-wrap {
-    position: relative; width: 100%; max-width: 700px; margin: 0 auto;
-    border-radius: 12px; overflow: hidden; border: 3px solid #37474F; background: #7CB342;
-  }
-  #farm { position: relative; width: 700px; height: 760px; transform-origin: top left; overflow: hidden; }
-  #sky    { position: absolute; top: 0; left: 0; right: 0; height: 158px; background: #8ECAE6; transition: background .6s; }
-  #ground { position: absolute; top: 158px; left: 0; right: 0; bottom: 0; background: #7CB342; transition: background .6s; }
+#farm-wrap { position: relative; width: 100%; max-width: 720px; margin: 0 auto; border-radius: 12px; overflow: hidden; border: 3px solid #37474F; background: #7CB342; }
+#farm { position: relative; width: 720px; height: 700px; transform-origin: top left; overflow: hidden; }
+#sky { position: absolute; top: 0; left: 0; right: 0; height: 130px; background: #8ECAE6; transition: background .6s; }
+#ground { position: absolute; top: 130px; left: 0; right: 0; bottom: 0; background: #7CB342; transition: background .6s; }
 
-  /* Weather overlay */
-  #weather-fx {
-    position: absolute; inset: 0; pointer-events: none; z-index: 50; overflow: hidden;
-  }
-  .raindrop {
-    position: absolute; width: 2px; height: 14px;
-    background: linear-gradient(180deg, rgba(174,214,241,0), #AED6F1);
-    top: -20px; animation: fall linear infinite;
-  }
-  @keyframes fall { to { transform: translateY(800px); } }
-  .snow {
-    position: absolute; width: 6px; height: 6px;
-    background: #fff; border-radius: 50%; opacity: .85;
-    top: -10px; animation: snowfall linear infinite;
-  }
-  @keyframes snowfall {
-    to { transform: translateY(800px) translateX(30px); }
-  }
-  #weather-overlay {
-    position: absolute; inset: 0; pointer-events: none; z-index: 51;
-    transition: background .6s;
-  }
-  /* Storm: dark */
-  #weather-overlay.storm { background: rgba(20,25,40,.55); }
-  /* Rainbow: tint */
-  #weather-overlay.rainbow { background: linear-gradient(180deg, rgba(255,255,255,.15), rgba(255,193,7,.08)); }
-  /* Cold: blue */
-  #weather-overlay.cold { background: rgba(120,180,240,.20); }
-  /* Rain */
-  #weather-overlay.rain { background: rgba(80,110,140,.22); }
+#weather-fx { position: absolute; inset: 0; pointer-events: none; z-index: 50; overflow: hidden; }
+.raindrop { position: absolute; width: 2px; height: 14px; background: linear-gradient(180deg, rgba(174,214,241,0), #AED6F1); top: -20px; animation: fall linear infinite; }
+@keyframes fall { to { transform: translateY(900px); } }
+.snow { position: absolute; width: 6px; height: 6px; background: #fff; border-radius: 50%; opacity: .85; top: -10px; animation: snowfall linear infinite; }
+@keyframes snowfall { to { transform: translateY(900px) translateX(30px); } }
+#weather-overlay { position: absolute; inset: 0; pointer-events: none; z-index: 51; transition: background .6s; }
+#weather-overlay.storm { background: rgba(20,25,40,.55); }
+#weather-overlay.rainbow { background: linear-gradient(180deg, rgba(255,255,255,.15), rgba(255,193,7,.08)); }
+#weather-overlay.cold { background: rgba(120,180,240,.20); }
+#weather-overlay.rain { background: rgba(80,110,140,.22); }
 
-  .sun { position: absolute; top: 22px; left: 32px; width: 62px; height: 62px; border-radius: 50%; background: radial-gradient(circle, #FFF59D, #FFD54F); box-shadow: 0 0 40px rgba(255,213,79,.85); z-index: 2; transition: opacity .5s; }
-  .cloud { position: absolute; background: #fff; border-radius: 50px; opacity: .92; z-index: 2; }
-  .cloud::before, .cloud::after { content: ''; position: absolute; background: #fff; border-radius: 50%; }
-  .cloud::before { width: 55%; height: 150%; top: -60%; left: 12%; }
-  .cloud::after  { width: 45%; height: 130%; top: -45%; right: 10%; }
-  .barn { position: absolute; top: 58px; right: 40px; width: 118px; height: 92px; z-index: 2; }
-  .barn-body { position: absolute; bottom: 0; left: 0; right: 0; height: 62px; background: #C62828; border: 2px solid #8E1F1F; border-radius: 3px; }
-  .barn-roof { position: absolute; top: 0; left: -8px; right: -8px; height: 44px; background: #8D6E63; clip-path: polygon(50% 0%, 100% 100%, 0% 100%); }
-  .barn-door { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 34px; height: 42px; background: #5D4037; border-radius: 4px 4px 0 0; }
-  .barn-window { position: absolute; bottom: 32px; left: 10px; width: 20px; height: 20px; background: #FFF59D; border: 2px solid #5D4037; border-radius: 3px; }
+.sun { position: absolute; top: 18px; left: 26px; width: 56px; height: 56px; border-radius: 50%; background: radial-gradient(circle, #FFF59D, #FFD54F); box-shadow: 0 0 40px rgba(255,213,79,.85); z-index: 2; transition: opacity .5s; }
+.cloud { position: absolute; background: #fff; border-radius: 50px; opacity: .92; z-index: 2; }
+.cloud::before, .cloud::after { content: ''; position: absolute; background: #fff; border-radius: 50%; }
+.cloud::before { width: 55%; height: 150%; top: -60%; left: 12%; }
+.cloud::after { width: 45%; height: 130%; top: -45%; right: 10%; }
+.barn { position: absolute; top: 40px; right: 30px; width: 105px; height: 82px; z-index: 2; }
+.barn-body { position: absolute; bottom: 0; left: 0; right: 0; height: 55px; background: #C62828; border: 2px solid #8E1F1F; border-radius: 3px; }
+.barn-roof { position: absolute; top: 0; left: -8px; right: -8px; height: 40px; background: #8D6E63; clip-path: polygon(50% 0%, 100% 100%, 0% 100%); }
+.barn-door { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 30px; height: 38px; background: #5D4037; border-radius: 4px 4px 0 0; }
+.barn-window { position: absolute; bottom: 28px; left: 8px; width: 18px; height: 18px; background: #FFF59D; border: 2px solid #5D4037; border-radius: 3px; }
 
-  /* Weather badge */
-  #weather-badge {
-    position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
-    background: rgba(0,0,0,.65); color: #fff; padding: 6px 16px;
-    border-radius: 20px; font-size: 13px; font-weight: bold;
-    z-index: 60; border: 2px solid rgba(255,255,255,.3);
-    display: flex; align-items: center; gap: 8px;
-    backdrop-filter: blur(4px);
-  }
-  #weather-badge .wdesc { font-size: 11px; opacity: .85; font-weight: 400; }
+#weather-badge { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,.65); color: #fff; padding: 5px 14px; border-radius: 18px; font-size: 12px; font-weight: bold; z-index: 60; border: 2px solid rgba(255,255,255,.3); display: flex; align-items: center; gap: 6px; backdrop-filter: blur(4px); }
+#weather-badge .wdesc { font-size: 10px; opacity: .85; font-weight: 400; }
 
-  #plots {
-    position: absolute; top: 190px; left: 28px;
-    display: grid; grid-template-columns: repeat(4, 152px); grid-template-rows: repeat(4, 126px);
-    gap: 14px 12px; z-index: 3;
-  }
-  .plot {
-    border-radius: 12px; cursor: pointer; display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    transition: transform .12s, box-shadow .15s;
-    border: 3px solid rgba(0,0,0,.45); overflow: hidden; background: #8D6E63;
-    box-shadow: inset 0 -6px 0 rgba(0,0,0,.15), 0 3px 6px rgba(0,0,0,.3);
-    position: relative;
-  }
-  .plot:hover { transform: scale(1.04); }
-  .plot .plus { font-size: 40px; color: rgba(255,255,255,.55); font-weight: 900; line-height: 1; }
-  .plot .hint-line { font-size: 11px; color: rgba(255,255,255,.78); margin-top: 6px; font-weight: 600; }
-  .plot .emoji { font-size: 42px; line-height: 1; filter: drop-shadow(0 2px 3px rgba(0,0,0,.5)); }
+/* ZONE TABS */
+#zone-tabs { display: flex; gap: 6px; padding: 8px 12px 0; background: #1f2b30; }
+.zone-tab { flex: 1; padding: 9px 12px; background: #263238; color: #B0BEC5; border: none; border-radius: 10px 10px 0 0; font-size: 13px; font-weight: bold; cursor: pointer; transition: background .15s; }
+.zone-tab:hover { background: #37474F; }
+.zone-tab.active { background: #37474F; color: #FFD54F; border-bottom: 3px solid #FFD54F; }
 
-  /* Gene badges */
-  .plot .gene-badge {
-    position: absolute; top: 6px; right: 6px;
-    background: rgba(0,0,0,.7); border-radius: 10px;
-    font-size: 14px; padding: 2px 6px; line-height: 1.3;
-    border: 1px solid rgba(255,255,255,.3);
-  }
-  .plot .gene-badge.gene-normal { color: #B0BEC5; }
-  .plot .gene-badge.gene-rainbow { color: #FF80AB; }
-  .plot .gene-badge.gene-royal { color: #FFD54F; }
-  .plot .gene-badge.gene-gold {
-    color: #FFEB3B; text-shadow: 0 0 8px #FFC107, 0 0 16px #FFC107;
-    animation: goldShine 1.4s ease infinite;
-  }
-  @keyframes goldShine {
-    0%,100% { transform: scale(1); }
-    50%     { transform: scale(1.2); }
-  }
+/* PLOTS GRID 5x5 */
+#plots { position: absolute; top: 165px; left: 20px; right: 20px; display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(5, 100px); gap: 8px; z-index: 3; }
+.plot { border-radius: 10px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 3px solid rgba(0,0,0,.45); overflow: hidden; background: #8D6E63; box-shadow: inset 0 -4px 0 rgba(0,0,0,.15), 0 2px 5px rgba(0,0,0,.3); position: relative; transition: transform .12s; }
+.plot:hover { transform: scale(1.05); }
+.plot .plus { font-size: 30px; color: rgba(255,255,255,.55); font-weight: 900; }
+.plot .hint-line { font-size: 9.5px; color: rgba(255,255,255,.78); margin-top: 4px; font-weight: 600; }
+.plot .emoji { font-size: 32px; line-height: 1; filter: drop-shadow(0 2px 3px rgba(0,0,0,.5)); }
 
-  .plot.locked { background: #4E342E !important; border-color: #3E2723 !important; }
-  .plot .lock-icon { font-size: 34px; }
-  .plot .lock-hint { font-size: 10.5px; color: #FFD54F; margin-top: 6px; font-weight: 700; }
-  .plot .lock-sub { font-size: 9px; color: #BCAAA4; margin-top: 2px; }
+.plot .gene-badge { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,.7); border-radius: 9px; font-size: 12px; padding: 1px 5px; line-height: 1.3; border: 1px solid rgba(255,255,255,.3); }
+.plot .gene-badge.gene-rainbow { color: #FF80AB; }
+.plot .gene-badge.gene-royal { color: #FFD54F; }
+.plot .gene-badge.gene-gold { color: #FFEB3B; text-shadow: 0 0 8px #FFC107; animation: goldShine 1.4s ease infinite; }
+@keyframes goldShine { 0%,100% { transform: scale(1); } 50% { transform: scale(1.2); } }
 
-  .plot .progress-track { position: absolute; bottom: 10px; left: 12px; right: 12px; height: 10px; background: rgba(0,0,0,.5); border-radius: 5px; overflow: hidden; }
-  .plot .progress-fill { height: 100%; background: #4CAF50; border-radius: 5px; transition: width .2s linear; }
-  .plot .progress-fill.done { background: #FFD54F; }
-  .plot.ready { animation: pulse 1s infinite; }
-  @keyframes pulse {
-    0%, 100% { box-shadow: inset 0 -6px 0 rgba(0,0,0,.15), 0 0 0 0 rgba(255,213,79,.85); }
-    50%      { box-shadow: inset 0 -6px 0 rgba(0,0,0,.15), 0 0 0 10px rgba(255,213,79,0); }
-  }
-  .plot .ready-tag {
-    position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
-    background: #FFD54F; color: #3E2723; font-size: 9px; font-weight: bold;
-    padding: 3px 8px; border-radius: 8px; white-space: nowrap;
-  }
+.plot.locked { background: #4E342E !important; border-color: #3E2723 !important; }
+.plot .lock-icon { font-size: 26px; }
+.plot .lock-hint { font-size: 10px; color: #FFD54F; margin-top: 4px; font-weight: 700; }
+.plot .lock-sub { font-size: 8px; color: #BCAAA4; margin-top: 2px; }
 
-  #side-panel { flex: 1 1 380px; min-width: 260px; display: flex; flex-direction: column; gap: 10px; }
-  .panel { background: #263238; border-radius: 12px; padding: 12px; border: 1px solid #37474F; }
-  .panel h3 { font-size: 12px; color: #80CBC4; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 9px; }
+.plot .progress-track { position: absolute; bottom: 6px; left: 8px; right: 8px; height: 8px; background: rgba(0,0,0,.5); border-radius: 4px; overflow: hidden; }
+.plot .progress-fill { height: 100%; background: #4CAF50; border-radius: 4px; transition: width .2s linear; }
+.plot .progress-fill.done { background: #FFD54F; }
+.plot.ready { animation: pulse 1s infinite; }
+@keyframes pulse { 0%,100% { box-shadow: inset 0 -4px 0 rgba(0,0,0,.15), 0 0 0 0 rgba(255,213,79,.85); } 50% { box-shadow: inset 0 -4px 0 rgba(0,0,0,.15), 0 0 0 8px rgba(255,213,79,0); } }
+.plot .ready-tag { position: absolute; top: 4px; left: 50%; transform: translateX(-50%); background: #FFD54F; color: #3E2723; font-size: 8px; font-weight: bold; padding: 2px 6px; border-radius: 7px; white-space: nowrap; }
 
-  .shop-section, .upgrade-section { margin-bottom: 10px; }
-  .shop-section:last-child, .upgrade-section:last-child { margin-bottom: 0; }
-  .shop-sub { font-size: 10.5px; color: #90A4AE; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 6px; font-weight: 600; }
+/* TOOLS */
+#tools-bar { display: flex; gap: 6px; padding: 8px 12px 0; background: #1f2b30; border-bottom: 1px solid #263238; }
+.tool-btn { flex: 0 0 auto; padding: 7px 14px; background: #37474F; color: #eceff1; border: 2px solid transparent; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; }
+.tool-btn:hover { background: #546E7A; }
+.tool-btn.active { background: #FFC107; color: #1B5E20; border-color: #FFA000; }
+.tool-info { flex: 1; display: flex; align-items: center; font-size: 11px; color: #90A4AE; padding-left: 8px; }
 
-  .shop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
-  .shop-btn {
-    background: #37474F; color: #eceff1; border: none; border-radius: 8px;
-    padding: 7px 6px; font-size: 11.5px; cursor: pointer; text-align: left;
-    display: flex; justify-content: space-between; gap: 4px;
-  }
-  .shop-btn:hover { background: #546E7A; }
-  .shop-btn .price { color: #FFD54F; font-weight: bold; }
-  .shop-btn .price.up { color: #A5D6A7; }
-  .shop-btn .price.down { color: #EF9A9A; }
+/* SIDE PANEL */
+#side-panel { flex: 1 1 400px; min-width: 280px; display: flex; flex-direction: column; gap: 10px; }
+.panel { background: #263238; border-radius: 12px; padding: 12px; border: 1px solid #37474F; }
+.panel h3 { font-size: 12px; color: #80CBC4; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 9px; display: flex; justify-content: space-between; align-items: center; }
+.panel h3 .badge { background: #37474F; padding: 2px 8px; border-radius: 10px; font-size: 10px; color: #FFD54F; }
+.shop-section, .upgrade-section { margin-bottom: 10px; }
+.shop-section:last-child, .upgrade-section:last-child { margin-bottom: 0; }
+.shop-sub { font-size: 10.5px; color: #90A4AE; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 6px; font-weight: 600; display: flex; justify-content: space-between; }
+.shop-sub .tiny { font-size: 9.5px; color: #607D8B; text-transform: none; letter-spacing: 0; }
 
-  .ad-row { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
-  .ad-btn { background: #5D4037; color: #fff; border: none; border-radius: 8px; padding: 8px 6px; font-size: 11.5px; cursor: pointer; }
-  .ad-btn:hover { background: #795548; }
+.shop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+.shop-btn { background: #37474F; color: #eceff1; border: none; border-radius: 8px; padding: 7px 6px; font-size: 11.5px; cursor: pointer; text-align: left; display: flex; justify-content: space-between; gap: 4px; }
+.shop-btn:hover { background: #546E7A; }
+.shop-btn .price { color: #FFD54F; font-weight: bold; }
 
-  .unlock-btn, .land-btn, .worker-btn {
-    display: flex; align-items: center; gap: 8px;
-    background: #37474F; color: #eceff1; border: none;
-    border-radius: 8px; padding: 7px 10px; margin-bottom: 5px;
-    width: 100%; font-size: 11.5px; cursor: pointer; text-align: left;
-  }
-  .unlock-btn:hover, .land-btn:hover, .worker-btn:hover:not(.hired) { background: #546E7A; }
-  .unlock-btn .unlock-emoji, .worker-btn .worker-emoji { font-size: 15px; }
-  .unlock-btn .unlock-name, .worker-btn .worker-name { flex: 1; font-weight: 600; }
-  .unlock-btn .unlock-cost, .land-btn .land-cost, .worker-btn .worker-cost { color: #FFD54F; font-weight: bold; }
-  .land-btn { justify-content: space-between; }
-  .worker-btn.hired { background: #2E7D32; cursor: default; }
-  .worker-btn.hired .worker-cost { color: #C8E6C9; }
-  .worker-btn .worker-detail { font-size: 10px; color: #B0BEC5; font-weight: 400; display: block; }
+.ad-row { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+.ad-btn { background: #5D4037; color: #fff; border: none; border-radius: 8px; padding: 8px 6px; font-size: 11.5px; cursor: pointer; }
+.ad-btn:hover { background: #795548; }
 
-  #inventory-list { display: flex; flex-wrap: wrap; gap: 5px; font-size: 11.5px; min-height: 22px; }
-  .inv-chip { background: #37474F; padding: 3px 10px; border-radius: 14px; border: 1px solid #546E7A; }
-  .inv-chip .chip-price { color: #FFD54F; font-size: 10px; margin-left: 4px; }
-  .inv-empty { color: #78909C; font-style: italic; font-size: 11.5px; }
+.unlock-btn, .land-btn, .worker-btn { display: flex; align-items: center; gap: 8px; background: #37474F; color: #eceff1; border: none; border-radius: 8px; padding: 7px 10px; margin-bottom: 5px; width: 100%; font-size: 11.5px; cursor: pointer; text-align: left; }
+.unlock-btn:hover, .land-btn:hover, .worker-btn:hover:not(.hired) { background: #546E7A; }
+.unlock-btn .unlock-name, .worker-btn .worker-name { flex: 1; font-weight: 600; }
+.unlock-btn .unlock-cost, .land-btn .land-cost, .worker-btn .worker-cost { color: #FFD54F; font-weight: bold; }
+.land-btn { justify-content: space-between; }
+.worker-btn.hired { background: #2E7D32; cursor: default; }
+.worker-btn.hired .worker-cost { color: #C8E6C9; }
+.worker-btn .worker-detail { font-size: 9.5px; color: #B0BEC5; font-weight: 400; display: block; }
 
-  .sell-btn { width: 100%; margin-top: 9px; background: #455A64; color: #fff; border: none; border-radius: 8px; padding: 9px; font-size: 11.5px; cursor: pointer; }
-  .sell-btn:hover { background: #546E7A; }
+#inventory-list { display: flex; flex-wrap: wrap; gap: 5px; font-size: 11px; min-height: 22px; max-height: 140px; overflow-y: auto; padding-right: 4px; }
+#inventory-list::-webkit-scrollbar { width: 6px; }
+#inventory-list::-webkit-scrollbar-thumb { background: #455A64; border-radius: 3px; }
+.inv-chip { background: #37474F; padding: 3px 9px; border-radius: 12px; border: 1px solid #546E7A; }
+.inv-chip .chip-price { color: #FFD54F; font-size: 9.5px; margin-left: 3px; }
+.inv-empty { color: #78909C; font-style: italic; font-size: 11px; }
 
-  #customer-list { height: 300px; overflow-y: auto; display: block; padding-right: 4px; }
-  #customer-list::-webkit-scrollbar { width: 7px; }
-  #customer-list::-webkit-scrollbar-track { background: #1c262b; border-radius: 4px; }
-  #customer-list::-webkit-scrollbar-thumb { background: #455A64; border-radius: 4px; }
+.sell-btn { width: 100%; margin-top: 9px; background: #455A64; color: #fff; border: none; border-radius: 8px; padding: 9px; font-size: 11.5px; cursor: pointer; }
+.sell-btn:hover { background: #546E7A; }
 
-  .customer {
-    background: #37474F; border-radius: 10px; padding: 8px 10px; margin-bottom: 6px;
-    border-left: 4px solid #FFC107; color: #eceff1;
-  }
-  .customer.vip      { border-left-color: #FF80AB; background: #3a2f47; }
-  .customer.rare     { border-left-color: #B39DDB; background: #2f2a44; }
-  .customer.merchant { border-left-color: #4DD0E1; background: #2a3b40; }
-  .customer.special  { border-left-color: #FFD54F; background: #453b22; box-shadow: 0 0 10px rgba(255,213,79,.3); }
-  .customer:last-child { margin-bottom: 0; }
+#customer-list { height: 260px; overflow-y: auto; display: block; padding-right: 4px; }
+#customer-list::-webkit-scrollbar { width: 6px; }
+#customer-list::-webkit-scrollbar-thumb { background: #455A64; border-radius: 3px; }
+.customer { background: #37474F; border-radius: 10px; padding: 8px 10px; margin-bottom: 6px; border-left: 4px solid #FFC107; color: #eceff1; }
+.customer.vip { border-left-color: #FF80AB; background: #3a2f47; }
+.customer.rare { border-left-color: #B39DDB; background: #2f2a44; }
+.customer.merchant { border-left-color: #4DD0E1; background: #2a3b40; }
+.customer.special { border-left-color: #FFD54F; background: #453b22; box-shadow: 0 0 10px rgba(255,213,79,.3); }
+.cust-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.cust-name { font-size: 12px; font-weight: bold; color: #FFD54F; }
+.cust-tier { font-size: 8px; padding: 1px 6px; border-radius: 8px; margin-left: 5px; font-weight: bold; }
+.cust-tier.vip { background: #FF80AB; color: #fff; }
+.cust-tier.rare { background: #B39DDB; color: #311B92; }
+.cust-tier.merchant { background: #4DD0E1; color: #004D40; }
+.cust-tier.special { background: #FFD54F; color: #3E2723; }
+.cust-reward { font-size: 11.5px; font-weight: bold; color: #A5D6A7; white-space: nowrap; }
+.cust-order { font-size: 10.5px; color: #CFD8DC; margin: 4px 0; }
+.cust-bottom { display: flex; align-items: center; gap: 6px; }
+.patience-track { flex: 1; height: 6px; background: #1c262b; border-radius: 3px; overflow: hidden; }
+.patience-fill { height: 100%; background: #66BB6A; border-radius: 3px; }
+.patience-fill.low { background: #EF5350; }
+.deliver-btn { background: #43A047; color: #fff; border: none; border-radius: 6px; padding: 5px 13px; font-size: 10.5px; font-weight: bold; cursor: pointer; }
+.deliver-btn:hover { background: #4CAF50; }
+.deliver-btn:disabled { background: #546E7A; cursor: not-allowed; opacity: .6; }
+.empty-customers { color: #78909C; font-size: 11.5px; text-align: center; padding: 20px 10px; font-style: italic; }
 
-  .cust-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-  .cust-name { font-size: 12.5px; font-weight: bold; color: #FFD54F; }
-  .cust-tier { font-size: 9px; padding: 1px 6px; border-radius: 8px; margin-left: 6px; font-weight: bold; }
-  .cust-tier.vip { background: #FF80AB; color: #fff; }
-  .cust-tier.rare { background: #B39DDB; color: #311B92; }
-  .cust-tier.merchant { background: #4DD0E1; color: #004D40; }
-  .cust-tier.special { background: #FFD54F; color: #3E2723; }
-  .cust-reward { font-size: 12px; font-weight: bold; color: #A5D6A7; white-space: nowrap; }
-  .cust-order { font-size: 11px; color: #CFD8DC; margin: 5px 0 5px; }
-  .cust-bottom { display: flex; align-items: center; gap: 8px; }
+/* REVIEWS */
+#review-list { max-height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; padding-right: 4px; }
+#review-list::-webkit-scrollbar { width: 6px; }
+#review-list::-webkit-scrollbar-thumb { background: #455A64; border-radius: 3px; }
+.review-item { background: #1f2b30; border-radius: 8px; padding: 7px 10px; font-size: 11px; border-left: 3px solid #4DD0E1; }
+.review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px; }
+.review-name { font-weight: bold; color: #FFD54F; font-size: 11.5px; }
+.review-stars { color: #FFC107; font-size: 11px; }
+.review-text { color: #CFD8DC; font-style: italic; }
 
-  .patience-track { flex: 1; height: 7px; background: #1c262b; border-radius: 4px; overflow: hidden; }
-  .patience-fill { height: 100%; background: #66BB6A; border-radius: 4px; }
-  .patience-fill.low { background: #EF5350; }
+/* ACH */
+#ach-panel-list { display: grid; grid-template-columns: 1fr; gap: 4px; max-height: 200px; overflow-y: auto; padding-right: 4px; }
+#ach-panel-list::-webkit-scrollbar { width: 6px; }
+#ach-panel-list::-webkit-scrollbar-thumb { background: #455A64; border-radius: 3px; }
+.ach-item { background: #37474F; border-radius: 8px; padding: 6px 10px; font-size: 11px; display: flex; align-items: center; gap: 8px; }
+.ach-item.done { background: #2E7D32; color: #C8E6C9; }
+.ach-item .ach-emoji { font-size: 15px; }
+.ach-item .ach-name { flex: 1; }
+.ach-item .ach-progress { color: #90A4AE; font-size: 10px; font-weight: bold; }
+.ach-item.done .ach-progress { color: #A5D6A7; }
 
-  .deliver-btn { background: #43A047; color: #fff; border: none; border-radius: 7px; padding: 5px 14px; font-size: 11px; font-weight: bold; cursor: pointer; }
-  .deliver-btn:hover { background: #4CAF50; }
-  .deliver-btn:disabled { background: #546E7A; cursor: not-allowed; opacity: .6; }
+#status-bar { padding: 9px 16px; background: #0d1418; border-top: 2px solid #263238; font-size: 12.5px; color: #FFF59D; min-height: 38px; display: flex; align-items: center; }
 
-  .empty-customers { color: #78909C; font-size: 12px; text-align: center; padding: 22px 10px; font-style: italic; line-height: 1.7; }
+/* MODAL */
+#modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.78); z-index: 100; align-items: center; justify-content: center; padding: 16px; }
+#modal-overlay.show { display: flex; }
+#modal { background: #263238; border-radius: 14px; padding: 20px; width: 100%; max-width: 500px; border: 2px solid #37474F; max-height: 90vh; overflow-y: auto; }
+#modal h3 { color: #80CBC4; font-size: 15px; margin-bottom: 14px; }
+.modal-option { display: flex; justify-content: space-between; align-items: center; background: #37474F; color: #eceff1; border: none; border-radius: 9px; padding: 10px 14px; margin-bottom: 6px; width: 100%; font-size: 12.5px; cursor: pointer; text-align: left; }
+.modal-option:hover { background: #4CAF50; }
+.modal-option .count { color: #FFD54F; font-weight: bold; }
+.modal-close { width: 100%; margin-top: 8px; background: #455A64; color: #fff; border: none; border-radius: 9px; padding: 10px; font-size: 13px; cursor: pointer; }
+.modal-close:hover { background: #546E7A; }
+.modal-empty { color: #90A4AE; font-size: 12.5px; text-align: center; padding: 14px 0; line-height: 1.7; }
+.modal-shop-btn { background: #FFC107; color: #1B5E20; border: none; border-radius: 9px; padding: 11px 14px; width: 100%; font-size: 13px; font-weight: bold; cursor: pointer; margin-top: 6px; }
 
-  #status-bar { padding: 9px 16px; background: #0d1418; border-top: 2px solid #263238; font-size: 12.5px; color: #FFF59D; min-height: 38px; display: flex; align-items: center; }
+/* BULK MODAL */
+.bulk-info { background: #1f2b30; padding: 10px 14px; border-radius: 10px; margin-bottom: 12px; font-size: 13px; }
+.bulk-info .row { display: flex; justify-content: space-between; margin-bottom: 6px; }
+.bulk-info .row:last-child { margin-bottom: 0; }
+.bulk-info .val { color: #FFD54F; font-weight: bold; }
+.bulk-qty-row { display: flex; gap: 6px; align-items: center; margin-bottom: 12px; }
+.bulk-qty-row button { background: #455A64; color: #fff; border: none; border-radius: 8px; padding: 8px 12px; font-size: 13px; font-weight: bold; cursor: pointer; }
+.bulk-qty-row button:hover { background: #546E7A; }
+.bulk-qty-row input { flex: 1; background: #1f2b30; color: #FFD54F; border: 2px solid #455A64; border-radius: 8px; padding: 10px; font-size: 16px; font-weight: bold; text-align: center; }
+.bulk-actions { display: flex; gap: 8px; }
+.bulk-actions button { flex: 1; padding: 12px; border: none; border-radius: 10px; font-size: 13px; font-weight: bold; cursor: pointer; }
+.bulk-actions .btn-buy { background: #43A047; color: #fff; }
+.bulk-actions .btn-buy:hover { background: #4CAF50; }
+.bulk-actions .btn-cancel { background: #455A64; color: #fff; }
+.bulk-actions .btn-cancel:hover { background: #546E7A; }
 
-  /* MODAL */
-  #modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.78); z-index: 100; align-items: center; justify-content: center; padding: 16px; }
-  #modal-overlay.show { display: flex; }
-  #modal { background: #263238; border-radius: 14px; padding: 20px; width: 100%; max-width: 480px; border: 2px solid #37474F; max-height: 90vh; overflow-y: auto; }
-  #modal h3 { color: #80CBC4; font-size: 15px; margin-bottom: 14px; }
-  .modal-option { display: flex; justify-content: space-between; align-items: center; background: #37474F; color: #eceff1; border: none; border-radius: 9px; padding: 10px 14px; margin-bottom: 6px; width: 100%; font-size: 12.5px; cursor: pointer; text-align: left; }
-  .modal-option:hover { background: #4CAF50; }
-  .modal-option .count { color: #FFD54F; font-weight: bold; }
-  .modal-close { width: 100%; margin-top: 8px; background: #455A64; color: #fff; border: none; border-radius: 9px; padding: 10px; font-size: 13px; cursor: pointer; }
-  .modal-close:hover { background: #546E7A; }
-  .modal-empty { color: #90A4AE; font-size: 12.5px; text-align: center; padding: 14px 0; line-height: 1.7; }
-  .modal-shop-btn { background: #FFC107; color: #1B5E20; border: none; border-radius: 9px; padding: 11px 14px; width: 100%; font-size: 13px; font-weight: bold; cursor: pointer; margin-top: 6px; }
+/* NEWS / REPORT / EVENT */
+.big-modal { background: #263238; border-radius: 16px; padding: 24px; width: 100%; max-width: 520px; border: 2px solid #37474F; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,.8); }
+.big-modal h2 { font-size: 18px; color: #FFD54F; margin-bottom: 6px; text-align: center; }
+.big-modal .subhead { text-align: center; color: #90A4AE; font-size: 12px; margin-bottom: 16px; }
+.news-item { padding: 10px 12px; background: #1f2b30; border-radius: 10px; margin-bottom: 8px; font-size: 12.5px; line-height: 1.6; border-left: 3px solid #4DD0E1; }
+.news-item.weather { border-left-color: #FFD54F; }
+.news-item.market { border-left-color: #A5D6A7; }
+.news-item.social { border-left-color: #FF80AB; }
+.news-item.disease { border-left-color: #EF5350; background: #33222a; }
+.report-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px dashed #37474F; font-size: 12.5px; }
+.report-row:last-child { border-bottom: none; }
+.report-row.total { font-weight: bold; font-size: 14px; color: #FFD54F; border-top: 2px solid #455A64; margin-top: 6px; padding-top: 10px; }
+.report-row .val.income { color: #A5D6A7; }
+.report-row .val.expense { color: #EF9A9A; }
+.event-icon { font-size: 48px; text-align: center; margin: 8px 0; }
+.event-title { font-size: 17px; font-weight: bold; color: #FFD54F; text-align: center; margin-bottom: 8px; }
+.event-desc { font-size: 13px; color: #CFD8DC; text-align: center; margin-bottom: 18px; line-height: 1.7; }
+.event-btn { width: 100%; padding: 12px; margin-bottom: 8px; background: #37474F; color: #eceff1; border: none; border-radius: 10px; font-size: 13px; cursor: pointer; text-align: left; display: flex; gap: 10px; align-items: center; }
+.event-btn:hover { background: #4CAF50; }
+.event-btn .eb-icon { font-size: 20px; }
+.event-btn .eb-text { flex: 1; }
+.event-btn .eb-cost { color: #FFD54F; font-weight: bold; font-size: 12px; }
 
-  /* NEWS / REPORT / EVENT MODAL */
-  .big-modal { background: #263238; border-radius: 16px; padding: 24px; width: 100%; max-width: 500px; border: 2px solid #37474F; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,.8); }
-  .big-modal h2 { font-size: 18px; color: #FFD54F; margin-bottom: 6px; text-align: center; }
-  .big-modal .subhead { text-align: center; color: #90A4AE; font-size: 12px; margin-bottom: 16px; }
-  .news-item { padding: 10px 12px; background: #1f2b30; border-radius: 10px; margin-bottom: 8px; font-size: 12.5px; line-height: 1.6; border-left: 3px solid #4DD0E1; }
-  .news-item.weather { border-left-color: #FFD54F; }
-  .news-item.market { border-left-color: #A5D6A7; }
-  .news-item.social { border-left-color: #FF80AB; }
-
-  .report-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px dashed #37474F; font-size: 12.5px; }
-  .report-row:last-child { border-bottom: none; }
-  .report-row.total { font-weight: bold; font-size: 14px; color: #FFD54F; border-top: 2px solid #455A64; margin-top: 6px; padding-top: 10px; }
-  .report-row .val.income { color: #A5D6A7; }
-  .report-row .val.expense { color: #EF9A9A; }
-
-  .event-icon { font-size: 48px; text-align: center; margin: 8px 0; }
-  .event-title { font-size: 17px; font-weight: bold; color: #FFD54F; text-align: center; margin-bottom: 8px; }
-  .event-desc { font-size: 13px; color: #CFD8DC; text-align: center; margin-bottom: 18px; line-height: 1.7; }
-
-  .event-btn {
-    width: 100%; padding: 12px; margin-bottom: 8px;
-    background: #37474F; color: #eceff1;
-    border: none; border-radius: 10px; font-size: 13px;
-    cursor: pointer; text-align: left; display: flex; gap: 10px; align-items: center;
-    transition: background .15s;
-  }
-  .event-btn:hover { background: #4CAF50; }
-  .event-btn .eb-icon { font-size: 20px; }
-  .event-btn .eb-text { flex: 1; }
-  .event-btn .eb-cost { color: #FFD54F; font-weight: bold; font-size: 12px; }
-
-  /* ACHIEVEMENTS PANEL */
-  #ach-panel-list { display: grid; grid-template-columns: 1fr; gap: 5px; max-height: 220px; overflow-y: auto; padding-right: 4px; }
-  #ach-panel-list::-webkit-scrollbar { width: 6px; }
-  #ach-panel-list::-webkit-scrollbar-thumb { background: #455A64; border-radius: 4px; }
-  .ach-item { background: #37474F; border-radius: 8px; padding: 6px 10px; font-size: 11.5px; display: flex; align-items: center; gap: 8px; }
-  .ach-item.done { background: #2E7D32; color: #C8E6C9; }
-  .ach-item.done .ach-progress { color: #A5D6A7; }
-  .ach-item .ach-emoji { font-size: 16px; }
-  .ach-item .ach-name { flex: 1; }
-  .ach-item .ach-progress { color: #90A4AE; font-size: 10.5px; font-weight: bold; }
-
-  /* TOAST */
-  #toast-container { position: fixed; top: 14px; right: 14px; display: flex; flex-direction: column; gap: 8px; z-index: 300; pointer-events: none; max-width: 80vw; }
-  .toast { background: #2E7D32; color: #fff; padding: 10px 18px; border-radius: 9px; font-size: 12.5px; font-weight: 600; box-shadow: 0 6px 20px rgba(0,0,0,.5); border-left: 4px solid #FFD54F; }
-  .toast.error { background: #C62828; border-left-color: #FF8A80; }
-  .toast.info { background: #0277BD; border-left-color: #81D4FA; }
-  .toast.achievement {
-    background: linear-gradient(135deg, #FFC107, #FF8F00);
-    color: #3E2723; border-left-color: #fff;
-    font-size: 13px;
-  }
+/* TOAST */
+#toast-container { position: fixed; top: 14px; right: 14px; display: flex; flex-direction: column; gap: 8px; z-index: 300; pointer-events: none; max-width: 80vw; }
+.toast { background: #2E7D32; color: #fff; padding: 10px 18px; border-radius: 9px; font-size: 12.5px; font-weight: 600; box-shadow: 0 6px 20px rgba(0,0,0,.5); border-left: 4px solid #FFD54F; }
+.toast.error { background: #C62828; border-left-color: #FF8A80; }
+.toast.info { background: #0277BD; border-left-color: #81D4FA; }
+.toast.achievement { background: linear-gradient(135deg, #FFC107, #FF8F00); color: #3E2723; border-left-color: #fff; font-size: 13px; }
 </style>
 </head>
 <body>
 
 <div id="start-screen">
   <h1>🌾 NÔNG TRẠI VUI VẺ 🌾</h1>
-  <p class="subtitle">Trồng cây · Nuôi thú · Thời tiết · Sự kiện · Thành tựu</p>
+  <p class="subtitle">50 ô đất · Hạt giống bí ẩn · Thời tiết · Sự kiện · Nhận xét NPC</p>
   <label class="field-label" for="farm-name-input">Tên nông trại của bạn</label>
   <input id="farm-name-input" type="text" value="Đồi Gió" maxlength="20" />
-  <label class="field-label" style="margin-top:22px;">Chọn phông nền trang trại</label>
+  <label class="field-label" style="margin-top:18px;">Chọn phông nền trang trại</label>
   <div class="theme-grid" id="theme-grid"></div>
-  <button class="btn-primary" id="start-btn">▶ BẮT ĐẦU</button>
-  <p class="hint">💡 Mỗi ngày có thời tiết, tin tức, sự kiện và giá chợ khác nhau!</p>
+  <button class="btn-primary" id="start-btn">▶ BẮT ĐẦU MỚI</button>
+  <button id="resume-btn">📂 CHƠI TIẾP BẢN LƯU</button>
+  <p class="hint">💡 Game tự động lưu vào máy — chơi tiếp bất cứ lúc nào!</p>
 </div>
 
 <div id="game-screen">
@@ -350,29 +280,37 @@
     <span class="stat day" id="hud-day">📅 Ngày 1</span>
     <span class="stat weather" id="hud-weather">☀️ Nắng</span>
     <span class="stat money" id="hud-money">💰 0$</span>
-    <span class="stat scale" id="hud-scale">🏡 0/8</span>
-    <span class="stat rep"   id="hud-rep">⭐ 5.0</span>
+    <span class="stat scale" id="hud-scale">🏡 0/50</span>
+    <span class="stat rep" id="hud-rep">⭐ 5.0</span>
     <span class="stat energy" id="hud-energy">⚡ 100</span>
-    <span class="stat ach"    id="hud-ach">🏆 0/12</span>
+    <span class="stat ach" id="hud-ach">🏆 0/12</span>
     <span class="spacer"></span>
     <span class="stat ad inactive" id="hud-ad">📢 Không QC</span>
+    <button class="tool-btn" id="save-btn" style="padding:5px 10px;font-size:11px;">💾 Lưu</button>
   </div>
 
   <div id="main">
     <div id="farm-area">
+      <div id="zone-tabs">
+        <button class="zone-tab active" data-zone="crop">🌱 Khu trồng trọt (<span id="crop-count">0</span>/25)</button>
+        <button class="zone-tab" data-zone="animal">🐄 Khu chăn nuôi (<span id="animal-count">0</span>/25)</button>
+      </div>
+      <div id="tools-bar">
+        <button class="tool-btn active" data-tool="hand">✋ Tay</button>
+        <button class="tool-btn" data-tool="shovel">🪏 Xẻng</button>
+        <div class="tool-info" id="tool-info">Bấm ô đất để trồng/thu hoạch</div>
+      </div>
       <div id="farm-wrap">
         <div id="farm">
           <div id="sky"></div>
           <div id="ground"></div>
           <div class="sun" id="sunEl"></div>
-          <div class="cloud" style="top:34px; left:220px; width:78px; height:26px;"></div>
-          <div class="cloud" style="top:70px; left:400px; width:60px; height:20px;"></div>
-          <div class="cloud" style="top:20px; left:530px; width:68px; height:22px;"></div>
+          <div class="cloud" style="top:28px; left:190px; width:70px; height:24px;"></div>
+          <div class="cloud" style="top:60px; left:380px; width:55px; height:18px;"></div>
+          <div class="cloud" style="top:18px; left:520px; width:60px; height:20px;"></div>
           <div class="barn">
-            <div class="barn-roof"></div>
-            <div class="barn-body"></div>
-            <div class="barn-door"></div>
-            <div class="barn-window"></div>
+            <div class="barn-roof"></div><div class="barn-body"></div>
+            <div class="barn-door"></div><div class="barn-window"></div>
           </div>
           <div id="plots"></div>
           <div id="weather-fx"></div>
@@ -380,7 +318,7 @@
           <div id="weather-badge">
             <span id="wb-emoji">☀️</span>
             <span id="wb-name">Nắng</span>
-            <span class="wdesc" id="wb-desc">Cây lớn nhanh hơn</span>
+            <span class="wdesc" id="wb-desc"></span>
           </div>
         </div>
       </div>
@@ -388,28 +326,35 @@
 
     <div id="side-panel">
       <div class="panel">
-        <h3>🛒 Cửa hàng</h3>
+        <h3>🛒 Cửa hàng <span class="badge">Bấm đúp để mua số lượng lớn</span></h3>
         <div class="shop-section">
-          <div class="shop-sub">🌱 Hạt giống đã mở</div>
+          <div class="shop-sub">🌱 Hạt giống</div>
           <div class="shop-grid" id="shop-crops"></div>
         </div>
         <div class="shop-section">
-          <div class="shop-sub">🐾 Con giống (có gen ngẫu nhiên)</div>
+          <div class="shop-sub">🐾 Con giống (gen ngẫu nhiên)</div>
           <div class="shop-grid" id="shop-animals"></div>
+        </div>
+        <div class="shop-section">
+          <div class="shop-sub">🎁 Hạt giống bí ẩn <span class="tiny" id="mystery-count">0/1000</span></div>
+          <div class="shop-grid">
+            <button class="shop-btn" id="buy-mystery-1"><span>🎁 Mua 1 gói</span><span class="price">200$</span></button>
+            <button class="shop-btn" id="buy-mystery-10"><span>🎁 Mua 10 gói</span><span class="price">1800$</span></button>
+          </div>
         </div>
         <div class="shop-section">
           <div class="shop-sub">📢 Quảng cáo</div>
           <div class="ad-row">
-            <button class="ad-btn" data-ad="flyer">📢 Tờ rơi · 100$ · 20s</button>
-            <button class="ad-btn" data-ad="radio">📻 Radio · 300$ · 45s</button>
+            <button class="ad-btn" data-ad="flyer">📢 Tờ rơi · 100$</button>
+            <button class="ad-btn" data-ad="radio">📻 Radio · 300$</button>
           </div>
         </div>
       </div>
 
       <div class="panel">
-        <h3>⬆️ Nâng cấp nông trại</h3>
+        <h3>⬆️ Nâng cấp</h3>
         <div class="upgrade-section">
-          <div class="shop-sub">🌱 Mở khoá giống cây mới</div>
+          <div class="shop-sub">🌱 Mở khoá cây trồng</div>
           <div id="unlock-list"></div>
         </div>
         <div class="upgrade-section">
@@ -420,10 +365,14 @@
           <div class="shop-sub">🧑‍🌾 Thuê nhân công</div>
           <div id="worker-list"></div>
         </div>
+        <div class="upgrade-section">
+          <div class="shop-sub">💉 Vaccine cúm gia cầm</div>
+          <div id="vaccine-list"></div>
+        </div>
       </div>
 
       <div class="panel">
-        <h3>🏆 Thành tựu (<span id="ach-count">0/12</span>)</h3>
+        <h3>🏆 Thành tựu <span class="badge" id="ach-count">0/12</span></h3>
         <div id="ach-panel-list"></div>
       </div>
 
@@ -433,27 +382,49 @@
         <button class="sell-btn" id="sell-all-btn">🏪 Bán hết ở chợ hôm nay</button>
       </div>
 
-      <div class="panel" id="customer-panel">
-        <h3>👥 Khách hàng (<span id="cust-count">0</span>)</h3>
+      <div class="panel">
+        <h3>💬 Nhận xét của NPC <span class="badge" id="review-count">0</span></h3>
+        <div id="review-list"></div>
+      </div>
+
+      <div class="panel">
+        <h3>👥 Khách hàng <span class="badge" id="cust-count">0</span></h3>
         <div id="customer-list"></div>
       </div>
     </div>
   </div>
 
-  <div id="status-bar">Chào mừng! Hãy mua hạt giống ở Cửa hàng.</div>
+  <div id="status-bar">Chào mừng! Mua hạt giống ở Cửa hàng.</div>
 </div>
 
-<!-- MODAL CHUNG (chọn trồng/nuôi) -->
-<div id="modal-overlay">
-  <div id="modal">
-    <h3 id="modal-title">Chọn để trồng / nuôi</h3>
-    <div id="modal-body"></div>
-    <button class="modal-close" id="modal-close">Đóng</button>
+<div id="modal-overlay"><div id="modal"><h3 id="modal-title">Chọn</h3><div id="modal-body"></div><button class="modal-close" id="modal-close">Đóng</button></div></div>
+
+<div id="bulk-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:105;align-items:center;justify-content:center;padding:16px;">
+  <div class="big-modal" style="max-width:380px;">
+    <h2 id="bulk-title">Mua số lượng lớn</h2>
+    <div class="subhead" id="bulk-sub"></div>
+    <div class="bulk-info">
+      <div class="row"><span>Đơn giá</span><span class="val" id="bulk-unit">0$</span></div>
+      <div class="row"><span>Số lượng</span><span class="val" id="bulk-qty-display">1</span></div>
+      <div class="row"><span>Tổng cộng</span><span class="val" id="bulk-total">0$</span></div>
+      <div class="row"><span>Có thể mua tối đa</span><span class="val" id="bulk-max">0</span></div>
+    </div>
+    <div class="bulk-qty-row">
+      <button data-q="-10">-10</button>
+      <button data-q="-1">-1</button>
+      <input type="number" id="bulk-qty" value="1" min="1" />
+      <button data-q="+1">+1</button>
+      <button data-q="+10">+10</button>
+      <button data-q="max">MAX</button>
+    </div>
+    <div class="bulk-actions">
+      <button class="btn-cancel" id="bulk-cancel">Huỷ</button>
+      <button class="btn-buy" id="bulk-buy">MUA</button>
+    </div>
   </div>
 </div>
 
-<!-- MODAL TIN TỨC ĐẦU NGÀY -->
-<div id="news-overlay" class="overlay-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:110;align-items:center;justify-content:center;padding:16px;">
+<div id="news-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:110;align-items:center;justify-content:center;padding:16px;">
   <div class="big-modal">
     <h2>📰 BẢN TIN NÔNG TRẠI</h2>
     <div class="subhead" id="news-day-label">Ngày 1</div>
@@ -462,8 +433,7 @@
   </div>
 </div>
 
-<!-- MODAL BÁO CÁO CUỐI NGÀY -->
-<div id="report-overlay" class="overlay-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:110;align-items:center;justify-content:center;padding:16px;">
+<div id="report-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:110;align-items:center;justify-content:center;padding:16px;">
   <div class="big-modal">
     <h2>📊 SỔ THU CHI</h2>
     <div class="subhead" id="report-day-label">Kết thúc ngày 1</div>
@@ -472,8 +442,7 @@
   </div>
 </div>
 
-<!-- MODAL SỰ KIỆN -->
-<div id="event-overlay" class="overlay-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:115;align-items:center;justify-content:center;padding:16px;">
+<div id="event-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:115;align-items:center;justify-content:center;padding:16px;">
   <div class="big-modal">
     <div class="event-icon" id="event-icon">🐔</div>
     <div class="event-title" id="event-title"></div>
@@ -485,11 +454,9 @@
 <div id="toast-container"></div>
 
 <script>
-/* ==================================================
-   DỮ LIỆU GAME
-   ================================================== */
-
-// Cây trồng — có coldResist: chịu lạnh
+/* ================================================================
+   DỮ LIỆU
+   ================================================================ */
 const CROPS = {
   "Cà rốt":  { seed: 10,  grow: 6,  sell: 22,  emoji: "🥕", unlockCost: 0,    coldResist: true  },
   "Cà chua": { seed: 25,  grow: 10, sell: 55,  emoji: "🍅", unlockCost: 120,  coldResist: false },
@@ -497,7 +464,6 @@ const CROPS = {
   "Dâu tây": { seed: 80,  grow: 22, sell: 180, emoji: "🍓", unlockCost: 900,  coldResist: true  },
   "Nho":     { seed: 140, grow: 30, sell: 320, emoji: "🍇", unlockCost: 2200, coldResist: false },
 };
-
 const ANIMALS = {
   "Gà":  { cost: 60,  time: 7,  product: "Trứng",    sell: 28,  emoji: "🐔" },
   "Heo": { cost: 160, time: 12, product: "Thịt heo", sell: 75,  emoji: "🐷" },
@@ -505,57 +471,73 @@ const ANIMALS = {
   "Cừu": { cost: 600, time: 22, product: "Len",      sell: 260, emoji: "🐑" },
 };
 
-// Gen động vật
-const GENES = {
-  normal:  { emoji: "",   label: "Thường",     weight: 90, yield: 1, color: null },
-  rainbow: { emoji: "🌈", label: "Cầu vồng",   weight: 6,  yield: 2, color: "#FF80AB" },
-  royal:   { emoji: "👑", label: "Hoàng gia",  weight: 3,  yield: 3, color: "#FFD54F" },
-  gold:    { emoji: "✨", label: "Vàng VIP",   weight: 1,  yield: 5, color: "#FFEB3B" },
-};
+// === 1000 HẠT GIỐNG BÍ ẨN ===
+const MYSTERY_CROPS = {};
+(function generateMystery() {
+  const P = ['Huyền','Kim','Ngọc','Long','Phượng','Tinh','Bạch','Hắc','Tử','Thanh','Hồng','Lục','Lam','Hoàng','Ngân','Thiên','Địa','Vân','Tuyết','Lôi','Phong','Hỏa','Thủy','Thổ','Mộc','Nhật','Nguyệt','Quang','Ánh','Minh','Dạ','Tiên','Yêu','Ma','Thần','Thánh','Phật','Quỷ','Rồng','Bướm'];
+  const S = ['Lan','Hoa','Quả','Diệp','Thảo','Trúc','Mai','Cúc','Tùng','Bách','Liên','Quỳnh','Giao','Ngọc','Tử','Hương','Anh','Đào','Mận','Lê','Táo','Nho','Đậu','Hạt','Rễ'];
+  const E = ['🌿','🍀','🌺','🌸','🌻','🌼','🌷','🍁','🍄','🌰','🥝','🫐','🍈','🍒','🥭','🍍','🥥','🍑','🍐','🫒'];
+  for (const p of P) for (const s of S) {
+    const name = p + ' ' + s;
+    let h = 0;
+    for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) | 0;
+    h = Math.abs(h);
+    const tier = 1 + (h % 5);
+    const grow = 8 + tier * 4 + ((h >> 4) % 12);
+    const sell = 30 + tier * 80 + ((h >> 8) % 100);
+    MYSTERY_CROPS[name] = {
+      seed: Math.floor(sell * 0.3), grow, sell,
+      emoji: E[(h >> 12) % E.length],
+      unlockCost: 0, mystery: true, tier,
+    };
+  }
+})();
+function getCrop(name) { return CROPS[name] || MYSTERY_CROPS[name] || null; }
 
+const GENES = {
+  normal:  { emoji: "",   label: "Thường",    weight: 90, yield: 1 },
+  rainbow: { emoji: "🌈", label: "Cầu vồng",  weight: 6,  yield: 2 },
+  royal:   { emoji: "👑", label: "Hoàng gia", weight: 3,  yield: 3 },
+  gold:    { emoji: "✨", label: "Vàng VIP",  weight: 1,  yield: 5 },
+};
 function rollGene() {
   const total = Object.values(GENES).reduce((s, g) => s + g.weight, 0);
   let r = Math.random() * total;
-  for (const k in GENES) {
-    r -= GENES[k].weight;
-    if (r <= 0) return k;
-  }
+  for (const k in GENES) { r -= GENES[k].weight; if (r <= 0) return k; }
   return 'normal';
 }
 
-// Thời tiết
 const WEATHERS = {
-  sunny:   { emoji: "☀️", name: "Nắng",       growMul: 1.4,  desc: "Cây lớn nhanh +40%",     stormChance: 0,    marketEffect: { veg: 0.95 } },
-  rain:    { emoji: "🌧️", name: "Mưa",        growMul: 1.15, desc: "Không cần tưới",          stormChance: 0,    marketEffect: { veg: 1.25 } },
-  storm:   { emoji: "⛈️", name: "Bão",        growMul: 0.7,  desc: "Cây có thể hỏng!",        stormChance: 0.03, marketEffect: { veg: 1.35 } },
-  cold:    { emoji: "❄️", name: "Lạnh",       growMul: 0.6,  desc: "Cây ưa nóng ngừng lớn",   stormChance: 0,    marketEffect: { veg: 1.30 } },
-  rainbow: { emoji: "🌈", name: "Cầu vồng",   growMul: 1.2,  desc: "Giá bán +30%",            stormChance: 0,    marketEffect: { all: 1.30 } },
+  sunny:   { emoji: "☀️", name: "Nắng",     growMul: 1.4,  desc: "Cây lớn nhanh +40%",    marketEffect: { veg: 0.95 } },
+  rain:    { emoji: "🌧️", name: "Mưa",      growMul: 1.15, desc: "Không cần tưới",         marketEffect: { veg: 1.25 } },
+  storm:   { emoji: "⛈️", name: "Bão",      growMul: 0.7,  desc: "Cây có thể hỏng!",       marketEffect: { veg: 1.35 }, stormChance: 0.02 },
+  cold:    { emoji: "❄️", name: "Lạnh",     growMul: 0.6,  desc: "Cây ưa nóng ngừng lớn",  marketEffect: { veg: 1.30 } },
+  rainbow: { emoji: "🌈", name: "Cầu vồng", growMul: 1.2,  desc: "Tất cả giá +30%",        marketEffect: { all: 1.30 } },
 };
 
-// Nhân công — có hồ sơ
 const WORKERS = {
-  "Thợ tập sự":    { cost: 1500,  interval: 8, autoDeliver: false, autoPlant: false, emoji: "🧑‍🌾", desc: "Thu hoạch mỗi 8s" },
-  "Người trồng cây": { cost: 3000, interval: 6, autoDeliver: false, autoPlant: true,  emoji: "👩‍🌾", desc: "Tự trồng + thu hoạch" },
-  "Thợ lành nghề": { cost: 6500,  interval: 4, autoDeliver: false, autoPlant: true,  emoji: "👨‍🌾", desc: "Trồng + thu hoạch nhanh" },
-  "Quản lý":       { cost: 18000, interval: 2, autoDeliver: true,  autoPlant: true,  emoji: "🧑‍💼", desc: "Toàn quyền, tự giao hàng" },
+  "Thợ tập sự":      { cost: 1500,  interval: 8, autoDeliver: false, autoPlant: false, emoji: "🧑‍🌾", desc: "Thu hoạch mỗi 8s" },
+  "Người trồng cây": { cost: 3000,  interval: 6, autoDeliver: false, autoPlant: true,  emoji: "👩‍🌾", desc: "Tự trồng + thu hoạch" },
+  "Thợ lành nghề":   { cost: 6500,  interval: 4, autoDeliver: false, autoPlant: true,  emoji: "👨‍🌾", desc: "Trồng + thu hoạch nhanh" },
+  "Quản lý":         { cost: 18000, interval: 2, autoDeliver: true,  autoPlant: true,  emoji: "🧑‍💼", desc: "Toàn quyền tự động" },
 };
+const ROW_COST_PER_ROW = 2000;
+const VACCINE_COST = 800;
+const MYSTERY_PACKET_COST = 200;
 
-const ROW_COSTS = [0, 0, 2500, 7500];
-
-// Thành tựu
 const ACHIEVEMENTS = [
-  { id: "firstPlant", emoji: "🌱", name: "Vườn đầu tiên",     desc: "Trồng 1 cây",                 target: 1,    stat: "plantsTotal" },
-  { id: "plant100",   emoji: "🌾", name: "Nông dân chăm chỉ", desc: "Trồng 100 cây",              target: 100,  stat: "plantsTotal" },
-  { id: "carrot100",  emoji: "🥕", name: "Vua cà rốt",        desc: "Trồng 100 cà rốt",            target: 100,  stat: "carrotsPlanted" },
-  { id: "chicken50",  emoji: "🐔", name: "Trại gà",           desc: "Nuôi 50 con gà",              target: 50,   stat: "chickensRaised" },
-  { id: "earn10k",    emoji: "💰", name: "Triệu phú nhỏ",     desc: "Kiếm tổng 10.000$",           target: 10000,stat: "totalEarned" },
-  { id: "earn100k",   emoji: "💎", name: "Đại gia nông trại", desc: "Kiếm tổng 100.000$",          target: 100000,stat: "totalEarned" },
-  { id: "rareOwn",    emoji: "✨", name: "Sưu tầm gia",       desc: "Sở hữu 1 con vật quý hiếm",   target: 1,    stat: "rareOwned" },
-  { id: "goldOwn",    emoji: "👑", name: "Chủ nhân gà vàng",  desc: "Sở hữu 1 con gen Vàng VIP",   target: 1,    stat: "goldOwned" },
-  { id: "friend5",    emoji: "❤️", name: "Bạn thân",          desc: "5 NPC thân thiết",            target: 5,    stat: "closeFriends" },
-  { id: "weather5",   emoji: "🌦️", name: "Người quan sát",   desc: "Trải qua 5 loại thời tiết",   target: 5,    stat: "weatherSeen" },
-  { id: "fullday",    emoji: "📅", name: "Bền bỉ",            desc: "Chơi qua 7 ngày",             target: 7,    stat: "daysPlayed" },
-  { id: "deliver50",  emoji: "📦", name: "Giao hàng siêu",    desc: "Giao 50 đơn cho khách",       target: 50,   stat: "deliveries" },
+  { id: "plant100", emoji: "🌾", name: "Nông dân chăm chỉ", desc: "Trồng 100 cây",           target: 100,  stat: "plantsTotal" },
+  { id: "carrot100", emoji: "🥕", name: "Vua cà rốt",       desc: "Trồng 100 cà rốt",        target: 100,  stat: "carrotsPlanted" },
+  { id: "chicken50", emoji: "🐔", name: "Trại gà",          desc: "Nuôi 50 gà",              target: 50,   stat: "chickensRaised" },
+  { id: "earn10k", emoji: "💰", name: "Triệu phú nhỏ",       desc: "Kiếm 10.000$",            target: 10000,stat: "totalEarned" },
+  { id: "earn100k", emoji: "💎", name: "Đại gia",            desc: "Kiếm 100.000$",           target: 100000,stat: "totalEarned" },
+  { id: "rareOwn", emoji: "✨", name: "Sưu tầm gia",         desc: "Sở hữu con vật quý",      target: 1,    stat: "rareOwned" },
+  { id: "goldOwn", emoji: "👑", name: "Chủ nhân gà vàng",    desc: "Sở hữu gen Vàng VIP",     target: 1,    stat: "goldOwned" },
+  { id: "friend5", emoji: "❤️", name: "Bạn thân",            desc: "5 NPC thân thiết",        target: 5,    stat: "closeFriends" },
+  { id: "weather5", emoji: "🌦️", name: "Người quan sát",     desc: "Trải qua 5 loại thời tiết", target: 5,  stat: "weatherSeen" },
+  { id: "fullday", emoji: "📅", name: "Bền bỉ",              desc: "Chơi 7 ngày",             target: 7,    stat: "daysPlayed" },
+  { id: "deliver50", emoji: "📦", name: "Giao hàng siêu",    desc: "Giao 50 đơn",             target: 50,   stat: "deliveries" },
+  { id: "mystery50", emoji: "🎁", name: "Nhà sưu tầm",       desc: "Mở 50 gói bí ẩn",         target: 50,   stat: "mysteryPackets" },
 ];
 
 const THEMES = {
@@ -566,78 +548,50 @@ const THEMES = {
   "Đêm sao":       { sky: "#1B2A4A", ground: "#2E4A3D", slot: "#4E342E", slotBorder: "#3E2723" },
 };
 
-const HO     = ["Nguyễn","Trần","Lê","Phạm","Hoàng","Huỳnh","Vũ","Võ","Đặng","Bùi","Đỗ","Hồ","Ngô","Dương","Lý","Đinh","Tạ","Trịnh","Cao","Mai"];
-const DEM    = ["Văn","Thị","Minh","Hữu","Thanh","Quốc","Ngọc","Kim","Anh","Đức","Xuân","Thu"];
-const TEN    = ["An","Bình","Châu","Dũng","Giang","Hà","Hùng","Lan","Mai","Nam","Oanh","Phúc","Quỳnh","Sơn","Trang","Tuấn","Vy","Yến","Khoa","Linh","My","Nhi","Phong","Thảo","Trâm","Kiệt","Hân","Lộc","Tú","Bảo"];
+const HO = ["Nguyễn","Trần","Lê","Phạm","Hoàng","Huỳnh","Vũ","Võ","Đặng","Bùi","Đỗ","Hồ","Ngô","Dương","Lý","Đinh","Tạ","Trịnh","Cao","Mai"];
+const DEM = ["Văn","Thị","Minh","Hữu","Thanh","Quốc","Ngọc","Kim","Anh","Đức","Xuân","Thu"];
+const TEN = ["An","Bình","Châu","Dũng","Giang","Hà","Hùng","Lan","Mai","Nam","Oanh","Phúc","Quỳnh","Sơn","Trang","Tuấn","Vy","Yến","Khoa","Linh","My","Nhi","Phong","Thảo","Trâm","Kiệt","Hân","Lộc","Tú","Bảo"];
 const TITLES = ["Anh","Chị","Cô","Chú","Bác","Em","Ông","Bà","Cậu","Dì"];
-const WORKER_QUIRKS = ["thích uống trà sớm", "mê chó con", "hay ngân nga", "có 3 đứa con", "từng vô địch cuốc đất", "sợ sâu róm", "thạo trồng nho", "hát rất hay", "20 tuổi", "58 tuổi, sắp nghỉ hưu"];
+const WORKER_QUIRKS = ["thích uống trà sớm","mê chó con","hay ngân nga","có 3 đứa con","vô địch cuốc đất","sợ sâu róm","thạo trồng nho","hát rất hay","mới 20 tuổi","58 tuổi, sắp nghỉ hưu","nghiện cà phê","hay kể chuyện cười"];
+const REVIEWS_GOOD = ["Tuyệt vời, rất hài lòng!","Giao nhanh, hàng tươi!","Sẽ quay lại ủng hộ!","Nông trại uy tín!","Chất lượng tuyệt hảo!","Đúng hẹn, cảm ơn nhiều!"];
+const REVIEWS_MID  = ["Được, hàng ổn.","Cũng tạm, có thể tốt hơn.","Chấp nhận được.","Hàng đúng nhưng hơi chậm.","OK, lần sau giao nhanh hơn nhé."];
+const REVIEWS_BAD  = ["Chờ hơi lâu, không hài lòng.","Giao trễ quá!","Sẽ cân nhắc lại.","Hàng cũng được nhưng thái độ chậm.","Không hài lòng lắm."];
 
-function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
 function randomNpcName() {
   if (Math.random() < 0.5) return `${pick(TITLES)} ${pick(HO)} ${pick(TEN)}`;
   return `${pick(TITLES)} ${pick(HO)} ${pick(DEM)} ${pick(TEN)}`;
 }
 
-const COLS = 4;
-const MAX_ROWS = 4;
-const TOTAL_PLOTS = COLS * MAX_ROWS;
-const START_ROWS = 2;
-const FARM_W = 700, FARM_H = 760;
-
-// Thời gian: 1 ngày = 240 giây (4 phút) real
+const COLS = 5;
+const MAX_ROWS_PER_ZONE = 5;
+const PLOTS_PER_ZONE = COLS * MAX_ROWS_PER_ZONE;   // 25
+const TOTAL_PLOTS = PLOTS_PER_ZONE * 2;             // 50
+const FARM_W = 720, FARM_H = 700;
 const DAY_DURATION = 240;
+const SAVE_KEY = 'ntvv_save_v2';
 
-/* ==================================================
+/* ================================================================
    TRẠNG THÁI
-   ================================================== */
+   ================================================================ */
 const G = {
-  farmName: "Nông trại",
-  theme: THEMES["Đồng quê xanh"],
-  money: 500,
-  energy: 100,
-  inventory: {},            // { tên: { count, gene? } } - cho vật nuôi lưu gene
-  plots: [],
-  customers: [],
-  hiredWorkers: [],         // [{ name, displayName, quirk, timer, profile }]
-  unlockedCrops: new Set(),
-  unlockedRows: START_ROWS,
-  reputation: 5.0,
-  relationships: {},        // { npcName: score }
-  adTime: 0,
-  spawnCooldown: 2,
-  running: false,
-  lastTime: 0,
-
-  // Thời gian
-  day: 1,
-  dayTime: 0,               // 0 -> DAY_DURATION
-  weather: "sunny",
-  weatherSeen: new Set(),
-  marketMul: {},            // { tên_sp: mul }
-  dailyRevenue: 0,
-  dailyExpense: 0,
-  dailyDeliveries: 0,
-  dailyHarvests: 0,
-
-  // Sự kiện
-  nextEventDay: 2,
-
-  // Thành tựu
-  stats: {
-    plantsTotal: 0,
-    carrotsPlanted: 0,
-    chickensRaised: 0,
-    totalEarned: 0,
-    rareOwned: 0,
-    goldOwned: 0,
-    closeFriends: 0,
-    weatherSeen: 0,
-    daysPlayed: 1,
-    deliveries: 0,
-  },
-  unlockedAch: new Set(),
+  farmName: "Nông trại", themeKey: "Đồng quê xanh",
+  money: 500, energy: 100,
+  inventory: {}, plots: [], customers: [],
+  hiredWorkers: [], unlockedCrops: [], unlockedRowsCrop: 2, unlockedRowsAnimal: 2,
+  reputation: 5.0, relationships: {},
+  adTime: 0, spawnCooldown: 2,
+  day: 1, dayTime: 0, weather: 'sunny', weatherSeen: ['sunny'],
+  marketMul: {}, dailyRevenue: 0, dailyExpense: 0, dailyDeliveries: 0, dailyHarvests: 0,
+  nextEventDay: 3, mysteryDiscoveries: [], mysteryPacketsBought: 0,
+  reviews: [], vaccineActive: false, vaccineDay: 0, birdFluDay: 0,
+  zone: 'crop', tool: 'hand',
+  stats: { plantsTotal: 0, carrotsPlanted: 0, chickensRaised: 0, totalEarned: 0, rareOwned: 0, goldOwned: 0, closeFriends: 0, weatherSeen: 1, daysPlayed: 1, deliveries: 0, mysteryPackets: 0 },
+  unlockedAch: [],
+  running: false, lastTime: 0, lastSave: 0,
 };
 
+function getTheme() { return THEMES[G.themeKey] || THEMES["Đồng quê xanh"]; }
 const $ = id => document.getElementById(id);
 function toast(msg, cls = '') {
   const el = document.createElement('div');
@@ -646,81 +600,79 @@ function toast(msg, cls = '') {
   $('toast-container').appendChild(el);
   setTimeout(() => el.remove(), 2600);
 }
-function setStatus(msg) { $('status-bar').textContent = msg; }
+function setStatus(m) { $('status-bar').textContent = m; }
 
-/* ==================================================
+/* ================================================================
    HELPERS
-   ================================================== */
-function isPlotUnlocked(i) { return Math.floor(i / COLS) < G.unlockedRows; }
-function nextRowCost() { return G.unlockedRows >= MAX_ROWS ? null : ROW_COSTS[G.unlockedRows]; }
-function unlockedPlotCount() { return Math.min(TOTAL_PLOTS, G.unlockedRows * COLS); }
-function farmScale() { return G.plots.filter((p, i) => isPlotUnlocked(i) && p.kind).length; }
-function invCount(key) { return (G.inventory[key] && G.inventory[key].count) || 0; }
-function invAdd(key, n = 1, meta) {
-  if (!G.inventory[key]) G.inventory[key] = { count: 0 };
-  G.inventory[key].count += n;
-  if (meta) Object.assign(G.inventory[key], meta);
+   ================================================================ */
+function isPlotUnlocked(i) {
+  if (i < PLOTS_PER_ZONE) return Math.floor(i / COLS) < G.unlockedRowsCrop;
+  const j = i - PLOTS_PER_ZONE;
+  return Math.floor(j / COLS) < G.unlockedRowsAnimal;
 }
-function invSub(key, n = 1) {
-  if (!G.inventory[key]) return false;
-  G.inventory[key].count -= n;
-  if (G.inventory[key].count <= 0) delete G.inventory[key];
+function plotZoneOf(i) { return i < PLOTS_PER_ZONE ? 'crop' : 'animal'; }
+function invCount(k) { return (G.inventory[k] && G.inventory[k].count) || 0; }
+function invAdd(k, n = 1, meta) {
+  if (!G.inventory[k]) G.inventory[k] = { count: 0 };
+  G.inventory[k].count += n;
+  if (meta) Object.assign(G.inventory[k], meta);
+}
+function invSub(k, n = 1) {
+  if (!G.inventory[k]) return false;
+  G.inventory[k].count -= n;
+  if (G.inventory[k].count <= 0) delete G.inventory[k];
   return true;
 }
-function producibleItems() {
-  const set = new Set();
+function prodItems() {
+  const s = new Set();
   for (let i = 0; i < G.plots.length; i++) {
     if (!isPlotUnlocked(i)) continue;
     const p = G.plots[i];
-    if (p.kind === 'crop') set.add(p.name);
-    else if (p.kind === 'animal') set.add(ANIMALS[p.name].product);
+    if (p.kind === 'crop') s.add(p.name);
+    else if (p.kind === 'animal') s.add(ANIMALS[p.name].product);
   }
-  return [...set];
+  return [...s];
 }
+function farmScale() { return G.plots.filter((p, i) => isPlotUnlocked(i) && p.kind).length; }
 
-/* ==================================================
-   GIÁ THỊ TRƯỜNG (thay đổi theo ngày + thời tiết)
-   ================================================== */
 function itemBasePrice(item) {
-  if (CROPS[item]) return CROPS[item].sell;
-  if (ANIMALS[item]) return ANIMALS[item].sell;
+  const c = getCrop(item);
+  if (c) return c.sell;
   for (const a in ANIMALS) if (ANIMALS[a].product === item) return ANIMALS[a].sell;
   return 10;
 }
 function itemCurrentPrice(item) {
   const mul = G.marketMul[item] || 1;
-  const wMul = weatherSellMul(item);
+  const w = WEATHERS[G.weather];
+  let wMul = 1;
+  if (w.marketEffect) {
+    if (w.marketEffect.all) wMul = w.marketEffect.all;
+    else if (w.marketEffect.veg && (CROPS[item] || MYSTERY_CROPS[item])) wMul = w.marketEffect.veg;
+  }
   return Math.round(itemBasePrice(item) * mul * wMul);
 }
-function weatherSellMul(item) {
-  const w = WEATHERS[G.weather];
-  if (!w.marketEffect) return 1;
-  if (w.marketEffect.all) return w.marketEffect.all;
-  // Phân loại: rau (crop) và sản phẩm động vật
-  const isVeg = !!CROPS[item] || Object.values(CROPS).some(c => c.sell === itemBasePrice(item)) ||
-                Object.keys(CROPS).includes(item);
-  // Đơn giản: nếu item là rau (crop name hoặc sản phẩm) thì áp dụng veg
-  const vegItems = new Set([...Object.keys(CROPS)]);
-  if (vegItems.has(item)) return w.marketEffect.veg || 1;
-  return 1;
-}
-
 function rollDailyMarket() {
   G.marketMul = {};
-  for (const item in CROPS) {
-    G.marketMul[item] = 0.75 + Math.random() * 0.7; // 0.75 – 1.45
+  for (const item in CROPS) G.marketMul[item] = 0.75 + Math.random() * 0.7;
+  for (const a in ANIMALS) G.marketMul[ANIMALS[a].product] = 0.75 + Math.random() * 0.7;
+}
+function getInvEmoji(key) {
+  if (key.startsWith('Hạt ')) {
+    const nm = key.slice(4);
+    const c = getCrop(nm);
+    return c ? c.emoji : '🌱';
   }
-  for (const a in ANIMALS) {
-    G.marketMul[ANIMALS[a].product] = 0.75 + Math.random() * 0.7;
-  }
+  const parts = key.split('|');
+  const a = ANIMALS[parts[0]];
+  const g = GENES[parts[1] || 'normal'] || GENES.normal;
+  return (a ? a.emoji : '?') + (g.emoji ? ' ' + g.emoji : '');
 }
 
-/* ==================================================
+/* ================================================================
    FARM SCALE
-   ================================================== */
+   ================================================================ */
 function rescaleFarm() {
-  const wrap = $('farm-wrap');
-  const farm = $('farm');
+  const wrap = $('farm-wrap'), farm = $('farm');
   if (!wrap || !farm) return;
   const avail = wrap.clientWidth;
   const scale = Math.min(1, avail / FARM_W);
@@ -728,13 +680,11 @@ function rescaleFarm() {
   wrap.style.height = Math.round(FARM_H * scale) + 'px';
 }
 window.addEventListener('resize', rescaleFarm);
-window.addEventListener('orientationchange', () => setTimeout(rescaleFarm, 120));
 
-/* ==================================================
+/* ================================================================
    START SCREEN
-   ================================================== */
+   ================================================================ */
 let selectedTheme = Object.keys(THEMES)[0];
-
 function buildThemeGrid() {
   const grid = $('theme-grid');
   grid.innerHTML = '';
@@ -742,647 +692,646 @@ function buildThemeGrid() {
     const t = THEMES[key];
     const card = document.createElement('div');
     card.className = 'theme-card' + (key === selectedTheme ? ' active' : '');
-    card.innerHTML = `
-      <div class="theme-preview" style="background:linear-gradient(180deg, ${t.sky} 0 45%, ${t.ground} 45% 100%);"></div>
-      <div class="theme-name">${key}</div>`;
-    card.onclick = () => {
-      selectedTheme = key;
-      document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active'));
-      card.classList.add('active');
-    };
+    card.innerHTML = `<div class="theme-preview" style="background:linear-gradient(180deg,${t.sky} 0 45%,${t.ground} 45% 100%);"></div><div class="theme-name">${key}</div>`;
+    card.onclick = () => { selectedTheme = key; document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active')); card.classList.add('active'); };
     grid.appendChild(card);
   }
 }
 
+function hasSave() { try { return !!localStorage.getItem(SAVE_KEY); } catch(e) { return false; } }
+function refreshResumeBtn() { $('resume-btn').style.display = hasSave() ? 'inline-block' : 'none'; }
+refreshResumeBtn();
+
 $('start-btn').onclick = () => {
   const name = $('farm-name-input').value.trim() || 'Nông trại';
-  startGame(name, selectedTheme);
+  if (hasSave() && !confirm('Bản lưu cũ sẽ bị xoá. Bắt đầu mới?')) return;
+  try { localStorage.removeItem(SAVE_KEY); } catch(e) {}
+  startNewGame(name, selectedTheme);
 };
+$('resume-btn').onclick = () => { if (loadGame()) openGame(); };
 
-/* ==================================================
-   KHỞI ĐỘNG
-   ================================================== */
-function startGame(name, themeKey) {
-  G.farmName = name;
-  G.theme = THEMES[themeKey];
-  G.money = 500;
-  G.energy = 100;
-  G.inventory = {};
-  G.customers = [];
-  G.hiredWorkers = [];
-  G.unlockedCrops = new Set();
-  for (const c in CROPS) if (CROPS[c].unlockCost === 0) G.unlockedCrops.add(c);
-  G.unlockedRows = START_ROWS;
-  G.reputation = 5.0;
-  G.relationships = {};
-  G.adTime = 0;
-  G.spawnCooldown = 2;
-  G.plots = Array.from({ length: TOTAL_PLOTS }, () => ({
-    kind: null, name: null, progress: 0, ready: false, gene: null, damaged: false
-  }));
-  G.day = 1;
-  G.dayTime = 0;
-  G.weather = 'sunny';
-  G.weatherSeen = new Set(['sunny']);
-  G.marketMul = {};
-  G.dailyRevenue = 0;
-  G.dailyExpense = 0;
-  G.dailyDeliveries = 0;
-  G.dailyHarvests = 0;
-  G.nextEventDay = 2;
-  G.stats = {
-    plantsTotal: 0, carrotsPlanted: 0, chickensRaised: 0, totalEarned: 0,
-    rareOwned: 0, goldOwned: 0, closeFriends: 0, weatherSeen: 1,
-    daysPlayed: 1, deliveries: 0
-  };
-  G.unlockedAch = new Set();
+/* ================================================================
+   KHỞI TẠO
+   ================================================================ */
+function resetG(name, themeKey) {
+  G.farmName = name; G.themeKey = themeKey;
+  G.money = 500; G.energy = 100; G.inventory = {}; G.customers = [];
+  G.hiredWorkers = []; G.unlockedCrops = []; G.unlockedRowsCrop = 2; G.unlockedRowsAnimal = 2;
+  G.reputation = 5.0; G.relationships = {};
+  G.adTime = 0; G.spawnCooldown = 2;
+  G.plots = Array.from({ length: TOTAL_PLOTS }, () => ({ kind: null, name: null, progress: 0, ready: false, gene: null, damaged: false }));
+  G.day = 1; G.dayTime = 0; G.weather = 'sunny'; G.weatherSeen = ['sunny'];
+  G.marketMul = {}; G.dailyRevenue = 0; G.dailyExpense = 0; G.dailyDeliveries = 0; G.dailyHarvests = 0;
+  G.nextEventDay = 3; G.mysteryDiscoveries = []; G.mysteryPacketsBought = 0;
+  G.reviews = []; G.vaccineActive = false; G.vaccineDay = 0; G.birdFluDay = 0;
+  G.zone = 'crop'; G.tool = 'hand';
+  G.stats = { plantsTotal: 0, carrotsPlanted: 0, chickensRaised: 0, totalEarned: 0, rareOwned: 0, goldOwned: 0, closeFriends: 0, weatherSeen: 1, daysPlayed: 1, deliveries: 0, mysteryPackets: 0 };
+  G.unlockedAch = [];
+  for (const c in CROPS) if (CROPS[c].unlockCost === 0) G.unlockedCrops.push(c);
+}
 
-  $('start-screen').style.display = 'none';
-  $('game-screen').style.display = 'block';
-  $('hud-title').textContent = `🌾 ${G.farmName}`;
-
-  buildPlots();
-  applyTheme();
-  rebuildPanels();
+function startNewGame(name, themeKey) {
+  resetG(name, themeKey);
   rollDailyMarket();
-  applyWeatherVisual();
-  renderAll();
-
-  requestAnimationFrame(() => {
-    rescaleFarm();
-    setTimeout(rescaleFarm, 100);
-  });
-
-  G.running = true;
-  G.lastTime = performance.now();
-  requestAnimationFrame(gameLoop);
-
-  // Tin tức ngày đầu
+  openGame();
   showNews();
 }
 
-function applyTheme() {
-  const t = G.theme;
-  $('sky').style.background = t.sky;
-  $('ground').style.background = t.ground;
-  $('farm').style.background = t.ground;
-  $('farm-wrap').style.background = t.ground;
-  document.querySelectorAll('.plot').forEach(p => {
-    p.style.background = t.slot;
-    p.style.borderColor = t.slotBorder;
-  });
+function openGame() {
+  $('start-screen').style.display = 'none';
+  $('game-screen').style.display = 'block';
+  $('hud-title').textContent = `🌾 ${G.farmName}`;
+  if (!G.unlockedCrops.length) for (const c in CROPS) if (CROPS[c].unlockCost === 0) G.unlockedCrops.push(c);
+  if (!G.marketMul || !Object.keys(G.marketMul).length) rollDailyMarket();
+  buildPlots(); applyTheme(); applyWeatherVisual();
+  rebuildPanels(); renderAll();
+  requestAnimationFrame(() => { rescaleFarm(); setTimeout(rescaleFarm, 100); });
+  G.running = true; G.lastTime = performance.now();
+  requestAnimationFrame(gameLoop);
 }
 
-/* ==================================================
-   THỜI TIẾT — VISUAL
-   ================================================== */
+function applyTheme() {
+  const t = getTheme();
+  $('farm').style.background = t.ground;
+  $('farm-wrap').style.background = t.ground;
+  document.querySelectorAll('.plot').forEach(p => { p.style.background = t.slot; p.style.borderColor = t.slotBorder; });
+}
+
+/* ================================================================
+   WEATHER VISUAL
+   ================================================================ */
 function applyWeatherVisual() {
   const w = WEATHERS[G.weather];
   $('wb-emoji').textContent = w.emoji;
   $('wb-name').textContent = w.name;
   $('wb-desc').textContent = w.desc;
-
-  // Sky & ground theo thời tiết
-  const t = G.theme;
-  const skyEl = $('sky');
-  const groundEl = $('ground');
-  const sunEl = $('sunEl');
-  const overlay = $('weather-overlay');
-  overlay.className = '';
-
-  if (G.weather === 'sunny') {
-    skyEl.style.background = t.sky;
-    groundEl.style.background = t.ground;
-    sunEl.style.opacity = '1';
-  } else if (G.weather === 'rain') {
-    skyEl.style.background = '#5d7a95';
-    groundEl.style.background = '#4d7a34';
-    sunEl.style.opacity = '0.15';
-    overlay.classList.add('rain');
-  } else if (G.weather === 'storm') {
-    skyEl.style.background = '#2c3e50';
-    groundEl.style.background = '#3a5a2a';
-    sunEl.style.opacity = '0';
-    overlay.classList.add('storm');
-  } else if (G.weather === 'cold') {
-    skyEl.style.background = '#B3D9E8';
-    groundEl.style.background = '#D5E4E8';
-    sunEl.style.opacity = '0.4';
-    overlay.classList.add('cold');
-  } else if (G.weather === 'rainbow') {
-    skyEl.style.background = 'linear-gradient(180deg, #FFE4E1 0%, #E6E6FA 40%, #E0FFFF 100%)';
-    groundEl.style.background = t.ground;
-    sunEl.style.opacity = '1';
-    overlay.classList.add('rainbow');
-  }
-
-  // Hiệu ứng hạt mưa / tuyết
-  const fx = $('weather-fx');
-  fx.innerHTML = '';
+  const t = getTheme();
+  const sky = $('sky'), ground = $('ground'), sun = $('sunEl'), ov = $('weather-overlay');
+  ov.className = '';
+  if (G.weather === 'sunny') { sky.style.background = t.sky; ground.style.background = t.ground; sun.style.opacity = '1'; }
+  else if (G.weather === 'rain') { sky.style.background = '#5d7a95'; ground.style.background = '#4d7a34'; sun.style.opacity = '0.15'; ov.classList.add('rain'); }
+  else if (G.weather === 'storm') { sky.style.background = '#2c3e50'; ground.style.background = '#3a5a2a'; sun.style.opacity = '0'; ov.classList.add('storm'); }
+  else if (G.weather === 'cold') { sky.style.background = '#B3D9E8'; ground.style.background = '#D5E4E8'; sun.style.opacity = '0.4'; ov.classList.add('cold'); }
+  else if (G.weather === 'rainbow') { sky.style.background = 'linear-gradient(180deg,#FFE4E1 0%,#E6E6FA 40%,#E0FFFF 100%)'; ground.style.background = t.ground; sun.style.opacity = '1'; ov.classList.add('rainbow'); }
+  const fx = $('weather-fx'); fx.innerHTML = '';
   if (G.weather === 'rain' || G.weather === 'storm') {
-    for (let i = 0; i < 45; i++) {
-      const d = document.createElement('div');
-      d.className = 'raindrop';
-      d.style.left = Math.random() * 100 + '%';
-      d.style.animationDuration = (0.5 + Math.random() * 0.4) + 's';
-      d.style.animationDelay = (Math.random() * 0.8) + 's';
-      fx.appendChild(d);
-    }
+    for (let i = 0; i < 45; i++) { const d = document.createElement('div'); d.className = 'raindrop'; d.style.left = Math.random() * 100 + '%'; d.style.animationDuration = (0.5 + Math.random() * 0.4) + 's'; d.style.animationDelay = (Math.random() * 0.8) + 's'; fx.appendChild(d); }
   } else if (G.weather === 'cold') {
-    for (let i = 0; i < 35; i++) {
-      const s = document.createElement('div');
-      s.className = 'snow';
-      s.style.left = Math.random() * 100 + '%';
-      s.style.animationDuration = (3 + Math.random() * 3) + 's';
-      s.style.animationDelay = (Math.random() * 2) + 's';
-      fx.appendChild(s);
-    }
+    for (let i = 0; i < 35; i++) { const s = document.createElement('div'); s.className = 'snow'; s.style.left = Math.random() * 100 + '%'; s.style.animationDuration = (3 + Math.random() * 3) + 's'; s.style.animationDelay = (Math.random() * 2) + 's'; fx.appendChild(s); }
   }
-
   $('hud-weather').textContent = `${w.emoji} ${w.name}`;
 }
 
-/* ==================================================
-   TIN TỨC ĐẦU NGÀY
-   ================================================== */
+/* ================================================================
+   NEWS / REPORT / EVENT MODALS
+   ================================================================ */
 function showNews() {
   $('news-day-label').textContent = `Ngày ${G.day} · ${WEATHERS[G.weather].emoji} ${WEATHERS[G.weather].name}`;
-  const body = $('news-body');
-  body.innerHTML = '';
-
-  // Tin thời tiết
+  const body = $('news-body'); body.innerHTML = '';
   const w = WEATHERS[G.weather];
-  const div1 = document.createElement('div');
-  div1.className = 'news-item weather';
-  div1.innerHTML = `<strong>${w.emoji} Thời tiết: ${w.name}</strong><br>${w.desc}.`;
-  body.appendChild(div1);
+  const d1 = document.createElement('div'); d1.className = 'news-item weather';
+  d1.innerHTML = `<strong>${w.emoji} Thời tiết: ${w.name}</strong><br>${w.desc}.`;
+  body.appendChild(d1);
 
-  // Tin thị trường — tìm mặt hàng tăng/giảm mạnh nhất
   let bestItem = null, bestMul = 1;
-  for (const item in G.marketMul) {
-    if (G.marketMul[item] > bestMul) { bestMul = G.marketMul[item]; bestItem = item; }
-  }
+  for (const it in G.marketMul) if (G.marketMul[it] > bestMul) { bestMul = G.marketMul[it]; bestItem = it; }
   if (bestItem) {
     const pct = Math.round((bestMul - 1) * 100);
-    const div2 = document.createElement('div');
-    div2.className = 'news-item market';
-    div2.innerHTML = `<strong>📈 ${bestItem} tăng giá!</strong><br>Nhu cầu cao — giá hiện tại <strong>+${pct}%</strong> so với hôm qua.`;
-    body.appendChild(div2);
+    const d2 = document.createElement('div'); d2.className = 'news-item market';
+    d2.innerHTML = `<strong>📈 ${bestItem} tăng giá!</strong><br>Giá hiện tại <strong>+${pct}%</strong> so với hôm qua.`;
+    body.appendChild(d2);
   }
 
-  // Tin xã hội ngẫu nhiên
+  // Bird flu warning
+  if (G.vaccineActive) {
+    const d = document.createElement('div'); d.className = 'news-item'; d.style.borderLeftColor = '#4CAF50';
+    d.innerHTML = `<strong>💉 Vaccine đang hiệu lực</strong><br>Đàn gia cầm được bảo vệ khỏi cúm gia cầm.`;
+    body.appendChild(d);
+  } else if (Math.random() < 0.3) {
+    const d = document.createElement('div'); d.className = 'news-item disease';
+    d.innerHTML = `<strong>⚠️ Cảnh báo cúm gia cầm</strong><br>Có tin dịch cúm đang lan trong vùng. Hãy mua vaccine để bảo vệ đàn gà!`;
+    body.appendChild(d);
+  }
+
   const socials = [
-    `${pick(HO)} ${pick(TEN)} vừa mở tiệm tạp hoá mới ở đầu làng.`,
+    `${pick(HO)} ${pick(TEN)} vừa mở tiệm tạp hoá mới.`,
     `Tin đồn: ${pick(HO)} ${pick(TEN)} sắp tổ chức tiệc cưới!`,
-    `Hội chợ nông sản sẽ diễn ra vào cuối tuần này.`,
-    `${pick(HO)} ${pick(TEN)} khoe được mùa cà chua năm nay.`,
-    `Trang trại ${pick(["Xanh","Vàng","Đỏ","Bình yên","Hạnh phúc"])} vừa bán được 100 con gà.`,
-    `Trẻ con trong làng đang chơi thả diều ở cánh đồng bên cạnh.`,
+    `Hội chợ nông sản sẽ diễn ra vào cuối tuần.`,
+    `${pick(HO)} ${pick(TEN)} khoe được mùa năm nay.`,
+    `Trang trại ${pick(["Xanh","Vàng","Đỏ","Bình yên"])} vừa bán 100 con gà.`,
+    `Trẻ con trong làng đang chơi thả diều.`,
   ];
-  const div3 = document.createElement('div');
-  div3.className = 'news-item social';
-  div3.innerHTML = `<strong>💌 Tin trong làng</strong><br>${pick(socials)}`;
-  body.appendChild(div3);
+  const d3 = document.createElement('div'); d3.className = 'news-item social';
+  d3.innerHTML = `<strong>💌 Tin trong làng</strong><br>${pick(socials)}`;
+  body.appendChild(d3);
 
   $('news-overlay').style.display = 'flex';
 }
 $('news-ok').onclick = () => { $('news-overlay').style.display = 'none'; };
 
-/* ==================================================
-   BÁO CÁO CUỐI NGÀY
-   ================================================== */
 function showReport() {
   $('report-day-label').textContent = `Kết thúc ngày ${G.day}`;
-  const body = $('report-body');
-  body.innerHTML = '';
-
+  const body = $('report-body'); body.innerHTML = '';
   const rows = [
     ['📦 Số đơn đã giao', G.dailyDeliveries + ' đơn', null],
     ['🌾 Số lần thu hoạch', G.dailyHarvests + ' lần', null],
-    ['💵 Thu nhập hôm nay', '+' + G.dailyRevenue + '$', 'income'],
-    ['💸 Chi tiêu hôm nay', '-' + G.dailyExpense + '$', 'expense'],
+    ['💵 Thu nhập', '+' + G.dailyRevenue + '$', 'income'],
+    ['💸 Chi tiêu', '-' + G.dailyExpense + '$', 'expense'],
   ];
-  for (const [label, val, cls] of rows) {
-    const r = document.createElement('div');
-    r.className = 'report-row';
-    r.innerHTML = `<span>${label}</span><span class="val ${cls || ''}">${val}</span>`;
+  for (const [l, v, c] of rows) {
+    const r = document.createElement('div'); r.className = 'report-row';
+    r.innerHTML = `<span>${l}</span><span class="val ${c || ''}">${v}</span>`;
     body.appendChild(r);
   }
-
   const net = G.dailyRevenue - G.dailyExpense;
-  const netRow = document.createElement('div');
-  netRow.className = 'report-row total';
-  netRow.innerHTML = `<span>💼 Lợi nhuận ròng</span><span style="color:${net >= 0 ? '#A5D6A7' : '#EF9A9A'}">${net >= 0 ? '+' : ''}${net}$</span>`;
-  body.appendChild(netRow);
-
-  const balRow = document.createElement('div');
-  balRow.className = 'report-row';
-  balRow.innerHTML = `<span>💰 Số dư hiện tại</span><span class="val" style="color:#FFD54F;font-weight:bold">${G.money}$</span>`;
-  body.appendChild(balRow);
-
-  const repRow = document.createElement('div');
-  repRow.className = 'report-row';
-  repRow.innerHTML = `<span>⭐ Danh tiếng</span><span class="val" style="color:#F8BBD0">${G.reputation.toFixed(1)}/10</span>`;
-  body.appendChild(repRow);
-
+  const nr = document.createElement('div'); nr.className = 'report-row total';
+  nr.innerHTML = `<span>💼 Lợi nhuận ròng</span><span style="color:${net >= 0 ? '#A5D6A7' : '#EF9A9A'}">${net >= 0 ? '+' : ''}${net}$</span>`;
+  body.appendChild(nr);
+  const br = document.createElement('div'); br.className = 'report-row';
+  br.innerHTML = `<span>💰 Số dư</span><span class="val" style="color:#FFD54F;font-weight:bold">${G.money}$</span>`;
+  body.appendChild(br);
+  const rr = document.createElement('div'); rr.className = 'report-row';
+  rr.innerHTML = `<span>⭐ Danh tiếng</span><span class="val" style="color:#F8BBD0">${G.reputation.toFixed(1)}/10</span>`;
+  body.appendChild(rr);
   $('report-overlay').style.display = 'flex';
 }
-$('report-ok').onclick = () => { $('report-overlay').style.display = 'none'; };
 
-/* ==================================================
-   SỰ KIỆN BẤT NGỜ
-   ================================================== */
+/* ================================================================
+   EVENTS
+   ================================================================ */
 function triggerRandomEvent() {
-  const events = [chickenEscape, neighborHelp];
-  pick(events)();
+  const pool = [];
+  pool.push(chickenEscape, neighborHelp);
+  if (G.birdFluDay === 0) pool.push(birdFluEvent);
+  pick(pool)();
 }
 
 function chickenEscape() {
   const n = 1 + Math.floor(Math.random() * 2);
   $('event-icon').textContent = '🐔';
   $('event-title').textContent = 'GÀ XỔNG CHUỒNG!';
-  $('event-desc').textContent = `${n} con gà đã chạy mất khỏi chuồng! Bạn sẽ làm gì?`;
+  $('event-desc').textContent = `${n} con gà đã chạy mất! Bạn sẽ làm gì?`;
+  const c = $('event-choices'); c.innerHTML = '';
 
-  const choices = $('event-choices');
-  choices.innerHTML = '';
-
-  const b1 = document.createElement('button');
-  b1.className = 'event-btn';
+  const b1 = document.createElement('button'); b1.className = 'event-btn';
   b1.innerHTML = `<span class="eb-icon">🏃</span><span class="eb-text">Tự đi tìm (tốn 15 năng lượng)</span>`;
   b1.onclick = () => {
     if (G.energy < 15) { toast('Không đủ năng lượng!', 'error'); return; }
     G.energy -= 15;
-    if (Math.random() < 0.65) {
-      toast(`🎉 Tìm được ${n} con gà!`, 'info');
-      G.reputation = Math.min(10, G.reputation + 0.2);
-    } else {
-      toast(`😢 Không tìm thấy con gà nào...`, 'error');
-    }
+    if (Math.random() < 0.65) { toast(`🎉 Tìm được ${n} con gà!`, 'info'); G.reputation = Math.min(10, G.reputation + 0.2); }
+    else toast('😢 Không tìm thấy!', 'error');
     closeEvent();
   };
-  choices.appendChild(b1);
+  c.appendChild(b1);
 
-  const b2 = document.createElement('button');
-  b2.className = 'event-btn';
+  const b2 = document.createElement('button'); b2.className = 'event-btn';
   b2.innerHTML = `<span class="eb-icon">💰</span><span class="eb-text">Thuê người tìm</span><span class="eb-cost">30$</span>`;
   b2.onclick = () => {
     if (G.money < 30) { toast('Không đủ tiền!', 'error'); return; }
-    G.money -= 30;
-    G.dailyExpense += 30;
-    if (Math.random() < 0.9) {
-      toast(`🎉 Thợ tìm được ${n} con gà!`, 'info');
-    } else {
-      toast(`😢 Thợ không tìm thấy con nào...`, 'error');
-    }
+    G.money -= 30; G.dailyExpense += 30;
+    if (Math.random() < 0.9) toast(`🎉 Tìm được ${n} con gà!`, 'info');
+    else toast('😢 Không tìm thấy!', 'error');
     closeEvent();
   };
-  choices.appendChild(b2);
+  c.appendChild(b2);
 
-  const b3 = document.createElement('button');
-  b3.className = 'event-btn';
-  b3.innerHTML = `<span class="eb-icon">🤷</span><span class="eb-text">Bỏ mặc (mất gà)</span>`;
-  b3.onclick = () => {
-    toast(`Gà đã mất tích mãi mãi...`, 'error');
-    G.reputation = Math.max(0, G.reputation - 0.15);
-    closeEvent();
-  };
-  choices.appendChild(b3);
+  const b3 = document.createElement('button'); b3.className = 'event-btn';
+  b3.innerHTML = `<span class="eb-icon">🤷</span><span class="eb-text">Bỏ mặc</span>`;
+  b3.onclick = () => { toast('Gà đã mất tích...', 'error'); G.reputation = Math.max(0, G.reputation - 0.15); closeEvent(); };
+  c.appendChild(b3);
 
   $('event-overlay').style.display = 'flex';
 }
 
 function neighborHelp() {
-  const neighbor = randomNpcName();
-  const items = producibleItems();
-  const wantItem = items.length ? pick(items) : 'Cà rốt';
+  const nb = randomNpcName();
+  const items = prodItems();
+  const want = items.length ? pick(items) : 'Cà rốt';
   const qty = 3 + Math.floor(Math.random() * 4);
-
   $('event-icon').textContent = '👨‍🌾';
   $('event-title').textContent = 'HÀNG XÓM CẦN GIÚP!';
-  $('event-desc').innerHTML = `"${neighbor}" cần <strong>${qty}× ${wantItem}</strong> trước tối nay.<br>Bạn có giúp không?`;
+  $('event-desc').innerHTML = `"${nb}" cần <strong>${qty}× ${want}</strong> trước tối nay.`;
+  const c = $('event-choices'); c.innerHTML = '';
 
-  const choices = $('event-choices');
-  choices.innerHTML = '';
-
-  const b1 = document.createElement('button');
-  b1.className = 'event-btn';
-  b1.innerHTML = `<span class="eb-icon">🤝</span><span class="eb-text">Giúp — tặng ${qty}× ${wantItem}</span>`;
+  const b1 = document.createElement('button'); b1.className = 'event-btn';
+  b1.innerHTML = `<span class="eb-icon">🤝</span><span class="eb-text">Tặng ${qty}× ${want}</span>`;
   b1.onclick = () => {
-    if (invCount(wantItem) < qty) { toast(`Không đủ ${wantItem}!`, 'error'); return; }
-    invSub(wantItem, qty);
-    addRelationship(neighbor, 2);
-    G.reputation = Math.min(10, G.reputation + 0.35);
-    toast(`❤️ ${neighbor} rất cảm kích bạn!`, 'info');
-    closeEvent();
-    renderAll();
+    if (invCount(want) < qty) { toast(`Không đủ ${want}!`, 'error'); return; }
+    invSub(want, qty);
+    addRelationship(nb, 2); G.reputation = Math.min(10, G.reputation + 0.35);
+    toast(`❤️ ${nb} rất cảm kích!`, 'info');
+    closeEvent(); renderAll();
   };
-  choices.appendChild(b1);
+  c.appendChild(b1);
 
-  const b2 = document.createElement('button');
-  b2.className = 'event-btn';
-  b2.innerHTML = `<span class="eb-icon">💸</span><span class="eb-text">Bán với giá 1.5x</span>`;
+  const b2 = document.createElement('button'); b2.className = 'event-btn';
+  b2.innerHTML = `<span class="eb-icon">💸</span><span class="eb-text">Bán 1.5x giá</span>`;
   b2.onclick = () => {
-    if (invCount(wantItem) < qty) { toast(`Không đủ ${wantItem}!`, 'error'); return; }
-    invSub(wantItem, qty);
-    const gain = Math.round(itemCurrentPrice(wantItem) * qty * 1.5);
-    G.money += gain;
-    G.dailyRevenue += gain;
-    G.stats.totalEarned += gain;
-    addRelationship(neighbor, 0.5);
-    toast(`+${gain}$ nhưng quan hệ chỉ tăng nhẹ`, 'info');
-    closeEvent();
-    renderAll();
+    if (invCount(want) < qty) { toast(`Không đủ ${want}!`, 'error'); return; }
+    invSub(want, qty);
+    const gain = Math.round(itemCurrentPrice(want) * qty * 1.5);
+    G.money += gain; G.dailyRevenue += gain; G.stats.totalEarned += gain;
+    addRelationship(nb, 0.5);
+    toast(`+${gain}$`, 'info');
+    closeEvent(); renderAll();
   };
-  choices.appendChild(b2);
+  c.appendChild(b2);
 
-  const b3 = document.createElement('button');
-  b3.className = 'event-btn';
+  const b3 = document.createElement('button'); b3.className = 'event-btn';
   b3.innerHTML = `<span class="eb-icon">❌</span><span class="eb-text">Từ chối</span>`;
-  b3.onclick = () => {
-    addRelationship(neighbor, -1.5);
-    G.reputation = Math.max(0, G.reputation - 0.25);
-    toast(`💔 ${neighbor} hơi thất vọng...`, 'error');
-    closeEvent();
-    renderAll();
+  b3.onclick = () => { addRelationship(nb, -1.5); G.reputation = Math.max(0, G.reputation - 0.25); toast(`💔 ${nb} thất vọng`, 'error'); closeEvent(); renderAll(); };
+  c.appendChild(b3);
+
+  $('event-overlay').style.display = 'flex';
+}
+
+function birdFluEvent() {
+  // Count chickens in plots
+  const chickenPlots = G.plots.map((p, i) => ({ p, i })).filter(({ p, i }) => isPlotUnlocked(i) && p.kind === 'animal' && p.name === 'Gà');
+  if (!chickenPlots.length) return;
+
+  $('event-icon').textContent = '🦠';
+  $('event-title').textContent = 'DỊCH CÚM GIA CẦM!';
+  const atRisk = chickenPlots.length;
+  $('event-desc').innerHTML = `Dịch cúm gia cầm đang lan! <strong>${atRisk} con gà</strong> của bạn có nguy cơ nhiễm bệnh.<br>Bạn xử lý thế nào?`;
+  const c = $('event-choices'); c.innerHTML = '';
+
+  const b1 = document.createElement('button'); b1.className = 'event-btn';
+  b1.innerHTML = `<span class="eb-icon">💉</span><span class="eb-text">Mua vaccine khẩn cấp</span><span class="eb-cost">${VACCINE_COST}$</span>`;
+  b1.onclick = () => {
+    if (G.money < VACCINE_COST) { toast('Không đủ tiền!', 'error'); return; }
+    G.money -= VACCINE_COST; G.dailyExpense += VACCINE_COST;
+    G.vaccineActive = true; G.vaccineDay = G.day;
+    toast(`💉 Đã tiêm vaccine! Đàn gà an toàn.`, 'info');
+    setStatus(`💉 Vaccine có hiệu lực đến hết ngày ${G.day + 5}`);
+    closeEvent(); renderAll();
   };
-  choices.appendChild(b3);
+  c.appendChild(b1);
+
+  const b2 = document.createElement('button'); b2.className = 'event-btn';
+  b2.innerHTML = `<span class="eb-icon">😷</span><span class="eb-text">Cách ly (mất 1/3 đàn gà)</span>`;
+  b2.onclick = () => {
+    const kill = Math.ceil(chickenPlots.length / 3);
+    for (let k = 0; k < kill; k++) {
+      const { p } = chickenPlots[k];
+      p.kind = p.name = null; p.progress = 0; p.ready = false; p.gene = null;
+    }
+    toast(`😷 Mất ${kill} con gà do cách ly.`, 'error');
+    G.reputation = Math.max(0, G.reputation - 0.3);
+    closeEvent(); plotSig = ''; renderAll();
+  };
+  c.appendChild(b2);
+
+  const b3 = document.createElement('button'); b3.className = 'event-btn';
+  b3.innerHTML = `<span class="eb-icon">🤷</span><span class="eb-text">Mặc kệ (rủi ro cao)</span>`;
+  b3.onclick = () => {
+    const die = Math.random() < 0.7;
+    if (die) {
+      const kill = Math.ceil(chickenPlots.length * 0.6);
+      for (let k = 0; k < kill; k++) {
+        const { p } = chickenPlots[k];
+        p.kind = p.name = null; p.progress = 0; p.ready = false; p.gene = null;
+      }
+      toast(`💀 Dịch bùng phát! Mất ${kill} con gà.`, 'error');
+      G.reputation = Math.max(0, G.reputation - 0.5);
+    } else {
+      toast(`😅 May mắn không sao!`, 'info');
+    }
+    closeEvent(); plotSig = ''; renderAll();
+  };
+  c.appendChild(b3);
 
   $('event-overlay').style.display = 'flex';
 }
 
 function closeEvent() { $('event-overlay').style.display = 'none'; }
-
 function addRelationship(npc, delta) {
   G.relationships[npc] = (G.relationships[npc] || 0) + delta;
-  const closeFriends = Object.values(G.relationships).filter(v => v >= 3).length;
-  G.stats.closeFriends = closeFriends;
+  G.stats.closeFriends = Object.values(G.relationships).filter(v => v >= 3).length;
 }
 
-/* ==================================================
-   CHUYỂN NGÀY
-   ================================================== */
+/* ================================================================
+   ADVANCE DAY
+   ================================================================ */
 function advanceDay() {
-  // Kết thúc ngày — hiện báo cáo
   showReport();
-
-  // Chờ người chơi đóng báo cáo → áp dụng ngày mới
   const onOk = () => {
     $('report-ok').removeEventListener('click', onOk);
+    G.day++; G.dayTime = 0; G.stats.daysPlayed = G.day;
 
-    // Sang ngày mới
-    G.day++;
-    G.dayTime = 0;
-    G.stats.daysPlayed = G.day;
-
-    // Thời tiết mới
-    const weatherKeys = Object.keys(WEATHERS);
-    // Weighted: sunny/rain phổ biến hơn
+    // Weather
     const weights = { sunny: 30, rain: 25, cold: 20, storm: 15, rainbow: 10 };
     let total = Object.values(weights).reduce((s, w) => s + w, 0);
-    let r = Math.random() * total;
-    let chosen = 'sunny';
-    for (const k in weights) {
-      r -= weights[k];
-      if (r <= 0) { chosen = k; break; }
-    }
+    let r = Math.random() * total; let chosen = 'sunny';
+    for (const k in weights) { r -= weights[k]; if (r <= 0) { chosen = k; break; } }
     G.weather = chosen;
-    G.weatherSeen.add(chosen);
-    G.stats.weatherSeen = G.weatherSeen.size;
+    if (!G.weatherSeen.includes(chosen)) G.weatherSeen.push(chosen);
+    G.stats.weatherSeen = G.weatherSeen.length;
 
-    // Reset counters
-    G.dailyRevenue = 0;
-    G.dailyExpense = 0;
-    G.dailyDeliveries = 0;
-    G.dailyHarvests = 0;
-
-    // Roll market mới
+    // Reset
+    G.dailyRevenue = 0; G.dailyExpense = 0; G.dailyDeliveries = 0; G.dailyHarvests = 0;
     rollDailyMarket();
-
-    // Áp dụng hình ảnh thời tiết
-    applyWeatherVisual();
-    applyTheme();
-
-    // Hồi năng lượng
+    applyWeatherVisual(); applyTheme();
     G.energy = Math.min(100, G.energy + 40);
 
-    // Kiểm tra thành tựu
-    checkAchievements();
+    // Vaccine expiry
+    if (G.vaccineActive && G.day - G.vaccineDay >= 5) {
+      G.vaccineActive = false;
+      toast(`💉 Vaccine đã hết hiệu lực.`, 'info');
+    }
 
-    // Hiển thị tin tức
+    // Bird flu risk
+    G.birdFluDay = 0;
+    if (!G.vaccineActive && Math.random() < 0.15) {
+      const hasChickens = G.plots.some((p, i) => isPlotUnlocked(i) && p.kind === 'animal' && p.name === 'Gà');
+      if (hasChickens) { G.birdFluDay = G.day; }
+    }
+
+    checkAchievements();
     renderAll();
     showNews();
 
-    // Sự kiện ngẫu nhiên
-    if (G.day >= G.nextEventDay && Math.random() < 0.7) {
-      setTimeout(triggerRandomEvent, 800);
+    // Random event
+    if (G.birdFluDay === G.day) {
+      setTimeout(birdFluEvent, 700);
+      G.nextEventDay = G.day + 2;
+    } else if (G.day >= G.nextEventDay && Math.random() < 0.65) {
+      setTimeout(triggerRandomEvent, 700);
       G.nextEventDay = G.day + 1 + Math.floor(Math.random() * 3);
     }
+    saveGame();
   };
   $('report-ok').addEventListener('click', onOk);
 }
 
-/* ==================================================
-   REBUILD PANELS
-   ================================================== */
+/* ================================================================
+   PANELS
+   ================================================================ */
 function rebuildPanels() {
-  buildShop();
-  buildUnlockList();
-  buildLandList();
-  buildWorkerList();
+  buildShop(); buildUnlockList(); buildLandList(); buildWorkerList(); buildVaccineList();
 }
 
 function buildShop() {
-  const cropBox = $('shop-crops');
-  const animalBox = $('shop-animals');
-  cropBox.innerHTML = '';
-  animalBox.innerHTML = '';
-
+  const cb = $('shop-crops'), ab = $('shop-animals');
+  cb.innerHTML = ''; ab.innerHTML = '';
   for (const name in CROPS) {
-    if (!G.unlockedCrops.has(name)) continue;
+    if (!G.unlockedCrops.includes(name)) continue;
     const d = CROPS[name];
-    const btn = document.createElement('button');
-    btn.className = 'shop-btn';
-    btn.innerHTML = `<span>🌱 ${name}</span><span class="price">${d.seed}$</span>`;
-    btn.onclick = () => buySeed(name);
-    cropBox.appendChild(btn);
+    const b = document.createElement('button');
+    b.className = 'shop-btn';
+    b.innerHTML = `<span>${d.emoji} ${name}</span><span class="price">${d.seed}$</span>`;
+    b.onclick = () => buySeedBulk(name);
+    cb.appendChild(b);
   }
   for (const name in ANIMALS) {
     const d = ANIMALS[name];
-    const btn = document.createElement('button');
-    btn.className = 'shop-btn';
-    btn.innerHTML = `<span>${d.emoji} ${name}</span><span class="price">${d.cost}$</span>`;
-    btn.onclick = () => buyAnimal(name);
-    animalBox.appendChild(btn);
+    const b = document.createElement('button');
+    b.className = 'shop-btn';
+    b.innerHTML = `<span>${d.emoji} ${name}</span><span class="price">${d.cost}$</span>`;
+    b.onclick = () => buyAnimalBulk(name);
+    ab.appendChild(b);
   }
   document.querySelectorAll('.ad-btn').forEach(btn => {
-    btn.onclick = () => {
-      if (btn.dataset.ad === 'flyer') buyAd(20, 100, 'Tờ rơi');
-      else buyAd(45, 300, 'Radio');
-    };
+    btn.onclick = () => { if (btn.dataset.ad === 'flyer') buyAd(20, 100, 'Tờ rơi'); else buyAd(45, 300, 'Radio'); };
   });
+  $('buy-mystery-1').onclick = () => buyMysteryPackets(1);
+  $('buy-mystery-10').onclick = () => buyMysteryPackets(10);
+  $('mystery-count').textContent = `${G.mysteryDiscoveries.length}/1000`;
 }
 
 function buildUnlockList() {
-  const box = $('unlock-list');
-  box.innerHTML = '';
+  const box = $('unlock-list'); box.innerHTML = '';
   let anyLocked = false;
   for (const name in CROPS) {
-    if (G.unlockedCrops.has(name)) continue;
+    if (G.unlockedCrops.includes(name)) continue;
     anyLocked = true;
     const d = CROPS[name];
-    const btn = document.createElement('button');
-    btn.className = 'unlock-btn';
-    btn.innerHTML = `<span class="unlock-emoji">${d.emoji}</span><span class="unlock-name">${name}</span><span class="unlock-cost">${d.unlockCost}$</span>`;
-    btn.onclick = () => unlockCrop(name);
-    box.appendChild(btn);
+    const b = document.createElement('button'); b.className = 'unlock-btn';
+    b.innerHTML = `<span>${d.emoji}</span><span class="unlock-name">${name}</span><span class="unlock-cost">${d.unlockCost}$</span>`;
+    b.onclick = () => unlockCrop(name);
+    box.appendChild(b);
   }
   if (!anyLocked) {
-    const d = document.createElement('div');
-    d.className = 'inv-empty';
-    d.style.padding = '4px 0';
-    d.textContent = '✅ Đã mở khoá tất cả giống cây!';
+    const d = document.createElement('div'); d.className = 'inv-empty'; d.style.padding = '4px 0';
+    d.textContent = '✅ Đã mở hết giống cơ bản!';
     box.appendChild(d);
   }
 }
 
 function buildLandList() {
-  const box = $('land-list');
-  box.innerHTML = '';
-  const cost = nextRowCost();
-  if (cost === null) {
-    const d = document.createElement('div');
-    d.className = 'inv-empty';
-    d.style.padding = '4px 0';
-    d.textContent = '✅ Đã mở rộng tối đa (16 ô)!';
-    box.appendChild(d);
-    return;
+  const box = $('land-list'); box.innerHTML = '';
+  const rowsCrop = MAX_ROWS_PER_ZONE - G.unlockedRowsCrop;
+  const rowsAnimal = MAX_ROWS_PER_ZONE - G.unlockedRowsAnimal;
+  if (rowsCrop === 0 && rowsAnimal === 0) {
+    const d = document.createElement('div'); d.className = 'inv-empty'; d.style.padding = '4px 0';
+    d.textContent = '✅ Đã mở tối đa 50 ô!';
+    box.appendChild(d); return;
   }
-  const rowNum = G.unlockedRows + 1;
-  const btn = document.createElement('button');
-  btn.className = 'land-btn';
-  btn.innerHTML = `<span>🏗️ Mở hàng ${rowNum} (+4 ô)</span><span class="land-cost">${cost}$</span>`;
-  btn.onclick = () => unlockRow();
-  box.appendChild(btn);
+  if (rowsCrop > 0) {
+    const b = document.createElement('button'); b.className = 'land-btn';
+    b.innerHTML = `<span>🌱 +5 ô trồng (hàng ${G.unlockedRowsCrop + 1})</span><span class="land-cost">${ROW_COST_PER_ROW}$</span>`;
+    b.onclick = () => unlockRow('crop');
+    box.appendChild(b);
+  }
+  if (rowsAnimal > 0) {
+    const b = document.createElement('button'); b.className = 'land-btn';
+    b.innerHTML = `<span>🐄 +5 ô nuôi (hàng ${G.unlockedRowsAnimal + 1})</span><span class="land-cost">${ROW_COST_PER_ROW}$</span>`;
+    b.onclick = () => unlockRow('animal');
+    box.appendChild(b);
+  }
 }
 
 function buildWorkerList() {
-  const box = $('worker-list');
-  box.innerHTML = '';
+  const box = $('worker-list'); box.innerHTML = '';
   for (const name in WORKERS) {
     const w = WORKERS[name];
     const hired = G.hiredWorkers.some(h => h.name === name);
-    const btn = document.createElement('button');
-    btn.className = 'worker-btn' + (hired ? ' hired' : '');
-    btn.innerHTML = `
-      <span class="worker-emoji">${w.emoji}</span>
-      <span class="worker-name">${name}<span class="worker-detail">${w.desc}</span></span>
-      <span class="worker-cost">${hired ? '✓' : w.cost + '$'}</span>`;
-    if (!hired) btn.onclick = () => hireWorker(name);
-    box.appendChild(btn);
+    const b = document.createElement('button'); b.className = 'worker-btn' + (hired ? ' hired' : '');
+    b.innerHTML = `<span>${w.emoji}</span><span class="worker-name">${name}<span class="worker-detail">${w.desc}</span></span><span class="worker-cost">${hired ? '✓' : w.cost + '$'}</span>`;
+    if (!hired) b.onclick = () => hireWorker(name);
+    box.appendChild(b);
   }
 }
 
-/* ==================================================
-   MỞ KHOÁ / MỞ RỘNG / THUÊ
-   ================================================== */
+function buildVaccineList() {
+  const box = $('vaccine-list'); box.innerHTML = '';
+  if (G.vaccineActive) {
+    const daysLeft = Math.max(0, 5 - (G.day - G.vaccineDay));
+    const d = document.createElement('div'); d.className = 'inv-empty'; d.style.padding = '4px 0';
+    d.innerHTML = `✅ Đang hiệu lực (còn ${daysLeft} ngày)`;
+    d.style.color = '#A5D6A7';
+    box.appendChild(d);
+    return;
+  }
+  const b = document.createElement('button'); b.className = 'worker-btn';
+  b.innerHTML = `<span>💉</span><span class="worker-name">Mua vaccine (5 ngày)<span class="worker-detail">Bảo vệ gà khỏi cúm</span></span><span class="worker-cost">${VACCINE_COST}$</span>`;
+  b.onclick = () => {
+    if (G.money < VACCINE_COST) { toast('Không đủ tiền!', 'error'); return; }
+    G.money -= VACCINE_COST; G.dailyExpense += VACCINE_COST;
+    G.vaccineActive = true; G.vaccineDay = G.day;
+    toast(`💉 Đã mua vaccine!`, 'info');
+    rebuildPanels(); renderAll();
+  };
+  box.appendChild(b);
+}
+
+/* ================================================================
+   ACTIONS
+   ================================================================ */
 function unlockCrop(name) {
   const d = CROPS[name];
   if (G.money < d.unlockCost) { toast(`Cần ${d.unlockCost}$!`, 'error'); return; }
-  G.money -= d.unlockCost;
-  G.dailyExpense += d.unlockCost;
-  G.unlockedCrops.add(name);
-  toast(`🎉 Mở khoá giống ${name}!`, 'info');
-  rebuildPanels();
-  renderAll();
+  G.money -= d.unlockCost; G.dailyExpense += d.unlockCost;
+  G.unlockedCrops.push(name);
+  toast(`🎉 Mở khoá ${name}!`, 'info');
+  rebuildPanels(); renderAll();
 }
 
-function unlockRow() {
-  const cost = nextRowCost();
-  if (cost === null) return;
-  if (G.money < cost) { toast(`Cần ${cost}$!`, 'error'); return; }
-  G.money -= cost;
-  G.dailyExpense += cost;
-  G.unlockedRows++;
-  toast(`🏗️ Mở rộng thêm 4 ô đất!`, 'info');
+function unlockRow(zone) {
+  if (G.money < ROW_COST_PER_ROW) { toast(`Cần ${ROW_COST_PER_ROW}$!`, 'error'); return; }
+  G.money -= ROW_COST_PER_ROW; G.dailyExpense += ROW_COST_PER_ROW;
+  if (zone === 'crop') G.unlockedRowsCrop++;
+  else G.unlockedRowsAnimal++;
+  toast(`🏗️ Mở thêm 5 ô ${zone === 'crop' ? 'trồng trọt' : 'chăn nuôi'}!`, 'info');
   plotSig = '';
-  rebuildPanels();
-  renderAll();
+  rebuildPanels(); renderAll();
 }
 
 function hireWorker(name) {
   const w = WORKERS[name];
   if (G.hiredWorkers.some(h => h.name === name)) return;
   if (G.money < w.cost) { toast(`Cần ${w.cost}$!`, 'error'); return; }
-  G.money -= w.cost;
-  G.dailyExpense += w.cost;
-  const profile = {
-    displayName: randomNpcName(),
-    quirk: pick(WORKER_QUIRKS),
-    age: 20 + Math.floor(Math.random() * 40),
-  };
+  G.money -= w.cost; G.dailyExpense += w.cost;
+  const profile = { displayName: randomNpcName(), quirk: pick(WORKER_QUIRKS), age: 20 + Math.floor(Math.random() * 40) };
   G.hiredWorkers.push({ name, timer: w.interval, profile });
-  toast(`🧑‍🌾 Đã thuê ${name}: ${profile.displayName}`, 'info');
-  setStatus(`🧑‍🌾 ${profile.displayName} (${profile.age} tuổi, ${profile.quirk}) bắt đầu làm việc!`);
-  rebuildPanels();
-  renderAll();
+  toast(`🧑‍🌾 ${profile.displayName} (${profile.age}t, ${profile.quirk}) đã vào làm!`, 'info');
+  rebuildPanels(); renderAll();
 }
 
-/* ==================================================
-   MUA HÀNG
-   ================================================== */
-function buySeed(crop) {
-  if (!G.unlockedCrops.has(crop)) { toast(`Chưa mở khoá!`, 'error'); return; }
-  const cost = CROPS[crop].seed;
-  if (G.money < cost) { toast('Không đủ tiền!', 'error'); return; }
-  G.money -= cost;
-  G.dailyExpense += cost;
-  invAdd('Hạt ' + crop, 1);
-  setStatus(`🛒 Đã mua 1 hạt ${crop}.`);
-  renderAll();
+/* ================================================================
+   BULK BUY MODAL
+   ================================================================ */
+let bulkState = null;
+
+function openBulkModal(kind, key, name, unitCost, maxBuy) {
+  bulkState = { kind, key, name, unitCost, maxBuy };
+  $('bulk-title').textContent = kind === 'seed' ? `🌱 Mua hạt giống` : kind === 'animal' ? `🐾 Mua con giống` : `🎁 Mua gói bí ẩn`;
+  $('bulk-sub').textContent = name;
+  $('bulk-unit').textContent = unitCost + '$';
+  $('bulk-max').textContent = maxBuy;
+  $('bulk-qty').value = 1;
+  $('bulk-qty').max = maxBuy;
+  updateBulkTotal();
+  $('bulk-overlay').style.display = 'flex';
 }
 
-function buyAnimal(animal) {
-  const cost = ANIMALS[animal].cost;
-  if (G.money < cost) { toast('Không đủ tiền!', 'error'); return; }
-  G.money -= cost;
-  G.dailyExpense += cost;
-  const gene = rollGene();
-  // Lưu vào túi dạng "Gà#gene"
-  const key = animal + '|' + gene;
-  if (!G.inventory[key]) G.inventory[key] = { count: 0, base: animal, gene };
-  G.inventory[key].count++;
-
-  if (gene === 'rainbow') { toast(`🌈 Tuyệt! Bạn nhận được ${animal} gen Cầu vồng!`, 'achievement'); G.stats.rareOwned = Math.max(G.stats.rareOwned, 1); }
-  else if (gene === 'royal') { toast(`👑 Wow! ${animal} gen Hoàng gia!`, 'achievement'); G.stats.rareOwned = Math.max(G.stats.rareOwned, 1); }
-  else if (gene === 'gold') { toast(`✨ SIÊU HIẾM! ${animal} gen Vàng VIP!`, 'achievement'); G.stats.rareOwned = 1; G.stats.goldOwned = 1; }
-  else setStatus(`🛒 Đã mua 1 con ${animal} (gen thường).`);
-
-  checkAchievements();
-  renderAll();
+function updateBulkTotal() {
+  if (!bulkState) return;
+  let q = parseInt($('bulk-qty').value, 10) || 1;
+  q = Math.max(1, Math.min(bulkState.maxBuy, q));
+  $('bulk-qty').value = q;
+  $('bulk-qty-display').textContent = q;
+  $('bulk-total').textContent = (q * bulkState.unitCost) + '$';
 }
 
-function buyAd(seconds, cost, label) {
+document.querySelectorAll('.bulk-qty-row button').forEach(btn => {
+  btn.onclick = () => {
+    if (!bulkState) return;
+    let q = parseInt($('bulk-qty').value, 10) || 1;
+    const v = btn.dataset.q;
+    if (v === 'max') q = bulkState.maxBuy;
+    else q += parseInt(v, 10);
+    q = Math.max(1, Math.min(bulkState.maxBuy, q));
+    $('bulk-qty').value = q;
+    updateBulkTotal();
+  };
+});
+$('bulk-qty').addEventListener('input', updateBulkTotal);
+$('bulk-cancel').onclick = () => { $('bulk-overlay').style.display = 'none'; bulkState = null; };
+$('bulk-buy').onclick = () => {
+  if (!bulkState) return;
+  const { kind, key, name, unitCost } = bulkState;
+  const q = Math.max(1, Math.min(bulkState.maxBuy, parseInt($('bulk-qty').value, 10) || 1));
+  const cost = q * unitCost;
   if (G.money < cost) { toast('Không đủ tiền!', 'error'); return; }
-  G.money -= cost;
-  G.dailyExpense += cost;
-  G.adTime += seconds;
+  G.money -= cost; G.dailyExpense += cost;
+
+  if (kind === 'seed') {
+    invAdd('Hạt ' + key, q);
+    toast(`🛒 Mua ${q} hạt ${key} (-${cost}$)`, 'info');
+  } else if (kind === 'animal') {
+    for (let i = 0; i < q; i++) {
+      const gene = rollGene();
+      const k = key + '|' + gene;
+      if (!G.inventory[k]) G.inventory[k] = { count: 0, base: key, gene };
+      G.inventory[k].count++;
+      if (gene === 'rainbow' || gene === 'royal') G.stats.rareOwned = 1;
+      if (gene === 'gold') { G.stats.rareOwned = 1; G.stats.goldOwned = 1; }
+    }
+    toast(`🛒 Mua ${q} con ${key} (-${cost}$)`, 'info');
+  } else if (kind === 'mystery') {
+    for (let i = 0; i < q; i++) openMysteryPacket(true);
+    toast(`🎁 Mở ${q} gói bí ẩn (-${cost}$)`, 'achievement');
+  }
+  $('bulk-overlay').style.display = 'none';
+  bulkState = null;
+  checkAchievements(); rebuildPanels(); renderAll();
+};
+
+function buySeedBulk(crop) {
+  const d = CROPS[crop];
+  const max = Math.floor(G.money / d.seed);
+  if (max < 1) { toast('Không đủ tiền!', 'error'); return; }
+  openBulkModal('seed', crop, crop, d.seed, max);
+}
+function buyAnimalBulk(animal) {
+  const d = ANIMALS[animal];
+  const max = Math.floor(G.money / d.cost);
+  if (max < 1) { toast('Không đủ tiền!', 'error'); return; }
+  openBulkModal('animal', animal, animal, d.cost, max);
+}
+function buyMysteryPackets(n) {
+  const cost = n === 10 ? 1800 : MYSTERY_PACKET_COST * n;
+  const unit = n === 10 ? 180 : MYSTERY_PACKET_COST;
+  const max = Math.floor(G.money / unit);
+  if (max < 1) { toast('Không đủ tiền!', 'error'); return; }
+  openBulkModal('mystery', 'mystery', 'Gói hạt giống bí ẩn', unit, max);
+}
+
+function openMysteryPacket(silent) {
+  const names = Object.keys(MYSTERY_CROPS);
+  const name = names[Math.floor(Math.random() * names.length)];
+  invAdd('Hạt ' + name, 1);
+  G.mysteryPacketsBought++;
+  G.stats.mysteryPackets++;
+  if (!G.mysteryDiscoveries.includes(name)) {
+    G.mysteryDiscoveries.push(name);
+  }
+  if (!silent) toast(`🎁 Nhận: ${MYSTERY_CROPS[name].emoji} ${name} (tier ${MYSTERY_CROPS[name].tier})`, 'achievement');
+}
+
+function buyAd(sec, cost, label) {
+  if (G.money < cost) { toast('Không đủ tiền!', 'error'); return; }
+  G.money -= cost; G.dailyExpense += cost; G.adTime += sec;
   toast(`📢 Quảng cáo ${label} kích hoạt!`);
   renderAll();
 }
 
-/* ==================================================
-   Ô ĐẤT
-   ================================================== */
+/* ================================================================
+   PLOTS
+   ================================================================ */
 let plotSig = '';
 
 function buildPlots() {
   const container = $('plots');
   container.innerHTML = '';
-  for (let i = 0; i < TOTAL_PLOTS; i++) {
+  const start = G.zone === 'crop' ? 0 : PLOTS_PER_ZONE;
+  for (let i = 0; i < PLOTS_PER_ZONE; i++) {
+    const idx = start + i;
     const el = document.createElement('div');
     el.className = 'plot';
-    el.dataset.index = i;
-    el.addEventListener('click', (e) => { e.stopPropagation(); onPlotClick(i); });
+    el.dataset.index = idx;
+    el.onclick = () => onPlotClick(idx);
     container.appendChild(el);
   }
   plotSig = '';
@@ -1390,63 +1339,56 @@ function buildPlots() {
 
 function renderPlots() {
   const container = $('plots');
-  const t = G.theme;
+  const t = getTheme();
+  const start = G.zone === 'crop' ? 0 : PLOTS_PER_ZONE;
 
-  const sig = G.plots.map((p, i) =>
-    `${isPlotUnlocked(i) ? 1 : 0}${p.kind || '-'}|${p.name || '-'}|${p.ready ? 1 : 0}|${p.gene || '-'}|${p.damaged ? 1 : 0}`
-  ).join(',') + `|${t.slot}|${G.unlockedRows}`;
+  const sig = G.plots.slice(start, start + PLOTS_PER_ZONE).map((p, i) =>
+    `${isPlotUnlocked(start + i) ? 1 : 0}${p.kind || '-'}|${p.name || '-'}|${p.ready ? 1 : 0}|${p.gene || '-'}`
+  ).join(',') + `|${t.slot}|${G.zone}|${G.unlockedRowsCrop}|${G.unlockedRowsAnimal}`;
 
   if (sig !== plotSig) {
     plotSig = sig;
-    for (let i = 0; i < TOTAL_PLOTS; i++) {
+    for (let i = 0; i < PLOTS_PER_ZONE; i++) {
+      const idx = start + i;
       const el = container.children[i];
-      const p = G.plots[i];
-      const unlocked = isPlotUnlocked(i);
+      const p = G.plots[idx];
+      const unlocked = isPlotUnlocked(idx);
       const row = Math.floor(i / COLS);
-      const isNextRow = row === G.unlockedRows;
+      const rows = G.zone === 'crop' ? G.unlockedRowsCrop : G.unlockedRowsAnimal;
+      const isNextRow = row === rows;
 
       el.classList.toggle('locked', !unlocked);
       el.classList.toggle('ready', unlocked && p.ready);
 
       if (!unlocked) {
-        const cost = ROW_COSTS[row];
-        el.innerHTML = `
-          <span class="lock-icon">🔒</span>
-          <span class="lock-hint">${isNextRow ? cost + '$' : 'Khoá'}</span>
-          <span class="lock-sub">${isNextRow ? 'Hàng ' + (row + 1) : ''}</span>`;
-        el.style.background = '';
-        el.style.borderColor = '';
+        el.innerHTML = `<span class="lock-icon">🔒</span><span class="lock-hint">${isNextRow ? ROW_COST_PER_ROW + '$' : 'Khoá'}</span><span class="lock-sub">${isNextRow ? 'Hàng ' + (row + 1) : ''}</span>`;
+        el.style.background = ''; el.style.borderColor = '';
         continue;
       }
-
       el.style.background = t.slot;
       el.style.borderColor = t.slotBorder;
 
       if (!p.kind) {
-        el.innerHTML = `<span class="plus">+</span><span class="hint-line">Bấm để trồng</span>`;
+        el.innerHTML = `<span class="plus">+</span><span class="hint-line">Trồng</span>`;
         continue;
       }
-
       const isCrop = p.kind === 'crop';
-      const data = isCrop ? CROPS[p.name] : ANIMALS[p.name];
+      const data = isCrop ? getCrop(p.name) : ANIMALS[p.name];
       let html = '';
-      if (p.ready) html += `<div class="ready-tag">${isCrop ? 'THU HOẠCH' : 'LẤY SP'}</div>`;
-      if (!isCrop && p.gene && p.gene !== 'normal') {
-        html += `<div class="gene-badge gene-${p.gene}">${GENES[p.gene].emoji}</div>`;
-      }
+      if (p.ready) html += `<div class="ready-tag">${isCrop ? 'THU' : 'LẤY'}</div>`;
+      if (!isCrop && p.gene && p.gene !== 'normal') html += `<div class="gene-badge gene-${p.gene}">${GENES[p.gene].emoji}</div>`;
       html += `<div class="emoji">${data.emoji}</div>`;
       html += `<div class="progress-track"><div class="progress-fill ${p.ready ? 'done' : ''}" style="width:${p.ready ? 100 : 0}%"></div></div>`;
       el.innerHTML = html;
     }
   }
-
-  for (let i = 0; i < TOTAL_PLOTS; i++) {
-    if (!isPlotUnlocked(i)) continue;
-    const p = G.plots[i];
+  for (let i = 0; i < PLOTS_PER_ZONE; i++) {
+    const idx = start + i;
+    if (!isPlotUnlocked(idx)) continue;
+    const p = G.plots[idx];
     if (!p.kind || p.ready) continue;
-    const isCrop = p.kind === 'crop';
-    const total = isCrop ? CROPS[p.name].grow : ANIMALS[p.name].time;
-    const pct = Math.min(100, (p.progress / total) * 100);
+    const data = p.kind === 'crop' ? getCrop(p.name) : ANIMALS[p.name];
+    const pct = Math.min(100, (p.progress / data.grow * 100) || (p.progress / data.time * 100));
     const fill = container.children[i].querySelector('.progress-fill');
     if (fill) fill.style.width = pct + '%';
   }
@@ -1454,13 +1396,29 @@ function renderPlots() {
 
 function onPlotClick(i) {
   if (!isPlotUnlocked(i)) {
-    const row = Math.floor(i / COLS);
-    if (row === G.unlockedRows) unlockRow();
-    else setStatus(`🔒 Cần mở hàng ${G.unlockedRows + 1} trước!`);
+    const zone = plotZoneOf(i);
+    const j = i - (zone === 'crop' ? 0 : PLOTS_PER_ZONE);
+    const row = Math.floor(j / COLS);
+    const rows = zone === 'crop' ? G.unlockedRowsCrop : G.unlockedRowsAnimal;
+    if (row === rows) unlockRow(zone);
     return;
   }
   const p = G.plots[i];
+
+  // Shovel mode
+  if (G.tool === 'shovel') {
+    if (!p.kind) { setStatus('🪏 Ô trống, không có gì để xoá.'); return; }
+    shovelPlot(i);
+    return;
+  }
+
+  // Hand mode
   if (!p.kind) { openPlantModal(i); return; }
+
+  // Zone mismatch check
+  const curZone = plotZoneOf(i);
+  if (p.kind === 'crop' && curZone !== 'crop') return;
+  if (p.kind === 'animal' && curZone !== 'animal') return;
 
   if (p.ready) {
     if (G.energy < 2) { toast('Không đủ năng lượng!', 'error'); return; }
@@ -1468,9 +1426,27 @@ function onPlotClick(i) {
     harvestPlot(i);
     renderAll();
   } else {
-    if (p.kind === 'crop') setStatus(`🌱 ${p.name} đang lớn... (${p.progress.toFixed(1)}/${CROPS[p.name].grow}s)`);
-    else setStatus(`🐾 ${p.name} đang sản xuất... (${p.progress.toFixed(1)}/${ANIMALS[p.name].time}s)`);
+    const data = p.kind === 'crop' ? getCrop(p.name) : ANIMALS[p.name];
+    const total = p.kind === 'crop' ? data.grow : data.time;
+    setStatus(`${p.kind === 'crop' ? '🌱' : '🐾'} ${p.name} đang phát triển... (${p.progress.toFixed(1)}/${total}s)`);
   }
+}
+
+function shovelPlot(i) {
+  const p = G.plots[i];
+  if (!p.kind) return;
+  if (p.kind === 'crop') {
+    invAdd('Hạt ' + p.name, 1);
+    setStatus(`🪏 Đã nhổ ${p.name}, trả hạt về kho.`);
+  } else {
+    const key = p.name + '|' + (p.gene || 'normal');
+    if (!G.inventory[key]) G.inventory[key] = { count: 0, base: p.name, gene: p.gene || 'normal' };
+    G.inventory[key].count++;
+    setStatus(`🪏 Đã dời ${p.name} về kho.`);
+  }
+  p.kind = p.name = null; p.progress = 0; p.ready = false; p.gene = null; p.damaged = false;
+  plotSig = '';
+  renderAll();
 }
 
 function harvestPlot(i) {
@@ -1479,92 +1455,95 @@ function harvestPlot(i) {
   if (p.kind === 'crop') {
     invAdd(p.name, 1);
     G.dailyHarvests++;
-    setStatus(`🌾 Thu hoạch được 1 ${p.name}!`);
+    setStatus(`🌾 Thu hoạch 1 ${p.name}!`);
     p.kind = p.name = null; p.progress = 0; p.ready = false;
   } else {
     const prod = ANIMALS[p.name].product;
     const gene = p.gene || 'normal';
-    const yieldN = GENES[gene].yield;
-    invAdd(prod, yieldN);
+    const y = GENES[gene].yield;
+    invAdd(prod, y);
     G.dailyHarvests++;
-    const tag = gene !== 'normal' ? ` (${GENES[gene].emoji} ${GENES[gene].label} ×${yieldN})` : '';
-    setStatus(`📦 Thu được ${yieldN} ${prod} từ ${p.name}${tag}!`);
+    const tag = gene !== 'normal' ? ` (${GENES[gene].emoji} ×${y})` : '';
+    setStatus(`📦 Thu ${y} ${prod}${tag}!`);
     p.ready = false; p.progress = 0;
   }
   checkAchievements();
   return true;
 }
 
-/* ==================================================
-   MODAL TRỒNG
-   ================================================== */
-function openPlantModal(plotIndex) {
-  const body = $('modal-body');
-  body.innerHTML = '';
+/* ================================================================
+   PLANT MODAL
+   ================================================================ */
+function openPlantModal(i) {
+  const body = $('modal-body'); body.innerHTML = '';
   let hasAny = false;
+  const zone = plotZoneOf(i);
 
-  // Cây trồng
-  for (const crop in CROPS) {
-    if (!G.unlockedCrops.has(crop)) continue;
-    const key = 'Hạt ' + crop;
-    const n = invCount(key);
-    if (n > 0) {
+  if (zone === 'crop') {
+    for (const crop in CROPS) {
+      if (!G.unlockedCrops.includes(crop)) continue;
+      const n = invCount('Hạt ' + crop);
+      if (n > 0) {
+        hasAny = true;
+        const b = document.createElement('button'); b.className = 'modal-option';
+        b.innerHTML = `<span>🌱 Trồng ${crop}</span><span class="count">còn ${n}</span>`;
+        b.onclick = () => { plantCrop(i, crop); closeModal(); };
+        body.appendChild(b);
+      }
+    }
+    // Mystery seeds — sort by tier
+    const mysterySeeds = Object.keys(MYSTERY_CROPS).filter(nm => invCount('Hạt ' + nm) > 0);
+    mysterySeeds.sort((a, b) => MYSTERY_CROPS[b].tier - MYSTERY_CROPS[a].tier);
+    for (const nm of mysterySeeds) {
       hasAny = true;
-      const b = document.createElement('button');
-      b.className = 'modal-option';
-      b.innerHTML = `<span>🌱 Trồng ${crop}</span><span class="count">còn ${n}</span>`;
-      b.onclick = () => { plantCrop(plotIndex, crop); closeModal(); };
+      const n = invCount('Hạt ' + nm);
+      const d = MYSTERY_CROPS[nm];
+      const b = document.createElement('button'); b.className = 'modal-option';
+      b.innerHTML = `<span>${d.emoji} ${nm} <small style="color:#FFD54F">[T${d.tier}]</small></span><span class="count">còn ${n}</span>`;
+      b.onclick = () => { plantCrop(i, nm); closeModal(); };
       body.appendChild(b);
     }
-  }
-
-  // Con giống — có thể có nhiều gen
-  const seen = new Set();
-  for (const key in G.inventory) {
-    if (G.inventory[key].base && G.inventory[key].count > 0) {
-      const animal = G.inventory[key].base;
-      const gene = G.inventory[key].gene || 'normal';
-      const tag = `${animal}|${gene}`;
-      if (seen.has(tag)) continue;
-      seen.add(tag);
+  } else {
+    // Animal zone — show all animals with genes in inventory
+    const seen = new Set();
+    for (const key in G.inventory) {
+      const it = G.inventory[key];
+      if (!it.base || it.count <= 0) continue;
+      if (seen.has(key)) continue;
+      seen.add(key);
       hasAny = true;
-      const n = G.inventory[key].count;
-      const b = document.createElement('button');
-      b.className = 'modal-option';
-      const geneLabel = gene === 'normal' ? '' : ` ${GENES[gene].emoji} ${GENES[gene].label}`;
-      b.innerHTML = `<span>${ANIMALS[animal].emoji} Nuôi ${animal}${geneLabel}</span><span class="count">còn ${n}</span>`;
-      b.onclick = () => { placeAnimal(plotIndex, animal, gene); closeModal(); };
+      const g = GENES[it.gene] || GENES.normal;
+      const b = document.createElement('button'); b.className = 'modal-option';
+      b.innerHTML = `<span>${ANIMALS[it.base].emoji} Nuôi ${it.base} ${g.emoji || ''}${g.label !== 'Thường' ? g.label : ''}</span><span class="count">còn ${it.count}</span>`;
+      b.onclick = () => { placeAnimal(i, it.base, it.gene); closeModal(); };
       body.appendChild(b);
     }
   }
 
   if (!hasAny) {
-    const div = document.createElement('div');
-    div.className = 'modal-empty';
-    div.innerHTML = `Bạn chưa có hạt giống / con giống nào.<br>Hãy mua ở Cửa hàng!`;
-    body.appendChild(div);
-    const shopBtn = document.createElement('button');
-    shopBtn.className = 'modal-shop-btn';
-    shopBtn.textContent = '🛒 Đi tới Cửa hàng';
-    shopBtn.onclick = () => { closeModal(); document.querySelectorAll('#side-panel .panel')[0].scrollIntoView({ behavior: 'smooth', block: 'center' }); };
-    body.appendChild(shopBtn);
+    const d = document.createElement('div'); d.className = 'modal-empty';
+    d.innerHTML = `Chưa có ${zone === 'crop' ? 'hạt giống' : 'con giống'}.<br>Hãy mua ở Cửa hàng!`;
+    body.appendChild(d);
+    const sb = document.createElement('button'); sb.className = 'modal-shop-btn';
+    sb.textContent = '🛒 Đi tới Cửa hàng';
+    sb.onclick = () => { closeModal(); document.querySelectorAll('#side-panel .panel')[0].scrollIntoView({ behavior: 'smooth', block: 'center' }); };
+    body.appendChild(sb);
   }
   $('modal-overlay').classList.add('show');
 }
-
 function closeModal() { $('modal-overlay').classList.remove('show'); }
 $('modal-close').onclick = closeModal;
 $('modal-overlay').onclick = e => { if (e.target.id === 'modal-overlay') closeModal(); };
 
-function plantCrop(i, crop) {
-  const key = 'Hạt ' + crop;
+function plantCrop(i, name) {
+  const key = 'Hạt ' + name;
   if (invCount(key) <= 0) return;
   invSub(key, 1);
   const p = G.plots[i];
-  p.kind = 'crop'; p.name = crop; p.progress = 0; p.ready = false; p.gene = null;
+  p.kind = 'crop'; p.name = name; p.progress = 0; p.ready = false; p.gene = null;
   G.stats.plantsTotal++;
-  if (crop === 'Cà rốt') G.stats.carrotsPlanted++;
-  setStatus(`🌱 Đã trồng ${crop}!`);
+  if (name === 'Cà rốt') G.stats.carrotsPlanted++;
+  setStatus(`🌱 Đã trồng ${name}!`);
   checkAchievements();
   renderAll();
 }
@@ -1576,135 +1555,138 @@ function placeAnimal(i, animal, gene) {
   const p = G.plots[i];
   p.kind = 'animal'; p.name = animal; p.progress = 0; p.ready = false; p.gene = gene;
   if (animal === 'Gà') G.stats.chickensRaised++;
-  const tag = gene === 'normal' ? '' : ` ${GENES[gene].emoji}`;
-  setStatus(`🐾 Đã nuôi ${animal}${tag}!`);
+  setStatus(`🐾 Đã nuôi ${animal}!`);
   checkAchievements();
   renderAll();
 }
 
-/* ==================================================
-   KHO HÀNG
-   ================================================== */
+/* ================================================================
+   INVENTORY
+   ================================================================ */
 function renderInventory() {
   const box = $('inventory-list');
   const keys = Object.keys(G.inventory).filter(k => G.inventory[k].count > 0);
   if (!keys.length) { box.innerHTML = `<span class="inv-empty">(trống)</span>`; return; }
   box.innerHTML = keys.map(k => {
-    const item = G.inventory[k];
+    const it = G.inventory[k];
     let label = k;
-    if (item.base) label = item.base + (item.gene && item.gene !== 'normal' ? ' ' + GENES[item.gene].emoji : '');
-    // Giá hiện tại
+    if (it.base) {
+      const g = GENES[it.gene] || GENES.normal;
+      label = it.base + (g.emoji ? ' ' + g.emoji : '');
+    }
     let priceStr = '';
-    if (PRODUCT_PRICE[k]) priceStr = `<span class="chip-price">${itemCurrentPrice(k)}$</span>`;
-    return `<span class="inv-chip">${label} ×${item.count}${priceStr}</span>`;
+    const cropName = k.startsWith('Hạt ') ? k.slice(4) : null;
+    if (cropName && getCrop(cropName)) priceStr = `<span class="chip-price">${getCrop(cropName).sell}$</span>`;
+    else if (it.base && ANIMALS[it.base]) priceStr = `<span class="chip-price">${itemCurrentPrice(ANIMALS[it.base].product)}$</span>`;
+    return `<span class="inv-chip">${label} ×${it.count}${priceStr}</span>`;
   }).join('');
 }
-// PRODUCT_PRICE cho tính toán nhanh
-const PRODUCT_PRICE = {};
-for (const k in CROPS) PRODUCT_PRICE[k] = CROPS[k].sell;
-for (const k in ANIMALS) PRODUCT_PRICE[ANIMALS[k].product] = ANIMALS[k].sell;
 
 $('sell-all-btn').onclick = () => {
   let total = 0;
   for (const k in G.inventory) {
-    const item = G.inventory[k];
-    if (item.count > 0 && PRODUCT_PRICE[k]) {
-      total += itemCurrentPrice(k) * item.count;
-      item.count = 0;
+    const it = G.inventory[k];
+    if (it.count > 0) {
+      // Determine price
+      let price = 0;
+      if (k.startsWith('Hạt ')) {
+        const c = getCrop(k.slice(4));
+        if (c) price = 0; // không bán hạt
+      } else if (it.base && ANIMALS[it.base]) {
+        price = itemCurrentPrice(ANIMALS[it.base].product);
+      } else if (PRODUCT_PRICE[k]) {
+        price = itemCurrentPrice(k);
+      } else if (getCrop(k)) {
+        price = itemCurrentPrice(k);
+      }
+      // Bán sản phẩm (không bán hạt giống, con giống)
+      if (!k.startsWith('Hạt ') && !it.base && price > 0) {
+        total += price * it.count;
+        it.count = 0;
+      } else if (getCrop(k) && !k.startsWith('Hạt ')) {
+        total += itemCurrentPrice(k) * it.count;
+        it.count = 0;
+      }
     }
   }
   total = Math.floor(total * 0.8);
-  if (total === 0) { setStatus('🏪 Không có sản phẩm nào để bán.'); return; }
-  G.money += total;
-  G.dailyRevenue += total;
-  G.stats.totalEarned += total;
-  setStatus(`🏪 Bán ở chợ được ${total}$ (80% giá hôm nay).`);
+  if (total === 0) { setStatus('🏪 Không có sản phẩm để bán.'); return; }
+  G.money += total; G.dailyRevenue += total; G.stats.totalEarned += total;
+  setStatus(`🏪 Bán được ${total}$ (80% giá).`);
   checkAchievements();
   renderAll();
 };
+const PRODUCT_PRICE = {};
+for (const k in CROPS) PRODUCT_PRICE[k] = CROPS[k].sell;
+for (const k in ANIMALS) PRODUCT_PRICE[ANIMALS[k].product] = ANIMALS[k].sell;
 
-/* ==================================================
-   KHÁCH NPC — tier theo danh tiếng
-   ================================================== */
-let customerIdSeq = 0;
+/* ================================================================
+   CUSTOMERS
+   ================================================================ */
+let custIdSeq = 0;
 let lastCustSig = '';
 
-function maxCustomers() {
-  return Math.min(10, 4 + Math.floor(farmScale() / 2) + (G.adTime > 0 ? 3 : 0));
-}
+function maxCustomers() { return Math.min(10, 4 + Math.floor(farmScale() / 4) + (G.adTime > 0 ? 3 : 0)); }
 function spawnInterval() {
   const scale = farmScale();
-  const rate = 0.25 + scale * 0.05 + (G.adTime > 0 ? 0.6 : 0) + G.reputation * 0.03;
+  const rate = 0.25 + scale * 0.03 + (G.adTime > 0 ? 0.6 : 0) + G.reputation * 0.03;
   const base = 1 / Math.max(rate, 0.05);
   return base * (0.6 + Math.random() * 0.6);
 }
-
-function pickCustomerTier() {
-  // Danh tiếng cao → tier cao xuất hiện
-  const rep = G.reputation;
-  const r = Math.random();
+function pickTier() {
+  const rep = G.reputation, r = Math.random();
   if (rep >= 9 && r < 0.08) return 'special';
   if (rep >= 7 && r < 0.20) return 'merchant';
   if (rep >= 5 && r < 0.35) return 'rare';
   if (rep >= 3 && r < 0.55) return 'vip';
   return 'normal';
 }
-
 const TIER_MUL = { normal: 1, vip: 1.3, rare: 1.6, merchant: 1.9, special: 2.5 };
 const TIER_LABEL = { normal: '', vip: 'VIP', rare: 'HIẾM', merchant: 'THƯƠNG NHÂN', special: 'ĐẶC BIỆT' };
 
 function spawnCustomer() {
-  const pool = producibleItems();
+  const pool = prodItems();
   if (!pool.length) return;
-  const tier = pickCustomerTier();
-  const nKinds = Math.min(pool.length, Math.random() < 0.55 ? 1 : 2);
-  const shuffled = [...pool].sort(() => Math.random() - 0.5);
-  const chosen = shuffled.slice(0, nKinds);
-
-  const order = {};
-  let totalValue = 0;
-  for (const item of chosen) {
-    const qty = 1 + Math.floor(Math.random() * 3) + (tier === 'special' ? 2 : 0);
-    order[item] = qty;
-    totalValue += itemCurrentPrice(item) * qty;
+  const tier = pickTier();
+  const nK = Math.min(pool.length, Math.random() < 0.55 ? 1 : 2);
+  const chosen = [...pool].sort(() => Math.random() - 0.5).slice(0, nK);
+  const order = {}; let tv = 0;
+  for (const it of chosen) {
+    const q = 1 + Math.floor(Math.random() * 3) + (tier === 'special' ? 2 : 0);
+    order[it] = q;
+    tv += itemCurrentPrice(it) * q;
   }
-  const reward = Math.floor(totalValue * TIER_MUL[tier] * (1.15 + Math.random() * 0.3));
-  const patience = 60 + Math.random() * 120; // 1–3 phút
-
-  G.customers.push({
-    id: ++customerIdSeq,
-    name: randomNpcName(),
-    order, reward, patience, maxPatience: patience,
-    tier,
-  });
+  const reward = Math.floor(tv * TIER_MUL[tier] * (1.15 + Math.random() * 0.3));
+  const patience = 60 + Math.random() * 120;
+  G.customers.push({ id: ++custIdSeq, name: randomNpcName(), order, reward, patience, maxPatience: patience, tier });
 }
-
 function canDeliver(cu) {
-  for (const item in cu.order) if (invCount(item) < cu.order[item]) return false;
+  for (const it in cu.order) if (invCount(it) < cu.order[it]) return false;
   return true;
 }
-
 function performDeliver(cu) {
-  for (const item in cu.order) invSub(item, cu.order[item]);
-  G.money += cu.reward;
-  G.dailyRevenue += cu.reward;
-  G.stats.totalEarned += cu.reward;
-  G.stats.deliveries++;
-  G.dailyDeliveries++;
-
-  // Danh tiếng tăng theo tier
+  for (const it in cu.order) invSub(it, cu.order[it]);
+  G.money += cu.reward; G.dailyRevenue += cu.reward;
+  G.stats.totalEarned += cu.reward; G.stats.deliveries++; G.dailyDeliveries++;
   const repGain = { normal: 0.15, vip: 0.25, rare: 0.35, merchant: 0.5, special: 0.8 }[cu.tier] || 0.15;
   G.reputation = Math.min(10, G.reputation + repGain);
-
-  // Quan hệ
   addRelationship(cu.name, 1);
+  // Generate review
+  const waitPct = cu.patience / cu.maxPatience; // remaining fraction
+  const waitTime = 1 - waitPct; // 0 = fast, 1 = slow
+  let stars, text;
+  if (waitTime < 0.3) { stars = 5; text = pick(REVIEWS_GOOD); }
+  else if (waitTime < 0.6) { stars = 4; text = pick(REVIEWS_GOOD); }
+  else if (waitTime < 0.85) { stars = 3; text = pick(REVIEWS_MID); }
+  else { stars = 2; text = pick(REVIEWS_BAD); }
+  G.reviews.unshift({ name: cu.name, stars, text, day: G.day, tier: cu.tier });
+  if (G.reviews.length > 30) G.reviews.pop();
 }
-
-function deliver(customerId) {
-  const idx = G.customers.findIndex(c => c.id === customerId);
+function deliver(id) {
+  const idx = G.customers.findIndex(c => c.id === id);
   if (idx === -1) return;
   const cu = G.customers[idx];
-  if (!canDeliver(cu)) { toast(`Không đủ hàng!`, 'error'); return; }
+  if (!canDeliver(cu)) { toast('Không đủ hàng!', 'error'); return; }
   performDeliver(cu);
   setStatus(`✅ Giao cho ${cu.name} — nhận ${cu.reward}$!`);
   toast(`+${cu.reward}$ từ ${cu.name}`, cu.tier === 'special' ? 'achievement' : '');
@@ -1718,71 +1700,42 @@ function renderCustomers() {
   const list = $('customer-list');
   $('cust-count').textContent = G.customers.length;
   const sig = G.customers.map(c => c.id).join(',');
-
   if (sig !== lastCustSig) {
     lastCustSig = sig;
     while (list.firstChild) list.removeChild(list.firstChild);
-
     if (!G.customers.length) {
-      const empty = document.createElement('div');
-      empty.className = 'empty-customers';
-      empty.innerHTML = 'Chưa có khách nào...<br>Hãy trồng trọt & nuôi thú!';
-      list.appendChild(empty);
-      return;
+      const e = document.createElement('div'); e.className = 'empty-customers';
+      e.innerHTML = 'Chưa có khách...<br>Hãy trồng trọt & nuôi thú!';
+      list.appendChild(e); return;
     }
-
-    for (let i = 0; i < G.customers.length; i++) {
-      const cu = G.customers[i];
+    for (const cu of G.customers) {
       const pct = Math.max(0, (cu.patience / cu.maxPatience) * 100);
-      const low = pct < 30;
-      const orderTxt = Object.keys(cu.order).map(item => cu.order[item] + '× ' + item).join(', ');
       const ok = canDeliver(cu);
-
+      const orderTxt = Object.keys(cu.order).map(it => cu.order[it] + '× ' + it).join(', ');
       const card = document.createElement('div');
       card.className = 'customer ' + cu.tier;
       card.dataset.cid = cu.id;
-
-      const top = document.createElement('div');
-      top.className = 'cust-top';
-      const nameEl = document.createElement('span');
-      nameEl.className = 'cust-name';
-      nameEl.innerHTML = cu.name + (cu.tier !== 'normal' ? `<span class="cust-tier ${cu.tier}">${TIER_LABEL[cu.tier]}</span>` : '');
-      const rewardEl = document.createElement('span');
-      rewardEl.className = 'cust-reward';
-      rewardEl.textContent = '💰 ' + cu.reward + '$';
-      top.appendChild(nameEl);
-      top.appendChild(rewardEl);
-
-      const orderEl = document.createElement('div');
-      orderEl.className = 'cust-order';
-      orderEl.textContent = 'Cần: ' + orderTxt;
-
-      const bottom = document.createElement('div');
-      bottom.className = 'cust-bottom';
-      const track = document.createElement('div');
-      track.className = 'patience-track';
-      const fill = document.createElement('div');
-      fill.className = 'patience-fill' + (low ? ' low' : '');
-      fill.style.width = pct + '%';
-      track.appendChild(fill);
-      const btn = document.createElement('button');
-      btn.className = 'deliver-btn';
-      btn.textContent = 'GIAO';
-      btn.disabled = !ok;
-      const cid = cu.id;
-      btn.addEventListener('click', e => { e.stopPropagation(); deliver(cid); });
-      bottom.appendChild(track);
-      bottom.appendChild(btn);
-
-      card.appendChild(top);
-      card.appendChild(orderEl);
-      card.appendChild(bottom);
+      const top = document.createElement('div'); top.className = 'cust-top';
+      const nm = document.createElement('span'); nm.className = 'cust-name';
+      nm.innerHTML = cu.name + (cu.tier !== 'normal' ? `<span class="cust-tier ${cu.tier}">${TIER_LABEL[cu.tier]}</span>` : '');
+      const rw = document.createElement('span'); rw.className = 'cust-reward';
+      rw.textContent = '💰 ' + cu.reward + '$';
+      top.appendChild(nm); top.appendChild(rw);
+      const ord = document.createElement('div'); ord.className = 'cust-order';
+      ord.textContent = 'Cần: ' + orderTxt;
+      const bot = document.createElement('div'); bot.className = 'cust-bottom';
+      const tr = document.createElement('div'); tr.className = 'patience-track';
+      const fi = document.createElement('div'); fi.className = 'patience-fill' + (pct < 30 ? ' low' : '');
+      fi.style.width = pct + '%'; tr.appendChild(fi);
+      const bt = document.createElement('button'); bt.className = 'deliver-btn';
+      bt.textContent = 'GIAO'; bt.disabled = !ok;
+      bt.addEventListener('click', e => { e.stopPropagation(); deliver(cu.id); });
+      bot.appendChild(tr); bot.appendChild(bt);
+      card.appendChild(top); card.appendChild(ord); card.appendChild(bot);
       list.appendChild(card);
     }
     return;
   }
-
-  if (!G.customers.length) return;
   for (const cu of G.customers) {
     const card = list.querySelector(`.customer[data-cid="${cu.id}"]`);
     if (!card) continue;
@@ -1794,170 +1747,166 @@ function renderCustomers() {
   }
 }
 
-/* ==================================================
-   THÀNH TỰU
-   ================================================== */
-function achProgress(a) {
-  return Math.min(G.stats[a.stat] || 0, a.target);
+/* ================================================================
+   REVIEWS
+   ================================================================ */
+function renderReviews() {
+  const box = $('review-list');
+  $('review-count').textContent = G.reviews.length;
+  if (!G.reviews.length) {
+    box.innerHTML = `<div class="inv-empty" style="padding:14px 0;text-align:center">Chưa có nhận xét nào.<br>Hãy giao hàng cho khách!</div>`;
+    return;
+  }
+  box.innerHTML = G.reviews.slice(0, 12).map(r => {
+    const stars = '⭐'.repeat(r.stars);
+    return `<div class="review-item">
+      <div class="review-header">
+        <span class="review-name">${r.name}</span>
+        <span class="review-stars">${stars}</span>
+      </div>
+      <div class="review-text">"${r.text}"</div>
+      <div style="color:#607D8B;font-size:9.5px;margin-top:3px">Ngày ${r.day}</div>
+    </div>`;
+  }).join('');
 }
-function achDone(a) { return (G.stats[a.stat] || 0) >= a.target; }
 
+/* ================================================================
+   ACHIEVEMENTS
+   ================================================================ */
 function checkAchievements() {
   for (const a of ACHIEVEMENTS) {
-    if (G.unlockedAch.has(a.id)) continue;
-    if (achDone(a)) {
-      G.unlockedAch.add(a.id);
+    if (G.unlockedAch.includes(a.id)) continue;
+    if ((G.stats[a.stat] || 0) >= a.target) {
+      G.unlockedAch.push(a.id);
       toast(`🏆 THÀNH TỰU: ${a.name}!`, 'achievement');
     }
   }
 }
-
 function renderAchievements() {
-  const box = $('ach-panel-list');
-  box.innerHTML = '';
+  const box = $('ach-panel-list'); box.innerHTML = '';
   for (const a of ACHIEVEMENTS) {
-    const done = G.unlockedAch.has(a.id);
-    const prog = achProgress(a);
-    const item = document.createElement('div');
-    item.className = 'ach-item' + (done ? ' done' : '');
-    item.innerHTML = `
-      <span class="ach-emoji">${done ? '✅' : a.emoji}</span>
-      <span class="ach-name">${a.name}</span>
-      <span class="ach-progress">${done ? '✓' : prog + '/' + a.target}</span>`;
-    item.title = a.desc;
-    box.appendChild(item);
+    const done = G.unlockedAch.includes(a.id);
+    const prog = Math.min(G.stats[a.stat] || 0, a.target);
+    const el = document.createElement('div');
+    el.className = 'ach-item' + (done ? ' done' : '');
+    el.innerHTML = `<span class="ach-emoji">${done ? '✅' : a.emoji}</span><span class="ach-name">${a.name}</span><span class="ach-progress">${done ? '✓' : prog + '/' + a.target}</span>`;
+    el.title = a.desc;
+    box.appendChild(el);
   }
-  $('ach-count').textContent = `${G.unlockedAch.size}/${ACHIEVEMENTS.length}`;
+  $('ach-count').textContent = `${G.unlockedAch.length}/${ACHIEVEMENTS.length}`;
+  $('hud-ach').textContent = `🏆 ${G.unlockedAch.length}/${ACHIEVEMENTS.length}`;
 }
 
-/* ==================================================
+/* ================================================================
    HUD
-   ================================================== */
+   ================================================================ */
 function renderHUD() {
   $('hud-money').textContent = `💰 ${G.money}$`;
-  $('hud-scale').textContent = `🏡 ${farmScale()}/${unlockedPlotCount()}`;
+  const cropCount = G.plots.slice(0, PLOTS_PER_ZONE).filter((p, i) => isPlotUnlocked(i) && p.kind).length;
+  const animalCount = G.plots.slice(PLOTS_PER_ZONE).filter((p, i) => isPlotUnlocked(i + PLOTS_PER_ZONE) && p.kind).length;
+  $('crop-count').textContent = cropCount;
+  $('animal-count').textContent = animalCount;
+  $('hud-scale').textContent = `🏡 ${cropCount + animalCount}/50`;
   $('hud-rep').textContent = `⭐ ${G.reputation.toFixed(1)}`;
   $('hud-energy').textContent = `⚡ ${Math.floor(G.energy)}`;
   $('hud-day').textContent = `📅 Ngày ${G.day}`;
-  $('hud-ach').textContent = `🏆 ${G.unlockedAch.size}/${ACHIEVEMENTS.length}`;
-
   const adEl = $('hud-ad');
-  if (G.adTime > 0) {
-    adEl.textContent = `📢 QC: ${Math.ceil(G.adTime)}s`;
-    adEl.classList.remove('inactive');
-  } else {
-    adEl.textContent = '📢 Không QC';
-    adEl.classList.add('inactive');
-  }
+  if (G.adTime > 0) { adEl.textContent = `📢 QC: ${Math.ceil(G.adTime)}s`; adEl.classList.remove('inactive'); }
+  else { adEl.textContent = '📢 Không QC'; adEl.classList.add('inactive'); }
 }
 
 function renderAll() {
-  renderPlots();
-  renderInventory();
-  renderCustomers();
-  renderAchievements();
-  renderHUD();
+  renderPlots(); renderInventory(); renderCustomers();
+  renderReviews(); renderAchievements(); renderHUD();
 }
 
-/* ==================================================
-   VÒNG LẶP CHÍNH
-   ================================================== */
+/* ================================================================
+   GAME LOOP
+   ================================================================ */
 function gameLoop(now) {
   if (!G.running) return;
-
   let dt = (now - G.lastTime) / 1000;
   G.lastTime = now;
   dt = Math.min(dt, 0.5);
-
   const w = WEATHERS[G.weather];
 
-  // Cây trồng & vật nuôi
+  // Plots
   for (let i = 0; i < G.plots.length; i++) {
     if (!isPlotUnlocked(i)) continue;
     const p = G.plots[i];
     if (!p.kind || p.ready) continue;
-
     const isCrop = p.kind === 'crop';
-    const data = isCrop ? CROPS[p.name] : ANIMALS[p.name];
-
-    // Hệ số thời tiết
+    const data = isCrop ? getCrop(p.name) : ANIMALS[p.name];
+    if (!data) continue;
     let mul = w.growMul;
-    if (G.weather === 'cold') {
-      if (isCrop && !data.coldResist) mul = 0.1; // ngừng phát triển
-    }
-
-    // Bão: cơ hội hỏng cây
-    if (G.weather === 'storm' && !p.damaged && Math.random() < w.stormChance * dt) {
-      p.damaged = true;
-      p.kind = p.name = null;
-      p.progress = 0; p.ready = false; p.gene = null;
-      toast(`⛈️ Bão đã phá hủy một cây!`, 'error');
+    if (G.weather === 'cold' && isCrop && !data.coldResist) mul = 0.1;
+    if (G.weather === 'storm' && !p.damaged && Math.random() < (w.stormChance || 0) * dt) {
+      p.damaged = true; p.kind = p.name = null; p.progress = 0; p.ready = false; p.gene = null;
+      toast(`⛈️ Bão phá hủy một cây!`, 'error');
       continue;
     }
-
     p.progress += dt * mul;
-    if (p.progress >= data.grow) {
-      p.progress = data.grow; p.ready = true;
-      // reset damaged flag khi xong
-      p.damaged = false;
-    } else if (isCrop && !isNaN(data.time) && p.progress >= data.time) {
-      p.progress = data.time; p.ready = true;
-    } else if (!isCrop && p.progress >= data.time) {
-      p.progress = data.time; p.ready = true;
-    }
+    const total = isCrop ? data.grow : data.time;
+    if (p.progress >= total) { p.progress = total; p.ready = true; }
   }
 
-  // Quảng cáo
+  // Ad
   if (G.adTime > 0) G.adTime = Math.max(0, G.adTime - dt);
 
-  // Năng lượng hồi phục chậm
+  // Energy regen
   G.energy = Math.min(100, G.energy + dt * 1.5);
 
-  // Nhân công tự động
+  // Workers
   for (const wrk of G.hiredWorkers) {
     wrk.timer -= dt;
     if (wrk.timer <= 0) {
       const cfg = WORKERS[wrk.name];
       wrk.timer = cfg.interval;
-
-      // Tự thu hoạch
+      // Harvest first ready plot in either zone
       for (let i = 0; i < G.plots.length; i++) {
-        if (isPlotUnlocked(i) && G.plots[i].ready) {
-          harvestPlot(i);
-          break;
-        }
+        if (isPlotUnlocked(i) && G.plots[i].ready) { harvestPlot(i); break; }
       }
-      // Tự trồng
+      // Auto plant
       if (cfg.autoPlant) {
-        // Tìm ô trống
         for (let i = 0; i < G.plots.length; i++) {
           if (!isPlotUnlocked(i)) continue;
-          if (G.plots[i].kind) continue;
-          // Tìm hạt giống có sẵn
+          const p = G.plots[i];
+          if (p.kind) continue;
+          // Choose seed matching zone
+          const zone = plotZoneOf(i);
+          if (zone !== 'crop') continue;
+          let found = false;
           for (const crop in CROPS) {
-            if (!G.unlockedCrops.has(crop)) continue;
-            const key = 'Hạt ' + crop;
-            if (invCount(key) > 0) {
-              invSub(key, 1);
-              G.plots[i].kind = 'crop';
-              G.plots[i].name = crop;
-              G.plots[i].progress = 0;
-              G.plots[i].ready = false;
+            if (!G.unlockedCrops.includes(crop)) continue;
+            if (invCount('Hạt ' + crop) > 0) {
+              invSub('Hạt ' + crop, 1);
+              p.kind = 'crop'; p.name = crop; p.progress = 0; p.ready = false;
               G.stats.plantsTotal++;
               if (crop === 'Cà rốt') G.stats.carrotsPlanted++;
-              break;
+              found = true; break;
+            }
+          }
+          if (!found) {
+            // Try mystery
+            for (const nm of G.mysteryDiscoveries) {
+              if (invCount('Hạt ' + nm) > 0) {
+                invSub('Hạt ' + nm, 1);
+                p.kind = 'crop'; p.name = nm; p.progress = 0; p.ready = false;
+                G.stats.plantsTotal++;
+                break;
+              }
             }
           }
           break;
         }
       }
-      // Tự giao hàng
+      // Auto deliver
       if (cfg.autoDeliver) {
         for (let i = G.customers.length - 1; i >= 0; i--) {
           const cu = G.customers[i];
           if (canDeliver(cu)) {
             performDeliver(cu);
-            toast(`🧑‍💼 ${wrk.profile.displayName} tự giao đơn ${cu.reward}$`, 'info');
+            toast(`🧑‍💼 ${wrk.profile.displayName} tự giao ${cu.reward}$`, 'info');
             G.customers.splice(i, 1);
             lastCustSig = '';
           }
@@ -1966,7 +1915,7 @@ function gameLoop(now) {
     }
   }
 
-  // Kiên nhẫn khách
+  // Patience
   for (let i = G.customers.length - 1; i >= 0; i--) {
     const cu = G.customers[i];
     cu.patience -= dt;
@@ -1975,10 +1924,13 @@ function gameLoop(now) {
       lastCustSig = '';
       G.reputation = Math.max(0, G.reputation - 0.4);
       setStatus(`😠 ${cu.name} bỏ đi vì chờ quá lâu!`);
+      // Bad review for leaving
+      G.reviews.unshift({ name: cu.name, stars: 1, text: 'Chờ quá lâu, tôi bỏ đi!', day: G.day, tier: cu.tier });
+      if (G.reviews.length > 30) G.reviews.pop();
     }
   }
 
-  // Spawn khách
+  // Spawn
   G.spawnCooldown -= dt;
   if (G.spawnCooldown <= 0) {
     G.spawnCooldown = spawnInterval();
@@ -1988,24 +1940,78 @@ function gameLoop(now) {
     }
   }
 
-  // Tiến thời gian trong ngày
+  // Day tick
   G.dayTime += dt;
-  if (G.dayTime >= DAY_DURATION) {
-    advanceDay();
-  }
+  if (G.dayTime >= DAY_DURATION) advanceDay();
 
-  renderPlots();
-  renderCustomers();
-  renderInventory();
-  renderHUD();
-  renderAchievements();
+  // Auto-save every 8s
+  if (now - G.lastSave > 8000) { saveGame(); G.lastSave = now; }
 
+  renderPlots(); renderCustomers(); renderInventory();
+  renderReviews(); renderAchievements(); renderHUD();
   requestAnimationFrame(gameLoop);
 }
 
-/* ==================================================
-   KHỞI TẠO
-   ================================================== */
+/* ================================================================
+   SAVE / LOAD
+   ================================================================ */
+function saveGame() {
+  try {
+    const data = JSON.parse(JSON.stringify({
+      ...G,
+      running: false,
+      lastTime: 0,
+      lastSave: 0,
+    }));
+    localStorage.setItem(SAVE_KEY, JSON.stringify(data));
+  } catch (e) { console.error('Save failed', e); }
+}
+
+function loadGame() {
+  try {
+    const s = localStorage.getItem(SAVE_KEY);
+    if (!s) return false;
+    const data = JSON.parse(s);
+    // Reset runtime fields
+    data.running = false; data.lastTime = 0; data.lastSave = 0;
+    Object.assign(G, data);
+    // Ensure arrays exist
+    if (!Array.isArray(G.unlockedCrops)) G.unlockedCrops = [];
+    if (!Array.isArray(G.weatherSeen)) G.weatherSeen = ['sunny'];
+    if (!Array.isArray(G.unlockedAch)) G.unlockedAch = [];
+    if (!Array.isArray(G.reviews)) G.reviews = [];
+    if (!Array.isArray(G.mysteryDiscoveries)) G.mysteryDiscoveries = [];
+    return true;
+  } catch (e) { console.error('Load failed', e); return false; }
+}
+
+$('save-btn').onclick = () => { saveGame(); toast('💾 Đã lưu game!', 'info'); };
+
+/* ================================================================
+   ZONE / TOOL BUTTONS
+   ================================================================ */
+document.querySelectorAll('.zone-tab').forEach(tab => {
+  tab.onclick = () => {
+    document.querySelectorAll('.zone-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    G.zone = tab.dataset.zone;
+    buildPlots();
+    applyTheme();
+    renderAll();
+  };
+});
+document.querySelectorAll('.tool-btn[data-tool]').forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll('.tool-btn[data-tool]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    G.tool = btn.dataset.tool;
+    $('tool-info').textContent = G.tool === 'shovel' ? '🪏 Bấm ô đất đã trồng để xoá (trả về kho)' : 'Bấm ô đất để trồng/thu hoạch';
+  };
+});
+
+/* ================================================================
+   INIT
+   ================================================================ */
 buildThemeGrid();
 </script>
 </body>
