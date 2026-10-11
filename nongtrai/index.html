@@ -9,8 +9,6 @@
 html, body { background: #10161a; color: #eceff1; font-family: 'Segoe UI', Tahoma, sans-serif; min-height: 100vh; }
 body { padding: 10px; }
 button { font-family: inherit; }
-
-/* START */
 #start-screen { background: linear-gradient(160deg, #1B5E20, #0d3b12); border-radius: 20px; padding: 36px 24px; max-width: 640px; width: 100%; margin: 24px auto; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,.6); border: 2px solid #2E7D32; }
 #start-screen h1 { font-size: clamp(24px, 5vw, 40px); color: #FFEB3B; margin-bottom: 8px; }
 .subtitle { color: #C8E6C9; font-size: 14px; margin-bottom: 20px; }
@@ -25,33 +23,26 @@ button { font-family: inherit; }
 .btn-primary:active { transform: translateY(3px); box-shadow: 0 2px 0 #c79100; }
 .hint { margin-top: 16px; color: #A5D6A7; font-size: 12px; }
 #resume-btn { background: #4CAF50; color: #fff; margin-top: 12px; padding: 10px 30px; border: none; border-radius: 10px; font-size: 14px; cursor: pointer; display: none; }
+#resume-btn:disabled { opacity: .6; cursor: wait; }
+#cloud-status { margin-top: 14px; font-size: 11px; color: #90A4AE; }
+#cloud-status.ok { color: #A5D6A7; }
+#cloud-status.err { color: #EF9A9A; }
 
-/* GAME */
 #game-screen { display: none; width: 100%; max-width: 1400px; margin: 0 auto; background: #182228; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.7); border: 2px solid #263238; }
 #hud { background: linear-gradient(90deg, #2E7D32, #1B5E20); padding: 8px 12px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; border-bottom: 3px solid #0d3b12; }
 .farm-title { font-size: 13px; font-weight: bold; color: #FFF9C4; }
 .stat { font-size: 11px; font-weight: 600; background: rgba(0,0,0,.28); padding: 4px 9px; border-radius: 16px; white-space: nowrap; }
-.stat.money { color: #FFD54F; }
-.stat.scale { color: #B3E5FC; }
-.stat.rep { color: #F8BBD0; }
-.stat.stars { color: #FFC107; }
-.stat.energy { color: #FFE082; }
-.stat.weather { color: #FFCCBC; }
-.stat.day { color: #B39DDB; }
-.stat.ach { color: #FFD54F; }
-.stat.ad { color: #FFAB91; }
-.stat.ad.inactive { opacity: .45; }
+.stat.money { color: #FFD54F; } .stat.scale { color: #B3E5FC; } .stat.rep { color: #F8BBD0; } .stat.stars { color: #FFC107; } .stat.energy { color: #FFE082; } .stat.weather { color: #FFCCBC; } .stat.day { color: #B39DDB; } .stat.ach { color: #FFD54F; } .stat.ad { color: #FFAB91; } .stat.ad.inactive { opacity: .45; }
+.stat.cloud { color: #81D4FA; } .stat.cloud.ok { color: #A5D6A7; } .stat.cloud.err { color: #EF9A9A; } .stat.cloud.saving { color: #FFD54F; }
 .spacer { flex: 1; }
 .top-btn { padding: 5px 10px; font-size: 11px; border-radius: 8px; background: #37474F; color: #fff; border: none; cursor: pointer; }
 .top-btn:hover { background: #546E7A; }
-
 #main { display: flex; flex-wrap: wrap; gap: 10px; padding: 10px; align-items: flex-start; }
 #farm-area { flex: 1 1 720px; min-width: 0; max-width: 100%; }
 #farm-wrap { position: relative; width: 100%; max-width: 720px; margin: 0 auto; border-radius: 12px; overflow: hidden; border: 3px solid #37474F; background: #7CB342; }
 #farm { position: relative; width: 720px; height: 700px; transform-origin: top left; overflow: hidden; }
 #sky { position: absolute; top: 0; left: 0; right: 0; height: 130px; background: #8ECAE6; transition: background .6s; }
 #ground { position: absolute; top: 130px; left: 0; right: 0; bottom: 0; background: #7CB342; transition: background .6s; }
-
 #weather-fx { position: absolute; inset: 0; pointer-events: none; z-index: 50; overflow: hidden; }
 .raindrop { position: absolute; width: 2px; height: 14px; background: linear-gradient(180deg, rgba(174,214,241,0), #AED6F1); top: -20px; animation: fall linear infinite; }
 @keyframes fall { to { transform: translateY(900px); } }
@@ -62,7 +53,6 @@ button { font-family: inherit; }
 #weather-overlay.rainbow { background: linear-gradient(180deg, rgba(255,255,255,.15), rgba(255,193,7,.08)); }
 #weather-overlay.cold { background: rgba(120,180,240,.20); }
 #weather-overlay.rain { background: rgba(80,110,140,.22); }
-
 .sun { position: absolute; top: 18px; left: 26px; width: 56px; height: 56px; border-radius: 50%; background: radial-gradient(circle, #FFF59D, #FFD54F); box-shadow: 0 0 40px rgba(255,213,79,.85); z-index: 2; transition: opacity .5s; }
 .cloud { position: absolute; background: #fff; border-radius: 50px; opacity: .92; z-index: 2; }
 .cloud::before, .cloud::after { content: ''; position: absolute; background: #fff; border-radius: 50%; }
@@ -73,11 +63,8 @@ button { font-family: inherit; }
 .barn-roof { position: absolute; top: 0; left: -8px; right: -8px; height: 40px; background: #8D6E63; clip-path: polygon(50% 0%, 100% 100%, 0% 100%); }
 .barn-door { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 30px; height: 38px; background: #5D4037; border-radius: 4px 4px 0 0; }
 .barn-window { position: absolute; bottom: 28px; left: 8px; width: 18px; height: 18px; background: #FFF59D; border: 2px solid #5D4037; border-radius: 3px; }
-
 #weather-badge { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,.65); color: #fff; padding: 5px 14px; border-radius: 18px; font-size: 12px; font-weight: bold; z-index: 60; border: 2px solid rgba(255,255,255,.3); display: flex; align-items: center; gap: 6px; backdrop-filter: blur(4px); }
 .wdesc { font-size: 10px; opacity: .85; font-weight: 400; }
-
-/* ZONE TABS + TOOLS */
 #zone-tabs { display: flex; gap: 6px; padding: 8px 12px 0; background: #1f2b30; }
 .zone-tab { flex: 1; padding: 8px 12px; background: #263238; color: #B0BEC5; border: none; border-radius: 10px 10px 0 0; font-size: 12px; font-weight: bold; cursor: pointer; }
 .zone-tab:hover { background: #37474F; }
@@ -87,24 +74,19 @@ button { font-family: inherit; }
 .tool-btn:hover { background: #546E7A; }
 .tool-btn.active { background: #FFC107; color: #1B5E20; border-color: #FFA000; }
 .tool-info { flex: 1; display: flex; align-items: center; font-size: 11px; color: #90A4AE; padding-left: 8px; }
-
-/* PLOTS */
 #plots { position: absolute; top: 165px; left: 20px; right: 20px; display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(5, 100px); gap: 8px; z-index: 3; }
 .plot { border-radius: 10px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 3px solid rgba(0,0,0,.45); overflow: hidden; background: #8D6E63; box-shadow: inset 0 -4px 0 rgba(0,0,0,.15), 0 2px 5px rgba(0,0,0,.3); position: relative; transition: transform .12s; }
 .plot:hover { transform: scale(1.05); }
 .plot .plus { font-size: 30px; color: rgba(255,255,255,.55); font-weight: 900; }
 .plot .hint-line { font-size: 9.5px; color: rgba(255,255,255,.78); margin-top: 4px; font-weight: 600; }
 .plot .emoji { font-size: 30px; line-height: 1; filter: drop-shadow(0 2px 3px rgba(0,0,0,.5)); }
-
 .gene-badge { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,.7); border-radius: 9px; font-size: 12px; padding: 1px 5px; line-height: 1.3; border: 1px solid rgba(255,255,255,.3); }
 .gene-badge.gene-rainbow { color: #FF80AB; }
 .gene-badge.gene-royal { color: #FFD54F; }
 .gene-badge.gene-gold { color: #FFEB3B; text-shadow: 0 0 8px #FFC107; animation: goldShine 1.4s ease infinite; }
 @keyframes goldShine { 0%,100% { transform: scale(1); } 50% { transform: scale(1.2); } }
-
 .bug-badge { position: absolute; top: 4px; left: 4px; background: rgba(200,30,30,.9); border-radius: 9px; font-size: 14px; padding: 1px 5px; line-height: 1.3; border: 1px solid rgba(255,255,255,.4); animation: bugWiggle .8s ease infinite; }
 @keyframes bugWiggle { 0%,100% { transform: rotate(-8deg); } 50% { transform: rotate(8deg); } }
-
 .plot.locked { background: #4E342E !important; border-color: #3E2723 !important; }
 .plot .lock-icon { font-size: 26px; }
 .plot .lock-hint { font-size: 10px; color: #FFD54F; margin-top: 4px; font-weight: 700; }
@@ -116,13 +98,10 @@ button { font-family: inherit; }
 .plot.ready { animation: pulse 1s infinite; }
 @keyframes pulse { 0%,100% { box-shadow: inset 0 -4px 0 rgba(0,0,0,.15), 0 0 0 0 rgba(255,213,79,.85); } 50% { box-shadow: inset 0 -4px 0 rgba(0,0,0,.15), 0 0 0 8px rgba(255,213,79,0); } }
 .ready-tag { position: absolute; top: 4px; left: 50%; transform: translateX(-50%); background: #FFD54F; color: #3E2723; font-size: 8px; font-weight: bold; padding: 2px 6px; border-radius: 7px; white-space: nowrap; }
-
-/* SIDE PANEL */
 #side-panel { flex: 1 1 420px; min-width: 300px; display: flex; flex-direction: column; gap: 8px; }
 .panel { background: #263238; border-radius: 12px; padding: 10px; border: 1px solid #37474F; }
 .panel h3 { font-size: 12px; color: #80CBC4; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; gap: 6px; }
 .panel h3 .badge { background: #37474F; padding: 2px 8px; border-radius: 10px; font-size: 10px; color: #FFD54F; }
-.panel-collapse { cursor: pointer; user-select: none; }
 .shop-section { margin-bottom: 8px; }
 .shop-section:last-child { margin-bottom: 0; }
 .shop-sub { font-size: 10px; color: #90A4AE; text-transform: uppercase; letter-spacing: .3px; margin-bottom: 5px; font-weight: 600; display: flex; justify-content: space-between; }
@@ -133,7 +112,6 @@ button { font-family: inherit; }
 .ad-row { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
 .ad-btn { background: #5D4037; color: #fff; border: none; border-radius: 7px; padding: 7px 6px; font-size: 11px; cursor: pointer; }
 .ad-btn:hover { background: #795548; }
-
 .unlock-btn, .land-btn, .worker-btn { display: flex; align-items: center; gap: 6px; background: #37474F; color: #eceff1; border: none; border-radius: 7px; padding: 6px 9px; margin-bottom: 4px; width: 100%; font-size: 11px; cursor: pointer; text-align: left; }
 .unlock-btn:hover, .land-btn:hover, .worker-btn:hover:not(.hired) { background: #546E7A; }
 .unlock-name, .worker-name { flex: 1; font-weight: 600; }
@@ -142,18 +120,14 @@ button { font-family: inherit; }
 .worker-btn.hired { background: #2E7D32; cursor: default; }
 .worker-btn.hired .worker-cost { color: #C8E6C9; }
 .worker-detail { font-size: 9px; color: #B0BEC5; font-weight: 400; display: block; }
-
 #inventory-list { display: flex; flex-wrap: wrap; gap: 4px; font-size: 10.5px; min-height: 20px; max-height: 120px; overflow-y: auto; padding-right: 3px; }
 #inventory-list::-webkit-scrollbar { width: 5px; }
 #inventory-list::-webkit-scrollbar-thumb { background: #455A64; border-radius: 3px; }
 .inv-chip { background: #37474F; padding: 2px 8px; border-radius: 10px; border: 1px solid #546E7A; }
 .inv-chip .chip-price { color: #FFD54F; font-size: 9px; margin-left: 3px; }
 .inv-empty { color: #78909C; font-style: italic; font-size: 10.5px; }
-
 .sell-btn { width: 100%; margin-top: 8px; background: #455A64; color: #fff; border: none; border-radius: 7px; padding: 8px; font-size: 11px; cursor: pointer; }
 .sell-btn:hover { background: #546E7A; }
-
-/* CUSTOMERS */
 #customer-list { max-height: 280px; overflow-y: auto; padding-right: 3px; }
 #customer-list::-webkit-scrollbar { width: 5px; }
 #customer-list::-webkit-scrollbar-thumb { background: #455A64; border-radius: 3px; }
@@ -184,8 +158,6 @@ button { font-family: inherit; }
 .reject-btn { background: #B71C1C; color: #fff; border: none; border-radius: 6px; padding: 5px 10px; font-size: 10.5px; font-weight: bold; cursor: pointer; }
 .reject-btn:hover { background: #C62828; }
 .empty-customers { color: #78909C; font-size: 11px; text-align: center; padding: 18px 10px; font-style: italic; }
-
-/* SUPERMARKET */
 .sm-row { display: flex; align-items: center; gap: 6px; padding: 5px 0; border-bottom: 1px dashed #37474F; font-size: 11px; }
 .sm-row:last-child { border-bottom: none; }
 .sm-item { flex: 1; font-weight: 600; }
@@ -195,12 +167,7 @@ button { font-family: inherit; }
 .sm-comp.lose { color: #EF9A9A; }
 .sm-slider { width: 100px; }
 .sm-slider input { width: 100%; }
-.sm-status { font-size: 10px; padding: 2px 6px; border-radius: 8px; font-weight: bold; }
-.sm-status.sell { background: #2E7D32; color: #fff; }
-.sm-status.stuck { background: #B71C1C; color: #fff; }
 .sm-header { display: flex; justify-content: space-between; font-size: 10px; color: #607D8B; padding: 4px 0; border-bottom: 1px solid #37474F; }
-
-/* ONLINE ORDERS */
 .online-card { background: #1f2b30; border-radius: 10px; padding: 9px 11px; margin-bottom: 6px; border-left: 4px solid #29B6F6; }
 .online-card.shipping { border-left-color: #FFB300; }
 .online-top { display: flex; justify-content: space-between; align-items: center; gap: 6px; }
@@ -211,9 +178,6 @@ button { font-family: inherit; }
 .online-track { flex: 1; height: 6px; background: #1c262b; border-radius: 3px; overflow: hidden; }
 .online-fill { height: 100%; background: #29B6F6; border-radius: 3px; }
 .online-fill.shipping { background: #FFB300; }
-.online-fill.ready { background: #4CAF50; }
-
-/* REVIEWS */
 #review-list { max-height: 180px; overflow-y: auto; padding-right: 3px; }
 #review-list::-webkit-scrollbar { width: 5px; }
 #review-list::-webkit-scrollbar-thumb { background: #455A64; border-radius: 3px; }
@@ -222,8 +186,6 @@ button { font-family: inherit; }
 .review-name { font-weight: bold; color: #FFD54F; font-size: 11px; }
 .review-stars { color: #FFC107; font-size: 11px; }
 .review-text { color: #CFD8DC; font-style: italic; }
-
-/* ACH */
 #ach-panel-list { display: grid; grid-template-columns: 1fr; gap: 4px; max-height: 180px; overflow-y: auto; padding-right: 3px; }
 #ach-panel-list::-webkit-scrollbar { width: 5px; }
 #ach-panel-list::-webkit-scrollbar-thumb { background: #455A64; border-radius: 3px; }
@@ -233,10 +195,7 @@ button { font-family: inherit; }
 .ach-name { flex: 1; }
 .ach-progress { color: #90A4AE; font-size: 10px; font-weight: bold; }
 .ach-item.done .ach-progress { color: #A5D6A7; }
-
 #status-bar { padding: 9px 16px; background: #0d1418; border-top: 2px solid #263238; font-size: 12.5px; color: #FFF59D; min-height: 38px; display: flex; align-items: center; }
-
-/* MODAL */
 #modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.78); z-index: 100; align-items: center; justify-content: center; padding: 16px; }
 #modal-overlay.show { display: flex; }
 #modal { background: #263238; border-radius: 14px; padding: 20px; width: 100%; max-width: 500px; border: 2px solid #37474F; max-height: 90vh; overflow-y: auto; }
@@ -248,8 +207,6 @@ button { font-family: inherit; }
 .modal-close:hover { background: #546E7A; }
 .modal-empty { color: #90A4AE; font-size: 12.5px; text-align: center; padding: 14px 0; line-height: 1.7; }
 .modal-shop-btn { background: #FFC107; color: #1B5E20; border: none; border-radius: 9px; padding: 11px 14px; width: 100%; font-size: 13px; font-weight: bold; cursor: pointer; margin-top: 6px; }
-
-/* BULK */
 .bulk-info { background: #1f2b30; padding: 10px 14px; border-radius: 10px; margin-bottom: 12px; font-size: 12.5px; }
 .bulk-info .row { display: flex; justify-content: space-between; margin-bottom: 5px; }
 .bulk-info .val { color: #FFD54F; font-weight: bold; }
@@ -263,8 +220,6 @@ button { font-family: inherit; }
 .btn-buy:hover { background: #4CAF50; }
 .btn-cancel { background: #455A64; color: #fff; }
 .btn-cancel:hover { background: #546E7A; }
-
-/* BIG MODAL */
 .big-modal { background: #263238; border-radius: 16px; padding: 22px; width: 100%; max-width: 520px; border: 2px solid #37474F; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,.8); }
 .big-modal h2 { font-size: 18px; color: #FFD54F; margin-bottom: 6px; text-align: center; }
 .big-modal .subhead { text-align: center; color: #90A4AE; font-size: 12px; margin-bottom: 14px; }
@@ -286,8 +241,6 @@ button { font-family: inherit; }
 .eb-icon { font-size: 20px; }
 .eb-text { flex: 1; }
 .eb-cost { color: #FFD54F; font-weight: bold; font-size: 12px; }
-
-/* TOAST */
 #toast-container { position: fixed; top: 14px; right: 14px; display: flex; flex-direction: column; gap: 8px; z-index: 300; pointer-events: none; max-width: 80vw; }
 .toast { background: #2E7D32; color: #fff; padding: 10px 18px; border-radius: 9px; font-size: 12.5px; font-weight: 600; box-shadow: 0 6px 20px rgba(0,0,0,.5); border-left: 4px solid #FFD54F; }
 .toast.error { background: #C62828; border-left-color: #FF8A80; }
@@ -300,14 +253,15 @@ button { font-family: inherit; }
 
 <div id="start-screen">
   <h1>🌾 NÔNG TRẠI VUI VẺ 🌾</h1>
-  <p class="subtitle">50 ô · Sâu bọ · Siêu thị · Đơn online · Nhận xét NPC</p>
+  <p class="subtitle">50 ô · Sâu bọ · Siêu thị · Đơn online · Cloud Save</p>
   <label class="field-label" for="farm-name-input">Tên nông trại</label>
   <input id="farm-name-input" type="text" value="Đồi Gió" maxlength="20" />
   <label class="field-label" style="margin-top:18px;">Phông nền trang trại</label>
   <div class="theme-grid" id="theme-grid"></div>
   <button class="btn-primary" id="start-btn">▶ BẮT ĐẦU MỚI</button>
   <button id="resume-btn">📂 CHƠI TIẾP</button>
-  <p class="hint">💡 Tự động lưu — sao đánh giá cao thì khách đông!</p>
+  <p class="hint">💡 Game tự động lưu lên Firebase Cloud</p>
+  <div id="cloud-status">⏳ Đang kết nối Firebase...</div>
 </div>
 
 <div id="game-screen">
@@ -323,6 +277,7 @@ button { font-family: inherit; }
     <span class="stat ach" id="hud-ach">🏆 0/13</span>
     <span class="spacer"></span>
     <span class="stat ad inactive" id="hud-ad">📢 Không QC</span>
+    <span class="stat cloud" id="hud-cloud">☁️ ...</span>
     <button class="top-btn" id="save-btn">💾 Lưu</button>
     <button class="top-btn" id="reset-btn">🔄 Chơi lại</button>
   </div>
@@ -336,7 +291,7 @@ button { font-family: inherit; }
       <div id="tools-bar">
         <button class="tool-btn active" data-tool="hand">✋ Tay</button>
         <button class="tool-btn" data-tool="shovel">🪏 Xẻng</button>
-        <div class="tool-info" id="tool-info">Bấm ô đất để trồng/thu hoạch</div>
+        <div class="tool-info" id="tool-info">Bấm ô đất để trồng/thu hoạch/bắt sâu</div>
       </div>
       <div id="farm-wrap">
         <div id="farm">
@@ -360,15 +315,9 @@ button { font-family: inherit; }
 
     <div id="side-panel">
       <div class="panel">
-        <h3>🛒 Cửa hàng <span class="badge">Bấm để chọn số lượng</span></h3>
-        <div class="shop-section">
-          <div class="shop-sub">🌱 Hạt giống cơ bản</div>
-          <div class="shop-grid" id="shop-crops"></div>
-        </div>
-        <div class="shop-section">
-          <div class="shop-sub">🐾 Con giống</div>
-          <div class="shop-grid" id="shop-animals"></div>
-        </div>
+        <h3>🛒 Cửa hàng <span class="badge">Bấm chọn số lượng</span></h3>
+        <div class="shop-section"><div class="shop-sub">🌱 Hạt giống</div><div class="shop-grid" id="shop-crops"></div></div>
+        <div class="shop-section"><div class="shop-sub">🐾 Con giống</div><div class="shop-grid" id="shop-animals"></div></div>
         <div class="shop-section">
           <div class="shop-sub">🎁 Gói bí ẩn <span id="mystery-count">0/1000</span></div>
           <div class="shop-grid">
@@ -386,33 +335,26 @@ button { font-family: inherit; }
       </div>
 
       <div class="panel">
-        <h3>🏪 Siêu thị — bán sỉ cho siêu thị <span class="badge" id="sm-sales-today">0$</span></h3>
-        <div class="sm-header"><span>Mặt hàng</span><span style="width:55px;text-align:right">Giá bạn</span><span style="width:55px;text-align:right">Đối thủ</span><span style="width:56px"></span></div>
+        <h3>🏪 Siêu thị — bán sỉ <span class="badge" id="sm-sales-today">0$</span></h3>
+        <div class="sm-header"><span>Mặt hàng</span><span style="width:55px;text-align:right">Giá bạn</span><span style="width:55px;text-align:right">Đối thủ</span><span style="width:100px"></span></div>
         <div id="supermarket-list"></div>
-        <div style="font-size:10px;color:#78909C;margin-top:6px;font-style:italic">💡 Đặt giá thấp hơn đối thủ để bán chạy hơn. Bán tự động khi có kho.</div>
+        <div style="font-size:10px;color:#78909C;margin-top:6px;font-style:italic">💡 Đặt giá thấp hơn đối thủ để bán chạy hơn.</div>
       </div>
 
       <div class="panel">
-        <h3>📦 Đơn hàng Online <span class="badge" id="online-count">0</span></h3>
+        <h3>📦 Đơn Online <span class="badge" id="online-count">0</span></h3>
         <div id="online-list"></div>
       </div>
 
       <div class="panel">
         <h3>⬆️ Nâng cấp</h3>
-        <div class="shop-sub">🌱 Mở khoá cây trồng</div>
-        <div id="unlock-list"></div>
-        <div class="shop-sub" style="margin-top:6px">🏗️ Mở rộng đất</div>
-        <div id="land-list"></div>
-        <div class="shop-sub" style="margin-top:6px">🧑‍🌾 Nhân công</div>
-        <div id="worker-list"></div>
-        <div class="shop-sub" style="margin-top:6px">💉 Vaccine cúm</div>
-        <div id="vaccine-list"></div>
+        <div class="shop-sub">🌱 Mở khoá cây</div><div id="unlock-list"></div>
+        <div class="shop-sub" style="margin-top:6px">🏗️ Mở rộng đất</div><div id="land-list"></div>
+        <div class="shop-sub" style="margin-top:6px">🧑‍🌾 Nhân công</div><div id="worker-list"></div>
+        <div class="shop-sub" style="margin-top:6px">💉 Vaccine cúm</div><div id="vaccine-list"></div>
       </div>
 
-      <div class="panel">
-        <h3>🏆 Thành tựu <span class="badge" id="ach-count">0/13</span></h3>
-        <div id="ach-panel-list"></div>
-      </div>
+      <div class="panel"><h3>🏆 Thành tựu <span class="badge" id="ach-count">0/13</span></h3><div id="ach-panel-list"></div></div>
 
       <div class="panel">
         <h3>🎒 Kho hàng</h3>
@@ -420,15 +362,9 @@ button { font-family: inherit; }
         <button class="sell-btn" id="sell-all-btn">🏪 Bán lẻ ở chợ (80% giá)</button>
       </div>
 
-      <div class="panel">
-        <h3>💬 Nhận xét NPC <span class="badge" id="review-count">0</span></h3>
-        <div id="review-list"></div>
-      </div>
+      <div class="panel"><h3>💬 Nhận xét NPC <span class="badge" id="review-count">0</span></h3><div id="review-list"></div></div>
 
-      <div class="panel">
-        <h3>👥 Khách hàng <span class="badge" id="cust-count">0</span></h3>
-        <div id="customer-list"></div>
-      </div>
+      <div class="panel"><h3>👥 Khách hàng <span class="badge" id="cust-count">0</span></h3><div id="customer-list"></div></div>
     </div>
   </div>
 
@@ -463,34 +399,151 @@ button { font-family: inherit; }
 </div>
 
 <div id="news-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:110;align-items:center;justify-content:center;padding:16px;">
-  <div class="big-modal">
-    <h2>📰 BẢN TIN NÔNG TRẠI</h2>
-    <div class="subhead" id="news-day-label">Ngày 1</div>
-    <div id="news-body"></div>
-    <button class="btn-primary" style="width:100%;margin-top:12px;padding:11px;" id="news-ok">ĐÓN NGÀY MỚI 🌅</button>
-  </div>
+  <div class="big-modal"><h2>📰 BẢN TIN NÔNG TRẠI</h2><div class="subhead" id="news-day-label">Ngày 1</div><div id="news-body"></div><button class="btn-primary" style="width:100%;margin-top:12px;padding:11px;" id="news-ok">ĐÓN NGÀY MỚI 🌅</button></div>
 </div>
-
 <div id="report-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:110;align-items:center;justify-content:center;padding:16px;">
-  <div class="big-modal">
-    <h2>📊 SỔ THU CHI</h2>
-    <div class="subhead" id="report-day-label">Kết thúc ngày</div>
-    <div id="report-body"></div>
-    <button class="btn-primary" style="width:100%;margin-top:14px;padding:11px;" id="report-ok">TIẾP TỤC</button>
-  </div>
+  <div class="big-modal"><h2>📊 SỔ THU CHI</h2><div class="subhead" id="report-day-label">Kết thúc ngày</div><div id="report-body"></div><button class="btn-primary" style="width:100%;margin-top:14px;padding:11px;" id="report-ok">TIẾP TỤC</button></div>
 </div>
-
 <div id="event-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:115;align-items:center;justify-content:center;padding:16px;">
-  <div class="big-modal">
-    <div class="event-icon" id="event-icon">🐔</div>
-    <div class="event-title" id="event-title"></div>
-    <div class="event-desc" id="event-desc"></div>
-    <div id="event-choices"></div>
-  </div>
+  <div class="big-modal"><div class="event-icon" id="event-icon">🐔</div><div class="event-title" id="event-title"></div><div class="event-desc" id="event-desc"></div><div id="event-choices"></div></div>
 </div>
-
 <div id="toast-container"></div>
 
+<!-- ============================================================
+     FIREBASE MODULE
+     ============================================================ -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
+import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDug8CkJvdgt84TKmFafzcgQp5kH7FkQEo",
+  authDomain: "nongtrai-e6abc.firebaseapp.com",
+  projectId: "nongtrai-e6abc",
+  storageBucket: "nongtrai-e6abc.firebasestorage.app",
+  messagingSenderId: "606861982631",
+  appId: "1:606861982631:web:55d4abeebc89b1eab9d482",
+  measurementId: "G-KYZ3335TMC"
+};
+
+let app, analytics, auth, db;
+try {
+  app = initializeApp(firebaseConfig);
+  try { analytics = getAnalytics(app); } catch(e) { console.warn('Analytics failed', e); }
+  auth = getAuth(app);
+  db = getFirestore(app);
+} catch (e) {
+  console.error('Firebase init failed', e);
+}
+
+// Cloud API toàn cục
+window.Cloud = {
+  ready: false,
+  userId: null,
+  status: 'Đang kết nối...',
+  lastSync: 0,
+
+  // Save data (JSON object) lên Firestore
+  async save(data) {
+    if (!this.ready || !this.userId) return false;
+    try {
+      // Firestore có giới hạn 1MB/doc — nén bằng JSON string
+      const json = JSON.stringify(data);
+      if (json.length > 900000) {
+        console.warn('Save quá lớn (>900KB), bỏ qua cloud sync');
+        return false;
+      }
+      await setDoc(doc(db, 'saves', this.userId), {
+        data: json,
+        updatedAt: serverTimestamp(),
+        version: 3,
+        day: data.day || 1,
+        money: data.money || 0,
+      });
+      this.lastSync = Date.now();
+      return true;
+    } catch (e) {
+      console.error('Cloud save failed', e);
+      return false;
+    }
+  },
+
+  // Load data từ Firestore
+  async load() {
+    if (!this.ready || !this.userId) return null;
+    try {
+      const snap = await getDoc(doc(db, 'saves', this.userId));
+      if (!snap.exists()) return null;
+      const raw = snap.data().data;
+      return JSON.parse(raw);
+    } catch (e) {
+      console.error('Cloud load failed', e);
+      return null;
+    }
+  },
+
+  // Kiểm tra có save trên cloud không
+  async hasSave() {
+    if (!this.ready || !this.userId) return false;
+    try {
+      const snap = await getDoc(doc(db, 'saves', this.userId));
+      return snap.exists();
+    } catch (e) { return false; }
+  },
+
+  // Xoá save trên cloud
+  async deleteSave() {
+    if (!this.ready || !this.userId) return false;
+    try {
+      await setDoc(doc(db, 'saves', this.userId), { data: '', deleted: true });
+      return true;
+    } catch (e) { return false; }
+  }
+};
+
+// Đăng nhập ẩn danh — mỗi trình duyệt có UID riêng, được lưu trong localStorage của Firebase
+if (auth) {
+  signInAnonymously(auth).catch(err => {
+    console.error('Anonymous auth failed', err);
+    window.Cloud.status = 'Lỗi đăng nhập: ' + (err.code || err.message);
+    updateCloudStatusUI('err', '⚠️ Lỗi kết nối Cloud');
+  });
+
+  onAuthStateChanged(auth, user => {
+    if (user) {
+      window.Cloud.userId = user.uid;
+      window.Cloud.ready = true;
+      window.Cloud.status = 'Đã kết nối — UID: ' + user.uid.slice(0, 8) + '...';
+      updateCloudStatusUI('ok', '☁️ Cloud sẵn sàng');
+      if (typeof window.onCloudReady === 'function') window.onCloudReady();
+    }
+  });
+} else {
+  updateCloudStatusUI('err', '⚠️ Firebase không khả dụng');
+}
+
+function updateCloudStatusUI(state, text) {
+  // Trang bắt đầu
+  const startEl = document.getElementById('cloud-status');
+  if (startEl) {
+    startEl.textContent = text;
+    startEl.className = state === 'ok' ? 'ok' : state === 'err' ? 'err' : '';
+  }
+  // HUD
+  const hudEl = document.getElementById('hud-cloud');
+  if (hudEl) {
+    hudEl.textContent = state === 'ok' ? '☁️ ✓' : state === 'err' ? '☁️ ✗' : '☁️ ...';
+    hudEl.className = 'stat cloud ' + (state === 'ok' ? 'ok' : state === 'err' ? 'err' : '');
+  }
+}
+window.updateCloudStatusUI = updateCloudStatusUI;
+</script>
+
+<!-- ============================================================
+     GAME SCRIPT
+     ============================================================ -->
 <script>
 /* ================================================================
    DỮ LIỆU
@@ -545,19 +598,16 @@ const WEATHERS = {
   cold:    { emoji: "❄️", name: "Lạnh",     growMul: 0.6,  desc: "Cây ưa nóng ngừng lớn",  marketEffect: { veg: 1.30 } },
   rainbow: { emoji: "🌈", name: "Cầu vồng", growMul: 1.2,  desc: "Tất cả giá +30%",        marketEffect: { all: 1.30 } },
 };
-
 const WORKERS = {
   "Thợ tập sự":      { cost: 1500,  interval: 8, autoDeliver: false, autoPlant: false, emoji: "🧑‍🌾", desc: "Thu hoạch mỗi 8s" },
   "Người trồng cây": { cost: 3000,  interval: 6, autoDeliver: false, autoPlant: true,  emoji: "👩‍🌾", desc: "Tự trồng + thu hoạch" },
   "Thợ lành nghề":   { cost: 6500,  interval: 4, autoDeliver: false, autoPlant: true,  emoji: "👨‍🌾", desc: "Trồng + thu hoạch nhanh" },
   "Quản lý":         { cost: 18000, interval: 2, autoDeliver: true,  autoPlant: true,  emoji: "🧑‍💼", desc: "Toàn quyền + tự giao" },
 };
-
 const ROW_COST_PER_ROW = 2000;
 const VACCINE_COST = 800;
 const MYSTERY_PACKET_COST = 200;
 const BUG_ENERGY_COST = 3;
-
 const ACHIEVEMENTS = [
   { id: "plant100",  emoji: "🌾", name: "Nông dân chăm",  desc: "Trồng 100 cây",        target: 100,  stat: "plantsTotal" },
   { id: "carrot100", emoji: "🥕", name: "Vua cà rốt",     desc: "Trồng 100 cà rốt",     target: 100,  stat: "carrotsPlanted" },
@@ -573,7 +623,6 @@ const ACHIEVEMENTS = [
   { id: "mystery50", emoji: "🎁", name: "Nhà sưu tầm",    desc: "Mở 50 gói bí ẩn",      target: 50,   stat: "mysteryPackets" },
   { id: "bug50",     emoji: "🐛", name: "Diệt sâu",       desc: "Bắt 50 con sâu",       target: 50,   stat: "bugsCaught" },
 ];
-
 const THEMES = {
   "Đồng quê xanh": { sky: "#8ECAE6", ground: "#7CB342", slot: "#8D6E63", slotBorder: "#5D4037" },
   "Hoàng hôn":     { sky: "#FF9E6D", ground: "#C2703B", slot: "#8D6E63", slotBorder: "#4E342E" },
@@ -581,7 +630,6 @@ const THEMES = {
   "Sa mạc":        { sky: "#FFD79A", ground: "#E8C07D", slot: "#C9A227", slotBorder: "#8D6E63" },
   "Đêm sao":       { sky: "#1B2A4A", ground: "#2E4A3D", slot: "#4E342E", slotBorder: "#3E2723" },
 };
-
 const HO = ["Nguyễn","Trần","Lê","Phạm","Hoàng","Huỳnh","Vũ","Võ","Đặng","Bùi","Đỗ","Hồ","Ngô","Dương","Lý","Đinh","Tạ","Trịnh","Cao","Mai"];
 const DEM = ["Văn","Thị","Minh","Hữu","Thanh","Quốc","Ngọc","Kim","Anh","Đức","Xuân","Thu"];
 const TEN = ["An","Bình","Châu","Dũng","Giang","Hà","Hùng","Lan","Mai","Nam","Oanh","Phúc","Quỳnh","Sơn","Trang","Tuấn","Vy","Yến","Khoa","Linh","My","Nhi","Phong","Thảo","Trâm","Kiệt","Hân","Lộc","Tú","Bảo"];
@@ -590,13 +638,11 @@ const WORKER_QUIRKS = ["thích uống trà sớm","mê chó con","hay ngân nga"
 const REVIEWS_GOOD = ["Tuyệt vời, rất hài lòng!","Giao nhanh, hàng tươi!","Sẽ quay lại!","Nông trại uy tín!","Chất lượng tuyệt!","Đúng hẹn, cảm ơn!","Thái độ thân thiện!"];
 const REVIEWS_MID  = ["Được, hàng ổn.","Cũng tạm.","Chấp nhận được.","Hàng đúng, hơi chậm.","OK, lần sau nhanh hơn."];
 const REVIEWS_BAD  = ["Chờ hơi lâu!","Giao trễ quá!","Sẽ cân nhắc lại.","Không hài lòng.","Thất vọng!"];
-
 function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
 function randomNpcName() {
   if (Math.random() < 0.5) return `${pick(TITLES)} ${pick(HO)} ${pick(TEN)}`;
   return `${pick(TITLES)} ${pick(HO)} ${pick(DEM)} ${pick(TEN)}`;
 }
-
 const COLS = 5, ROWS_PER_ZONE = 5;
 const PLOTS_PER_ZONE = COLS * ROWS_PER_ZONE;
 const TOTAL_PLOTS = PLOTS_PER_ZONE * 2;
@@ -604,9 +650,6 @@ const FARM_W = 720, FARM_H = 700;
 const DAY_DURATION = 240;
 const SAVE_KEY = 'ntvv_save_v3';
 
-/* ================================================================
-   STATE
-   ================================================================ */
 const G = {
   farmName: "Nông trại", themeKey: "Đồng quê xanh",
   money: 500, energy: 100,
@@ -625,7 +668,7 @@ const G = {
   supermarket: { prices: {}, competitors: {}, salesToday: 0 },
   onlineOrders: [], onlineSeq: 0, onlineCooldown: 20,
   pauseCount: 0, advancing: false,
-  running: false, lastTime: 0, lastSave: 0,
+  running: false, lastTime: 0, lastSave: 0, lastCloudSave: 0,
 };
 
 function getTheme() { return THEMES[G.themeKey] || THEMES["Đồng quê xanh"]; }
@@ -642,9 +685,6 @@ function pauseGame() { G.pauseCount++; }
 function unpauseGame() { G.pauseCount = Math.max(0, G.pauseCount - 1); }
 function isPaused() { return G.pauseCount > 0; }
 
-/* ================================================================
-   HELPERS
-   ================================================================ */
 function isPlotUnlocked(i) {
   if (i < PLOTS_PER_ZONE) return Math.floor(i / COLS) < G.unlockedRowsCrop;
   return Math.floor((i - PLOTS_PER_ZONE) / COLS) < G.unlockedRowsAnimal;
@@ -698,28 +738,19 @@ function rollCompetitors() {
   const items = new Set([...Object.keys(CROPS)]);
   for (const a in ANIMALS) items.add(ANIMALS[a].product);
   G.supermarket.competitors = {};
-  for (const it of items) {
-    G.supermarket.competitors[it] = 0.85 + Math.random() * 0.35; // 0.85 – 1.20
-  }
+  for (const it of items) G.supermarket.competitors[it] = 0.85 + Math.random() * 0.35;
 }
 function avgStars() {
   if (!G.reviewStars.length) return 4.5;
   const recent = G.reviewStars.slice(-20);
   return recent.reduce((a, b) => a + b, 0) / recent.length;
 }
-function addStar(s) {
-  G.reviewStars.push(s);
-  if (G.reviewStars.length > 40) G.reviewStars.shift();
-}
+function addStar(s) { G.reviewStars.push(s); if (G.reviewStars.length > 40) G.reviewStars.shift(); }
 function addReview(name, stars, text, tier) {
   G.reviews.unshift({ name, stars, text, day: G.day, tier: tier || 'normal' });
   if (G.reviews.length > 30) G.reviews.pop();
   addStar(stars);
 }
-
-/* ================================================================
-   RESCALE
-   ================================================================ */
 function rescaleFarm() {
   const wrap = $('farm-wrap'), farm = $('farm');
   if (!wrap || !farm) return;
@@ -730,9 +761,6 @@ function rescaleFarm() {
 }
 window.addEventListener('resize', rescaleFarm);
 
-/* ================================================================
-   START SCREEN
-   ================================================================ */
 let selectedTheme = Object.keys(THEMES)[0];
 function buildThemeGrid() {
   const grid = $('theme-grid');
@@ -746,21 +774,104 @@ function buildThemeGrid() {
     grid.appendChild(card);
   }
 }
-function hasSave() { try { return !!localStorage.getItem(SAVE_KEY); } catch(e) { return false; } }
-function refreshResumeBtn() { $('resume-btn').style.display = hasSave() ? 'inline-block' : 'none'; }
+
+// Cloud ready callback — được gọi từ module Firebase
+window.onCloudReady = () => {
+  console.log('Cloud ready, user:', window.Cloud.userId);
+  // Cập nhật nút resume nếu đang ở start screen
+  refreshResumeBtn();
+  // Nếu game đang chạy, sync ngay save hiện tại lên cloud
+  if (G.running) {
+    cloudSaveNow();
+  }
+};
+
+async function refreshResumeBtn() {
+  let has = false;
+  // Ưu tiên kiểm tra cloud
+  if (window.Cloud && window.Cloud.ready) {
+    has = await window.Cloud.hasSave();
+  }
+  // Fallback local
+  if (!has) {
+    try { has = !!localStorage.getItem(SAVE_KEY); } catch(e) {}
+  }
+  $('resume-btn').style.display = has ? 'inline-block' : 'none';
+  $('resume-btn').textContent = window.Cloud && window.Cloud.ready && has ? '☁️ CHƠI TIẾP (Cloud)' : '📂 CHƠI TIẾP';
+}
 refreshResumeBtn();
+// Refresh lại sau 2 giây (chờ firebase auth)
+setTimeout(refreshResumeBtn, 2000);
 
 $('start-btn').onclick = () => {
   const name = $('farm-name-input').value.trim() || 'Nông trại';
-  if (hasSave() && !confirm('Bản lưu cũ sẽ bị xoá. Bắt đầu mới?')) return;
-  try { localStorage.removeItem(SAVE_KEY); } catch(e) {}
-  startNewGame(name, selectedTheme);
+  if (window.confirm('Bản lưu cũ sẽ bị xoá. Bắt đầu mới?')) {
+    try { localStorage.removeItem(SAVE_KEY); } catch(e) {}
+    if (window.Cloud && window.Cloud.ready) window.Cloud.deleteSave();
+    startNewGame(name, selectedTheme);
+  }
 };
-$('resume-btn').onclick = () => { if (loadGame()) openGame(); };
 
-/* ================================================================
-   INIT
-   ================================================================ */
+$('resume-btn').onclick = async () => {
+  const btn = $('resume-btn');
+  const origText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = '⏳ Đang tải...';
+
+  let loaded = false;
+
+  // Ưu tiên cloud
+  if (window.Cloud && window.Cloud.ready) {
+    try {
+      const cloudData = await window.Cloud.load();
+      if (cloudData && cloudData.plots) {
+        applyLoadedData(cloudData);
+        loaded = true;
+        toast('☁️ Đã tải từ Cloud!', 'info');
+      }
+    } catch (e) { console.error('Cloud load failed', e); }
+  }
+
+  // Fallback localStorage
+  if (!loaded) {
+    if (loadLocalGame()) {
+      loaded = true;
+      toast('💾 Đã tải từ máy!', 'info');
+    }
+  }
+
+  btn.disabled = false;
+  btn.textContent = origText;
+
+  if (loaded) openGame();
+  else toast('Không tìm thấy bản lưu!', 'error');
+};
+
+function applyLoadedData(data) {
+  data.running = false; data.lastTime = 0; data.lastSave = 0;
+  data.pauseCount = 0; data.advancing = false; data.lastCloudSave = 0;
+  Object.assign(G, data);
+  if (!Array.isArray(G.unlockedCrops)) G.unlockedCrops = [];
+  if (!Array.isArray(G.weatherSeen)) G.weatherSeen = ['sunny'];
+  if (!Array.isArray(G.unlockedAch)) G.unlockedAch = [];
+  if (!Array.isArray(G.reviews)) G.reviews = [];
+  if (!Array.isArray(G.reviewStars)) G.reviewStars = [];
+  if (!Array.isArray(G.mysteryDiscoveries)) G.mysteryDiscoveries = [];
+  if (!Array.isArray(G.onlineOrders)) G.onlineOrders = [];
+  if (!G.supermarket) G.supermarket = { prices: {}, competitors: {}, salesToday: 0 };
+  if (!G.supermarket.prices) G.supermarket.prices = {};
+  if (!G.supermarket.competitors) G.supermarket.competitors = {};
+}
+
+function loadLocalGame() {
+  try {
+    const s = localStorage.getItem(SAVE_KEY);
+    if (!s) return false;
+    applyLoadedData(JSON.parse(s));
+    return true;
+  } catch (e) { console.error('Local load failed', e); return false; }
+}
+
 function resetG(name, themeKey) {
   G.farmName = name; G.themeKey = themeKey;
   G.money = 500; G.energy = 100; G.inventory = {}; G.customers = [];
@@ -807,6 +918,8 @@ function openGame() {
   requestAnimationFrame(() => { rescaleFarm(); setTimeout(rescaleFarm, 100); });
   G.running = true; G.lastTime = performance.now();
   requestAnimationFrame(gameLoop);
+  // Sync ngay lên cloud
+  setTimeout(cloudSaveNow, 500);
 }
 
 function applyTheme() {
@@ -816,9 +929,6 @@ function applyTheme() {
   document.querySelectorAll('.plot').forEach(p => { p.style.background = t.slot; p.style.borderColor = t.slotBorder; });
 }
 
-/* ================================================================
-   WEATHER
-   ================================================================ */
 function applyWeatherVisual() {
   const w = WEATHERS[G.weather];
   $('wb-emoji').textContent = w.emoji;
@@ -841,9 +951,6 @@ function applyWeatherVisual() {
   $('hud-weather').textContent = `${w.emoji} ${w.name}`;
 }
 
-/* ================================================================
-   NEWS / REPORT
-   ================================================================ */
 function showNews(first) {
   pauseGame();
   $('news-day-label').textContent = `Ngày ${G.day} · ${WEATHERS[G.weather].emoji} ${WEATHERS[G.weather].name}`;
@@ -852,7 +959,6 @@ function showNews(first) {
   const d1 = document.createElement('div'); d1.className = 'news-item weather';
   d1.innerHTML = `<strong>${w.emoji} ${w.name}</strong><br>${w.desc}.`;
   body.appendChild(d1);
-
   let bestItem = null, bestMul = 1;
   for (const it in G.marketMul) if (G.marketMul[it] > bestMul) { bestMul = G.marketMul[it]; bestItem = it; }
   if (bestItem) {
@@ -870,7 +976,6 @@ function showNews(first) {
     d.innerHTML = `<strong>⚠️ Cảnh báo cúm gia cầm</strong><br>Dịch có thể bùng phát — mua vaccine phòng ngừa!`;
     body.appendChild(d);
   }
-  // Supermarket news
   let winItem = null, winRatio = 1;
   for (const it in G.supermarket.competitors) {
     const myP = G.supermarket.prices[it] || 1;
@@ -895,7 +1000,6 @@ function showNews(first) {
   const d3 = document.createElement('div'); d3.className = 'news-item social';
   d3.innerHTML = `<strong>💌 Tin trong làng</strong><br>${pick(socials)}`;
   body.appendChild(d3);
-
   $('news-overlay').style.display = 'flex';
 }
 $('news-ok').onclick = () => { $('news-overlay').style.display = 'none'; unpauseGame(); };
@@ -908,8 +1012,8 @@ function showReport() {
     ['📦 Đơn giao', G.dailyDeliveries + ' đơn', null],
     ['🌾 Thu hoạch', G.dailyHarvests + ' lần', null],
     ['🏪 Siêu thị', '+' + smIncome + '$', 'income'],
-    ['💵 Thu nhập khác', '+' + Math.max(0, G.dailyRevenue - smIncome) + '$', 'income'],
-    ['💸 Chi tiêu', '-' + G.dailyExpense + '$', 'expense'],
+    ['💵 Thu nhập khác', '+' + Math.max(0, Math.round(G.dailyRevenue - smIncome)) + '$', 'income'],
+    ['💸 Chi tiêu', '-' + Math.round(G.dailyExpense) + '$', 'expense'],
   ];
   for (const [l, v, c] of rows) {
     const r = document.createElement('div'); r.className = 'report-row';
@@ -932,24 +1036,20 @@ function showReport() {
   $('report-overlay').style.display = 'flex';
 }
 
-/* ================================================================
-   EVENTS
-   ================================================================ */
 function triggerRandomEvent() {
   pauseGame();
   const pool = [chickenEscape, neighborHelp];
   if (!G.vaccineActive && G.birdFluDay === 0) pool.push(birdFluEvent);
   pick(pool)();
 }
-
 function chickenEscape() {
   const n = 1 + Math.floor(Math.random() * 2);
   $('event-icon').textContent = '🐔';
   $('event-title').textContent = 'GÀ XỔNG CHUỒNG!';
-  $('event-desc').textContent = `${n} con gà đã chạy mất! Bạn sẽ làm gì?`;
+  $('event-desc').textContent = `${n} con gà đã chạy mất!`;
   const c = $('event-choices'); c.innerHTML = '';
   const b1 = document.createElement('button'); b1.className = 'event-btn';
-  b1.innerHTML = `<span class="eb-icon">🏃</span><span class="eb-text">Tự tìm (−15 năng lượng)</span>`;
+  b1.innerHTML = `<span class="eb-icon">🏃</span><span class="eb-text">Tự tìm (−15 ⚡)</span>`;
   b1.onclick = () => {
     if (G.energy < 15) { toast('Không đủ năng lượng!', 'error'); return; }
     G.energy -= 15;
@@ -974,7 +1074,6 @@ function chickenEscape() {
   c.appendChild(b3);
   $('event-overlay').style.display = 'flex';
 }
-
 function neighborHelp() {
   const nb = randomNpcName();
   const items = prodItems();
@@ -982,7 +1081,7 @@ function neighborHelp() {
   const qty = 3 + Math.floor(Math.random() * 4);
   $('event-icon').textContent = '👨‍🌾';
   $('event-title').textContent = 'HÀNG XÓM CẦN GIÚP!';
-  $('event-desc').innerHTML = `"${nb}" cần <strong>${qty}× ${want}</strong> trước tối nay.`;
+  $('event-desc').innerHTML = `"${nb}" cần <strong>${qty}× ${want}</strong>.`;
   const c = $('event-choices'); c.innerHTML = '';
   const b1 = document.createElement('button'); b1.className = 'event-btn';
   b1.innerHTML = `<span class="eb-icon">🤝</span><span class="eb-text">Tặng ${qty}× ${want}</span>`;
@@ -1012,13 +1111,12 @@ function neighborHelp() {
   c.appendChild(b3);
   $('event-overlay').style.display = 'flex';
 }
-
 function birdFluEvent() {
-  const chickenPlots = G.plots.map((p, i) => ({ p, i })).filter(({ p, i }) => isPlotUnlocked(i) && p.kind === 'animal' && p.name === 'Gà');
-  if (!chickenPlots.length) { closeEvent(); return; }
+  const cp = G.plots.map((p, i) => ({ p, i })).filter(({ p, i }) => isPlotUnlocked(i) && p.kind === 'animal' && p.name === 'Gà');
+  if (!cp.length) { closeEvent(); return; }
   $('event-icon').textContent = '🦠';
   $('event-title').textContent = 'DỊCH CÚM GIA CẦM!';
-  $('event-desc').innerHTML = `<strong>${chickenPlots.length} con gà</strong> có nguy cơ nhiễm bệnh!`;
+  $('event-desc').innerHTML = `<strong>${cp.length} con gà</strong> có nguy cơ nhiễm bệnh!`;
   const c = $('event-choices'); c.innerHTML = '';
   const b1 = document.createElement('button'); b1.className = 'event-btn';
   b1.innerHTML = `<span class="eb-icon">💉</span><span class="eb-text">Mua vaccine khẩn</span><span class="eb-cost">${VACCINE_COST}$</span>`;
@@ -1033,8 +1131,8 @@ function birdFluEvent() {
   const b2 = document.createElement('button'); b2.className = 'event-btn';
   b2.innerHTML = `<span class="eb-icon">😷</span><span class="eb-text">Cách ly (mất 1/3)</span>`;
   b2.onclick = () => {
-    const kill = Math.ceil(chickenPlots.length / 3);
-    for (let k = 0; k < kill; k++) { const { p } = chickenPlots[k]; p.kind = p.name = null; p.progress = 0; p.ready = false; p.gene = null; p.pest = false; }
+    const kill = Math.ceil(cp.length / 3);
+    for (let k = 0; k < kill; k++) { const { p } = cp[k]; p.kind = p.name = null; p.progress = 0; p.ready = false; p.gene = null; p.pest = false; }
     toast(`😷 Mất ${kill} gà.`, 'error');
     G.reputation = Math.max(0, G.reputation - 0.3);
     closeEvent(); plotSig = ''; renderAll();
@@ -1044,8 +1142,8 @@ function birdFluEvent() {
   b3.innerHTML = `<span class="eb-icon">🤷</span><span class="eb-text">Mặc kệ</span>`;
   b3.onclick = () => {
     if (Math.random() < 0.7) {
-      const kill = Math.ceil(chickenPlots.length * 0.6);
-      for (let k = 0; k < kill; k++) { const { p } = chickenPlots[k]; p.kind = p.name = null; p.progress = 0; p.ready = false; p.gene = null; p.pest = false; }
+      const kill = Math.ceil(cp.length * 0.6);
+      for (let k = 0; k < kill; k++) { const { p } = cp[k]; p.kind = p.name = null; p.progress = 0; p.ready = false; p.gene = null; p.pest = false; }
       toast(`💀 Mất ${kill} gà!`, 'error');
       G.reputation = Math.max(0, G.reputation - 0.5);
     } else toast(`😅 Không sao!`, 'info');
@@ -1054,29 +1152,22 @@ function birdFluEvent() {
   c.appendChild(b3);
   $('event-overlay').style.display = 'flex';
 }
-
 function closeEvent() { $('event-overlay').style.display = 'none'; unpauseGame(); }
 function addRelationship(npc, delta) {
   G.relationships[npc] = (G.relationships[npc] || 0) + delta;
   G.stats.closeFriends = Object.values(G.relationships).filter(v => v >= 3).length;
 }
 
-/* ================================================================
-   DAY ADVANCE
-   ================================================================ */
 function advanceDay() {
   if (G.advancing) return;
   G.advancing = true;
   pauseGame();
   showReport();
-
   const onOk = () => {
     $('report-ok').removeEventListener('click', onOk);
     G.advancing = false;
     unpauseGame();
-
     G.day++; G.dayTime = 0; G.stats.daysPlayed = G.day;
-
     const weights = { sunny: 30, rain: 25, cold: 20, storm: 15, rainbow: 10 };
     let total = Object.values(weights).reduce((s, w) => s + w, 0);
     let r = Math.random() * total; let chosen = 'sunny';
@@ -1084,31 +1175,21 @@ function advanceDay() {
     G.weather = chosen;
     if (!G.weatherSeen.includes(chosen)) G.weatherSeen.push(chosen);
     G.stats.weatherSeen = G.weatherSeen.length;
-
     G.dailyRevenue = 0; G.dailyExpense = 0; G.dailyDeliveries = 0; G.dailyHarvests = 0;
     G.supermarket.salesToday = 0;
     rollDailyMarket(); rollCompetitors();
     applyWeatherVisual(); applyTheme();
     G.energy = Math.min(100, G.energy + 40);
-
-    // Reviews decay: keep last 20
     if (G.reviewStars.length > 20) G.reviewStars = G.reviewStars.slice(-20);
-
-    if (G.vaccineActive && G.day - G.vaccineDay >= 5) {
-      G.vaccineActive = false;
-      toast(`💉 Vaccine hết hiệu lực.`, 'info');
-    }
-
+    if (G.vaccineActive && G.day - G.vaccineDay >= 5) { G.vaccineActive = false; toast(`💉 Vaccine hết hiệu lực.`, 'info'); }
     G.birdFluDay = 0;
     if (!G.vaccineActive && Math.random() < 0.15) {
       const hasChickens = G.plots.some((p, i) => isPlotUnlocked(i) && p.kind === 'animal' && p.name === 'Gà');
       if (hasChickens) G.birdFluDay = G.day;
     }
-
     checkAchievements();
     renderAll();
     showNews();
-
     if (G.birdFluDay === G.day) {
       setTimeout(birdFluEvent, 700);
       G.nextEventDay = G.day + 2;
@@ -1116,18 +1197,14 @@ function advanceDay() {
       setTimeout(triggerRandomEvent, 700);
       G.nextEventDay = G.day + 1 + Math.floor(Math.random() * 3);
     }
+    // Save cả local và cloud khi sang ngày
     saveGame();
+    cloudSaveNow();
   };
   $('report-ok').addEventListener('click', onOk);
 }
 
-/* ================================================================
-   REBUILD PANELS
-   ================================================================ */
-function rebuildPanels() {
-  buildShop(); buildUnlockList(); buildLandList(); buildWorkerList(); buildVaccineList();
-}
-
+function rebuildPanels() { buildShop(); buildUnlockList(); buildLandList(); buildWorkerList(); buildVaccineList(); }
 function buildShop() {
   const cb = $('shop-crops'), ab = $('shop-animals');
   cb.innerHTML = ''; ab.innerHTML = '';
@@ -1214,10 +1291,6 @@ function buildVaccineList() {
   };
   box.appendChild(b);
 }
-
-/* ================================================================
-   ACTIONS
-   ================================================================ */
 function unlockCrop(name) {
   const d = CROPS[name];
   if (G.money < d.unlockCost) { toast(`Cần ${d.unlockCost}$!`, 'error'); return; }
@@ -1251,9 +1324,6 @@ function buyAd(sec, cost, label) {
   renderAll();
 }
 
-/* ================================================================
-   BULK MODAL
-   ================================================================ */
 let bulkState = null;
 function openBulkModal(kind, key, name, unitCost, maxBuy) {
   bulkState = { kind, key, name, unitCost, maxBuy };
@@ -1295,10 +1365,8 @@ $('bulk-buy').onclick = () => {
   const cost = q * unitCost;
   if (G.money < cost) { toast('Không đủ tiền!', 'error'); return; }
   G.money -= cost; G.dailyExpense += cost;
-  if (kind === 'seed') {
-    invAdd('Hạt ' + key, q);
-    toast(`🛒 ${q} hạt ${key} (-${cost}$)`, 'info');
-  } else if (kind === 'animal') {
+  if (kind === 'seed') { invAdd('Hạt ' + key, q); toast(`🛒 ${q} hạt ${key} (-${cost}$)`, 'info'); }
+  else if (kind === 'animal') {
     for (let i = 0; i < q; i++) {
       const gene = rollGene();
       const k = key + '|' + gene;
@@ -1310,7 +1378,7 @@ $('bulk-buy').onclick = () => {
     toast(`🛒 ${q} con ${key} (-${cost}$)`, 'info');
   } else if (kind === 'mystery') {
     for (let i = 0; i < q; i++) openMysteryPacket(true);
-    toast(`🎁 Mở ${q} gói bí ẩn (-${cost}$)`, 'achievement');
+    toast(`🎁 Mở ${q} gói (-${cost}$)`, 'achievement');
   }
   $('bulk-overlay').style.display = 'none'; bulkState = null; unpauseGame();
   checkAchievements(); rebuildPanels(); renderAll();
@@ -1342,11 +1410,7 @@ function openMysteryPacket(silent) {
   if (!silent) toast(`🎁 ${MYSTERY_CROPS[name].emoji} ${name} (T${MYSTERY_CROPS[name].tier})`, 'achievement');
 }
 
-/* ================================================================
-   PLOTS
-   ================================================================ */
 let plotSig = '';
-
 function buildPlots() {
   const container = $('plots');
   container.innerHTML = '';
@@ -1361,16 +1425,13 @@ function buildPlots() {
   }
   plotSig = '';
 }
-
 function renderPlots() {
   const container = $('plots');
   const t = getTheme();
   const start = G.zone === 'crop' ? 0 : PLOTS_PER_ZONE;
-
   const sig = G.plots.slice(start, start + PLOTS_PER_ZONE).map((p, i) =>
     `${isPlotUnlocked(start + i) ? 1 : 0}${p.kind || '-'}|${p.name || '-'}|${p.ready ? 1 : 0}|${p.gene || '-'}|${p.pest ? 1 : 0}`
   ).join(',') + `|${t.slot}|${G.zone}|${G.unlockedRowsCrop}|${G.unlockedRowsAnimal}`;
-
   if (sig !== plotSig) {
     plotSig = sig;
     for (let i = 0; i < PLOTS_PER_ZONE; i++) {
@@ -1381,10 +1442,8 @@ function renderPlots() {
       const row = Math.floor(i / COLS);
       const rows = G.zone === 'crop' ? G.unlockedRowsCrop : G.unlockedRowsAnimal;
       const isNextRow = row === rows;
-
       el.classList.toggle('locked', !unlocked);
       el.classList.toggle('ready', unlocked && p.ready && !p.pest);
-
       if (!unlocked) {
         el.innerHTML = `<span class="lock-icon">🔒</span><span class="lock-hint">${isNextRow ? ROW_COST_PER_ROW + '$' : 'Khoá'}</span><span class="lock-sub">${isNextRow ? 'Hàng ' + (row + 1) : ''}</span>`;
         el.style.background = ''; el.style.borderColor = '';
@@ -1392,11 +1451,7 @@ function renderPlots() {
       }
       el.style.background = t.slot;
       el.style.borderColor = t.slotBorder;
-
-      if (!p.kind) {
-        el.innerHTML = `<span class="plus">+</span><span class="hint-line">Trồng</span>`;
-        continue;
-      }
+      if (!p.kind) { el.innerHTML = `<span class="plus">+</span><span class="hint-line">Trồng</span>`; continue; }
       const isCrop = p.kind === 'crop';
       const data = isCrop ? getCrop(p.name) : ANIMALS[p.name];
       let html = '';
@@ -1409,7 +1464,6 @@ function renderPlots() {
       el.innerHTML = html;
     }
   }
-
   for (let i = 0; i < PLOTS_PER_ZONE; i++) {
     const idx = start + i;
     if (!isPlotUnlocked(idx)) continue;
@@ -1422,7 +1476,6 @@ function renderPlots() {
     if (fill) fill.style.width = pct + '%';
   }
 }
-
 function onPlotClick(i) {
   if (!isPlotUnlocked(i)) {
     const zone = plotZoneOf(i);
@@ -1434,14 +1487,11 @@ function onPlotClick(i) {
   }
   const p = G.plots[i];
   const curZone = plotZoneOf(i);
-
   if (G.tool === 'shovel') {
     if (!p.kind) { setStatus('🪏 Ô trống.'); return; }
     shovelPlot(i);
     return;
   }
-
-  // Pest priority
   if (p.pest) {
     if (G.energy < BUG_ENERGY_COST) { toast('Không đủ năng lượng!', 'error'); return; }
     G.energy -= BUG_ENERGY_COST;
@@ -1454,11 +1504,9 @@ function onPlotClick(i) {
     renderAll();
     return;
   }
-
   if (!p.kind) { openPlantModal(i); return; }
   if (p.kind === 'crop' && curZone !== 'crop') return;
   if (p.kind === 'animal' && curZone !== 'animal') return;
-
   if (p.ready) {
     if (G.energy < 2) { toast('Không đủ năng lượng!', 'error'); return; }
     G.energy -= 2;
@@ -1470,14 +1518,11 @@ function onPlotClick(i) {
     setStatus(`${p.kind === 'crop' ? '🌱' : '🐾'} ${p.name} (${p.progress.toFixed(1)}/${total}s)`);
   }
 }
-
 function shovelPlot(i) {
   const p = G.plots[i];
   if (!p.kind) return;
-  if (p.kind === 'crop') {
-    invAdd('Hạt ' + p.name, 1);
-    setStatus(`🪏 Nhổ ${p.name}, trả hạt về kho.`);
-  } else {
+  if (p.kind === 'crop') { invAdd('Hạt ' + p.name, 1); setStatus(`🪏 Nhổ ${p.name}, trả hạt về kho.`); }
+  else {
     const key = p.name + '|' + (p.gene || 'normal');
     if (!G.inventory[key]) G.inventory[key] = { count: 0, base: p.name, gene: p.gene || 'normal' };
     G.inventory[key].count++;
@@ -1487,7 +1532,6 @@ function shovelPlot(i) {
   plotSig = '';
   renderAll();
 }
-
 function harvestPlot(i, half) {
   const p = G.plots[i];
   if (!p.kind || !p.ready || !isPlotUnlocked(i)) return false;
@@ -1511,15 +1555,11 @@ function harvestPlot(i, half) {
   return true;
 }
 
-/* ================================================================
-   PLANT MODAL
-   ================================================================ */
 function openPlantModal(i) {
   pauseGame();
   const body = $('modal-body'); body.innerHTML = '';
   let hasAny = false;
   const zone = plotZoneOf(i);
-
   if (zone === 'crop') {
     for (const crop in CROPS) {
       if (!G.unlockedCrops.includes(crop)) continue;
@@ -1557,7 +1597,6 @@ function openPlantModal(i) {
       body.appendChild(b);
     }
   }
-
   if (!hasAny) {
     const d = document.createElement('div'); d.className = 'modal-empty';
     d.innerHTML = `Chưa có ${zone === 'crop' ? 'hạt giống' : 'con giống'}.<br>Mua ở Cửa hàng!`;
@@ -1572,7 +1611,6 @@ function openPlantModal(i) {
 function closeModal() { $('modal-overlay').classList.remove('show'); unpauseGame(); }
 $('modal-close').onclick = closeModal;
 $('modal-overlay').onclick = e => { if (e.target.id === 'modal-overlay') closeModal(); };
-
 function plantCrop(i, name) {
   const key = 'Hạt ' + name;
   if (invCount(key) <= 0) return;
@@ -1595,13 +1633,9 @@ function placeAnimal(i, animal, gene) {
   checkAchievements(); renderAll();
 }
 
-/* ================================================================
-   INVENTORY
-   ================================================================ */
 const PRODUCT_PRICE = {};
 for (const k in CROPS) PRODUCT_PRICE[k] = CROPS[k].sell;
 for (const k in ANIMALS) PRODUCT_PRICE[ANIMALS[k].product] = ANIMALS[k].sell;
-
 function renderInventory() {
   const box = $('inventory-list');
   const keys = Object.keys(G.inventory).filter(k => G.inventory[k].count > 0);
@@ -1609,17 +1643,13 @@ function renderInventory() {
   box.innerHTML = keys.map(k => {
     const it = G.inventory[k];
     let label = k;
-    if (it.base) {
-      const g = GENES[it.gene] || GENES.normal;
-      label = it.base + (g.emoji ? ' ' + g.emoji : '');
-    }
+    if (it.base) { const g = GENES[it.gene] || GENES.normal; label = it.base + (g.emoji ? ' ' + g.emoji : ''); }
     let priceStr = '';
     if (it.base && ANIMALS[it.base]) priceStr = `<span class="chip-price">${itemCurrentPrice(ANIMALS[it.base].product)}$</span>`;
     else if (PRODUCT_PRICE[k]) priceStr = `<span class="chip-price">${itemCurrentPrice(k)}$</span>`;
     return `<span class="inv-chip">${label} ×${it.count}${priceStr}</span>`;
   }).join('');
 }
-
 $('sell-all-btn').onclick = () => {
   let total = 0;
   for (const k in G.inventory) {
@@ -1636,16 +1666,12 @@ $('sell-all-btn').onclick = () => {
   checkAchievements(); renderAll();
 };
 
-/* ================================================================
-   SUPERMARKET
-   ================================================================ */
 function renderSupermarket() {
   const box = $('supermarket-list');
   box.innerHTML = '';
   const items = [];
   for (const c in CROPS) items.push(c);
   for (const a in ANIMALS) items.push(ANIMALS[a].product);
-  // Only show items that have stock OR are common
   const common = ['Cà rốt', 'Cà chua', 'Trứng'];
   for (const it of items) {
     const stock = invCount(it);
@@ -1657,15 +1683,9 @@ function renderSupermarket() {
     const myPrice = Math.round(baseP * myMul);
     const compPrice = Math.round(baseP * compMul);
     const winning = myPrice < compPrice;
-
     const row = document.createElement('div');
     row.className = 'sm-row';
-    row.innerHTML = `
-      <span class="sm-item">${getCrop(it) ? getCrop(it).emoji : ''}${it}</span>
-      <span class="sm-price">${myPrice}$</span>
-      <span class="sm-comp ${winning ? 'win' : 'lose'}">${compPrice}$</span>
-      <div class="sm-slider"><input type="range" min="50" max="150" value="${Math.round(myMul * 100)}" data-item="${it}"></div>
-    `;
+    row.innerHTML = `<span class="sm-item">${getCrop(it) ? getCrop(it).emoji : ''}${it}</span><span class="sm-price">${myPrice}$</span><span class="sm-comp ${winning ? 'win' : 'lose'}">${compPrice}$</span><div class="sm-slider"><input type="range" min="50" max="150" value="${Math.round(myMul * 100)}" data-item="${it}"></div>`;
     const slider = row.querySelector('input');
     slider.oninput = () => {
       G.supermarket.prices[it] = parseInt(slider.value, 10) / 100;
@@ -1678,41 +1698,29 @@ function renderSupermarket() {
     };
     box.appendChild(row);
   }
-  if (!box.children.length) {
-    box.innerHTML = `<div class="inv-empty" style="padding:8px 0;text-align:center">Bạn chưa có hàng để bán sỉ.<br>Trồng trọt / chăn nuôi trước!</div>`;
-  }
+  if (!box.children.length) box.innerHTML = `<div class="inv-empty" style="padding:8px 0;text-align:center">Chưa có hàng để bán sỉ.</div>`;
   $('sm-sales-today').textContent = Math.round(G.supermarket.salesToday) + '$';
 }
-
 function trySupermarketSale(dt) {
-  // Try to sell each item
   const itemKeys = Object.keys(G.inventory);
   for (const k of itemKeys) {
     const it = G.inventory[k];
     if (!it || it.count <= 0) continue;
-    if (it.base || k.startsWith('Hạt ')) continue; // Chỉ bán sản phẩm
+    if (it.base || k.startsWith('Hạt ')) continue;
     if (!PRODUCT_PRICE[k] && !getCrop(k)) continue;
     const myMul = G.supermarket.prices[k] || 1;
     const compMul = G.supermarket.competitors[k] || 1;
-    const diff = compMul / myMul; // > 1 means cheaper than competitor
-    // Rate: chance per second to sell 1 unit
-    // diff = 1 → 0.02/sec; diff = 1.3 → 0.08/sec; diff = 0.7 → 0.003/sec
+    const diff = compMul / myMul;
     const rate = Math.max(0.001, 0.02 * Math.pow(diff, 3));
     if (Math.random() < rate * dt) {
       const price = Math.round(itemBasePrice(k) * myMul);
-      G.money += price;
-      G.dailyRevenue += price;
-      G.supermarket.salesToday += price;
-      G.stats.totalEarned += price;
+      G.money += price; G.dailyRevenue += price; G.supermarket.salesToday += price; G.stats.totalEarned += price;
       it.count--;
       if (it.count <= 0) delete G.inventory[k];
     }
   }
 }
 
-/* ================================================================
-   ONLINE ORDERS
-   ================================================================ */
 function spawnOnlineOrder() {
   const pool = prodItems();
   if (!pool.length) return;
@@ -1720,48 +1728,31 @@ function spawnOnlineOrder() {
   const chosen = [...pool].sort(() => Math.random() - 0.5).slice(0, nKinds);
   const order = {}; let tv = 0;
   for (const it of chosen) {
-    const q = 8 + Math.floor(Math.random() * 15); // 8-22
+    const q = 8 + Math.floor(Math.random() * 15);
     order[it] = q;
     tv += itemCurrentPrice(it) * q;
   }
   const reward = Math.floor(tv * 1.8 + 300 + Math.random() * 400);
-  const prepTime = 60 + Math.random() * 60;   // 60-120s
-  const shipTime = 60 + Math.random() * 60;   // 60-120s
-  G.onlineOrders.push({
-    id: ++G.onlineSeq,
-    name: randomNpcName(),
-    order, reward,
-    prepTime, prepMax: prepTime,
-    shipTime, shipMax: shipTime,
-    phase: 'prep', // prep → shipping → done
-  });
+  const prepTime = 60 + Math.random() * 60;
+  const shipTime = 60 + Math.random() * 60;
+  G.onlineOrders.push({ id: ++G.onlineSeq, name: randomNpcName(), order, reward, prepTime, prepMax: prepTime, shipTime, shipMax: shipTime, phase: 'prep' });
   toast(`📦 Đơn online mới: ${Object.keys(order).length} mặt hàng!`, 'info');
 }
-
 function updateOnlineOrders(dt) {
   for (let i = G.onlineOrders.length - 1; i >= 0; i--) {
     const o = G.onlineOrders[i];
     if (o.phase === 'prep') {
       o.prepTime -= dt;
       if (o.prepTime <= 0) {
-        // Check if all items present
         let ok = true;
         for (const it in o.order) if (invCount(it) < o.order[it]) { ok = false; break; }
-        if (ok) {
-          for (const it in o.order) invSub(it, o.order[it]);
-          o.phase = 'shipping';
-        } else {
-          toast(`❌ Đơn online ${o.name} thất bại — thiếu hàng!`, 'error');
-          G.reputation = Math.max(0, G.reputation - 0.2);
-          G.onlineOrders.splice(i, 1);
-          continue;
-        }
+        if (ok) { for (const it in o.order) invSub(it, o.order[it]); o.phase = 'shipping'; }
+        else { toast(`❌ Đơn ${o.name} thất bại — thiếu hàng!`, 'error'); G.reputation = Math.max(0, G.reputation - 0.2); G.onlineOrders.splice(i, 1); continue; }
       }
     } else if (o.phase === 'shipping') {
       o.shipTime -= dt;
       if (o.shipTime <= 0) {
-        G.money += o.reward; G.dailyRevenue += o.reward;
-        G.stats.totalEarned += o.reward; G.stats.deliveries++; G.dailyDeliveries++;
+        G.money += o.reward; G.dailyRevenue += o.reward; G.stats.totalEarned += o.reward; G.stats.deliveries++; G.dailyDeliveries++;
         G.reputation = Math.min(10, G.reputation + 0.4);
         addReview(o.name, 5, 'Đơn online giao đúng hẹn!', 'merchant');
         toast(`✅ Đơn online hoàn tất! +${o.reward}$`, 'achievement');
@@ -1771,56 +1762,31 @@ function updateOnlineOrders(dt) {
     }
   }
   G.onlineCooldown -= dt;
-  if (G.onlineCooldown <= 0) {
-    spawnOnlineOrder();
-    G.onlineCooldown = 45 + Math.random() * 60;
-  }
+  if (G.onlineCooldown <= 0) { spawnOnlineOrder(); G.onlineCooldown = 45 + Math.random() * 60; }
 }
-
 function renderOnlineOrders() {
   const box = $('online-list');
   $('online-count').textContent = G.onlineOrders.length;
   box.innerHTML = '';
-  if (!G.onlineOrders.length) {
-    box.innerHTML = `<div class="inv-empty" style="padding:8px 0;text-align:center">Chưa có đơn online.<br>Đơn mới sẽ tự xuất hiện!</div>`;
-    return;
-  }
+  if (!G.onlineOrders.length) { box.innerHTML = `<div class="inv-empty" style="padding:8px 0;text-align:center">Chưa có đơn online.</div>`; return; }
   for (const o of G.onlineOrders) {
     const card = document.createElement('div');
     card.className = 'online-card' + (o.phase === 'shipping' ? ' shipping' : '');
     const orderTxt = Object.keys(o.order).map(it => {
-      const have = invCount(it);
-      const need = o.order[it];
-      const ok = have >= need;
+      const have = invCount(it); const need = o.order[it]; const ok = have >= need;
       return `<span style="color:${ok ? '#A5D6A7' : '#EF9A9A'}">${need}× ${it} (có ${have})</span>`;
     }).join(', ');
     const phase = o.phase === 'prep' ? 'Chuẩn bị' : 'Đang giao';
     const time = o.phase === 'prep' ? o.prepTime : o.shipTime;
     const max = o.phase === 'prep' ? o.prepMax : o.shipMax;
     const pct = 100 - (time / max) * 100;
-    card.innerHTML = `
-      <div class="online-top">
-        <span class="online-name">📦 ${o.name}</span>
-        <span class="online-reward">${o.reward}$</span>
-      </div>
-      <div class="online-order">${orderTxt}</div>
-      <div class="online-bar">
-        <span>${phase}</span>
-        <div class="online-track"><div class="online-fill ${o.phase === 'shipping' ? 'shipping' : ''}" style="width:${pct}%"></div></div>
-        <span>${Math.max(0, Math.ceil(time))}s</span>
-      </div>
-    `;
+    card.innerHTML = `<div class="online-top"><span class="online-name">📦 ${o.name}</span><span class="online-reward">${o.reward}$</span></div><div class="online-order">${orderTxt}</div><div class="online-bar"><span>${phase}</span><div class="online-track"><div class="online-fill ${o.phase === 'shipping' ? 'shipping' : ''}" style="width:${pct}%"></div></div><span>${Math.max(0, Math.ceil(time))}s</span></div>`;
     box.appendChild(card);
   }
 }
 
-/* ================================================================
-   CUSTOMERS
-   ================================================================ */
 let custIdSeq = 0;
 let lastCustSig = '';
-
-// Star-driven customer flow
 function maxCustomers() {
   const stars = avgStars();
   const base = 2 + Math.round(stars * 1.2);
@@ -1843,7 +1809,6 @@ function pickTier() {
 }
 const TIER_MUL = { normal: 1, vip: 1.3, rare: 1.6, merchant: 1.9, special: 2.5 };
 const TIER_LABEL = { normal: '', vip: 'VIP', rare: 'HIẾM', merchant: 'THƯƠNG NHÂN', special: 'ĐẶC BIỆT' };
-
 function spawnCustomer() {
   const pool = prodItems();
   if (!pool.length) return;
@@ -1857,24 +1822,16 @@ function spawnCustomer() {
     tv += itemCurrentPrice(it) * q;
   }
   const reward = Math.floor(tv * TIER_MUL[tier] * (1.15 + Math.random() * 0.3));
-  const patience = 180 + Math.random() * 240; // 3–7 phút
+  const patience = 180 + Math.random() * 240;
   G.customers.push({ id: ++custIdSeq, name: randomNpcName(), order, reward, patience, maxPatience: patience, tier });
 }
-
-function canDeliver(cu) {
-  for (const it in cu.order) if (invCount(it) < cu.order[it]) return false;
-  return true;
-}
-
+function canDeliver(cu) { for (const it in cu.order) if (invCount(it) < cu.order[it]) return false; return true; }
 function performDeliver(cu) {
   for (const it in cu.order) invSub(it, cu.order[it]);
-  G.money += cu.reward; G.dailyRevenue += cu.reward;
-  G.stats.totalEarned += cu.reward; G.stats.deliveries++; G.dailyDeliveries++;
+  G.money += cu.reward; G.dailyRevenue += cu.reward; G.stats.totalEarned += cu.reward; G.stats.deliveries++; G.dailyDeliveries++;
   const repGain = { normal: 0.15, vip: 0.25, rare: 0.35, merchant: 0.5, special: 0.8 }[cu.tier] || 0.15;
   G.reputation = Math.min(10, G.reputation + repGain);
   addRelationship(cu.name, 1);
-
-  // Review based on time
   const waitTime = 1 - (cu.patience / cu.maxPatience);
   let stars, text;
   if (waitTime < 0.3) { stars = 5; text = pick(REVIEWS_GOOD); }
@@ -1883,33 +1840,24 @@ function performDeliver(cu) {
   else { stars = 2; text = pick(REVIEWS_BAD); }
   addReview(cu.name, stars, text, cu.tier);
 }
-
 function partialDeliver(cu) {
-  // Deliver what we can, get proportional reward
-  const delivered = {}; let deliveredValue = 0;
-  let totalValue = 0;
+  const delivered = {}; let deliveredValue = 0; let totalValue = 0;
   for (const it in cu.order) {
     totalValue += cu.order[it];
     const have = Math.min(invCount(it), cu.order[it]);
-    if (have > 0) {
-      delivered[it] = have;
-      deliveredValue += have;
-      invSub(it, have);
-    }
+    if (have > 0) { delivered[it] = have; deliveredValue += have; invSub(it, have); }
   }
-  if (deliveredValue === 0) { toast('Không có hàng nào để giao!', 'error'); return; }
+  if (deliveredValue === 0) { toast('Không có hàng!', 'error'); return; }
   const ratio = deliveredValue / totalValue;
   const reward = Math.round(cu.reward * ratio * 0.7);
-  G.money += reward; G.dailyRevenue += reward;
-  G.stats.totalEarned += reward; G.stats.deliveries++; G.dailyDeliveries++;
+  G.money += reward; G.dailyRevenue += reward; G.stats.totalEarned += reward; G.stats.deliveries++; G.dailyDeliveries++;
   G.reputation = Math.max(0, G.reputation - 0.15);
   const stars = ratio >= 0.7 ? 3 : ratio >= 0.5 ? 2 : 1;
-  addReview(cu.name, stars, `Giao một phần (${deliveredValue}/${totalValue}) — ${pick(REVIEWS_MID)}`, cu.tier);
-  setStatus(`⚠️ Giao một phần cho ${cu.name} — nhận ${reward}$`);
+  addReview(cu.name, stars, `Giao một phần (${deliveredValue}/${totalValue})`, cu.tier);
+  setStatus(`⚠️ Giao một phần cho ${cu.name} — ${reward}$`);
   toast(`⚠️ Giao một phần (+${reward}$)`, 'warn');
   return true;
 }
-
 function rejectCustomer(cu) {
   G.reputation = Math.max(0, G.reputation - 0.5);
   addRelationship(cu.name, -2);
@@ -1917,7 +1865,6 @@ function rejectCustomer(cu) {
   setStatus(`❌ Từ chối đơn của ${cu.name}!`);
   toast(`❌ Từ chối — mất uy tín`, 'error');
 }
-
 function deliver(id) {
   const idx = G.customers.findIndex(c => c.id === id);
   if (idx === -1) return;
@@ -1948,7 +1895,6 @@ function doReject(id) {
   lastCustSig = '';
   renderAll();
 }
-
 function renderCustomers() {
   const list = $('customer-list');
   $('cust-count').textContent = G.customers.length;
@@ -1990,11 +1936,9 @@ function renderCustomers() {
       btRej.textContent = 'TỪ CHỐI';
       bot.appendChild(tr);
       bot.appendChild(btFull); bot.appendChild(btPart); bot.appendChild(btRej);
-
       btFull.onclick = e => { e.stopPropagation(); deliver(cu.id); };
       btPart.onclick = e => { e.stopPropagation(); doPartial(cu.id); };
       btRej.onclick = e => { e.stopPropagation(); doReject(cu.id); };
-
       card.appendChild(top); card.appendChild(ord); card.appendChild(bot);
       list.appendChild(card);
     }
@@ -2009,40 +1953,18 @@ function renderCustomers() {
     const btn = card.querySelector('.deliver-btn');
     if (btn) btn.disabled = !canDeliver(cu);
     const btPart = card.querySelector('.partial-btn');
-    if (btPart) {
-      let any = false;
-      for (const it in cu.order) if (invCount(it) > 0) { any = true; break; }
-      btPart.disabled = !any;
-    }
+    if (btPart) { let any = false; for (const it in cu.order) if (invCount(it) > 0) { any = true; break; } btPart.disabled = !any; }
   }
 }
-
-/* ================================================================
-   REVIEWS
-   ================================================================ */
 function renderReviews() {
   const box = $('review-list');
   $('review-count').textContent = G.reviews.length;
-  if (!G.reviews.length) {
-    box.innerHTML = `<div class="inv-empty" style="padding:12px 0;text-align:center">Chưa có nhận xét.<br>Giao hàng để khách đánh giá!</div>`;
-    return;
-  }
+  if (!G.reviews.length) { box.innerHTML = `<div class="inv-empty" style="padding:12px 0;text-align:center">Chưa có nhận xét.</div>`; return; }
   box.innerHTML = G.reviews.slice(0, 12).map(r => {
     const stars = '⭐'.repeat(r.stars);
-    return `<div class="review-item">
-      <div class="review-header">
-        <span class="review-name">${r.name}</span>
-        <span class="review-stars">${stars}</span>
-      </div>
-      <div class="review-text">"${r.text}"</div>
-      <div style="color:#607D8B;font-size:9.5px;margin-top:2px">Ngày ${r.day}</div>
-    </div>`;
+    return `<div class="review-item"><div class="review-header"><span class="review-name">${r.name}</span><span class="review-stars">${stars}</span></div><div class="review-text">"${r.text}"</div><div style="color:#607D8B;font-size:9.5px;margin-top:2px">Ngày ${r.day}</div></div>`;
   }).join('');
 }
-
-/* ================================================================
-   ACHIEVEMENTS
-   ================================================================ */
 function checkAchievements() {
   for (const a of ACHIEVEMENTS) {
     if (G.unlockedAch.includes(a.id)) continue;
@@ -2066,10 +1988,6 @@ function renderAchievements() {
   $('ach-count').textContent = `${G.unlockedAch.length}/${ACHIEVEMENTS.length}`;
   $('hud-ach').textContent = `🏆 ${G.unlockedAch.length}/${ACHIEVEMENTS.length}`;
 }
-
-/* ================================================================
-   HUD
-   ================================================================ */
 function renderHUD() {
   $('hud-money').textContent = `💰 ${Math.round(G.money)}$`;
   const cropCount = G.plots.slice(0, PLOTS_PER_ZONE).filter((p, i) => isPlotUnlocked(i) && p.kind).length;
@@ -2084,23 +2002,30 @@ function renderHUD() {
   const adEl = $('hud-ad');
   if (G.adTime > 0) { adEl.textContent = `📢 QC: ${Math.ceil(G.adTime)}s`; adEl.classList.remove('inactive'); }
   else { adEl.textContent = '📢 Không QC'; adEl.classList.add('inactive'); }
+  // Cloud status
+  const cl = $('hud-cloud');
+  if (window.Cloud) {
+    if (window.Cloud.ready) {
+      const since = window.Cloud.lastSync ? Math.round((Date.now() - window.Cloud.lastSync) / 1000) : null;
+      cl.textContent = since !== null && since < 60 ? '☁️ ✓' : '☁️ Sẵn sàng';
+      cl.className = 'stat cloud ok';
+    } else {
+      cl.textContent = '☁️ ...';
+      cl.className = 'stat cloud';
+    }
+  }
 }
-
 function renderAll() {
   renderPlots(); renderInventory(); renderCustomers();
   renderReviews(); renderAchievements(); renderHUD();
   renderSupermarket(); renderOnlineOrders();
 }
 
-/* ================================================================
-   GAME LOOP
-   ================================================================ */
 function gameLoop(now) {
   if (!G.running) return;
   let dt = (now - G.lastTime) / 1000;
   G.lastTime = now;
   dt = Math.min(dt, 0.5);
-
   if (isPaused()) {
     renderPlots(); renderCustomers(); renderInventory();
     renderReviews(); renderAchievements(); renderHUD();
@@ -2108,43 +2033,29 @@ function gameLoop(now) {
     requestAnimationFrame(gameLoop);
     return;
   }
-
   const w = WEATHERS[G.weather];
-
-  // Plots
   for (let i = 0; i < G.plots.length; i++) {
     if (!isPlotUnlocked(i)) continue;
     const p = G.plots[i];
     if (!p.kind || p.ready) continue;
-
     const isCrop = p.kind === 'crop';
     const data = isCrop ? getCrop(p.name) : ANIMALS[p.name];
     if (!data) continue;
-
-    // Pest spawn — only crops
-    if (isCrop && !p.pest && Math.random() < 0.005 * dt) {
-      p.pest = true;
-      plotSig = '';
-    }
-
+    if (isCrop && !p.pest && Math.random() < 0.005 * dt) { p.pest = true; plotSig = ''; }
     let mul = w.growMul;
     if (G.weather === 'cold' && isCrop && !data.coldResist) mul = 0.1;
-    if (p.pest) mul *= 0.3; // Pest slows growth
+    if (p.pest) mul *= 0.3;
     if (G.weather === 'storm' && !p.damaged && Math.random() < (w.stormChance || 0) * dt) {
       p.damaged = true; p.kind = p.name = null; p.progress = 0; p.ready = false; p.gene = null; p.pest = false;
       toast(`⛈️ Bão phá hủy một cây!`, 'error');
-      plotSig = '';
-      continue;
+      plotSig = ''; continue;
     }
     p.progress += dt * mul;
     const total = isCrop ? data.grow : data.time;
     if (p.progress >= total) { p.progress = total; p.ready = true; plotSig = ''; }
   }
-
   if (G.adTime > 0) G.adTime = Math.max(0, G.adTime - dt);
   G.energy = Math.min(100, G.energy + dt * 1.5);
-
-  // Workers
   for (const wrk of G.hiredWorkers) {
     wrk.timer -= dt;
     if (wrk.timer <= 0) {
@@ -2175,13 +2086,11 @@ function gameLoop(now) {
               if (invCount('Hạt ' + nm) > 0) {
                 invSub('Hạt ' + nm, 1);
                 p.kind = 'crop'; p.name = nm; p.progress = 0; p.ready = false; p.pest = false;
-                G.stats.plantsTotal++;
-                break;
+                G.stats.plantsTotal++; break;
               }
             }
           }
-          plotSig = '';
-          break;
+          plotSig = ''; break;
         }
       }
       if (cfg.autoDeliver) {
@@ -2197,8 +2106,6 @@ function gameLoop(now) {
       }
     }
   }
-
-  // Customers patience
   for (let i = G.customers.length - 1; i >= 0; i--) {
     const cu = G.customers[i];
     cu.patience -= dt;
@@ -2210,8 +2117,6 @@ function gameLoop(now) {
       addReview(cu.name, 1, 'Chờ quá lâu, tôi bỏ đi!', cu.tier);
     }
   }
-
-  // Spawn customers
   G.spawnCooldown -= dt;
   if (G.spawnCooldown <= 0) {
     G.spawnCooldown = spawnInterval();
@@ -2220,70 +2125,79 @@ function gameLoop(now) {
       if (G.customers.length + 1 < maxCustomers() && Math.random() < 0.5) spawnCustomer();
     }
   }
-
-  // Supermarket auto-sales
   trySupermarketSale(dt);
-
-  // Online orders
   updateOnlineOrders(dt);
-
-  // Day tick
   G.dayTime += dt;
-  if (G.dayTime >= DAY_DURATION && !G.advancing) {
-    advanceDay();
-  }
+  if (G.dayTime >= DAY_DURATION && !G.advancing) advanceDay();
 
+  // Auto-save local mỗi 8s + cloud mỗi 25s
   if (now - G.lastSave > 8000) { saveGame(); G.lastSave = now; }
+  if (now - G.lastCloudSave > 25000) { cloudSaveNow(); G.lastCloudSave = now; }
 
   renderPlots(); renderCustomers(); renderInventory();
   renderReviews(); renderAchievements(); renderHUD();
   renderSupermarket(); renderOnlineOrders();
-
   requestAnimationFrame(gameLoop);
 }
 
 /* ================================================================
    SAVE / LOAD
    ================================================================ */
+function getSaveData() {
+  return JSON.parse(JSON.stringify({
+    ...G, running: false, lastTime: 0, lastSave: 0, lastCloudSave: 0, pauseCount: 0, advancing: false,
+  }));
+}
+
 function saveGame() {
   try {
-    const data = JSON.parse(JSON.stringify({
-      ...G, running: false, lastTime: 0, lastSave: 0, pauseCount: 0, advancing: false,
-    }));
+    const data = getSaveData();
     localStorage.setItem(SAVE_KEY, JSON.stringify(data));
-  } catch (e) { console.error('Save failed', e); }
+  } catch (e) { console.error('Local save failed', e); }
 }
-function loadGame() {
+
+// Save lên cloud (throttle, chạy background)
+let cloudSavePending = false;
+async function cloudSaveNow() {
+  if (!window.Cloud || !window.Cloud.ready || cloudSavePending) return false;
+  cloudSavePending = true;
+  const cl = $('hud-cloud');
+  if (cl) { cl.textContent = '☁️ Đang lưu...'; cl.className = 'stat cloud saving'; }
   try {
-    const s = localStorage.getItem(SAVE_KEY);
-    if (!s) return false;
-    const data = JSON.parse(s);
-    data.running = false; data.lastTime = 0; data.lastSave = 0;
-    data.pauseCount = 0; data.advancing = false;
-    Object.assign(G, data);
-    if (!Array.isArray(G.unlockedCrops)) G.unlockedCrops = [];
-    if (!Array.isArray(G.weatherSeen)) G.weatherSeen = ['sunny'];
-    if (!Array.isArray(G.unlockedAch)) G.unlockedAch = [];
-    if (!Array.isArray(G.reviews)) G.reviews = [];
-    if (!Array.isArray(G.reviewStars)) G.reviewStars = [];
-    if (!Array.isArray(G.mysteryDiscoveries)) G.mysteryDiscoveries = [];
-    if (!Array.isArray(G.onlineOrders)) G.onlineOrders = [];
-    if (!G.supermarket) G.supermarket = { prices: {}, competitors: {}, salesToday: 0 };
-    if (!G.supermarket.prices) G.supermarket.prices = {};
-    if (!G.supermarket.competitors) G.supermarket.competitors = {};
-    return true;
-  } catch (e) { console.error('Load failed', e); return false; }
+    const data = getSaveData();
+    const ok = await window.Cloud.save(data);
+    if (ok) {
+      G.lastCloudSave = performance.now();
+      if (cl) { cl.textContent = '☁️ ✓'; cl.className = 'stat cloud ok'; }
+    } else {
+      if (cl) { cl.textContent = '☁️ ✗'; cl.className = 'stat cloud err'; }
+    }
+    cloudSavePending = false;
+    return ok;
+  } catch (e) {
+    console.error('Cloud save error', e);
+    cloudSavePending = false;
+    if (cl) { cl.textContent = '☁️ ✗'; cl.className = 'stat cloud err'; }
+    return false;
+  }
 }
-$('save-btn').onclick = () => { saveGame(); toast('💾 Đã lưu!', 'info'); };
-$('reset-btn').onclick = () => {
+window.cloudSaveNow = cloudSaveNow;
+
+$('save-btn').onclick = async () => {
+  saveGame();
+  toast('💾 Đang lưu lên Cloud...', 'info');
+  const ok = await cloudSaveNow();
+  if (ok) toast('☁️ Đã lưu lên Cloud!', 'info');
+  else toast('💾 Đã lưu vào máy (Cloud lỗi)', 'warn');
+};
+
+$('reset-btn').onclick = async () => {
   if (!confirm('Chơi lại từ đầu? Bản lưu hiện tại sẽ mất!')) return;
   try { localStorage.removeItem(SAVE_KEY); } catch(e) {}
+  if (window.Cloud && window.Cloud.ready) await window.Cloud.deleteSave();
   location.reload();
 };
 
-/* ================================================================
-   ZONE / TOOL
-   ================================================================ */
 document.querySelectorAll('.zone-tab').forEach(tab => {
   tab.onclick = () => {
     document.querySelectorAll('.zone-tab').forEach(t => t.classList.remove('active'));
@@ -2305,6 +2219,12 @@ document.querySelectorAll('.tool-btn[data-tool]').forEach(btn => {
    INIT
    ================================================================ */
 buildThemeGrid();
+
+// Cảnh báo khi rời trang nếu chưa sync
+window.addEventListener('beforeunload', () => {
+  saveGame();
+  // Cloud save không kịp trong beforeunload → chỉ dựa vào auto-save
+});
 </script>
 </body>
 </html>
