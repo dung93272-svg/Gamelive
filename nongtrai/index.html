@@ -11,8 +11,8 @@
 html,body{background:#10161a;color:#eceff1;font-family:-apple-system,'Segoe UI',Tahoma,sans-serif;min-height:100vh;min-height:100dvh;overflow-x:hidden;touch-action:manipulation;overscroll-behavior:none}
 body{padding:8px;padding:8px max(8px,env(safe-area-inset-right)) 8px max(8px,env(safe-area-inset-left));-webkit-text-size-adjust:100%}
 button{font-family:inherit;touch-action:manipulation;cursor:pointer;user-select:none;-webkit-user-select:none;border:none;background:none;color:inherit}
-input{font-family:inherit;font-size:16px!important;-webkit-appearance:none;appearance:none}
-input[type=text],input[type=number]{font-size:16px!important}
+input,textarea{font-family:inherit;font-size:16px!important;-webkit-appearance:none;appearance:none}
+input[type=text],input[type=number],textarea{font-size:16px!important}
 select{font-size:16px!important}
 
 #start-screen{background:linear-gradient(160deg,#1B5E20,#0d3b12);border-radius:16px;padding:24px 16px;max-width:640px;width:100%;margin:12px auto;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6);border:2px solid #2E7D32}
@@ -34,7 +34,6 @@ select{font-size:16px!important}
 #cloud-status.ok{color:#A5D6A7;border-left:3px solid #4CAF50}
 #cloud-status.err{color:#EF9A9A;border-left:3px solid #EF5350}
 #cloud-status.warn{color:#FFCC80;border-left:3px solid #FB8C00}
-#cloud-status .step{display:block;font-size:10.5px;opacity:.85;margin-top:3px}
 #auth-area{margin:14px 0;padding:12px;background:rgba(0,0,0,.25);border-radius:12px}
 .auth-label{color:#C8E6C9;font-size:12px;margin-bottom:10px}
 .auth-buttons{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
@@ -64,6 +63,7 @@ select{font-size:16px!important}
 .stat.clock{color:#FFEB3B}
 .stat.tax{color:#FF8A80}
 .stat.loan{color:#FF8A80}
+.stat.holiday{color:#FF80AB}
 .spacer{flex:1}
 .top-btn{padding:7px 10px;font-size:11px;border-radius:8px;background:#37474F;color:#fff;min-height:34px;font-weight:600;touch-action:manipulation}
 .top-btn:active{background:#546E7A}
@@ -108,7 +108,7 @@ select{font-size:16px!important}
 .zone-tab{flex:1;min-width:120px;padding:8px 10px;background:#263238;color:#B0BEC5;border-radius:9px 9px 0 0;font-size:11.5px;font-weight:bold;min-height:38px;touch-action:manipulation;cursor:pointer}
 .zone-tab.active{background:#37474F;color:#FFD54F;border-bottom:3px solid #FFD54F}
 #tools-bar{display:flex;gap:5px;padding:6px 10px 0;background:#1f2b30;flex-wrap:wrap}
-.tool-btn{padding:7px 12px;background:#37474F;color:#eceff1;border:2px solid transparent;border-radius:8px;font-size:11.5px;font-weight:600;min-height:36px;touch-action:manipulation}
+.tool-btn{padding:7px 12px;background:#37474F;color:#eceff1;border:2px solid transparent;border-radius:8px;font-size:11.5px;font-weight:600;min-height:36px;touch-action:manipulation;cursor:pointer}
 .tool-btn.active{background:#FFC107;color:#1B5E20;border-color:#FFA000}
 .tool-info{flex:1;display:flex;align-items:center;font-size:10.5px;color:#90A4AE;padding-left:6px;min-width:100px}
 #plots{position:absolute;top:160px;left:16px;right:16px;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,96px);gap:7px;z-index:3}
@@ -117,6 +117,8 @@ select{font-size:16px!important}
 .plot .plus{font-size:26px;color:rgba(255,255,255,.55);font-weight:900;pointer-events:none}
 .plot .hint-line{font-size:9px;color:rgba(255,255,255,.78);margin-top:3px;font-weight:600;pointer-events:none}
 .plot .emoji{font-size:26px;line-height:1;filter:drop-shadow(0 2px 3px rgba(0,0,0,.5));pointer-events:none}
+.plot.spray-target{box-shadow:0 0 0 3px #FFEB3B,inset 0 -4px 0 rgba(0,0,0,.15);animation:sprayPulse .5s ease}
+@keyframes sprayPulse{0%{transform:scale(1)}50%{transform:scale(1.08)}100%{transform:scale(1)}}
 .gene-badge{position:absolute;top:3px;right:3px;background:rgba(0,0,0,.75);border-radius:8px;font-size:11px;padding:1px 5px;line-height:1.3;border:1px solid rgba(255,255,255,.3);pointer-events:none}
 .gene-badge.gene-rainbow{color:#FF80AB}.gene-badge.gene-royal{color:#FFD54F}
 .gene-badge.gene-gold{color:#FFEB3B;text-shadow:0 0 8px #FFC107}
@@ -146,6 +148,15 @@ select{font-size:16px!important}
 .panel-header .badge{background:#37474F;padding:2px 7px;border-radius:9px;font-size:9.5px;color:#FFD54F;text-transform:none}
 .panel-body{padding:9px 11px;max-height:4000px;overflow:hidden;transition:max-height .3s ease,padding .3s ease}
 .panel.collapsed .panel-body{max-height:0;padding:0 11px}
+
+/* Feedback panel — highlight */
+#panel-feedback{border:2px solid #FFC107;background:#2a2414}
+#panel-feedback .panel-header{background:#3a2f1a;color:#FFD54F}
+#panel-feedback textarea{width:100%;min-height:80px;background:#1f1a0e;border:2px solid #5D4037;border-radius:8px;color:#FFEB3B;padding:8px;resize:vertical;font-family:inherit;outline:none}
+#panel-feedback textarea:focus{border-color:#FFC107}
+#feedback-send{width:100%;margin-top:6px;background:#FFC107;color:#1B5E20;border-radius:8px;padding:10px;font-size:12.5px;font-weight:bold;min-height:42px;touch-action:manipulation}
+#feedback-note{font-size:9.5px;color:#B0BEC5;margin-top:5px;line-height:1.5}
+
 .shop-section{margin-bottom:8px}
 .shop-section:last-child{margin-bottom:0}
 .shop-sub{font-size:10px;color:#90A4AE;letter-spacing:.3px;margin-bottom:5px;font-weight:600;display:flex;justify-content:space-between}
@@ -236,7 +247,6 @@ select{font-size:16px!important}
 .modal-option .count{color:#FFD54F;font-weight:bold;font-size:11px;flex-shrink:0}
 .modal-close{width:100%;margin-top:6px;background:#455A64;color:#fff;border-radius:9px;padding:11px;font-size:13px;min-height:44px;touch-action:manipulation}
 .modal-empty{color:#90A4AE;font-size:12px;text-align:center;padding:14px 0;line-height:1.6}
-.modal-shop-btn{background:#FFC107;color:#1B5E20;border-radius:9px;padding:11px 14px;width:100%;font-size:13px;font-weight:bold;margin-top:5px;min-height:44px}
 .big-modal{background:#263238;border-radius:14px;padding:18px;width:100%;max-width:500px;border:2px solid #37474F;max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .big-modal h2{font-size:16px;color:#FFD54F;margin-bottom:5px;text-align:center}
 .big-modal .subhead{text-align:center;color:#90A4AE;font-size:11.5px;margin-bottom:12px}
@@ -245,6 +255,7 @@ select{font-size:16px!important}
 .news-item.market{border-left-color:#A5D6A7}
 .news-item.social{border-left-color:#FF80AB}
 .news-item.disease{border-left-color:#EF5350;background:#33222a}
+.news-item.holiday{border-left-color:#FFC107;background:#3a2f1a}
 .report-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed #37474F;font-size:12px;gap:8px}
 .report-row:last-child{border-bottom:none}
 .report-row.total{font-weight:bold;font-size:13.5px;color:#FFD54F;border-top:2px solid #455A64;margin-top:5px;padding-top:9px}
@@ -303,7 +314,7 @@ select{font-size:16px!important}
 
 <div id="start-screen">
   <h1>🌾 NÔNG TRẠI VUI VẺ 🌾</h1>
-  <p class="subtitle">50 ô · Thời tiết 24h · Nhân công · Thuế · Ngân hàng · Chó canh</p>
+  <p class="subtitle">50 ô · 24h/ngày · Nhân công · Thuế · Ngân hàng · Chó canh · Ong mật</p>
   <div id="auth-area">
     <p class="auth-label">🔐 Đăng nhập để đồng bộ save</p>
     <div class="auth-buttons">
@@ -337,7 +348,8 @@ select{font-size:16px!important}
       <span class="edit" id="rename-btn">✏️ 100k</span>
     </div>
     <span class="stat day" id="hud-day">📅 Ngày 1</span>
-    <span class="stat clock" id="hud-clock">🕐 06:00</span>
+    <span class="stat clock" id="hud-clock">🕐 00:00</span>
+    <span class="stat holiday" id="hud-holiday" style="display:none">🎉 Lễ</span>
     <span class="stat weather" id="hud-weather">☀️ Nắng</span>
     <span class="stat money" id="hud-money">💰 0$</span>
     <span class="stat tax" id="hud-tax">📋 Thuế 10%</span>
@@ -364,7 +376,7 @@ select{font-size:16px!important}
       <div id="tools-bar">
         <button class="tool-btn active" data-tool="hand">✋ Tay</button>
         <button class="tool-btn" data-tool="shovel">🪏 Xẻng</button>
-        <button class="tool-btn" data-tool="spray">💨 Thuốc sâu</button>
+        <button class="tool-btn" data-tool="spray">💨 Thuốc sâu (3×3)</button>
         <div class="tool-info" id="tool-info">Bấm ô để trồng / thu hoạch / bón phân</div>
       </div>
       <div id="farm-wrap">
@@ -386,6 +398,16 @@ select{font-size:16px!important}
     </div>
 
     <div id="side-panel">
+      <!-- ⭐ GÓP Ý — đặt trên cùng ⭐ -->
+      <div class="panel" id="panel-feedback">
+        <div class="panel-header" data-panel="panel-feedback"><span>💌 Góp ý nhà phát hành</span><span class="chevron">▼</span></div>
+        <div class="panel-body">
+          <textarea id="feedback-text" placeholder="Bạn muốn góp ý gì cho nhà phát triển? (bug, ý tưởng, cân bằng game...)"></textarea>
+          <button id="feedback-send">📨 Gửi góp ý</button>
+          <div id="feedback-note">💡 Góp ý được lưu trên máy bạn. Nhấn giữ để copy sang email/chat.</div>
+        </div>
+      </div>
+
       <div class="panel collapsed" id="panel-theme">
         <div class="panel-header" data-panel="panel-theme"><span>🎨 Phông nền <span class="badge" id="theme-count">1/10</span></span><span class="chevron">▼</span></div>
         <div class="panel-body"><div id="theme-shop-list"></div></div>
@@ -440,6 +462,7 @@ select{font-size:16px!important}
       <div class="panel collapsed" id="panel-supermarket">
         <div class="panel-header" data-panel="panel-supermarket"><span>🏪 Siêu thị <span class="badge" id="sm-sales-today">0$</span></span><span class="chevron">▼</span></div>
         <div class="panel-body">
+          <div style="font-size:9.5px;color:#90A4AE;margin-bottom:5px">🤖 Tự động chọn tối đa 10 món từ kho</div>
           <div class="sm-row" style="font-size:10px;color:#607D8B;font-weight:600"><span style="flex:1">Mặt hàng</span><span>Giá bạn</span><span>Đối thủ</span><span style="width:80px"></span></div>
           <div id="supermarket-list"></div>
         </div>
@@ -552,7 +575,7 @@ window.Cloud = {
     try {
       const json = JSON.stringify(data);
       if (json.length > 900000) return false;
-      await setDoc(doc(db, 'saves', this.userId), { data: json, updatedAt: serverTimestamp(), version: 7, day: data.day || 1, money: data.money || 0 });
+      await setDoc(doc(db, 'saves', this.userId), { data: json, updatedAt: serverTimestamp(), version: 8, day: data.day || 1, money: data.money || 0 });
       this.lastSync = Date.now();
       return true;
     } catch (e) { return false; }
@@ -676,6 +699,39 @@ window.updateCloudHUD = state => {
 
 <!-- ===== GAME ===== -->
 <script>
+/* ============================================================
+   POINTER TAP — pointerdown + delegation + device check
+   KHÔNG dùng click / pointerup / touchend
+   ============================================================ */
+const IS_TOUCH = (('ontouchstart' in window) || (navigator.maxTouchPoints > 0));
+const tapHandlers = new WeakMap();
+
+function tap(el, fn) {
+  if (!el) return;
+  tapHandlers.set(el, fn);
+}
+
+// Global delegation handler — pointerdown trên document
+document.addEventListener('pointerdown', (e) => {
+  // Bỏ qua chuột phải / giữa
+  if (e.pointerType === 'mouse' && e.button !== 0) return;
+  // Bỏ qua khi tap vào input/textarea/select (để slider, textarea hoạt động)
+  const tag = (e.target.tagName || '').toUpperCase();
+  if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+
+  // Walk up tìm phần tử có handler
+  let node = e.target;
+  while (node && node !== document) {
+    if (tapHandlers.has(node)) {
+      const fn = tapHandlers.get(node);
+      e.stopPropagation();
+      fn(e, node);
+      return;
+    }
+    node = node.parentNode;
+  }
+}, { passive: true });
+
 /* ============ DATA ============ */
 const CROPS = {
   "Cà rốt":    { seed: 10,  grow: 6,  sell: 22,  emoji: "🥕", unlockCost: 0,    coldResist: true  },
@@ -691,12 +747,13 @@ const CROPS = {
   "Nho":       { seed: 160, grow: 28, sell: 420, emoji: "🍇", unlockCost: 3000, coldResist: false }
 };
 const ANIMALS = {
-  "Gà":   { cost: 60,   time: 7,  product: "Trứng",    sell: 28,  emoji: "🐔", waste: 1 },
-  "Vịt":  { cost: 90,   time: 8,  product: "Trứng vịt",sell: 42,  emoji: "🦆", waste: 1 },
-  "Heo":  { cost: 180,  time: 12, product: "Thịt heo", sell: 85,  emoji: "🐷", waste: 3 },
-  "Bò":   { cost: 380,  time: 16, product: "Sữa",      sell: 165, emoji: "🐄", waste: 4 },
-  "Trâu": { cost: 550,  time: 20, product: "Sữa trâu", sell: 220, emoji: "🐃", waste: 5 },
-  "Cừu":  { cost: 650,  time: 22, product: "Len",      sell: 280, emoji: "🐑", waste: 2 }
+  "Gà":     { cost: 60,   time: 7,  product: "Trứng",     sell: 28,  emoji: "🐔", waste: 1 },
+  "Vịt":    { cost: 90,   time: 8,  product: "Trứng vịt", sell: 42,  emoji: "🦆", waste: 1 },
+  "Ong mật":{ cost: 150,  time: 10, product: "Mật ong",   sell: 70,  emoji: "🐝", waste: 0, noFeed: true },
+  "Heo":    { cost: 180,  time: 12, product: "Thịt heo",  sell: 85,  emoji: "🐷", waste: 3 },
+  "Bò":     { cost: 380,  time: 16, product: "Sữa",       sell: 165, emoji: "🐄", waste: 4 },
+  "Trâu":   { cost: 550,  time: 20, product: "Sữa trâu",  sell: 220, emoji: "🐃", waste: 5 },
+  "Cừu":    { cost: 650,  time: 22, product: "Len",       sell: 280, emoji: "🐑", waste: 2 }
 };
 const DOGS = {
   "Chó ta":          { cost: 20000,  guard: 25, emoji: "🐕",   desc: "25% chống trộm" },
@@ -829,8 +886,9 @@ const COLS = 5, ROWS_PER_ZONE = 5;
 const PLOTS_PER_ZONE = COLS * ROWS_PER_ZONE;
 const TOTAL_PLOTS = PLOTS_PER_ZONE * 2;
 const FARM_W = 700, FARM_H = 680;
+// 24h/ngày — 240s real = 24h game
 const DAY_DURATION = 240;
-const SAVE_KEY = 'ntvv_save_v7';
+const SAVE_KEY = 'ntvv_save_v8';
 
 /* ============ STATE ============ */
 const G = {
@@ -851,9 +909,13 @@ const G = {
   zone: 'crop', tool: 'hand',
   stats: { plantsTotal: 0, carrotsPlanted: 0, chickensRaised: 0, totalEarned: 0, rareOwned: 0, goldOwned: 0, closeFriends: 0, weatherSeen: 1, daysPlayed: 1, deliveries: 0, bugsCaught: 0, themesOwned: 1, dogsOwned: 0 },
   unlockedAch: [],
-  supermarket: { prices: {}, competitors: {}, salesToday: 0 },
+  supermarket: { prices: {}, competitors: {}, salesToday: 0, activeItems: [] },
   onlineOrders: [], onlineSeq: 0, onlineCooldown: 30,
   nextInspectionDay: 6,
+  // holiday
+  holidayToday: null,
+  workerHappiness: 1, // 0..1
+  holidayBoostDays: 0,
   phase: 'playing', userPaused: false,
   running: false, lastTime: 0, lastSave: 0, lastCloudSave: 0
 };
@@ -868,26 +930,6 @@ function toast(msg, cls = '') {
 }
 function setStatus(m) { $('status-bar').textContent = m; }
 function isPaused() { return G.userPaused || G.phase !== 'playing'; }
-
-/* ============================================================
-   HELPER: bindTap — dùng pointerup thay click cho iOS
-   - Bỏ qua nếu user kéo ngón tay (scroll) > 12px
-   - Bỏ qua nếu giữ > 1000ms
-   ============================================================ */
-function bindTap(el, fn) {
-  if (!el) return;
-  let downX = 0, downY = 0, downT = 0;
-  el.addEventListener('pointerdown', e => {
-    downX = e.clientX; downY = e.clientY; downT = Date.now();
-  }, { passive: true });
-  el.addEventListener('pointerup', e => {
-    if (Math.abs(e.clientX - downX) > 12) return;
-    if (Math.abs(e.clientY - downY) > 12) return;
-    if (Date.now() - downT > 1000) return;
-    e.stopPropagation();
-    fn(e);
-  });
-}
 
 function getTheme() { return THEMES[G.themeKey] || THEMES["Đồng lúa vàng"]; }
 function isPlotUnlocked(i) {
@@ -974,17 +1016,26 @@ function rescaleFarm() {
 window.addEventListener('resize', rescaleFarm);
 window.addEventListener('orientationchange', () => setTimeout(rescaleFarm, 200));
 
+/* ============ 24H CLOCK ============ */
 function timeString() {
-  const minutes = 6 * 60 + (G.dayTime / DAY_DURATION) * 24 * 60;
+  const minutes = (G.dayTime / DAY_DURATION) * 24 * 60;
   const h = Math.floor(minutes / 60) % 24;
   const m = Math.floor(minutes % 60);
   return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
 }
 function isNight() {
-  const minutes = 6 * 60 + (G.dayTime / DAY_DURATION) * 24 * 60;
+  const minutes = (G.dayTime / DAY_DURATION) * 24 * 60;
   const h = Math.floor(minutes / 60) % 24;
   return h >= 19 || h < 5;
 }
+
+/* ============ HOLIDAYS ============ */
+function checkHolidayFor(day) {
+  if (day <= 0) return null;
+  if (day % 15 !== 0) return null;
+  return (Math.floor(day / 15) % 2 === 1) ? 'midautumn' : 'tet';
+}
+function isHolidayToday() { return G.holidayToday; }
 
 /* ============ START ============ */
 let selectedTheme = "Đồng lúa vàng";
@@ -996,7 +1047,7 @@ function buildThemeGrid() {
     const card = document.createElement('div');
     card.className = 'theme-card' + (key === selectedTheme ? ' active' : '');
     card.innerHTML = `<div class="theme-preview" style="background:${t.ground}">${t.decor.slice(0,3).map(d=>`<span style="position:absolute;left:${d.x}%;top:${(d.y-50)*0.4}%;font-size:12px;transform:translate(-50%,-50%)">${d.emoji}</span>`).join('')}</div><div class="theme-name">${key}</div><div class="theme-price">${t.rarity}</div>`;
-    bindTap(card, () => {
+    tap(card, () => {
       selectedTheme = key;
       document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active'));
       card.classList.add('active');
@@ -1017,8 +1068,7 @@ async function refreshResumeBtn() {
 }
 refreshResumeBtn(); setTimeout(refreshResumeBtn, 3000);
 
-/* START button dùng pointerup thay click (iOS) */
-bindTap($('start-btn'), () => {
+tap($('start-btn'), () => {
   const name = $('farm-name-input').value.trim() || 'Nông trại';
   if (window.confirm('Bản lưu cũ sẽ bị xoá. Bắt đầu mới?')) {
     try { localStorage.removeItem(SAVE_KEY); } catch(e) {}
@@ -1027,7 +1077,7 @@ bindTap($('start-btn'), () => {
   }
 });
 
-bindTap($('resume-btn'), async () => {
+tap($('resume-btn'), async () => {
   const btn = $('resume-btn'); const ot = btn.textContent;
   btn.disabled = true; btn.textContent = '⏳ Đang tải...';
   let loaded = false;
@@ -1058,10 +1108,13 @@ function applyLoadedData(data) {
   if (!Array.isArray(G.dogs)) G.dogs = [];
   if (!Array.isArray(G.ownedMills)) G.ownedMills = [];
   if (typeof G.loan !== 'number') G.loan = 0;
-  if (!G.supermarket) G.supermarket = { prices: {}, competitors: {}, salesToday: 0 };
+  if (!G.supermarket) G.supermarket = { prices: {}, competitors: {}, salesToday: 0, activeItems: [] };
   if (!G.supermarket.prices) G.supermarket.prices = {};
   if (!G.supermarket.competitors) G.supermarket.competitors = {};
+  if (!Array.isArray(G.supermarket.activeItems)) G.supermarket.activeItems = [];
   if (!THEMES[G.themeKey]) G.themeKey = 'Đồng lúa vàng';
+  if (typeof G.workerHappiness !== 'number') G.workerHappiness = 1;
+  if (typeof G.holidayBoostDays !== 'number') G.holidayBoostDays = 0;
   if (Array.isArray(G.plots)) G.plots.forEach(p => {
     if (typeof p.fert !== 'boolean') p.fert = false;
     if (typeof p.hungry !== 'boolean') p.hungry = p.kind === 'animal';
@@ -1099,9 +1152,12 @@ function resetG(name, themeKey) {
   G.zone = 'crop'; G.tool = 'hand';
   G.stats = { plantsTotal: 0, carrotsPlanted: 0, chickensRaised: 0, totalEarned: 0, rareOwned: 0, goldOwned: 0, closeFriends: 0, weatherSeen: 1, daysPlayed: 1, deliveries: 0, bugsCaught: 0, themesOwned: 1, dogsOwned: 0 };
   G.unlockedAch = [];
-  G.supermarket = { prices: {}, competitors: {}, salesToday: 0 };
+  G.supermarket = { prices: {}, competitors: {}, salesToday: 0, activeItems: [] };
   G.onlineOrders = []; G.onlineSeq = 0; G.onlineCooldown = 30;
   G.nextInspectionDay = 6;
+  G.holidayToday = null;
+  G.workerHappiness = 1;
+  G.holidayBoostDays = 0;
   G.phase = 'playing'; G.userPaused = false;
   for (const c in CROPS) if (CROPS[c].unlockCost === 0) G.unlockedCrops.push(c);
 }
@@ -1201,6 +1257,13 @@ function showNews() {
   const d1 = document.createElement('div'); d1.className = 'news-item weather';
   d1.innerHTML = `<strong>${w.emoji} ${w.name}</strong><br>${w.desc}.`;
   body.appendChild(d1);
+  if (G.holidayToday) {
+    const d = document.createElement('div'); d.className = 'news-item holiday';
+    d.innerHTML = G.holidayToday === 'tet'
+      ? `<strong>🧧 HÔM NAY LÀ TẾT!</strong><br>Nhân viên nghỉ. Bạn nên lì xì hoặc tặng bánh chưng!`
+      : `<strong>🥮 HÔM NAY LÀ TRUNG THU!</strong><br>Nhân viên nghỉ. Bạn nên tặng bánh trung thu!`;
+    body.appendChild(d);
+  }
   let bestItem = null, bestMul = 1;
   for (const it in G.marketMul) if (G.marketMul[it] > bestMul) { bestMul = G.marketMul[it]; bestItem = it; }
   if (bestItem) {
@@ -1230,7 +1293,7 @@ function showNews() {
   body.appendChild(d3);
   $('news-overlay').style.display = 'flex';
 }
-bindTap($('news-ok'), () => {
+tap($('news-ok'), () => {
   $('news-overlay').style.display = 'none';
   G.phase = 'playing';
 });
@@ -1300,15 +1363,19 @@ function advanceDay() {
   }
 
   showReport();
-  if (reportHandler) $('report-ok').removeEventListener('pointerup', reportHandler);
+  if (reportHandler) $('report-ok').removeEventListener('pointerdown', reportHandler);
   reportHandler = () => {
-    $('report-ok').removeEventListener('pointerup', reportHandler);
+    $('report-ok').removeEventListener('pointerdown', reportHandler);
     reportHandler = null;
     $('report-overlay').style.display = 'none';
 
     G.day++;
     G.dayTime = 0;
     G.stats.daysPlayed = G.day;
+
+    // Holiday detection
+    G.holidayToday = checkHolidayFor(G.day);
+    if (G.holidayBoostDays > 0) G.holidayBoostDays--;
 
     const weights = { sunny: 30, rain: 25, cold: 20, storm: 15, rainbow: 10 };
     let total = Object.values(weights).reduce((s, w) => s + w, 0);
@@ -1339,21 +1406,29 @@ function advanceDay() {
     G.phase = 'news';
     showNews();
 
-    if (G.day >= G.nextInspectionDay && Math.random() < 0.4) {
+    // Event priorities: Holiday > Inspection > BirdFlu > Thief (high chance) > Random
+    if (G.holidayToday) {
+      setTimeout(holidayEvent, 700);
+    } else if (G.day >= G.nextInspectionDay && Math.random() < 0.4) {
       G.nextInspectionDay = G.day + 4 + Math.floor(Math.random() * 4);
       setTimeout(inspectionEvent, 700);
     } else if (G.birdFluDay === G.day) {
       setTimeout(birdFluEvent, 700);
       G.nextEventDay = G.day + 2;
-    } else if (G.day >= G.nextEventDay && Math.random() < 0.6) {
-      setTimeout(triggerRandomEvent, 700);
-      G.nextEventDay = G.day + 1 + Math.floor(Math.random() * 3);
+    } else {
+      // Thief: 35% mỗi ngày
+      const thiefChance = 0.35;
+      if (Math.random() < thiefChance && G.plots.some((p, i) => isPlotUnlocked(i) && p.kind === 'animal')) {
+        setTimeout(thiefEvent, 700);
+      } else if (G.day >= G.nextEventDay && Math.random() < 0.6) {
+        setTimeout(triggerRandomEvent, 700);
+        G.nextEventDay = G.day + 1 + Math.floor(Math.random() * 3);
+      }
     }
     saveGame();
     if (window.cloudSaveNow) window.cloudSaveNow();
   };
-  $('report-ok').addEventListener('pointerup', reportHandler);
-  $('report-ok').addEventListener('click', reportHandler);
+  $('report-ok').addEventListener('pointerdown', reportHandler);
 }
 
 /* ============ EVENTS ============ */
@@ -1363,6 +1438,110 @@ function triggerRandomEvent() {
   const pool = [chickenEscape, neighborHelp, animalEscape, sickAnimal, thiefEvent];
   if (!G.vaccineActive && G.birdFluDay === 0) pool.push(birdFluEvent);
   pick(pool)();
+}
+
+/* ============ HOLIDAY EVENTS ============ */
+function holidayEvent() {
+  if (G.phase === 'news') G.phase = 'event';
+  const isTet = G.holidayToday === 'tet';
+  const workers = G.workers;
+  const c = $('event-choices'); c.innerHTML = '';
+
+  $('event-icon').textContent = isTet ? '🧧' : '🥮';
+  $('event-title').textContent = isTet ? '🧧 TẾT NGUYÊN ĐÁN!' : '🥮 TẾT TRUNG THU!';
+  const n = workers.length;
+
+  if (isTet) {
+    $('event-desc').innerHTML = `Hôm nay là <strong>Tết</strong>!<br>${n} nhân công xin nghỉ. Bạn có muốn <strong>lì xì</strong> để giữ lòng họ không?`;
+    const luckyAmount = 200 * n;
+    const moonAmount = 500 * n;
+
+    const b1 = document.createElement('button'); b1.className = 'event-btn';
+    b1.innerHTML = `<span class="eb-icon">🧧</span><span class="eb-text">Lì xì ${n} nhân viên<br><small style="color:#A5D6A7">Nhân viên vui vẻ, tăng tốc 3 ngày</small></span><span class="eb-cost">${luckyAmount.toLocaleString()}$</span>`;
+    tap(b1, () => {
+      if (G.money < luckyAmount) { toast('Không đủ tiền!', 'error'); return; }
+      G.money -= luckyAmount; G.dailyExpense += luckyAmount;
+      G.workerHappiness = Math.min(1.5, G.workerHappiness + 0.4);
+      G.holidayBoostDays = 3;
+      G.reputation = Math.min(10, G.reputation + 0.5);
+      toast('🧧 Nhân viên rất vui!', 'achievement');
+      closeEvent(); renderAll();
+    });
+    c.appendChild(b1);
+
+    const b2 = document.createElement('button'); b2.className = 'event-btn';
+    b2.innerHTML = `<span class="eb-icon">🥮</span><span class="eb-text">Tặng bánh chưng + bánh tét<br><small style="color:#A5D6A7">Vui hơn lì xì</small></span><span class="eb-cost">${moonAmount.toLocaleString()}$</span>`;
+    tap(b2, () => {
+      if (G.money < moonAmount) { toast('Không đủ tiền!', 'error'); return; }
+      G.money -= moonAmount; G.dailyExpense += moonAmount;
+      G.workerHappiness = Math.min(2, G.workerHappiness + 0.6);
+      G.holidayBoostDays = 5;
+      G.reputation = Math.min(10, G.reputation + 0.8);
+      toast('🥮 Nhân viên cảm động!', 'achievement');
+      closeEvent(); renderAll();
+    });
+    c.appendChild(b2);
+
+    const b3 = document.createElement('button'); b3.className = 'event-btn danger';
+    b3.innerHTML = `<span class="eb-icon">😐</span><span class="eb-text">Không tặng gì<br><small style="color:#EF9A9A">30% mỗi nhân viên sẽ nghỉ việc</small></span>`;
+    tap(b3, () => {
+      let quit = 0;
+      G.workers = G.workers.filter(w => {
+        if (Math.random() < 0.30) { quit++; return false; }
+        return true;
+      });
+      G.workerHappiness = Math.max(0.3, G.workerHappiness - 0.4);
+      if (quit > 0) toast(`😡 ${quit} nhân viên đã nghỉ việc!`, 'error');
+      else toast('😐 Nhân viên buồn nhưng vẫn ở lại.', 'warn');
+      closeEvent(); rebuildPanels(); renderAll();
+    });
+    c.appendChild(b3);
+  } else {
+    $('event-desc').innerHTML = `Hôm nay là <strong>Trung Thu</strong>!<br>${n} nhân công xin nghỉ. Tặng <strong>bánh trung thu</strong> để động viên?`;
+    const moonAmount = 150 * n;
+
+    const b1 = document.createElement('button'); b1.className = 'event-btn';
+    b1.innerHTML = `<span class="eb-icon">🥮</span><span class="eb-text">Tặng ${n} hộp bánh<br><small style="color:#A5D6A7">Vui vẻ, tăng tốc 2 ngày</small></span><span class="eb-cost">${moonAmount.toLocaleString()}$</span>`;
+    tap(b1, () => {
+      if (G.money < moonAmount) { toast('Không đủ tiền!', 'error'); return; }
+      G.money -= moonAmount; G.dailyExpense += moonAmount;
+      G.workerHappiness = Math.min(1.5, G.workerHappiness + 0.3);
+      G.holidayBoostDays = 2;
+      G.reputation = Math.min(10, G.reputation + 0.4);
+      toast('🥮 Nhân viên rất vui!', 'achievement');
+      closeEvent(); renderAll();
+    });
+    c.appendChild(b1);
+
+    const b2 = document.createElement('button'); b2.className = 'event-btn';
+    b2.innerHTML = `<span class="eb-icon">🏮</span><span class="eb-text">Tổ chức rước đèn<br><small style="color:#A5D6A7">Uy tín +1, tốn ít tiền</small></span><span class="eb-cost">${(80 * n).toLocaleString()}$</span>`;
+    tap(b2, () => {
+      if (G.money < 80 * n) { toast('Không đủ tiền!', 'error'); return; }
+      G.money -= 80 * n; G.dailyExpense += 80 * n;
+      G.reputation = Math.min(10, G.reputation + 1.0);
+      G.workerHappiness = Math.min(1.5, G.workerHappiness + 0.2);
+      toast('🏮 Cả làng khen!', 'achievement');
+      closeEvent(); renderAll();
+    });
+    c.appendChild(b2);
+
+    const b3 = document.createElement('button'); b3.className = 'event-btn danger';
+    b3.innerHTML = `<span class="eb-icon">😐</span><span class="eb-text">Không tặng gì<br><small style="color:#EF9A9A">20% mỗi nhân viên sẽ nghỉ</small></span>`;
+    tap(b3, () => {
+      let quit = 0;
+      G.workers = G.workers.filter(w => {
+        if (Math.random() < 0.20) { quit++; return false; }
+        return true;
+      });
+      G.workerHappiness = Math.max(0.3, G.workerHappiness - 0.25);
+      if (quit > 0) toast(`😡 ${quit} nhân viên nghỉ việc!`, 'error');
+      else toast('😐 Không sao.', 'warn');
+      closeEvent(); rebuildPanels(); renderAll();
+    });
+    c.appendChild(b3);
+  }
+
+  $('event-overlay').style.display = 'flex';
 }
 
 function thiefEvent() {
@@ -1376,7 +1555,7 @@ function thiefEvent() {
   const c = $('event-choices'); c.innerHTML = '';
   const b1 = document.createElement('button'); b1.className = 'event-btn';
   b1.innerHTML = `<span class="eb-icon">🐕</span><span class="eb-text">Để chó xử lý</span>`;
-  bindTap(b1, () => {
+  tap(b1, () => {
     if (Math.random() * 100 < guard) {
       toast('🐕 Chó đã đuổi được trộm!', 'achievement');
       G.reputation = Math.min(10, G.reputation + 0.2);
@@ -1391,8 +1570,8 @@ function thiefEvent() {
   });
   c.appendChild(b1);
   const b2 = document.createElement('button'); b2.className = 'event-btn';
-  b2.innerHTML = `<span class="eb-icon">📞</span><span class="eb-text">Gọi công an (tốn 200$)</span><span class="eb-cost">200$</span>`;
-  bindTap(b2, () => {
+  b2.innerHTML = `<span class="eb-icon">📞</span><span class="eb-text">Gọi công an</span><span class="eb-cost">200$</span>`;
+  tap(b2, () => {
     if (G.money < 200) { toast('Không đủ tiền!', 'error'); return; }
     G.money -= 200; G.dailyExpense += 200;
     if (Math.random() < 0.85) {
@@ -1419,7 +1598,7 @@ function chickenEscape() {
   const c = $('event-choices'); c.innerHTML = '';
   const b1 = document.createElement('button'); b1.className = 'event-btn';
   b1.innerHTML = `<span class="eb-icon">🏃</span><span class="eb-text">Tự tìm (−15 ⚡)</span>`;
-  bindTap(b1, () => {
+  tap(b1, () => {
     if (G.energy < 15) { toast('Không đủ năng lượng!', 'error'); return; }
     G.energy -= 15;
     if (Math.random() < 0.65) { toast(`🎉 Tìm được ${n} gà!`, 'info'); G.reputation = Math.min(10, G.reputation + 0.2); }
@@ -1429,7 +1608,7 @@ function chickenEscape() {
   c.appendChild(b1);
   const b2 = document.createElement('button'); b2.className = 'event-btn';
   b2.innerHTML = `<span class="eb-icon">💰</span><span class="eb-text">Thuê tìm</span><span class="eb-cost">30$</span>`;
-  bindTap(b2, () => {
+  tap(b2, () => {
     if (G.money < 30) { toast('Không đủ tiền!', 'error'); return; }
     G.money -= 30; G.dailyExpense += 30;
     if (Math.random() < 0.9) toast(`🎉 Tìm được ${n} gà!`, 'info');
@@ -1439,7 +1618,7 @@ function chickenEscape() {
   c.appendChild(b2);
   const b3 = document.createElement('button'); b3.className = 'event-btn';
   b3.innerHTML = `<span class="eb-icon">🤷</span><span class="eb-text">Bỏ mặc</span>`;
-  bindTap(b3, () => { toast('Gà mất tích...', 'error'); G.reputation = Math.max(0, G.reputation - 0.15); closeEvent(); });
+  tap(b3, () => { toast('Gà mất tích...', 'error'); G.reputation = Math.max(0, G.reputation - 0.15); closeEvent(); });
   c.appendChild(b3);
   $('event-overlay').style.display = 'flex';
 }
@@ -1458,7 +1637,7 @@ function animalEscape() {
   const c = $('event-choices'); c.innerHTML = '';
   const b1 = document.createElement('button'); b1.className = 'event-btn';
   b1.innerHTML = `<span class="eb-icon">🏃</span><span class="eb-text">Tự đi tìm (−20 ⚡)</span>`;
-  bindTap(b1, () => {
+  tap(b1, () => {
     if (G.energy < 20) { toast('Không đủ năng lượng!', 'error'); return; }
     G.energy -= 20;
     if (Math.random() < 0.6) {
@@ -1472,7 +1651,7 @@ function animalEscape() {
   c.appendChild(b1);
   const b2 = document.createElement('button'); b2.className = 'event-btn';
   b2.innerHTML = `<span class="eb-icon">💰</span><span class="eb-text">Thuê tìm</span><span class="eb-cost">50$</span>`;
-  bindTap(b2, () => {
+  tap(b2, () => {
     if (G.money < 50) { toast('Không đủ tiền!', 'error'); return; }
     G.money -= 50; G.dailyExpense += 50;
     if (Math.random() < 0.85) {
@@ -1486,7 +1665,7 @@ function animalEscape() {
   c.appendChild(b2);
   const b3 = document.createElement('button'); b3.className = 'event-btn';
   b3.innerHTML = `<span class="eb-icon">🤷</span><span class="eb-text">Bỏ mặc</span>`;
-  bindTap(b3, () => { toast(`Mất 1 ${animalName}...`, 'error'); G.reputation = Math.max(0, G.reputation - 0.15); closeEvent(); renderAll(); });
+  tap(b3, () => { toast(`Mất 1 ${animalName}...`, 'error'); G.reputation = Math.max(0, G.reputation - 0.15); closeEvent(); renderAll(); });
   c.appendChild(b3);
   $('event-overlay').style.display = 'flex';
 }
@@ -1506,7 +1685,7 @@ function sickAnimal() {
   const healCost = ANIMALS[animalName].cost * 0.6 | 0;
   const b1 = document.createElement('button'); b1.className = 'event-btn';
   b1.innerHTML = `<span class="eb-icon">💊</span><span class="eb-text">Chữa trị (70%)</span><span class="eb-cost">${healCost}$</span>`;
-  bindTap(b1, () => {
+  tap(b1, () => {
     if (G.money < healCost) { toast('Không đủ tiền!', 'error'); return; }
     G.money -= healCost; G.dailyExpense += healCost;
     if (Math.random() < 0.7) { sick.p.sick = false; toast(`💊 Khỏi bệnh!`, 'info'); }
@@ -1516,7 +1695,7 @@ function sickAnimal() {
   c.appendChild(b1);
   const b2 = document.createElement('button'); b2.className = 'event-btn danger';
   b2.innerHTML = `<span class="eb-icon">☠️</span><span class="eb-text">Tiêu huỷ (an toàn)</span>`;
-  bindTap(b2, () => {
+  tap(b2, () => {
     sick.p.kind = sick.p.name = null; sick.p.progress = 0; sick.p.ready = false; sick.p.gene = null; sick.p.sick = false; sick.p.hungry = false;
     G.reputation = Math.max(0, G.reputation - 0.15);
     toast(`☠️ Đã tiêu huỷ ${animalName}`, 'warn');
@@ -1526,7 +1705,7 @@ function sickAnimal() {
   const sellValue = ANIMALS[animalName].cost * 0.7 | 0;
   const b3 = document.createElement('button'); b3.className = 'event-btn danger';
   b3.innerHTML = `<span class="eb-icon">💸</span><span class="eb-text">Bán chui (+${sellValue}$)</span>`;
-  bindTap(b3, () => {
+  tap(b3, () => {
     G.money += sellValue; G.dailyRevenue += sellValue; G.stats.totalEarned += sellValue;
     G.secretSellCount = (G.secretSellCount || 0) + 1;
     sick.p.kind = sick.p.name = null; sick.p.progress = 0; sick.p.ready = false; sick.p.gene = null; sick.p.sick = false;
@@ -1547,7 +1726,7 @@ function inspectionEvent() {
     $('event-desc').innerHTML = `Đội kiểm dịch đến kiểm tra.<br><strong style="color:#A5D6A7">Trang trại sạch sẽ!</strong>`;
     const b = document.createElement('button'); b.className = 'event-btn';
     b.innerHTML = `<span class="eb-icon">✅</span><span class="eb-text">Tiễn đoàn ra về</span>`;
-    bindTap(b, () => {
+    tap(b, () => {
       G.reputation = Math.min(10, G.reputation + 0.3);
       toast('✅ Đạt chuẩn!', 'achievement');
       closeEvent(); renderAll();
@@ -1573,7 +1752,7 @@ function inspectionEvent() {
     $('event-desc').innerHTML = desc + `<br><strong style="color:#EF9A9A">Phạt ${fine.toLocaleString()}$!</strong>`;
     const b = document.createElement('button'); b.className = 'event-btn';
     b.innerHTML = `<span class="eb-icon">😰</span><span class="eb-text">Nộp phạt ${fine.toLocaleString()}$</span>`;
-    bindTap(b, () => { toast(`💸 Nộp ${fine}$`, 'error'); closeEvent(); renderAll(); });
+    tap(b, () => { toast(`💸 Nộp ${fine}$`, 'error'); closeEvent(); renderAll(); });
     c.appendChild(b);
   }
   $('event-overlay').style.display = 'flex';
@@ -1590,7 +1769,7 @@ function neighborHelp() {
   const c = $('event-choices'); c.innerHTML = '';
   const b1 = document.createElement('button'); b1.className = 'event-btn';
   b1.innerHTML = `<span class="eb-icon">🤝</span><span class="eb-text">Tặng ${qty}× ${want}</span>`;
-  bindTap(b1, () => {
+  tap(b1, () => {
     if (invCount(want) < qty) { toast(`Không đủ ${want}!`, 'error'); return; }
     invSub(want, qty);
     addRelationship(nb, 2); G.reputation = Math.min(10, G.reputation + 0.35);
@@ -1600,7 +1779,7 @@ function neighborHelp() {
   c.appendChild(b1);
   const b2 = document.createElement('button'); b2.className = 'event-btn';
   b2.innerHTML = `<span class="eb-icon">💸</span><span class="eb-text">Bán 1.5x giá</span>`;
-  bindTap(b2, () => {
+  tap(b2, () => {
     if (invCount(want) < qty) { toast(`Không đủ ${want}!`, 'error'); return; }
     invSub(want, qty);
     const gain = Math.round(itemCurrentPrice(want) * qty * 1.5);
@@ -1612,7 +1791,7 @@ function neighborHelp() {
   c.appendChild(b2);
   const b3 = document.createElement('button'); b3.className = 'event-btn';
   b3.innerHTML = `<span class="eb-icon">❌</span><span class="eb-text">Từ chối</span>`;
-  bindTap(b3, () => { addRelationship(nb, -1.5); G.reputation = Math.max(0, G.reputation - 0.25); toast(`💔 ${nb} thất vọng`, 'error'); closeEvent(); renderAll(); });
+  tap(b3, () => { addRelationship(nb, -1.5); G.reputation = Math.max(0, G.reputation - 0.25); toast(`💔 ${nb} thất vọng`, 'error'); closeEvent(); renderAll(); });
   c.appendChild(b3);
   $('event-overlay').style.display = 'flex';
 }
@@ -1626,7 +1805,7 @@ function birdFluEvent() {
   const c = $('event-choices'); c.innerHTML = '';
   const b1 = document.createElement('button'); b1.className = 'event-btn';
   b1.innerHTML = `<span class="eb-icon">💉</span><span class="eb-text">Vaccine khẩn</span><span class="eb-cost">${VACCINE_COST}$</span>`;
-  bindTap(b1, () => {
+  tap(b1, () => {
     if (G.money < VACCINE_COST) { toast('Không đủ tiền!', 'error'); return; }
     G.money -= VACCINE_COST; G.dailyExpense += VACCINE_COST;
     G.vaccineActive = true; G.vaccineDay = G.day;
@@ -1636,7 +1815,7 @@ function birdFluEvent() {
   c.appendChild(b1);
   const b2 = document.createElement('button'); b2.className = 'event-btn';
   b2.innerHTML = `<span class="eb-icon">😷</span><span class="eb-text">Cách ly (mất 1/3)</span>`;
-  bindTap(b2, () => {
+  tap(b2, () => {
     const kill = Math.ceil(cp.length / 3);
     for (let k = 0; k < kill; k++) { const { p } = cp[k]; p.kind = p.name = null; p.progress = 0; p.ready = false; p.gene = null; p.pest = false; p.sick = false; }
     toast(`😷 Mất ${kill} gà.`, 'error');
@@ -1646,7 +1825,7 @@ function birdFluEvent() {
   c.appendChild(b2);
   const b3 = document.createElement('button'); b3.className = 'event-btn danger';
   b3.innerHTML = `<span class="eb-icon">🤷</span><span class="eb-text">Mặc kệ</span>`;
-  bindTap(b3, () => {
+  tap(b3, () => {
     if (Math.random() < 0.7) {
       const kill = Math.ceil(cp.length * 0.6);
       for (let k = 0; k < kill; k++) { const { p } = cp[k]; p.kind = p.name = null; p.progress = 0; p.ready = false; p.gene = null; p.pest = false; p.sick = false; }
@@ -1699,16 +1878,17 @@ function rebuildPanels() {
 function buildBankPanel() {
   $('bank-badge').textContent = G.loan > 0 ? Math.round(G.loan).toLocaleString() + '$' : '0$';
   document.querySelectorAll('[data-loan]').forEach(btn => {
-    btn.onclick = () => {
+    // Re-register to clear old handlers
+    tap(btn, () => {
       const amt = parseInt(btn.dataset.loan, 10);
       if (!confirm(`Vay ${amt.toLocaleString()}$? Lãi 10%/ngày sẽ cộng vào nợ.`)) return;
       G.money += amt;
       G.loan += amt;
       toast(`💳 Đã vay ${amt.toLocaleString()}$`, 'warn');
       renderAll(); rebuildPanels();
-    };
+    });
   });
-  bindTap($('repay-all'), () => {
+  tap($('repay-all'), () => {
     if (G.loan <= 0) { toast('Không có nợ!', 'info'); return; }
     if (G.money < G.loan) { toast(`Cần ${Math.round(G.loan).toLocaleString()}$ để trả!`, 'error'); return; }
     const amt = G.loan;
@@ -1737,7 +1917,7 @@ function buildMillPanel() {
     b.className = 'shop-btn';
     b.style.background = '#43A047';
     b.innerHTML = `Chế biến tất cả`;
-    bindTap(b, () => {
+    tap(b, () => {
       if (inStock <= 0) { toast(`Không có ${cfg.input}!`, 'error'); return; }
       invSub(cfg.input, inStock);
       invAdd(cfg.output, inStock * cfg.ratio);
@@ -1758,7 +1938,7 @@ function buildWorkersPanel() {
     const b = document.createElement('button');
     b.className = 'unlock-btn';
     b.innerHTML = `<span>${cfg.emoji}</span><span class="unlock-name">${type}<span class="worker-detail">${cfg.desc} · Lương ${cfg.salary}$/ngày</span></span><span class="unlock-cost">${cfg.baseCost}$</span>`;
-    bindTap(b, () => {
+    tap(b, () => {
       if (G.money < cfg.baseCost) { toast(`Cần ${cfg.baseCost}$ để thuê!`, 'error'); return; }
       G.money -= cfg.baseCost; G.dailyExpense += cfg.baseCost;
       const w = createWorker(type);
@@ -1781,7 +1961,7 @@ function buildWorkersPanel() {
       const fireBtn = document.createElement('button');
       fireBtn.style.cssText = 'margin-top:4px;padding:5px 10px;border-radius:6px;background:#B71C1C;color:#fff;font-size:10px;font-weight:bold';
       fireBtn.textContent = '🚪 Sa thải';
-      bindTap(fireBtn, () => {
+      tap(fireBtn, () => {
         if (!confirm(`Sa thải ${w.name}?`)) return;
         G.workers = G.workers.filter(x => x.id !== w.id);
         toast(`Đã sa thải ${w.name}`, 'info');
@@ -1823,21 +2003,21 @@ function buildShop() {
     const d = CROPS[name];
     const b = document.createElement('button'); b.className = 'shop-btn';
     b.innerHTML = `<span class="name">${d.emoji} ${name}</span><span class="price">${d.seed}$</span>`;
-    bindTap(b, () => buySeedBulk(name));
+    tap(b, () => buySeedBulk(name));
     cb.appendChild(b);
   }
   for (const name in ANIMALS) {
     const d = ANIMALS[name];
     const b = document.createElement('button'); b.className = 'shop-btn';
     b.innerHTML = `<span class="name">${d.emoji} ${name}</span><span class="price">${d.cost}$</span>`;
-    bindTap(b, () => buyAnimalBulk(name));
+    tap(b, () => buyAnimalBulk(name));
     ab.appendChild(b);
   }
   for (const name in DOGS) {
     const d = DOGS[name];
     const b = document.createElement('button'); b.className = 'shop-btn';
     b.innerHTML = `<span class="name">${d.emoji} ${name}</span><span class="price">${(d.cost/1000).toFixed(0)}k$</span>`;
-    bindTap(b, () => buyDog(name));
+    tap(b, () => buyDog(name));
     db.appendChild(b);
   }
   for (const name in MILLS) {
@@ -1846,16 +2026,16 @@ function buildShop() {
     const b = document.createElement('button'); b.className = 'shop-btn';
     b.style.opacity = owned ? '.5' : '1';
     b.innerHTML = `<span class="name">${d.emoji} ${name}</span><span class="price">${owned ? '✓' : d.price + '$'}</span>`;
-    if (!owned) bindTap(b, () => buyMill(name));
+    if (!owned) tap(b, () => buyMill(name));
     mb.appendChild(b);
   }
   const st = document.createElement('button'); st.className = 'shop-btn';
   st.innerHTML = `<span class="name">💨 Thuốc trừ sâu</span><span class="price">${SPRAY_COST}$</span>`;
-  bindTap(st, () => buySpray());
+  tap(st, () => buySpray());
   tb.appendChild(st);
 
   document.querySelectorAll('.ad-btn').forEach(btn => {
-    btn.onclick = () => { if (btn.dataset.ad === 'flyer') buyAd(20, 100, 'Tờ rơi'); else buyAd(45, 300, 'Radio'); };
+    tap(btn, () => { if (btn.dataset.ad === 'flyer') buyAd(20, 100, 'Tờ rơi'); else buyAd(45, 300, 'Radio'); });
   });
 }
 function buySpray() {
@@ -1907,7 +2087,7 @@ function buildThemeShop() {
     box.appendChild(row);
   }
   box.querySelectorAll('[data-theme]').forEach(btn => {
-    bindTap(btn, () => {
+    tap(btn, () => {
       const key = btn.dataset.theme;
       if (btn.dataset.act === 'equip') {
         G.themeKey = key;
@@ -1937,7 +2117,7 @@ function buildUnlockList() {
     const d = CROPS[name];
     const b = document.createElement('button'); b.className = 'unlock-btn';
     b.innerHTML = `<span>${d.emoji}</span><span class="unlock-name">${name}</span><span class="unlock-cost">${d.unlockCost}$</span>`;
-    bindTap(b, () => unlockCrop(name));
+    tap(b, () => unlockCrop(name));
     box.appendChild(b);
   }
   if (!any) { const d = document.createElement('div'); d.className = 'inv-empty'; d.textContent = '✅ Đã mở hết!'; box.appendChild(d); }
@@ -1950,12 +2130,12 @@ function buildLandList() {
   if (rC > 0) {
     const b = document.createElement('button'); b.className = 'land-btn';
     b.innerHTML = `<span>🌱 +5 ô trồng</span><span class="land-cost">${ROW_COST}$</span>`;
-    bindTap(b, () => unlockRow('crop')); box.appendChild(b);
+    tap(b, () => unlockRow('crop')); box.appendChild(b);
   }
   if (rA > 0) {
     const b = document.createElement('button'); b.className = 'land-btn';
     b.innerHTML = `<span>🐄 +5 ô nuôi</span><span class="land-cost">${ROW_COST}$</span>`;
-    bindTap(b, () => unlockRow('animal')); box.appendChild(b);
+    tap(b, () => unlockRow('animal')); box.appendChild(b);
   }
 }
 function buildVaccineList() {
@@ -1967,7 +2147,7 @@ function buildVaccineList() {
   }
   const b = document.createElement('button'); b.className = 'worker-btn';
   b.innerHTML = `<span>💉</span><span class="worker-name">Vaccine (5 ngày)<span class="worker-detail">Bảo vệ gia cầm</span></span><span class="worker-cost">${VACCINE_COST}$</span>`;
-  bindTap(b, () => {
+  tap(b, () => {
     if (G.money < VACCINE_COST) { toast('Không đủ tiền!', 'error'); return; }
     G.money -= VACCINE_COST; G.dailyExpense += VACCINE_COST;
     G.vaccineActive = true; G.vaccineDay = G.day;
@@ -2019,7 +2199,7 @@ function updateBulkTotal() {
   $('bulk-total').textContent = (q * bulkState.unitCost) + '$';
 }
 document.querySelectorAll('.bulk-qty-row button').forEach(btn => {
-  bindTap(btn, () => {
+  tap(btn, () => {
     if (!bulkState) return;
     let q = parseInt($('bulk-qty').value, 10) || 1;
     const v = btn.dataset.q;
@@ -2031,8 +2211,8 @@ document.querySelectorAll('.bulk-qty-row button').forEach(btn => {
   });
 });
 $('bulk-qty').addEventListener('input', updateBulkTotal);
-bindTap($('bulk-cancel'), () => { $('bulk-overlay').classList.remove('show'); bulkState = null; G.userPaused = false; });
-bindTap($('bulk-buy'), () => {
+tap($('bulk-cancel'), () => { $('bulk-overlay').classList.remove('show'); bulkState = null; G.userPaused = false; });
+tap($('bulk-buy'), () => {
   if (!bulkState) return;
   const { kind, key, unitCost } = bulkState;
   const q = Math.max(1, Math.min(bulkState.maxBuy, parseInt($('bulk-qty').value, 10) || 1));
@@ -2079,22 +2259,32 @@ function buildPlots() {
     el.className = 'plot';
     el.dataset.index = idx;
     el.style.cursor = 'pointer';
-    // === FIX: dùng pointerup thay click ===
-    let downX = 0, downY = 0, downT = 0;
-    el.addEventListener('pointerdown', (e) => {
-      downX = e.clientX; downY = e.clientY; downT = Date.now();
-    }, { passive: true });
-    el.addEventListener('pointerup', (e) => {
-      if (Math.abs(e.clientX - downX) > 12) return;
-      if (Math.abs(e.clientY - downY) > 12) return;
-      if (Date.now() - downT > 1000) return;
-      e.stopPropagation();
-      onPlotClick(idx);
-    });
+    tap(el, () => onPlotClick(idx));
     container.appendChild(el);
   }
   plotSig = '';
 }
+
+/* === SPRAY AREA 3×3 === */
+function getSprayArea(idx) {
+  const zone = plotZoneOf(idx);
+  const start = zone === 'crop' ? 0 : PLOTS_PER_ZONE;
+  const local = idx - start;
+  const row = Math.floor(local / COLS);
+  const col = local % COLS;
+  const result = [];
+  for (let dr = -1; dr <= 1; dr++) {
+    for (let dc = -1; dc <= 1; dc++) {
+      const r = row + dr, c = col + dc;
+      if (r < 0 || r >= ROWS_PER_ZONE || c < 0 || c >= COLS) continue;
+      const li = r * COLS + c;
+      const gi = start + li;
+      if (isPlotUnlocked(gi)) result.push(gi);
+    }
+  }
+  return result;
+}
+
 function renderPlots() {
   const container = $('plots');
   const t = getTheme();
@@ -2130,7 +2320,7 @@ function renderPlots() {
       let badges = '';
       if (p.pest) badges += `<span class="badge-mini" style="background:rgba(200,30,30,.85)">🐛</span>`;
       if (p.sick) badges += `<span class="badge-mini sick">🤒</span>`;
-      else if (p.hungry && !isCrop) badges += `<span class="badge-mini hungry">🍽️</span>`;
+      else if (p.hungry && !isCrop && !ANIMALS[p.name].noFeed) badges += `<span class="badge-mini hungry">🍽️</span>`;
       else if (p.fert) badges += `<span class="badge-mini fert">💩</span>`;
       html += badges;
       if (!isCrop && p.gene && p.gene !== 'normal') html += `<div class="gene-badge gene-${p.gene}">${GENES[p.gene].emoji}</div>`;
@@ -2156,6 +2346,7 @@ function renderPlots() {
     if (fill) fill.style.width = pct + '%';
   }
 }
+
 function onPlotClick(i) {
   if (!isPlotUnlocked(i)) {
     const zone = plotZoneOf(i);
@@ -2167,17 +2358,40 @@ function onPlotClick(i) {
   }
   const p = G.plots[i];
   const curZone = plotZoneOf(i);
+
+  // XẺNG
   if (G.tool === 'shovel') { if (!p.kind) { setStatus('🪏 Ô trống.'); return; } shovelPlot(i); return; }
+
+  // THUỐC SÂU — phạm vi 3×3
   if (G.tool === 'spray') {
     if (invCount('Thuốc trừ sâu') <= 0) { toast('Không có thuốc trừ sâu! Mua ở Cửa hàng.', 'error'); return; }
-    if (!p.pest) { toast('Ô này không có sâu.', 'info'); return; }
+    const area = getSprayArea(i);
+    let killed = 0;
+    let eligible = 0;
+    for (const gi of area) {
+      const gp = G.plots[gi];
+      if (gp.kind && gp.pest) eligible++;
+    }
+    if (eligible === 0) { toast('Khu vực này không có sâu.', 'info'); return; }
     invSub('Thuốc trừ sâu', 1);
-    p.pest = false;
-    setStatus('💨 Đã xịt thuốc diệt sâu!');
-    toast('💨 Sâu đã chết!', 'info');
+    for (const gi of area) {
+      const gp = G.plots[gi];
+      if (gp.pest) {
+        gp.pest = false;
+        killed++;
+        // visual pulse
+        const visIdx = gi - (G.zone === 'crop' ? 0 : PLOTS_PER_ZONE);
+        const el = $('plots').children[visIdx];
+        if (el) { el.classList.add('spray-target'); setTimeout(() => el.classList.remove('spray-target'), 500); }
+      }
+    }
+    setStatus(`💨 Xịt 3×3 — diệt ${killed} con sâu!`);
+    toast(`💨 Đã diệt ${killed} con sâu (3×3)!`, 'info');
     plotSig = ''; renderAll();
     return;
   }
+
+  // SÂU — bắt tay
   if (p.pest) {
     if (G.energy < BUG_ENERGY) { toast('Không đủ năng lượng!', 'error'); return; }
     G.energy -= BUG_ENERGY;
@@ -2187,9 +2401,11 @@ function onPlotClick(i) {
     checkAchievements(); plotSig = ''; renderAll();
     return;
   }
+
   if (!p.kind) { openPlantModal(i); return; }
   if (p.kind === 'crop' && curZone !== 'crop') return;
   if (p.kind === 'animal' && curZone !== 'animal') return;
+
   if (p.sick) {
     if (confirm(`Động vật bị bệnh! Chữa trị ${(ANIMALS[p.name].cost * 0.6 | 0)}$?`)) {
       const cost = ANIMALS[p.name].cost * 0.6 | 0;
@@ -2201,7 +2417,8 @@ function onPlotClick(i) {
     }
     return;
   }
-  if (p.kind === 'animal' && p.hungry) {
+  // Cho ăn — Ong mật không cần ăn
+  if (p.kind === 'animal' && p.hungry && !ANIMALS[p.name].noFeed) {
     if (invCount('Cám') <= 0) { toast('Không có cám! Mua máy nghiền ngô về chế biến.', 'error'); return; }
     if (G.energy < FEED_ENERGY) { toast('Không đủ năng lượng!', 'error'); return; }
     invSub('Cám', 1);
@@ -2265,10 +2482,11 @@ function harvestPlot(i) {
     const y = GENES[gene].yield;
     invAdd(prod, y);
     const waste = ANIMALS[p.name].waste || 1;
-    invAdd('Phân', waste);
+    if (waste > 0) invAdd('Phân', waste);
     G.dailyHarvests++;
-    setStatus(`📦 Thu ${y} ${prod} + ${waste} phân!`);
-    p.ready = false; p.progress = 0; p.hungry = true;
+    setStatus(`📦 Thu ${y} ${prod}${waste > 0 ? ' + ' + waste + ' phân' : ''}!`);
+    p.ready = false; p.progress = 0;
+    if (!ANIMALS[p.name].noFeed) p.hungry = true;
   }
   checkAchievements();
   return true;
@@ -2288,7 +2506,7 @@ function openPlantModal(i) {
         hasAny = true;
         const b = document.createElement('button'); b.className = 'modal-option';
         b.innerHTML = `<span>🌱 ${crop}</span><span class="count">còn ${n}</span>`;
-        bindTap(b, () => { plantCrop(i, crop); closeModal(); });
+        tap(b, () => { plantCrop(i, crop); closeModal(); });
         body.appendChild(b);
       }
     }
@@ -2302,7 +2520,7 @@ function openPlantModal(i) {
       const g = GENES[it.gene] || GENES.normal;
       const b = document.createElement('button'); b.className = 'modal-option';
       b.innerHTML = `<span>${ANIMALS[it.base].emoji} ${it.base} ${g.emoji || ''}</span><span class="count">còn ${it.count}</span>`;
-      bindTap(b, () => { placeAnimal(i, it.base, it.gene); closeModal(); });
+      tap(b, () => { placeAnimal(i, it.base, it.gene); closeModal(); });
       body.appendChild(b);
     }
   }
@@ -2314,8 +2532,10 @@ function openPlantModal(i) {
   $('modal-overlay').classList.add('show');
 }
 function closeModal() { $('modal-overlay').classList.remove('show'); G.userPaused = false; }
-bindTap($('modal-close'), closeModal);
-$('modal-overlay').onclick = e => { if (e.target.id === 'modal-overlay') closeModal(); };
+tap($('modal-close'), closeModal);
+document.getElementById('modal-overlay').addEventListener('pointerdown', e => {
+  if (e.target.id === 'modal-overlay') closeModal();
+});
 function plantCrop(i, name) {
   const key = 'Hạt ' + name;
   if (invCount(key) <= 0) return;
@@ -2334,9 +2554,9 @@ function placeAnimal(i, animal, gene) {
   invSub(key, 1);
   const p = G.plots[i];
   p.kind = 'animal'; p.name = animal; p.progress = 0; p.ready = false; p.gene = gene;
-  p.hungry = true; p.sick = false;
+  p.hungry = !ANIMALS[animal].noFeed; p.sick = false;
   if (animal === 'Gà') G.stats.chickensRaised++;
-  setStatus(`🐾 Nuôi ${animal} (cần cho ăn)!`);
+  setStatus(`🐾 Nuôi ${animal}${ANIMALS[animal].noFeed ? '' : ' (cần cho ăn)'}!`);
   checkAchievements(); renderAll();
 }
 
@@ -2355,7 +2575,7 @@ function renderInventory() {
     return `<span class="inv-chip">${label} ×${it.count}${priceStr}</span>`;
   }).join('');
 }
-bindTap($('sell-all-btn'), () => {
+tap($('sell-all-btn'), () => {
   let total = 0;
   for (const k in G.inventory) {
     const it = G.inventory[k];
@@ -2371,19 +2591,38 @@ bindTap($('sell-all-btn'), () => {
   checkAchievements(); renderAll();
 });
 
-/* ============ SUPERMARKET ============ */
+/* ============ SUPERMARKET — TỰ CHỌN TỐI ĐA 10 MÓN ============ */
+function pickSupermarketItems() {
+  const pool = [];
+  for (const c in CROPS) pool.push(c);
+  for (const a in ANIMALS) pool.push(ANIMALS[a].product);
+  for (const p in PRODUCT_PRICE) pool.push(p);
+  // Unique
+  const unique = [...new Set(pool)];
+  const COMMON = ['Cà rốt', 'Cà chua', 'Trứng', 'Gạo', 'Cám'];
+  const scored = unique.map(name => {
+    const stock = invCount(name);
+    const price = itemBasePrice(name);
+    const isCommon = COMMON.includes(name);
+    // Ưu tiên: có stock × giá cao; món phổ biến cộng điểm nhẹ
+    const score = stock * price + (isCommon ? 5 : 0);
+    return { name, stock, price, isCommon, score };
+  });
+  // Sắp xếp: có stock trước, score cao trước
+  scored.sort((a, b) => {
+    if ((a.stock > 0) !== (b.stock > 0)) return (b.stock > 0 ? 1 : -1);
+    return b.score - a.score;
+  });
+  return scored.slice(0, 10);
+}
+
 function renderSupermarket() {
   const box = $('supermarket-list');
   box.innerHTML = '';
-  const items = [];
-  for (const c in CROPS) items.push(c);
-  for (const a in ANIMALS) items.push(ANIMALS[a].product);
-  for (const item in PRODUCT_PRICE) items.push(item);
-  const common = ['Cà rốt','Cà chua','Trứng','Gạo','Cám'];
-  for (const it of items) {
-    const stock = invCount(it);
-    const isCommon = common.includes(it);
-    if (stock <= 0 && !isCommon) continue;
+  const items = pickSupermarketItems();
+  G.supermarket.activeItems = items.map(it => it.name);
+  for (const item of items) {
+    const it = item.name;
     const baseP = itemBasePrice(it);
     const myMul = G.supermarket.prices[it] || 1;
     const compMul = G.supermarket.competitors[it] || 1;
@@ -2392,9 +2631,10 @@ function renderSupermarket() {
     const winning = myPrice < compPrice;
     const row = document.createElement('div');
     row.className = 'sm-row';
-    row.innerHTML = `<span class="sm-item">${it}</span><span class="sm-price">${myPrice}$</span><span class="sm-comp ${winning ? 'win' : 'lose'}">${compPrice}$</span><div class="sm-slider"><input type="range" min="50" max="150" value="${Math.round(myMul * 100)}"></div>`;
+    const stockBadge = item.stock > 0 ? `<span style="color:#A5D6A7;font-size:9px;margin-left:4px">×${item.stock}</span>` : `<span style="color:#EF9A9A;font-size:9px;margin-left:4px">hết</span>`;
+    row.innerHTML = `<span class="sm-item">${it}${stockBadge}</span><span class="sm-price">${myPrice}$</span><span class="sm-comp ${winning ? 'win' : 'lose'}">${compPrice}$</span><div class="sm-slider"><input type="range" min="50" max="150" value="${Math.round(myMul * 100)}"></div>`;
     const slider = row.querySelector('input');
-    slider.oninput = () => {
+    slider.addEventListener('input', () => {
       G.supermarket.prices[it] = parseInt(slider.value, 10) / 100;
       const newMyPrice = Math.round(baseP * G.supermarket.prices[it]);
       const nowWin = newMyPrice < compPrice;
@@ -2402,19 +2642,17 @@ function renderSupermarket() {
       const comp = row.querySelector('.sm-comp');
       comp.classList.toggle('win', nowWin);
       comp.classList.toggle('lose', !nowWin);
-    };
+    });
     box.appendChild(row);
   }
   if (!box.children.length) box.innerHTML = `<div class="inv-empty" style="padding:6px 0;text-align:center">Chưa có hàng để bán sỉ.</div>`;
   $('sm-sales-today').textContent = Math.round(G.supermarket.salesToday) + '$';
 }
 function trySupermarketSale(dt) {
-  const itemKeys = Object.keys(G.inventory);
-  for (const k of itemKeys) {
+  for (const k of (G.supermarket.activeItems || [])) {
     const it = G.inventory[k];
     if (!it || it.count <= 0) continue;
     if (it.base || k.startsWith('Hạt ') || k === 'Thuốc trừ sâu') continue;
-    if (!PRODUCT_PRICE[k] && !CROPS[k]) continue;
     const myMul = G.supermarket.prices[k] || 1;
     const compMul = G.supermarket.competitors[k] || 1;
     const diff = compMul / myMul;
@@ -2635,9 +2873,9 @@ function renderCustomers() {
       btRej.textContent = 'TỪ CHỐI';
       bot.appendChild(tr);
       bot.appendChild(btFull); bot.appendChild(btPart); bot.appendChild(btRej);
-      bindTap(btFull, () => deliver(cu.id));
-      bindTap(btPart, () => doPartial(cu.id));
-      bindTap(btRej, () => doReject(cu.id));
+      tap(btFull, () => deliver(cu.id));
+      tap(btPart, () => doPartial(cu.id));
+      tap(btRej, () => doReject(cu.id));
       card.appendChild(top); card.appendChild(ord); card.appendChild(bot);
       list.appendChild(card);
     }
@@ -2705,6 +2943,12 @@ function renderHUD() {
   const adEl = $('hud-ad');
   if (G.adTime > 0) { adEl.textContent = `📢 ${Math.ceil(G.adTime)}s`; adEl.classList.remove('inactive'); }
   else { adEl.textContent = '📢 QC'; adEl.classList.add('inactive'); }
+  // Holiday badge
+  const holEl = $('hud-holiday');
+  if (G.holidayToday) {
+    holEl.style.display = 'inline-flex';
+    holEl.textContent = G.holidayToday === 'tet' ? '🧧 Tết' : '🥮 Trung Thu';
+  } else holEl.style.display = 'none';
 }
 function renderAll() {
   renderPlots(); renderInventory(); renderCustomers();
@@ -2729,6 +2973,9 @@ function gameLoop(now) {
 
   const w = WEATHERS[G.weather];
   const night = isNight();
+  // Holiday: cây vẫn lớn bình thường, chỉ nhân viên nghỉ
+  // Worker speed multiplier khi có holiday boost
+  const boost = G.holidayBoostDays > 0 ? (1 + G.workerHappiness * 0.5) : 1;
 
   for (let i = 0; i < G.plots.length; i++) {
     if (!isPlotUnlocked(i)) continue;
@@ -2738,7 +2985,7 @@ function gameLoop(now) {
     const data = isCrop ? CROPS[p.name] : ANIMALS[p.name];
     if (!data) continue;
     if (isCrop && !p.pest && Math.random() < 0.005 * dt) { p.pest = true; plotSig = ''; }
-    if (!isCrop && p.hungry) continue;
+    if (!isCrop && p.hungry && !data.noFeed) continue;
     if (!isCrop && p.sick) continue;
     let mul = w.growMul;
     if (G.weather === 'cold' && isCrop && !data.coldResist) mul = 0.1;
@@ -2759,11 +3006,14 @@ function gameLoop(now) {
   if (G.adTime > 0) G.adTime = Math.max(0, G.adTime - dt);
   G.energy = Math.min(100, G.energy + dt * 1.5);
 
+  // Workers — nghỉ vào ngày lễ
+  const holiday = isHolidayToday();
   for (const wrk of G.workers) {
+    if (holiday) continue; // Nghỉ lễ
     wrk.timer -= dt;
     if (wrk.timer <= 0) {
       const cfg = WORKER_TYPES[wrk.type];
-      wrk.timer = wrk.interval;
+      wrk.timer = wrk.interval / boost;
       if (cfg.skill === 'harvest' || cfg.skill === 'plant' || cfg.skill === 'all' || cfg.skill === 'feed') {
         for (let i = 0; i < G.plots.length; i++) {
           if (isPlotUnlocked(i) && G.plots[i].ready && !G.plots[i].pest && !G.plots[i].hungry) { harvestPlot(i); break; }
@@ -2773,7 +3023,7 @@ function gameLoop(now) {
         for (let i = 0; i < G.plots.length; i++) {
           if (!isPlotUnlocked(i)) continue;
           const p = G.plots[i];
-          if (p.kind === 'animal' && p.hungry && invCount('Cám') > 0) {
+          if (p.kind === 'animal' && p.hungry && !ANIMALS[p.name].noFeed && invCount('Cám') > 0) {
             invSub('Cám', 1);
             p.hungry = false;
             break;
@@ -2882,14 +3132,14 @@ async function cloudSaveNow() {
   }
 }
 window.cloudSaveNow = cloudSaveNow;
-bindTap($('save-btn'), async () => {
+tap($('save-btn'), async () => {
   saveGame(); toast('💾 Đang lưu...', 'info');
   const ok = await cloudSaveNow();
   toast(ok ? '☁️ Đã lưu Cloud!' : '💾 Đã lưu máy', ok ? 'info' : 'warn');
 });
 
 /* ============ PAUSE ============ */
-bindTap($('pause-btn'), () => {
+tap($('pause-btn'), () => {
   G.userPaused = !G.userPaused;
   $('pause-btn').textContent = G.userPaused ? '▶' : '⏸';
   $('pause-btn').className = 'top-btn ' + (G.userPaused ? 'active' : 'warn');
@@ -2898,7 +3148,7 @@ bindTap($('pause-btn'), () => {
 });
 
 /* ============ RENAME ============ */
-bindTap($('rename-btn'), () => {
+tap($('rename-btn'), () => {
   const newName = prompt(`Đổi tên nông trại (phí ${RENAME_COST.toLocaleString()}$):\nTên hiện tại: "${G.farmName}"`, G.farmName);
   if (!newName || newName.trim() === G.farmName) return;
   if (G.money < RENAME_COST) { toast(`Cần ${RENAME_COST.toLocaleString()}$!`, 'error'); return; }
@@ -2912,7 +3162,7 @@ bindTap($('rename-btn'), () => {
 
 /* ============ ZONE / TOOL ============ */
 document.querySelectorAll('.zone-tab').forEach(tab => {
-  bindTap(tab, () => {
+  tap(tab, () => {
     document.querySelectorAll('.zone-tab').forEach(t => t.classList.remove('active'));
     tab.classList.add('active');
     G.zone = tab.dataset.zone;
@@ -2920,36 +3170,48 @@ document.querySelectorAll('.zone-tab').forEach(tab => {
   });
 });
 document.querySelectorAll('.tool-btn[data-tool]').forEach(btn => {
-  bindTap(btn, () => {
+  tap(btn, () => {
     document.querySelectorAll('.tool-btn[data-tool]').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     G.tool = btn.dataset.tool;
-    const msgs = { hand: 'Bấm ô để trồng / thu hoạch / bón phân', shovel: '🪏 Bấm ô để xoá', spray: '💨 Bấm cây có sâu để xịt thuốc' };
+    const msgs = {
+      hand: 'Bấm ô để trồng / thu hoạch / bón phân',
+      shovel: '🪏 Bấm ô để xoá',
+      spray: '💨 Bấm ô có sâu — xịt cả vùng 3×3!'
+    };
     $('tool-info').textContent = msgs[G.tool] || '';
   });
 });
 
 /* ============ COLLAPSIBLE PANELS ============ */
 document.querySelectorAll('.panel-header').forEach(h => {
-  bindTap(h, () => {
+  tap(h, () => {
     const panel = document.getElementById(h.dataset.panel);
     if (panel) panel.classList.toggle('collapsed');
   });
 });
 
-/* ============================================================
-   FIX: XOÁ đoạn touchend + preventDefault toàn cục.
-   Đây là nguyên nhân chính khiến tap trên iPhone bị chặn.
-   Đã thay bằng `touch-action: manipulation` + `pointerup` ở trên.
-   ============================================================ */
-// (đã xoá)
+/* ============ FEEDBACK ============ */
+tap($('feedback-send'), () => {
+  const txt = $('feedback-text').value.trim();
+  if (!txt) { toast('Bạn chưa nhập gì!', 'warn'); return; }
+  try {
+    const fb = JSON.parse(localStorage.getItem('ntvv_feedback') || '[]');
+    fb.push({ text: txt, day: G.day, farm: G.farmName, ts: Date.now() });
+    localStorage.setItem('ntvv_feedback', JSON.stringify(fb));
+  } catch (e) {}
+  $('feedback-text').value = '';
+  toast('📨 Cảm ơn góp ý của bạn!', 'achievement');
+  // Có thể mở mailto để gửi trực tiếp (tuỳ chọn)
+  // window.location.href = 'mailto:nha.phat.hanh@example.com?subject=Gop y Nong Trai&body=' + encodeURIComponent(txt);
+});
 
 window.addEventListener('beforeunload', () => { saveGame(); });
 
 /* Auto-collapse panels on mobile by default */
 if (window.innerWidth < 700) {
   document.querySelectorAll('#side-panel .panel').forEach(p => {
-    if (!p.classList.contains('collapsed') && p.id !== 'panel-cust') p.classList.add('collapsed');
+    if (!p.classList.contains('collapsed') && p.id !== 'panel-cust' && p.id !== 'panel-feedback') p.classList.add('collapsed');
   });
 }
 </script>
