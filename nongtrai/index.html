@@ -21,7 +21,7 @@ select{font-size:16px!important}
 .field-label{font-size:13px;color:#fff;margin-bottom:8px;display:block}
 #farm-name-input{font-size:16px;padding:12px 14px;width:100%;max-width:280px;text-align:center;border-radius:10px;border:2px solid #4CAF50;background:#0d2b10;color:#FFEB3B;outline:none;font-weight:bold}
 .theme-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:6px;margin:10px 0 14px}
-.theme-card{border-radius:10px;padding:6px;cursor:pointer;border:3px solid transparent;text-align:center;background:rgba(0,0,0,.25)}
+.theme-card{border-radius:10px;padding:6px;cursor:pointer;border:3px solid transparent;text-align:center;background:rgba(0,0,0,.25);touch-action:manipulation}
 .theme-card.active{border-color:#FFC107}
 .theme-preview{height:38px;border-radius:6px;margin-bottom:4px;position:relative;overflow:hidden}
 .theme-name{font-size:10px;color:#fff;font-weight:600}
@@ -49,10 +49,11 @@ select{font-size:16px!important}
 .btn-logout{width:34px;height:34px;border-radius:50%;background:rgba(200,30,30,.85);color:#fff;font-size:14px;font-weight:bold;flex-shrink:0}
 
 #game-screen{display:none;width:100%;max-width:1400px;margin:0 auto;background:#182228;border-radius:14px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.7);border:2px solid #263238}
-#hud{background:linear-gradient(90deg,#2E7D32,#1B5E20);padding:6px 8px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;border-bottom:3px solid #0d3b12;position:sticky;top:0;z-index:90}
+#hud{background:linear-gradient(90deg,#2E7D32,#1B5E20);padding:6px 8px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;border-bottom:3px solid #0d3b12;position:sticky;top:0;z-index:90;pointer-events:none}
+#hud > *{pointer-events:auto;touch-action:manipulation}
 #farm-title-bar{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.3);padding:3px 10px;border-radius:14px;border:1px solid rgba(255,255,255,.15);min-width:0}
 #farm-title-bar .name{font-size:12.5px;font-weight:bold;color:#FFEB3B;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px}
-#farm-title-bar .edit{cursor:pointer;font-size:10px;opacity:.85;padding:3px 6px;border-radius:6px;background:rgba(255,255,255,.12);white-space:nowrap}
+#farm-title-bar .edit{cursor:pointer;font-size:10px;opacity:.85;padding:3px 6px;border-radius:6px;background:rgba(255,255,255,.12);white-space:nowrap;touch-action:manipulation}
 .stat{font-size:10.5px;font-weight:600;background:rgba(0,0,0,.28);padding:3px 8px;border-radius:14px;white-space:nowrap;display:inline-flex;align-items:center}
 .stat.money{color:#FFD54F}.stat.scale{color:#B3E5FC}.stat.rep{color:#F8BBD0}.stat.stars{color:#FFC107}
 .stat.energy{color:#FFE082}.stat.weather{color:#FFCCBC}.stat.day{color:#B39DDB}.stat.ach{color:#FFD54F}
@@ -64,7 +65,7 @@ select{font-size:16px!important}
 .stat.tax{color:#FF8A80}
 .stat.loan{color:#FF8A80}
 .spacer{flex:1}
-.top-btn{padding:7px 10px;font-size:11px;border-radius:8px;background:#37474F;color:#fff;min-height:34px;font-weight:600}
+.top-btn{padding:7px 10px;font-size:11px;border-radius:8px;background:#37474F;color:#fff;min-height:34px;font-weight:600;touch-action:manipulation}
 .top-btn:active{background:#546E7A}
 .top-btn.warn{background:#E65100}
 .top-btn.active{background:#FFC107;color:#1B5E20}
@@ -100,14 +101,14 @@ select{font-size:16px!important}
 .barn-roof{position:absolute;top:0;left:-8px;right:-8px;height:36px;background:#8D6E63;clip-path:polygon(50% 0%,100% 100%,0% 100%)}
 .barn-door{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:26px;height:34px;background:#5D4037;border-radius:4px 4px 0 0}
 .barn-window{position:absolute;bottom:26px;left:8px;width:16px;height:16px;background:#FFF59D;border:2px solid #5D4037;border-radius:3px}
-#weather-badge{position:absolute;top:6px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.65);color:#fff;padding:4px 12px;border-radius:16px;font-size:11px;font-weight:bold;z-index:60;border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;gap:5px;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+#weather-badge{position:absolute;top:6px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.65);color:#fff;padding:4px 12px;border-radius:16px;font-size:11px;font-weight:bold;z-index:60;border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;gap:5px;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);pointer-events:none}
 .wdesc{font-size:9.5px;opacity:.85;font-weight:400;display:none}
 @media (min-width:600px){.wdesc{display:inline}}
 #zone-tabs{display:flex;gap:5px;padding:6px 10px 0;background:#1f2b30;flex-wrap:wrap}
-.zone-tab{flex:1;min-width:120px;padding:8px 10px;background:#263238;color:#B0BEC5;border-radius:9px 9px 0 0;font-size:11.5px;font-weight:bold;min-height:38px}
+.zone-tab{flex:1;min-width:120px;padding:8px 10px;background:#263238;color:#B0BEC5;border-radius:9px 9px 0 0;font-size:11.5px;font-weight:bold;min-height:38px;touch-action:manipulation;cursor:pointer}
 .zone-tab.active{background:#37474F;color:#FFD54F;border-bottom:3px solid #FFD54F}
 #tools-bar{display:flex;gap:5px;padding:6px 10px 0;background:#1f2b30;flex-wrap:wrap}
-.tool-btn{padding:7px 12px;background:#37474F;color:#eceff1;border:2px solid transparent;border-radius:8px;font-size:11.5px;font-weight:600;min-height:36px}
+.tool-btn{padding:7px 12px;background:#37474F;color:#eceff1;border:2px solid transparent;border-radius:8px;font-size:11.5px;font-weight:600;min-height:36px;touch-action:manipulation}
 .tool-btn.active{background:#FFC107;color:#1B5E20;border-color:#FFA000}
 .tool-info{flex:1;display:flex;align-items:center;font-size:10.5px;color:#90A4AE;padding-left:6px;min-width:100px}
 #plots{position:absolute;top:160px;left:16px;right:16px;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,96px);gap:7px;z-index:3}
@@ -154,7 +155,7 @@ select{font-size:16px!important}
 .shop-btn .price{color:#FFD54F;font-weight:bold;font-size:10px}
 .shop-btn .name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0}
 .ad-row{display:grid;grid-template-columns:1fr 1fr;gap:4px}
-.ad-btn{background:#5D4037;color:#fff;border-radius:7px;padding:9px 6px;font-size:11px;min-height:38px}
+.ad-btn{background:#5D4037;color:#fff;border-radius:7px;padding:9px 6px;font-size:11px;min-height:38px;touch-action:manipulation}
 .ad-btn:active{background:#795548}
 .unlock-btn,.land-btn,.worker-btn{display:flex;align-items:center;gap:6px;background:#37474F;color:#eceff1;border-radius:7px;padding:8px 9px;margin-bottom:4px;width:100%;font-size:11px;text-align:left;min-height:40px;touch-action:manipulation}
 .unlock-btn:active,.land-btn:active,.worker-btn:active{background:#546E7A}
@@ -168,7 +169,7 @@ select{font-size:16px!important}
 .inv-chip{background:#37474F;padding:3px 8px;border-radius:9px;border:1px solid #546E7A;font-size:10px}
 .inv-chip .chip-price{color:#FFD54F;font-size:9px;margin-left:3px}
 .inv-empty{color:#78909C;font-style:italic;font-size:10.5px}
-.sell-btn{width:100%;margin-top:7px;background:#455A64;color:#fff;border-radius:7px;padding:9px;font-size:11px;min-height:38px;font-weight:600}
+.sell-btn{width:100%;margin-top:7px;background:#455A64;color:#fff;border-radius:7px;padding:9px;font-size:11px;min-height:38px;font-weight:600;touch-action:manipulation}
 .sell-btn:active{background:#546E7A}
 #customer-list{max-height:320px;overflow-y:auto;padding-right:2px}
 .customer{background:#37474F;border-radius:9px;padding:8px 10px;margin-bottom:5px;border-left:4px solid #FFC107}
@@ -187,9 +188,9 @@ select{font-size:16px!important}
 .patience-track{flex:1 1 100%;height:6px;background:#1c262b;border-radius:3px;overflow:hidden;margin-bottom:4px}
 .patience-fill{height:100%;background:#66BB6A;border-radius:3px}
 .patience-fill.low{background:#EF5350}
-.deliver-btn{background:#43A047;color:#fff;border-radius:6px;padding:7px 10px;font-size:10.5px;font-weight:bold;min-height:32px}
-.partial-btn{background:#FB8C00;color:#fff;border-radius:6px;padding:7px 10px;font-size:10.5px;font-weight:bold;min-height:32px}
-.reject-btn{background:#B71C1C;color:#fff;border-radius:6px;padding:7px 10px;font-size:10.5px;font-weight:bold;min-height:32px}
+.deliver-btn{background:#43A047;color:#fff;border-radius:6px;padding:7px 10px;font-size:10.5px;font-weight:bold;min-height:32px;touch-action:manipulation}
+.partial-btn{background:#FB8C00;color:#fff;border-radius:6px;padding:7px 10px;font-size:10.5px;font-weight:bold;min-height:32px;touch-action:manipulation}
+.reject-btn{background:#B71C1C;color:#fff;border-radius:6px;padding:7px 10px;font-size:10.5px;font-weight:bold;min-height:32px;touch-action:manipulation}
 .deliver-btn:disabled,.partial-btn:disabled{background:#546E7A;opacity:.6}
 .empty-customers{color:#78909C;font-size:11px;text-align:center;padding:16px 10px;font-style:italic}
 .sm-row{display:flex;align-items:center;gap:6px;padding:6px 0;border-bottom:1px dashed #37474F;font-size:11px;flex-wrap:wrap}
@@ -230,10 +231,10 @@ select{font-size:16px!important}
 #modal-overlay.show{display:flex}
 #modal{background:#263238;border-radius:12px;padding:16px;width:100%;max-width:480px;border:2px solid #37474F;max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
 #modal h3{color:#80CBC4;font-size:14px;margin-bottom:12px}
-.modal-option{display:flex;justify-content:space-between;align-items:center;background:#37474F;color:#eceff1;border-radius:9px;padding:11px 14px;margin-bottom:5px;width:100%;font-size:12.5px;text-align:left;min-height:44px;gap:6px}
+.modal-option{display:flex;justify-content:space-between;align-items:center;background:#37474F;color:#eceff1;border-radius:9px;padding:11px 14px;margin-bottom:5px;width:100%;font-size:12.5px;text-align:left;min-height:44px;gap:6px;touch-action:manipulation}
 .modal-option:active{background:#4CAF50}
 .modal-option .count{color:#FFD54F;font-weight:bold;font-size:11px;flex-shrink:0}
-.modal-close{width:100%;margin-top:6px;background:#455A64;color:#fff;border-radius:9px;padding:11px;font-size:13px;min-height:44px}
+.modal-close{width:100%;margin-top:6px;background:#455A64;color:#fff;border-radius:9px;padding:11px;font-size:13px;min-height:44px;touch-action:manipulation}
 .modal-empty{color:#90A4AE;font-size:12px;text-align:center;padding:14px 0;line-height:1.6}
 .modal-shop-btn{background:#FFC107;color:#1B5E20;border-radius:9px;padding:11px 14px;width:100%;font-size:13px;font-weight:bold;margin-top:5px;min-height:44px}
 .big-modal{background:#263238;border-radius:14px;padding:18px;width:100%;max-width:500px;border:2px solid #37474F;max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
@@ -252,7 +253,7 @@ select{font-size:16px!important}
 .event-icon{font-size:42px;text-align:center;margin:6px 0}
 .event-title{font-size:15px;font-weight:bold;color:#FFD54F;text-align:center;margin-bottom:7px}
 .event-desc{font-size:12.5px;color:#CFD8DC;text-align:center;margin-bottom:14px;line-height:1.6}
-.event-btn{width:100%;padding:12px;margin-bottom:6px;background:#37474F;color:#eceff1;border-radius:10px;font-size:12.5px;text-align:left;display:flex;gap:8px;align-items:center;min-height:48px}
+.event-btn{width:100%;padding:12px;margin-bottom:6px;background:#37474F;color:#eceff1;border-radius:10px;font-size:12.5px;text-align:left;display:flex;gap:8px;align-items:center;min-height:48px;touch-action:manipulation}
 .event-btn:active{background:#4CAF50}
 .event-btn.danger:active{background:#C62828}
 .eb-icon{font-size:18px;flex-shrink:0}
@@ -264,11 +265,11 @@ select{font-size:16px!important}
 .bulk-info .row{display:flex;justify-content:space-between;margin-bottom:4px}
 .bulk-info .val{color:#FFD54F;font-weight:bold}
 .bulk-qty-row{display:flex;gap:4px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
-.bulk-qty-row button{background:#455A64;color:#fff;border-radius:8px;padding:10px 12px;font-size:12px;font-weight:bold;min-height:42px;min-width:48px}
+.bulk-qty-row button{background:#455A64;color:#fff;border-radius:8px;padding:10px 12px;font-size:12px;font-weight:bold;min-height:42px;min-width:48px;touch-action:manipulation}
 .bulk-qty-row button:active{background:#546E7A}
 .bulk-qty-row input{flex:1;min-width:80px;background:#1f2b30;color:#FFD54F;border:2px solid #455A64;border-radius:8px;padding:9px;font-size:16px;font-weight:bold;text-align:center}
 .bulk-actions{display:flex;gap:6px}
-.bulk-actions button{flex:1;padding:12px;border-radius:10px;font-size:13px;font-weight:bold;min-height:46px}
+.bulk-actions button{flex:1;padding:12px;border-radius:10px;font-size:13px;font-weight:bold;min-height:46px;touch-action:manipulation}
 .btn-buy{background:#43A047;color:#fff}
 .btn-buy:active{background:#4CAF50}
 .btn-cancel{background:#455A64;color:#fff}
@@ -280,7 +281,6 @@ select{font-size:16px!important}
 .toast.warn{background:#EF6C00}
 @keyframes toastIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
 
-/* iPhone-specific fixes */
 @media (max-width:600px){
   #main{flex-direction:column}
   #side-panel{width:100%}
@@ -869,6 +869,26 @@ function toast(msg, cls = '') {
 function setStatus(m) { $('status-bar').textContent = m; }
 function isPaused() { return G.userPaused || G.phase !== 'playing'; }
 
+/* ============================================================
+   HELPER: bindTap — dùng pointerup thay click cho iOS
+   - Bỏ qua nếu user kéo ngón tay (scroll) > 12px
+   - Bỏ qua nếu giữ > 1000ms
+   ============================================================ */
+function bindTap(el, fn) {
+  if (!el) return;
+  let downX = 0, downY = 0, downT = 0;
+  el.addEventListener('pointerdown', e => {
+    downX = e.clientX; downY = e.clientY; downT = Date.now();
+  }, { passive: true });
+  el.addEventListener('pointerup', e => {
+    if (Math.abs(e.clientX - downX) > 12) return;
+    if (Math.abs(e.clientY - downY) > 12) return;
+    if (Date.now() - downT > 1000) return;
+    e.stopPropagation();
+    fn(e);
+  });
+}
+
 function getTheme() { return THEMES[G.themeKey] || THEMES["Đồng lúa vàng"]; }
 function isPlotUnlocked(i) {
   if (i < PLOTS_PER_ZONE) return Math.floor(i / COLS) < G.unlockedRowsCrop;
@@ -976,7 +996,11 @@ function buildThemeGrid() {
     const card = document.createElement('div');
     card.className = 'theme-card' + (key === selectedTheme ? ' active' : '');
     card.innerHTML = `<div class="theme-preview" style="background:${t.ground}">${t.decor.slice(0,3).map(d=>`<span style="position:absolute;left:${d.x}%;top:${(d.y-50)*0.4}%;font-size:12px;transform:translate(-50%,-50%)">${d.emoji}</span>`).join('')}</div><div class="theme-name">${key}</div><div class="theme-price">${t.rarity}</div>`;
-    card.onclick = () => { selectedTheme = key; document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active')); card.classList.add('active'); };
+    bindTap(card, () => {
+      selectedTheme = key;
+      document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+    });
     grid.appendChild(card);
   }
 }
@@ -993,15 +1017,17 @@ async function refreshResumeBtn() {
 }
 refreshResumeBtn(); setTimeout(refreshResumeBtn, 3000);
 
-$('start-btn').onclick = () => {
+/* START button dùng pointerup thay click (iOS) */
+bindTap($('start-btn'), () => {
   const name = $('farm-name-input').value.trim() || 'Nông trại';
   if (window.confirm('Bản lưu cũ sẽ bị xoá. Bắt đầu mới?')) {
     try { localStorage.removeItem(SAVE_KEY); } catch(e) {}
     if (window.Cloud && window.Cloud.ready) window.Cloud.deleteSave();
     startNewGame(name, selectedTheme);
   }
-};
-$('resume-btn').onclick = async () => {
+});
+
+bindTap($('resume-btn'), async () => {
   const btn = $('resume-btn'); const ot = btn.textContent;
   btn.disabled = true; btn.textContent = '⏳ Đang tải...';
   let loaded = false;
@@ -1015,7 +1041,8 @@ $('resume-btn').onclick = async () => {
   btn.disabled = false; btn.textContent = ot;
   if (loaded) openGame();
   else toast('Không tìm thấy bản lưu!', 'error');
-};
+});
+
 function applyLoadedData(data) {
   data.running = false; data.lastTime = 0; data.lastSave = 0; data.lastCloudSave = 0;
   data.phase = 'playing'; data.userPaused = false;
@@ -1203,10 +1230,10 @@ function showNews() {
   body.appendChild(d3);
   $('news-overlay').style.display = 'flex';
 }
-$('news-ok').onclick = () => {
+bindTap($('news-ok'), () => {
   $('news-overlay').style.display = 'none';
   G.phase = 'playing';
-};
+});
 
 function showReport() {
   $('report-day-label').textContent = `Kết thúc ngày ${G.day}`;
@@ -1253,20 +1280,16 @@ function advanceDay() {
   if (G.phase !== 'playing') return;
   G.phase = 'report';
 
-  // Thuế 10% lợi nhuận
   const dailyProfit = G.dailyRevenue - G.dailyExpense;
   if (dailyProfit > 0) {
     const tax = Math.floor(dailyProfit * TAX_RATE);
     if (tax > 0) { G.money -= tax; G.dailyTax = tax; }
   }
-  // Lương nhân công
   let totalSalary = 0;
   for (const w of G.workers) totalSalary += w.salary;
   if (totalSalary > 0) { G.money -= totalSalary; G.dailySalary = totalSalary; }
-  // Thuê đất
   const rent = (G.unlockedRowsCrop + G.unlockedRowsAnimal) * LAND_RENT_PER_ROW;
   if (rent > 0) { G.money -= rent; G.dailyRent = rent; }
-  // Lãi ngân hàng
   if (G.loan > 0) {
     const interest = Math.floor(G.loan * LOAN_INTEREST);
     G.loan += interest;
@@ -1277,9 +1300,9 @@ function advanceDay() {
   }
 
   showReport();
-  if (reportHandler) $('report-ok').removeEventListener('click', reportHandler);
+  if (reportHandler) $('report-ok').removeEventListener('pointerup', reportHandler);
   reportHandler = () => {
-    $('report-ok').removeEventListener('click', reportHandler);
+    $('report-ok').removeEventListener('pointerup', reportHandler);
     reportHandler = null;
     $('report-overlay').style.display = 'none';
 
@@ -1329,6 +1352,7 @@ function advanceDay() {
     saveGame();
     if (window.cloudSaveNow) window.cloudSaveNow();
   };
+  $('report-ok').addEventListener('pointerup', reportHandler);
   $('report-ok').addEventListener('click', reportHandler);
 }
 
@@ -1352,7 +1376,7 @@ function thiefEvent() {
   const c = $('event-choices'); c.innerHTML = '';
   const b1 = document.createElement('button'); b1.className = 'event-btn';
   b1.innerHTML = `<span class="eb-icon">🐕</span><span class="eb-text">Để chó xử lý</span>`;
-  b1.onclick = () => {
+  bindTap(b1, () => {
     if (Math.random() * 100 < guard) {
       toast('🐕 Chó đã đuổi được trộm!', 'achievement');
       G.reputation = Math.min(10, G.reputation + 0.2);
@@ -1364,11 +1388,11 @@ function thiefEvent() {
       plotSig = '';
     }
     closeEvent(); renderAll();
-  };
+  });
   c.appendChild(b1);
   const b2 = document.createElement('button'); b2.className = 'event-btn';
   b2.innerHTML = `<span class="eb-icon">📞</span><span class="eb-text">Gọi công an (tốn 200$)</span><span class="eb-cost">200$</span>`;
-  b2.onclick = () => {
+  bindTap(b2, () => {
     if (G.money < 200) { toast('Không đủ tiền!', 'error'); return; }
     G.money -= 200; G.dailyExpense += 200;
     if (Math.random() < 0.85) {
@@ -1382,7 +1406,7 @@ function thiefEvent() {
       plotSig = '';
     }
     closeEvent(); renderAll();
-  };
+  });
   c.appendChild(b2);
   $('event-overlay').style.display = 'flex';
 }
@@ -1395,27 +1419,27 @@ function chickenEscape() {
   const c = $('event-choices'); c.innerHTML = '';
   const b1 = document.createElement('button'); b1.className = 'event-btn';
   b1.innerHTML = `<span class="eb-icon">🏃</span><span class="eb-text">Tự tìm (−15 ⚡)</span>`;
-  b1.onclick = () => {
+  bindTap(b1, () => {
     if (G.energy < 15) { toast('Không đủ năng lượng!', 'error'); return; }
     G.energy -= 15;
     if (Math.random() < 0.65) { toast(`🎉 Tìm được ${n} gà!`, 'info'); G.reputation = Math.min(10, G.reputation + 0.2); }
     else toast('😢 Không tìm thấy!', 'error');
     closeEvent();
-  };
+  });
   c.appendChild(b1);
   const b2 = document.createElement('button'); b2.className = 'event-btn';
   b2.innerHTML = `<span class="eb-icon">💰</span><span class="eb-text">Thuê tìm</span><span class="eb-cost">30$</span>`;
-  b2.onclick = () => {
+  bindTap(b2, () => {
     if (G.money < 30) { toast('Không đủ tiền!', 'error'); return; }
     G.money -= 30; G.dailyExpense += 30;
     if (Math.random() < 0.9) toast(`🎉 Tìm được ${n} gà!`, 'info');
     else toast('😢 Không tìm thấy!', 'error');
     closeEvent();
-  };
+  });
   c.appendChild(b2);
   const b3 = document.createElement('button'); b3.className = 'event-btn';
   b3.innerHTML = `<span class="eb-icon">🤷</span><span class="eb-text">Bỏ mặc</span>`;
-  b3.onclick = () => { toast('Gà mất tích...', 'error'); G.reputation = Math.max(0, G.reputation - 0.15); closeEvent(); };
+  bindTap(b3, () => { toast('Gà mất tích...', 'error'); G.reputation = Math.max(0, G.reputation - 0.15); closeEvent(); });
   c.appendChild(b3);
   $('event-overlay').style.display = 'flex';
 }
@@ -1434,7 +1458,7 @@ function animalEscape() {
   const c = $('event-choices'); c.innerHTML = '';
   const b1 = document.createElement('button'); b1.className = 'event-btn';
   b1.innerHTML = `<span class="eb-icon">🏃</span><span class="eb-text">Tự đi tìm (−20 ⚡)</span>`;
-  b1.onclick = () => {
+  bindTap(b1, () => {
     if (G.energy < 20) { toast('Không đủ năng lượng!', 'error'); return; }
     G.energy -= 20;
     if (Math.random() < 0.6) {
@@ -1444,11 +1468,11 @@ function animalEscape() {
       toast(`🎉 Bắt được ${animalName}!`, 'info');
     } else toast('😢 Không tìm thấy!', 'error');
     closeEvent(); renderAll();
-  };
+  });
   c.appendChild(b1);
   const b2 = document.createElement('button'); b2.className = 'event-btn';
   b2.innerHTML = `<span class="eb-icon">💰</span><span class="eb-text">Thuê tìm</span><span class="eb-cost">50$</span>`;
-  b2.onclick = () => {
+  bindTap(b2, () => {
     if (G.money < 50) { toast('Không đủ tiền!', 'error'); return; }
     G.money -= 50; G.dailyExpense += 50;
     if (Math.random() < 0.85) {
@@ -1458,11 +1482,11 @@ function animalEscape() {
       toast(`🎉 Bắt được ${animalName}!`, 'info');
     } else toast('😢 Không tìm thấy!', 'error');
     closeEvent(); renderAll();
-  };
+  });
   c.appendChild(b2);
   const b3 = document.createElement('button'); b3.className = 'event-btn';
   b3.innerHTML = `<span class="eb-icon">🤷</span><span class="eb-text">Bỏ mặc</span>`;
-  b3.onclick = () => { toast(`Mất 1 ${animalName}...`, 'error'); G.reputation = Math.max(0, G.reputation - 0.15); closeEvent(); renderAll(); };
+  bindTap(b3, () => { toast(`Mất 1 ${animalName}...`, 'error'); G.reputation = Math.max(0, G.reputation - 0.15); closeEvent(); renderAll(); });
   c.appendChild(b3);
   $('event-overlay').style.display = 'flex';
 }
@@ -1482,33 +1506,33 @@ function sickAnimal() {
   const healCost = ANIMALS[animalName].cost * 0.6 | 0;
   const b1 = document.createElement('button'); b1.className = 'event-btn';
   b1.innerHTML = `<span class="eb-icon">💊</span><span class="eb-text">Chữa trị (70%)</span><span class="eb-cost">${healCost}$</span>`;
-  b1.onclick = () => {
+  bindTap(b1, () => {
     if (G.money < healCost) { toast('Không đủ tiền!', 'error'); return; }
     G.money -= healCost; G.dailyExpense += healCost;
     if (Math.random() < 0.7) { sick.p.sick = false; toast(`💊 Khỏi bệnh!`, 'info'); }
     else { toast(`😢 Không qua khỏi...`, 'error'); sick.p.kind = sick.p.name = null; sick.p.progress = 0; sick.p.ready = false; sick.p.gene = null; sick.p.sick = false; }
     plotSig = ''; closeEvent(); renderAll();
-  };
+  });
   c.appendChild(b1);
   const b2 = document.createElement('button'); b2.className = 'event-btn danger';
   b2.innerHTML = `<span class="eb-icon">☠️</span><span class="eb-text">Tiêu huỷ (an toàn)</span>`;
-  b2.onclick = () => {
+  bindTap(b2, () => {
     sick.p.kind = sick.p.name = null; sick.p.progress = 0; sick.p.ready = false; sick.p.gene = null; sick.p.sick = false; sick.p.hungry = false;
     G.reputation = Math.max(0, G.reputation - 0.15);
     toast(`☠️ Đã tiêu huỷ ${animalName}`, 'warn');
     plotSig = ''; closeEvent(); renderAll();
-  };
+  });
   c.appendChild(b2);
   const sellValue = ANIMALS[animalName].cost * 0.7 | 0;
   const b3 = document.createElement('button'); b3.className = 'event-btn danger';
   b3.innerHTML = `<span class="eb-icon">💸</span><span class="eb-text">Bán chui (+${sellValue}$)</span>`;
-  b3.onclick = () => {
+  bindTap(b3, () => {
     G.money += sellValue; G.dailyRevenue += sellValue; G.stats.totalEarned += sellValue;
     G.secretSellCount = (G.secretSellCount || 0) + 1;
     sick.p.kind = sick.p.name = null; sick.p.progress = 0; sick.p.ready = false; sick.p.gene = null; sick.p.sick = false;
     toast(`💰 Bán chui +${sellValue}$ (nguy hiểm!)`, 'warn');
     plotSig = ''; closeEvent(); renderAll();
-  };
+  });
   c.appendChild(b3);
   $('event-overlay').style.display = 'flex';
 }
@@ -1523,11 +1547,11 @@ function inspectionEvent() {
     $('event-desc').innerHTML = `Đội kiểm dịch đến kiểm tra.<br><strong style="color:#A5D6A7">Trang trại sạch sẽ!</strong>`;
     const b = document.createElement('button'); b.className = 'event-btn';
     b.innerHTML = `<span class="eb-icon">✅</span><span class="eb-text">Tiễn đoàn ra về</span>`;
-    b.onclick = () => {
+    bindTap(b, () => {
       G.reputation = Math.min(10, G.reputation + 0.3);
       toast('✅ Đạt chuẩn!', 'achievement');
       closeEvent(); renderAll();
-    };
+    });
     c.appendChild(b);
   } else {
     let fine = 0;
@@ -1549,7 +1573,7 @@ function inspectionEvent() {
     $('event-desc').innerHTML = desc + `<br><strong style="color:#EF9A9A">Phạt ${fine.toLocaleString()}$!</strong>`;
     const b = document.createElement('button'); b.className = 'event-btn';
     b.innerHTML = `<span class="eb-icon">😰</span><span class="eb-text">Nộp phạt ${fine.toLocaleString()}$</span>`;
-    b.onclick = () => { toast(`💸 Nộp ${fine}$`, 'error'); closeEvent(); renderAll(); };
+    bindTap(b, () => { toast(`💸 Nộp ${fine}$`, 'error'); closeEvent(); renderAll(); });
     c.appendChild(b);
   }
   $('event-overlay').style.display = 'flex';
@@ -1566,17 +1590,17 @@ function neighborHelp() {
   const c = $('event-choices'); c.innerHTML = '';
   const b1 = document.createElement('button'); b1.className = 'event-btn';
   b1.innerHTML = `<span class="eb-icon">🤝</span><span class="eb-text">Tặng ${qty}× ${want}</span>`;
-  b1.onclick = () => {
+  bindTap(b1, () => {
     if (invCount(want) < qty) { toast(`Không đủ ${want}!`, 'error'); return; }
     invSub(want, qty);
     addRelationship(nb, 2); G.reputation = Math.min(10, G.reputation + 0.35);
     toast(`❤️ ${nb} cảm kích!`, 'info');
     closeEvent(); renderAll();
-  };
+  });
   c.appendChild(b1);
   const b2 = document.createElement('button'); b2.className = 'event-btn';
   b2.innerHTML = `<span class="eb-icon">💸</span><span class="eb-text">Bán 1.5x giá</span>`;
-  b2.onclick = () => {
+  bindTap(b2, () => {
     if (invCount(want) < qty) { toast(`Không đủ ${want}!`, 'error'); return; }
     invSub(want, qty);
     const gain = Math.round(itemCurrentPrice(want) * qty * 1.5);
@@ -1584,11 +1608,11 @@ function neighborHelp() {
     addRelationship(nb, 0.5);
     toast(`+${gain}$`, 'info');
     closeEvent(); renderAll();
-  };
+  });
   c.appendChild(b2);
   const b3 = document.createElement('button'); b3.className = 'event-btn';
   b3.innerHTML = `<span class="eb-icon">❌</span><span class="eb-text">Từ chối</span>`;
-  b3.onclick = () => { addRelationship(nb, -1.5); G.reputation = Math.max(0, G.reputation - 0.25); toast(`💔 ${nb} thất vọng`, 'error'); closeEvent(); renderAll(); };
+  bindTap(b3, () => { addRelationship(nb, -1.5); G.reputation = Math.max(0, G.reputation - 0.25); toast(`💔 ${nb} thất vọng`, 'error'); closeEvent(); renderAll(); });
   c.appendChild(b3);
   $('event-overlay').style.display = 'flex';
 }
@@ -1602,27 +1626,27 @@ function birdFluEvent() {
   const c = $('event-choices'); c.innerHTML = '';
   const b1 = document.createElement('button'); b1.className = 'event-btn';
   b1.innerHTML = `<span class="eb-icon">💉</span><span class="eb-text">Vaccine khẩn</span><span class="eb-cost">${VACCINE_COST}$</span>`;
-  b1.onclick = () => {
+  bindTap(b1, () => {
     if (G.money < VACCINE_COST) { toast('Không đủ tiền!', 'error'); return; }
     G.money -= VACCINE_COST; G.dailyExpense += VACCINE_COST;
     G.vaccineActive = true; G.vaccineDay = G.day;
     toast('💉 Đã tiêm vaccine!', 'info');
     closeEvent(); renderAll();
-  };
+  });
   c.appendChild(b1);
   const b2 = document.createElement('button'); b2.className = 'event-btn';
   b2.innerHTML = `<span class="eb-icon">😷</span><span class="eb-text">Cách ly (mất 1/3)</span>`;
-  b2.onclick = () => {
+  bindTap(b2, () => {
     const kill = Math.ceil(cp.length / 3);
     for (let k = 0; k < kill; k++) { const { p } = cp[k]; p.kind = p.name = null; p.progress = 0; p.ready = false; p.gene = null; p.pest = false; p.sick = false; }
     toast(`😷 Mất ${kill} gà.`, 'error');
     G.reputation = Math.max(0, G.reputation - 0.3);
     closeEvent(); plotSig = ''; renderAll();
-  };
+  });
   c.appendChild(b2);
   const b3 = document.createElement('button'); b3.className = 'event-btn danger';
   b3.innerHTML = `<span class="eb-icon">🤷</span><span class="eb-text">Mặc kệ</span>`;
-  b3.onclick = () => {
+  bindTap(b3, () => {
     if (Math.random() < 0.7) {
       const kill = Math.ceil(cp.length * 0.6);
       for (let k = 0; k < kill; k++) { const { p } = cp[k]; p.kind = p.name = null; p.progress = 0; p.ready = false; p.gene = null; p.pest = false; p.sick = false; }
@@ -1630,7 +1654,7 @@ function birdFluEvent() {
       G.reputation = Math.max(0, G.reputation - 0.5);
     } else toast('😅 Không sao!', 'info');
     closeEvent(); plotSig = ''; renderAll();
-  };
+  });
   c.appendChild(b3);
   $('event-overlay').style.display = 'flex';
 }
@@ -1684,7 +1708,7 @@ function buildBankPanel() {
       renderAll(); rebuildPanels();
     };
   });
-  $('repay-all').onclick = () => {
+  bindTap($('repay-all'), () => {
     if (G.loan <= 0) { toast('Không có nợ!', 'info'); return; }
     if (G.money < G.loan) { toast(`Cần ${Math.round(G.loan).toLocaleString()}$ để trả!`, 'error'); return; }
     const amt = G.loan;
@@ -1692,7 +1716,7 @@ function buildBankPanel() {
     G.loan = 0;
     toast(`💳 Đã trả hết nợ ${Math.round(amt).toLocaleString()}$!`, 'achievement');
     renderAll(); rebuildPanels();
-  };
+  });
 }
 
 function buildMillPanel() {
@@ -1713,13 +1737,13 @@ function buildMillPanel() {
     b.className = 'shop-btn';
     b.style.background = '#43A047';
     b.innerHTML = `Chế biến tất cả`;
-    b.onclick = () => {
+    bindTap(b, () => {
       if (inStock <= 0) { toast(`Không có ${cfg.input}!`, 'error'); return; }
       invSub(cfg.input, inStock);
       invAdd(cfg.output, inStock * cfg.ratio);
       toast(`⚙️ Xay ${inStock} ${cfg.input} → ${inStock * cfg.ratio} ${cfg.output}`, 'info');
       renderAll(); rebuildPanels();
-    };
+    });
     row.appendChild(b);
     box.appendChild(row);
   }
@@ -1729,23 +1753,21 @@ function buildWorkersPanel() {
   const box = $('workers-panel');
   $('worker-badge').textContent = G.workers.length;
   box.innerHTML = '';
-  // Hire section
   for (const type in WORKER_TYPES) {
     const cfg = WORKER_TYPES[type];
     const b = document.createElement('button');
     b.className = 'unlock-btn';
     b.innerHTML = `<span>${cfg.emoji}</span><span class="unlock-name">${type}<span class="worker-detail">${cfg.desc} · Lương ${cfg.salary}$/ngày</span></span><span class="unlock-cost">${cfg.baseCost}$</span>`;
-    b.onclick = () => {
+    bindTap(b, () => {
       if (G.money < cfg.baseCost) { toast(`Cần ${cfg.baseCost}$ để thuê!`, 'error'); return; }
       G.money -= cfg.baseCost; G.dailyExpense += cfg.baseCost;
       const w = createWorker(type);
       G.workers.push(w);
       toast(`🧑‍🌾 Đã thuê ${w.name} (${w.age}t, ${w.exp}/10 kinh nghiệm, ${w.personality})`, 'info');
       rebuildPanels(); renderAll();
-    };
+    });
     box.appendChild(b);
   }
-  // List hired
   if (G.workers.length) {
     const hdr = document.createElement('div');
     hdr.style.cssText = 'font-size:10px;color:#90A4AE;margin-top:8px;margin-bottom:4px;font-weight:600';
@@ -1759,12 +1781,12 @@ function buildWorkersPanel() {
       const fireBtn = document.createElement('button');
       fireBtn.style.cssText = 'margin-top:4px;padding:5px 10px;border-radius:6px;background:#B71C1C;color:#fff;font-size:10px;font-weight:bold';
       fireBtn.textContent = '🚪 Sa thải';
-      fireBtn.onclick = () => {
+      bindTap(fireBtn, () => {
         if (!confirm(`Sa thải ${w.name}?`)) return;
         G.workers = G.workers.filter(x => x.id !== w.id);
         toast(`Đã sa thải ${w.name}`, 'info');
         rebuildPanels(); renderAll();
-      };
+      });
       card.appendChild(fireBtn);
       box.appendChild(card);
     }
@@ -1801,21 +1823,21 @@ function buildShop() {
     const d = CROPS[name];
     const b = document.createElement('button'); b.className = 'shop-btn';
     b.innerHTML = `<span class="name">${d.emoji} ${name}</span><span class="price">${d.seed}$</span>`;
-    b.onclick = () => buySeedBulk(name);
+    bindTap(b, () => buySeedBulk(name));
     cb.appendChild(b);
   }
   for (const name in ANIMALS) {
     const d = ANIMALS[name];
     const b = document.createElement('button'); b.className = 'shop-btn';
     b.innerHTML = `<span class="name">${d.emoji} ${name}</span><span class="price">${d.cost}$</span>`;
-    b.onclick = () => buyAnimalBulk(name);
+    bindTap(b, () => buyAnimalBulk(name));
     ab.appendChild(b);
   }
   for (const name in DOGS) {
     const d = DOGS[name];
     const b = document.createElement('button'); b.className = 'shop-btn';
     b.innerHTML = `<span class="name">${d.emoji} ${name}</span><span class="price">${(d.cost/1000).toFixed(0)}k$</span>`;
-    b.onclick = () => buyDog(name);
+    bindTap(b, () => buyDog(name));
     db.appendChild(b);
   }
   for (const name in MILLS) {
@@ -1824,12 +1846,12 @@ function buildShop() {
     const b = document.createElement('button'); b.className = 'shop-btn';
     b.style.opacity = owned ? '.5' : '1';
     b.innerHTML = `<span class="name">${d.emoji} ${name}</span><span class="price">${owned ? '✓' : d.price + '$'}</span>`;
-    if (!owned) b.onclick = () => buyMill(name);
+    if (!owned) bindTap(b, () => buyMill(name));
     mb.appendChild(b);
   }
   const st = document.createElement('button'); st.className = 'shop-btn';
   st.innerHTML = `<span class="name">💨 Thuốc trừ sâu</span><span class="price">${SPRAY_COST}$</span>`;
-  st.onclick = () => buySpray();
+  bindTap(st, () => buySpray());
   tb.appendChild(st);
 
   document.querySelectorAll('.ad-btn').forEach(btn => {
@@ -1885,7 +1907,7 @@ function buildThemeShop() {
     box.appendChild(row);
   }
   box.querySelectorAll('[data-theme]').forEach(btn => {
-    btn.onclick = () => {
+    bindTap(btn, () => {
       const key = btn.dataset.theme;
       if (btn.dataset.act === 'equip') {
         G.themeKey = key;
@@ -1903,7 +1925,7 @@ function buildThemeShop() {
         toast(`🎨 Mở khoá ${key}!`, 'achievement');
         checkAchievements(); rebuildPanels(); renderAll();
       }
-    };
+    });
   });
 }
 function buildUnlockList() {
@@ -1915,7 +1937,7 @@ function buildUnlockList() {
     const d = CROPS[name];
     const b = document.createElement('button'); b.className = 'unlock-btn';
     b.innerHTML = `<span>${d.emoji}</span><span class="unlock-name">${name}</span><span class="unlock-cost">${d.unlockCost}$</span>`;
-    b.onclick = () => unlockCrop(name);
+    bindTap(b, () => unlockCrop(name));
     box.appendChild(b);
   }
   if (!any) { const d = document.createElement('div'); d.className = 'inv-empty'; d.textContent = '✅ Đã mở hết!'; box.appendChild(d); }
@@ -1928,12 +1950,12 @@ function buildLandList() {
   if (rC > 0) {
     const b = document.createElement('button'); b.className = 'land-btn';
     b.innerHTML = `<span>🌱 +5 ô trồng</span><span class="land-cost">${ROW_COST}$</span>`;
-    b.onclick = () => unlockRow('crop'); box.appendChild(b);
+    bindTap(b, () => unlockRow('crop')); box.appendChild(b);
   }
   if (rA > 0) {
     const b = document.createElement('button'); b.className = 'land-btn';
     b.innerHTML = `<span>🐄 +5 ô nuôi</span><span class="land-cost">${ROW_COST}$</span>`;
-    b.onclick = () => unlockRow('animal'); box.appendChild(b);
+    bindTap(b, () => unlockRow('animal')); box.appendChild(b);
   }
 }
 function buildVaccineList() {
@@ -1945,13 +1967,13 @@ function buildVaccineList() {
   }
   const b = document.createElement('button'); b.className = 'worker-btn';
   b.innerHTML = `<span>💉</span><span class="worker-name">Vaccine (5 ngày)<span class="worker-detail">Bảo vệ gia cầm</span></span><span class="worker-cost">${VACCINE_COST}$</span>`;
-  b.onclick = () => {
+  bindTap(b, () => {
     if (G.money < VACCINE_COST) { toast('Không đủ tiền!', 'error'); return; }
     G.money -= VACCINE_COST; G.dailyExpense += VACCINE_COST;
     G.vaccineActive = true; G.vaccineDay = G.day;
     toast('💉 Đã mua vaccine!', 'info');
     rebuildPanels(); renderAll();
-  };
+  });
   box.appendChild(b);
 }
 function unlockCrop(name) {
@@ -1997,7 +2019,7 @@ function updateBulkTotal() {
   $('bulk-total').textContent = (q * bulkState.unitCost) + '$';
 }
 document.querySelectorAll('.bulk-qty-row button').forEach(btn => {
-  btn.onclick = () => {
+  bindTap(btn, () => {
     if (!bulkState) return;
     let q = parseInt($('bulk-qty').value, 10) || 1;
     const v = btn.dataset.q;
@@ -2006,11 +2028,11 @@ document.querySelectorAll('.bulk-qty-row button').forEach(btn => {
     q = Math.max(1, Math.min(bulkState.maxBuy, q));
     $('bulk-qty').value = q;
     updateBulkTotal();
-  };
+  });
 });
 $('bulk-qty').addEventListener('input', updateBulkTotal);
-$('bulk-cancel').onclick = () => { $('bulk-overlay').classList.remove('show'); bulkState = null; G.userPaused = false; };
-$('bulk-buy').onclick = () => {
+bindTap($('bulk-cancel'), () => { $('bulk-overlay').classList.remove('show'); bulkState = null; G.userPaused = false; });
+bindTap($('bulk-buy'), () => {
   if (!bulkState) return;
   const { kind, key, unitCost } = bulkState;
   const q = Math.max(1, Math.min(bulkState.maxBuy, parseInt($('bulk-qty').value, 10) || 1));
@@ -2031,7 +2053,7 @@ $('bulk-buy').onclick = () => {
   }
   $('bulk-overlay').classList.remove('show'); bulkState = null; G.userPaused = false;
   checkAchievements(); rebuildPanels(); renderAll();
-};
+});
 function buySeedBulk(crop) {
   const d = CROPS[crop];
   const max = Math.floor(G.money / d.seed);
@@ -2056,7 +2078,19 @@ function buildPlots() {
     const el = document.createElement('div');
     el.className = 'plot';
     el.dataset.index = idx;
-    el.addEventListener('click', () => onPlotClick(idx));
+    el.style.cursor = 'pointer';
+    // === FIX: dùng pointerup thay click ===
+    let downX = 0, downY = 0, downT = 0;
+    el.addEventListener('pointerdown', (e) => {
+      downX = e.clientX; downY = e.clientY; downT = Date.now();
+    }, { passive: true });
+    el.addEventListener('pointerup', (e) => {
+      if (Math.abs(e.clientX - downX) > 12) return;
+      if (Math.abs(e.clientY - downY) > 12) return;
+      if (Date.now() - downT > 1000) return;
+      e.stopPropagation();
+      onPlotClick(idx);
+    });
     container.appendChild(el);
   }
   plotSig = '';
@@ -2184,7 +2218,6 @@ function onPlotClick(i) {
     renderAll();
     return;
   }
-  // Cây đang lớn: bón phân bằng "Phân" (chất thải động vật)
   if (p.kind === 'crop' && !p.fert) {
     if (invCount('Phân') > 0) {
       if (confirm(`Bón phân (💩) để cây lớn nhanh ×2?`)) {
@@ -2231,7 +2264,6 @@ function harvestPlot(i) {
     const gene = p.gene || 'normal';
     const y = GENES[gene].yield;
     invAdd(prod, y);
-    // Sản xuất phân
     const waste = ANIMALS[p.name].waste || 1;
     invAdd('Phân', waste);
     G.dailyHarvests++;
@@ -2256,7 +2288,7 @@ function openPlantModal(i) {
         hasAny = true;
         const b = document.createElement('button'); b.className = 'modal-option';
         b.innerHTML = `<span>🌱 ${crop}</span><span class="count">còn ${n}</span>`;
-        b.onclick = () => { plantCrop(i, crop); closeModal(); };
+        bindTap(b, () => { plantCrop(i, crop); closeModal(); });
         body.appendChild(b);
       }
     }
@@ -2270,7 +2302,7 @@ function openPlantModal(i) {
       const g = GENES[it.gene] || GENES.normal;
       const b = document.createElement('button'); b.className = 'modal-option';
       b.innerHTML = `<span>${ANIMALS[it.base].emoji} ${it.base} ${g.emoji || ''}</span><span class="count">còn ${it.count}</span>`;
-      b.onclick = () => { placeAnimal(i, it.base, it.gene); closeModal(); };
+      bindTap(b, () => { placeAnimal(i, it.base, it.gene); closeModal(); });
       body.appendChild(b);
     }
   }
@@ -2282,7 +2314,7 @@ function openPlantModal(i) {
   $('modal-overlay').classList.add('show');
 }
 function closeModal() { $('modal-overlay').classList.remove('show'); G.userPaused = false; }
-$('modal-close').onclick = closeModal;
+bindTap($('modal-close'), closeModal);
 $('modal-overlay').onclick = e => { if (e.target.id === 'modal-overlay') closeModal(); };
 function plantCrop(i, name) {
   const key = 'Hạt ' + name;
@@ -2323,7 +2355,7 @@ function renderInventory() {
     return `<span class="inv-chip">${label} ×${it.count}${priceStr}</span>`;
   }).join('');
 }
-$('sell-all-btn').onclick = () => {
+bindTap($('sell-all-btn'), () => {
   let total = 0;
   for (const k in G.inventory) {
     const it = G.inventory[k];
@@ -2337,7 +2369,7 @@ $('sell-all-btn').onclick = () => {
   G.money += total; G.dailyRevenue += total; G.stats.totalEarned += total;
   setStatus(`🏪 Bán được ${total}$`);
   checkAchievements(); renderAll();
-};
+});
 
 /* ============ SUPERMARKET ============ */
 function renderSupermarket() {
@@ -2409,8 +2441,8 @@ function spawnOnlineOrder() {
     tv += itemCurrentPrice(it) * q;
   }
   const reward = Math.floor(tv * 1.8 + 300 + Math.random() * 400);
-  const prepTime = 300 + Math.random() * 300; // 5-10 phút
-  const shipTime = 300 + Math.random() * 300; // 5-10 phút
+  const prepTime = 300 + Math.random() * 300;
+  const shipTime = 300 + Math.random() * 300;
   G.onlineOrders.push({ id: ++G.onlineSeq, name: randomNpcName(), order, reward, prepTime, prepMax: prepTime, shipTime, shipMax: shipTime, phase: 'prep' });
   toast(`📦 Đơn online mới!`, 'info');
 }
@@ -2603,9 +2635,9 @@ function renderCustomers() {
       btRej.textContent = 'TỪ CHỐI';
       bot.appendChild(tr);
       bot.appendChild(btFull); bot.appendChild(btPart); bot.appendChild(btRej);
-      btFull.onclick = e => { e.stopPropagation(); deliver(cu.id); };
-      btPart.onclick = e => { e.stopPropagation(); doPartial(cu.id); };
-      btRej.onclick = e => { e.stopPropagation(); doReject(cu.id); };
+      bindTap(btFull, () => deliver(cu.id));
+      bindTap(btPart, () => doPartial(cu.id));
+      bindTap(btRej, () => doReject(cu.id));
       card.appendChild(top); card.appendChild(ord); card.appendChild(bot);
       list.appendChild(card);
     }
@@ -2727,19 +2759,16 @@ function gameLoop(now) {
   if (G.adTime > 0) G.adTime = Math.max(0, G.adTime - dt);
   G.energy = Math.min(100, G.energy + dt * 1.5);
 
-  // Workers
   for (const wrk of G.workers) {
     wrk.timer -= dt;
     if (wrk.timer <= 0) {
       const cfg = WORKER_TYPES[wrk.type];
       wrk.timer = wrk.interval;
-      // Auto harvest
       if (cfg.skill === 'harvest' || cfg.skill === 'plant' || cfg.skill === 'all' || cfg.skill === 'feed') {
         for (let i = 0; i < G.plots.length; i++) {
           if (isPlotUnlocked(i) && G.plots[i].ready && !G.plots[i].pest && !G.plots[i].hungry) { harvestPlot(i); break; }
         }
       }
-      // Feed animals
       if (cfg.skill === 'feed' || cfg.skill === 'all') {
         for (let i = 0; i < G.plots.length; i++) {
           if (!isPlotUnlocked(i)) continue;
@@ -2751,7 +2780,6 @@ function gameLoop(now) {
           }
         }
       }
-      // Plant
       if (cfg.skill === 'plant' || cfg.skill === 'all') {
         for (let i = 0; i < G.plots.length; i++) {
           if (!isPlotUnlocked(i)) continue;
@@ -2771,7 +2799,6 @@ function gameLoop(now) {
           plotSig = ''; break;
         }
       }
-      // Deliver
       if (cfg.skill === 'all') {
         for (let i = G.customers.length - 1; i >= 0; i--) {
           const cu = G.customers[i];
@@ -2855,23 +2882,23 @@ async function cloudSaveNow() {
   }
 }
 window.cloudSaveNow = cloudSaveNow;
-$('save-btn').onclick = async () => {
+bindTap($('save-btn'), async () => {
   saveGame(); toast('💾 Đang lưu...', 'info');
   const ok = await cloudSaveNow();
   toast(ok ? '☁️ Đã lưu Cloud!' : '💾 Đã lưu máy', ok ? 'info' : 'warn');
-};
+});
 
 /* ============ PAUSE ============ */
-$('pause-btn').onclick = () => {
+bindTap($('pause-btn'), () => {
   G.userPaused = !G.userPaused;
   $('pause-btn').textContent = G.userPaused ? '▶' : '⏸';
   $('pause-btn').className = 'top-btn ' + (G.userPaused ? 'active' : 'warn');
   $('paused-overlay').classList.toggle('show', G.userPaused);
   setStatus(G.userPaused ? '⏸ Đã tạm dừng' : '▶ Tiếp tục chơi');
-};
+});
 
 /* ============ RENAME ============ */
-$('rename-btn').onclick = () => {
+bindTap($('rename-btn'), () => {
   const newName = prompt(`Đổi tên nông trại (phí ${RENAME_COST.toLocaleString()}$):\nTên hiện tại: "${G.farmName}"`, G.farmName);
   if (!newName || newName.trim() === G.farmName) return;
   if (G.money < RENAME_COST) { toast(`Cần ${RENAME_COST.toLocaleString()}$!`, 'error'); return; }
@@ -2881,42 +2908,41 @@ $('rename-btn').onclick = () => {
   updateFarmTitle();
   toast(`✏️ Đã đổi tên: ${G.farmName}`, 'achievement');
   renderAll();
-};
+});
 
 /* ============ ZONE / TOOL ============ */
 document.querySelectorAll('.zone-tab').forEach(tab => {
-  tab.onclick = () => {
+  bindTap(tab, () => {
     document.querySelectorAll('.zone-tab').forEach(t => t.classList.remove('active'));
     tab.classList.add('active');
     G.zone = tab.dataset.zone;
     buildPlots(); applyTheme(); renderAll();
-  };
+  });
 });
 document.querySelectorAll('.tool-btn[data-tool]').forEach(btn => {
-  btn.onclick = () => {
+  bindTap(btn, () => {
     document.querySelectorAll('.tool-btn[data-tool]').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     G.tool = btn.dataset.tool;
     const msgs = { hand: 'Bấm ô để trồng / thu hoạch / bón phân', shovel: '🪏 Bấm ô để xoá', spray: '💨 Bấm cây có sâu để xịt thuốc' };
     $('tool-info').textContent = msgs[G.tool] || '';
-  };
+  });
 });
 
 /* ============ COLLAPSIBLE PANELS ============ */
 document.querySelectorAll('.panel-header').forEach(h => {
-  h.onclick = () => {
+  bindTap(h, () => {
     const panel = document.getElementById(h.dataset.panel);
     if (panel) panel.classList.toggle('collapsed');
-  };
+  });
 });
 
-/* Prevent double-tap zoom on iOS */
-let lastTouch = 0;
-document.addEventListener('touchend', e => {
-  const now = Date.now();
-  if (now - lastTouch <= 300) e.preventDefault();
-  lastTouch = now;
-}, { passive: false });
+/* ============================================================
+   FIX: XOÁ đoạn touchend + preventDefault toàn cục.
+   Đây là nguyên nhân chính khiến tap trên iPhone bị chặn.
+   Đã thay bằng `touch-action: manipulation` + `pointerup` ở trên.
+   ============================================================ */
+// (đã xoá)
 
 window.addEventListener('beforeunload', () => { saveGame(); });
 
