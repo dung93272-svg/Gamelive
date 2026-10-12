@@ -5,13 +5,22 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1B5E20">
 <title>🌾 Nông Trại Vui Vẻ 🌾</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{background:#10161a;color:#eceff1;font-family:-apple-system,'Segoe UI',Tahoma,sans-serif;min-height:100vh;min-height:100dvh;overflow-x:hidden;touch-action:manipulation;overscroll-behavior:none}
-body{padding:8px;padding:8px max(8px,env(safe-area-inset-right)) 8px max(8px,env(safe-area-inset-left));-webkit-text-size-adjust:100%}
+html,body{
+  background:#10161a;color:#eceff1;
+  font-family:-apple-system,'Segoe UI',Tahoma,sans-serif;
+  min-height:100vh;min-height:100dvh;
+  overflow-x:hidden;touch-action:manipulation;overscroll-behavior:none;
+  -webkit-touch-callout:none;                 /* 🔧 FIX iOS callout */
+  -webkit-user-select:none;user-select:none;  /* 🔧 FIX iOS select */
+  -webkit-text-size-adjust:100%;
+}
+body{padding:8px;padding:8px max(8px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left))}
 button{font-family:inherit;touch-action:manipulation;cursor:pointer;user-select:none;-webkit-user-select:none;border:none;background:none;color:inherit}
-input,textarea{font-family:inherit;font-size:16px!important;-webkit-appearance:none;appearance:none}
+input,textarea{font-family:inherit;font-size:16px!important;-webkit-appearance:none;appearance:none;-webkit-user-select:auto;user-select:auto}
 input[type=text],input[type=number],textarea{font-size:16px!important}
 select{font-size:16px!important}
 
@@ -64,6 +73,7 @@ select{font-size:16px!important}
 .stat.tax{color:#FF8A80}
 .stat.loan{color:#FF8A80}
 .stat.holiday{color:#FF80AB}
+.stat.worker{color:#80DEEA}   /* 🆕 HUD worker counter */
 .spacer{flex:1}
 .top-btn{padding:7px 10px;font-size:11px;border-radius:8px;background:#37474F;color:#fff;min-height:34px;font-weight:600;touch-action:manipulation}
 .top-btn:active{background:#546E7A}
@@ -72,14 +82,14 @@ select{font-size:16px!important}
 
 #main{display:flex;flex-wrap:wrap;gap:8px;padding:8px;align-items:flex-start}
 #farm-area{flex:1 1 700px;min-width:0;max-width:100%}
-#farm-wrap{position:relative;width:100%;max-width:700px;margin:0 auto;border-radius:10px;overflow:hidden;border:3px solid #37474F;touch-action:manipulation}
-#farm{position:relative;width:700px;height:680px;transform-origin:top left;overflow:hidden}
+#farm-wrap{position:relative;width:100%;max-width:700px;margin:0 auto;border-radius:10px;overflow:hidden;border:3px solid #37474F;touch-action:manipulation;overscroll-behavior:contain}
+#farm{position:relative;width:700px;height:680px;transform-origin:top left;overflow:hidden;will-change:transform;transform:translateZ(0);backface-visibility:hidden}
 #sky{position:absolute;top:0;left:0;right:0;height:125px;transition:background .6s}
 #ground{position:absolute;top:125px;left:0;right:0;bottom:0;transition:background .6s}
 #farm-decor{position:absolute;inset:0;pointer-events:none;z-index:1}
 #farm-decor span{position:absolute;filter:drop-shadow(0 3px 4px rgba(0,0,0,.4));user-select:none}
 
-#theme-fx{position:absolute;inset:0;pointer-events:none;z-index:2;overflow:hidden}
+#theme-fx{position:absolute;inset:0;pointer-events:none;z-index:2;overflow:hidden;will-change:transform,opacity;transform:translateZ(0)}
 .theme-particle{position:absolute;pointer-events:none;user-select:none;font-size:16px;opacity:.9}
 @keyframes pButterfly{0%,100%{transform:translate(0,0) rotate(0)}25%{transform:translate(30px,-20px) rotate(15deg)}50%{transform:translate(60px,0) rotate(-10deg)}75%{transform:translate(30px,20px) rotate(10deg)}}
 @keyframes pLeaf{0%{transform:translate(0,0) rotate(0);opacity:0}10%{opacity:1}100%{transform:translate(-80px,200px) rotate(360deg);opacity:0}}
@@ -93,7 +103,7 @@ select{font-size:16px!important}
 @keyframes pSparkle{0%,100%{opacity:.2;transform:scale(.8) rotate(0)}50%{opacity:1;transform:scale(1.3) rotate(180deg)}}
 
 #holiday-overlay{position:absolute;inset:0;pointer-events:none;z-index:3;transition:background .8s,opacity .8s}
-#holiday-decor{position:absolute;inset:0;pointer-events:none;z-index:4;overflow:hidden}
+#holiday-decor{position:absolute;inset:0;pointer-events:none;z-index:4;overflow:hidden;will-change:transform,opacity;transform:translateZ(0)}
 .holiday-lantern{position:absolute;font-size:22px;animation:lanternSwing 3s ease-in-out infinite;transform-origin:top center;filter:drop-shadow(0 3px 6px rgba(0,0,0,.4))}
 @keyframes lanternSwing{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
 .holiday-petal{position:absolute;top:-20px;font-size:16px;animation:petalFall linear infinite;pointer-events:none}
@@ -161,7 +171,7 @@ select{font-size:16px!important}
 @keyframes pulse{0%,100%{box-shadow:inset 0 -4px 0 rgba(0,0,0,.15),0 0 0 0 rgba(255,213,79,.85)}50%{box-shadow:inset 0 -4px 0 rgba(0,0,0,.15),0 0 0 8px rgba(255,213,79,0)}}
 .ready-tag{position:absolute;top:3px;left:50%;transform:translateX(-50%);background:#FFD54F;color:#3E2723;font-size:7.5px;font-weight:bold;padding:2px 5px;border-radius:6px;white-space:nowrap;pointer-events:none}
 
-#side-panel{flex:1 1 380px;min-width:280px;display:flex;flex-direction:column;gap:6px}
+#side-panel{flex:1 1 380px;min-width:280px;display:flex;flex-direction:column;gap:6px;padding-bottom:max(0px,env(safe-area-inset-bottom))}
 .panel{background:#263238;border-radius:10px;border:1px solid #37474F;overflow:hidden}
 .panel-header{padding:10px 12px;cursor:pointer;user-select:none;display:flex;justify-content:space-between;align-items:center;gap:6px;font-size:11.5px;color:#80CBC4;letter-spacing:.4px;font-weight:600;background:#2a373d;min-height:40px;touch-action:manipulation}
 .panel-header:active{background:#2f4048}
@@ -186,6 +196,7 @@ select{font-size:16px!important}
 .shop-btn:active{background:#546E7A}
 .shop-btn .price{color:#FFD54F;font-weight:bold;font-size:10px}
 .shop-btn .name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0}
+.shop-btn:disabled{opacity:.5;cursor:not-allowed}
 .ad-row{display:grid;grid-template-columns:1fr 1fr;gap:4px}
 .ad-btn{background:#5D4037;color:#fff;border-radius:7px;padding:9px 6px;font-size:11px;min-height:38px;touch-action:manipulation}
 .ad-btn:active{background:#795548}
@@ -197,13 +208,13 @@ select{font-size:16px!important}
 .worker-btn.hired{background:#2E7D32;cursor:default}
 .worker-btn.hired .worker-cost{color:#C8E6C9}
 .worker-detail{font-size:9px;color:#B0BEC5;font-weight:400;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#inventory-list{display:flex;flex-wrap:wrap;gap:4px;font-size:10.5px;min-height:20px;max-height:140px;overflow-y:auto;padding-right:2px}
+#inventory-list{display:flex;flex-wrap:wrap;gap:4px;font-size:10.5px;min-height:20px;max-height:140px;overflow-y:auto;padding-right:2px;-webkit-overflow-scrolling:touch}
 .inv-chip{background:#37474F;padding:3px 8px;border-radius:9px;border:1px solid #546E7A;font-size:10px}
 .inv-chip .chip-price{color:#FFD54F;font-size:9px;margin-left:3px}
 .inv-empty{color:#78909C;font-style:italic;font-size:10.5px}
 .sell-btn{width:100%;margin-top:7px;background:#455A64;color:#fff;border-radius:7px;padding:9px;font-size:11px;min-height:38px;font-weight:600;touch-action:manipulation}
 .sell-btn:active{background:#546E7A}
-#customer-list{max-height:320px;overflow-y:auto;padding-right:2px}
+#customer-list{max-height:320px;overflow-y:auto;padding-right:2px;-webkit-overflow-scrolling:touch}
 .customer{background:#37474F;border-radius:9px;padding:8px 10px;margin-bottom:5px;border-left:4px solid #FFC107}
 .customer.vip{border-left-color:#FF80AB;background:#3a2f47}
 .customer.rare{border-left-color:#B39DDB;background:#2f2a44}
@@ -233,6 +244,12 @@ select{font-size:16px!important}
 .sm-comp.win{color:#A5D6A7}.sm-comp.lose{color:#EF9A9A}
 .sm-slider{width:80px;flex-shrink:0}
 .sm-slider input{width:100%}
+/* 🔧 FIX iOS slider style */
+.sm-slider input[type=range]{-webkit-appearance:none;appearance:none;height:22px;background:transparent}
+.sm-slider input[type=range]::-webkit-slider-runnable-track{height:6px;background:#546E7A;border-radius:3px}
+.sm-slider input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#FFC107;margin-top:-7px;box-shadow:0 2px 4px rgba(0,0,0,.5)}
+.sm-slider input[type=range]::-moz-range-track{height:6px;background:#546E7A;border-radius:3px}
+.sm-slider input[type=range]::-moz-range-thumb{width:20px;height:20px;border:none;border-radius:50%;background:#FFC107}
 .sm-remove{background:#B71C1C;color:#fff;border-radius:6px;padding:4px 8px;font-size:10px;min-height:26px;touch-action:manipulation;font-weight:bold}
 .online-card{background:#1f2b30;border-radius:9px;padding:8px 10px;margin-bottom:5px;border-left:4px solid #29B6F6}
 .online-card.shipping{border-left-color:#FFB300}
@@ -244,19 +261,27 @@ select{font-size:16px!important}
 .online-track{flex:1;height:6px;background:#1c262b;border-radius:3px;overflow:hidden}
 .online-fill{height:100%;background:#29B6F6;border-radius:3px}
 .online-fill.shipping{background:#FFB300}
-#review-list{max-height:200px;overflow-y:auto;padding-right:2px}
+#review-list{max-height:200px;overflow-y:auto;padding-right:2px;-webkit-overflow-scrolling:touch}
 .review-item{background:#1f2b30;border-radius:8px;padding:6px 9px;font-size:10.5px;border-left:3px solid #4DD0E1;margin-bottom:4px}
 .review-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px}
 .review-name{font-weight:bold;color:#FFD54F;font-size:10.5px}
 .review-stars{color:#FFC107;font-size:10.5px}
 .review-text{color:#CFD8DC;font-style:italic}
-#ach-panel-list{display:grid;gap:4px;max-height:200px;overflow-y:auto}
+#ach-panel-list{display:grid;gap:4px;max-height:200px;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .ach-item{background:#37474F;border-radius:7px;padding:5px 9px;font-size:10.5px;display:flex;align-items:center;gap:6px}
 .ach-item.done{background:#2E7D32;color:#C8E6C9}
 .ach-emoji{font-size:13px}
 .ach-name{flex:1;min-width:0}
 .ach-progress{color:#90A4AE;font-size:9.5px;font-weight:bold}
 .ach-item.done .ach-progress{color:#A5D6A7}
+
+/* 🆕 Worker card styles */
+.worker-card{background:#1f2b30;border-radius:9px;padding:8px 10px;margin-bottom:5px;border-left:4px solid #FFD54F}
+.worker-card.on-leave{border-left-color:#FFB74D;background:#2c2418}
+.worker-card.unhappy{border-left-color:#EF5350;background:#2c1a1a}
+.worker-mood{font-size:10px;font-weight:bold}
+.worker-actions{display:flex;gap:4px;margin-top:5px;flex-wrap:wrap}
+.worker-actions button{padding:5px 9px;border-radius:6px;font-size:10px;font-weight:bold;min-height:28px;touch-action:manipulation}
 
 #status-bar{padding:8px 12px;background:#0d1418;border-top:2px solid #263238;font-size:11.5px;color:#FFF59D;min-height:34px;display:flex;align-items:center}
 
@@ -327,16 +352,13 @@ select{font-size:16px!important}
   #farm-title-bar .name{max-width:120px;font-size:11.5px}
   .sm-slider{width:70px}
 }
-@supports (-webkit-touch-callout:none){
-  body{min-height:-webkit-fill-available}
-}
 </style>
 </head>
 <body>
 
 <div id="start-screen">
   <h1>🌾 NÔNG TRẠI VUI VẺ 🌾</h1>
-  <p class="subtitle">50 ô · 24h/ngày · Nhân công · Thuế · Ngân hàng · Chó canh · Ong mật · Lễ Tết</p>
+  <p class="subtitle">50 ô · 24h/ngày · 8 nhân công · Thuế · Ngân hàng · Chó canh · Ong mật · Lễ Tết · Dịch bệnh</p>
   <div id="auth-area">
     <p class="auth-label">🔐 Đăng nhập để đồng bộ save</p>
     <div class="auth-buttons">
@@ -359,7 +381,7 @@ select{font-size:16px!important}
     <div class="theme-grid" id="theme-grid"></div>
     <button class="btn-primary" id="start-btn">▶ BẮT ĐẦU MỚI</button>
     <button id="resume-btn">📂 CHƠI TIẾP</button>
-    <p class="hint">💡 Đổi tên: 100k | Vay bank 10%/ngày | Thuế 10% lợi nhuận</p>
+    <p class="hint">💡 Đổi tên: 100k | Vay bank 10%/ngày | Thuế 10% | Tối đa 8 nhân công</p>
   </div>
 </div>
 
@@ -380,6 +402,7 @@ select{font-size:16px!important}
     <span class="stat rep" id="hud-rep">⭐ 5.0</span>
     <span class="stat stars" id="hud-stars">🌟 4.5★</span>
     <span class="stat energy" id="hud-energy">⚡ 100</span>
+    <span class="stat worker" id="hud-worker">👥 0/8</span>  <!-- 🆕 -->
     <span class="stat ach" id="hud-ach">🏆 0/14</span>
     <span class="spacer"></span>
     <span class="stat ad inactive" id="hud-ad">📢 QC</span>
@@ -470,7 +493,7 @@ select{font-size:16px!important}
       </div>
 
       <div class="panel collapsed" id="panel-workers">
-        <div class="panel-header" data-panel="panel-workers"><span>🧑‍🌾 Nhân công <span class="badge" id="worker-badge">0</span></span><span class="chevron">▼</span></div>
+        <div class="panel-header" data-panel="panel-workers"><span>🧑‍🌾 Nhân công <span class="badge" id="worker-badge">0/8</span></span><span class="chevron">▼</span></div>
         <div class="panel-body" id="workers-panel"></div>
       </div>
 
@@ -603,8 +626,10 @@ window.Cloud = {
     if (!this.ready || !this.userId) return false;
     try {
       const json = JSON.stringify(data);
-      if (json.length > 900000) return false;
-      await setDoc(doc(db, 'saves', this.userId), { data: json, updatedAt: serverTimestamp(), version: 10, day: data.day || 1, money: data.money || 0 });
+      // 🔧 FIX: kiểm tra byte thực (UTF-8) thay vì số ký tự
+      const bytes = new Blob([json]).size;
+      if (bytes > 900000) return false;
+      await setDoc(doc(db, 'saves', this.userId), { data: json, updatedAt: serverTimestamp(), version: 11, day: data.day || 1, money: data.money || 0 });
       this.lastSync = Date.now();
       return true;
     } catch (e) { return false; }
@@ -731,45 +756,35 @@ window.updateCloudHUD = state => {
 const tapHandlers = new WeakMap();
 function tap(el, fn) { if (el) tapHandlers.set(el, fn); }
 
-let pendingTap = null, pendingTimer = null;
-let pointerStartX = 0, pointerStartY = 0;
-function cancelPendingTap() {
-  if (pendingTimer) { clearTimeout(pendingTimer); pendingTimer = null; }
-  pendingTap = null;
-}
+/* 🔧 FIX: bỏ delay 90ms, thay bằng pointerdown + pointerup + threshold */
+let pressTarget = null, pressX = 0, pressY = 0, pressPointerId = null;
 document.addEventListener('pointerdown', (e) => {
   if (e.pointerType === 'mouse' && e.button !== 0) return;
   const tag = (e.target.tagName || '').toUpperCase();
   if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
-  pointerStartX = e.clientX; pointerStartY = e.clientY;
+  pressX = e.clientX; pressY = e.clientY;
+  pressPointerId = e.pointerId;
+  pressTarget = null;
   let node = e.target;
   while (node && node !== document) {
-    if (tapHandlers.has(node)) {
-      const fn = tapHandlers.get(node);
-      e.stopPropagation();
-      if (e.pointerType === 'mouse') {
-        fn(e, node);
-      } else {
-        cancelPendingTap();
-        const data = { fn, node, event: e };
-        pendingTap = data;
-        pendingTimer = setTimeout(() => {
-          if (pendingTap === data) {
-            pendingTap = null; pendingTimer = null;
-            fn(e, node);
-          }
-        }, 90);
-      }
-      return;
-    }
+    if (tapHandlers.has(node)) { pressTarget = node; break; }
     node = node.parentNode;
   }
 }, { passive: true });
-document.addEventListener('scroll', cancelPendingTap, { passive: true, capture: true });
-document.addEventListener('pointermove', (e) => {
-  if (!pendingTap) return;
-  if (Math.abs(e.clientX - pointerStartX) > 10 || Math.abs(e.clientY - pointerStartY) > 10) cancelPendingTap();
-}, { passive: true, capture: true });
+
+document.addEventListener('pointerup', (e) => {
+  if (!pressTarget || e.pointerId !== pressPointerId) { pressTarget = null; return; }
+  if (Math.abs(e.clientX - pressX) > 10 || Math.abs(e.clientY - pressY) > 10) {
+    pressTarget = null; return;
+  }
+  const node = pressTarget;
+  const fn = tapHandlers.get(node);
+  pressTarget = null; pressPointerId = null;
+  if (fn) { e.stopPropagation(); fn(e, node); }
+}, { passive: false });
+
+document.addEventListener('pointercancel', () => { pressTarget = null; pressPointerId = null; }, { passive: true });
+document.addEventListener('scroll', () => { pressTarget = null; }, { passive: true, capture: true });
 
 /* ============ DATA ============ */
 const CROPS = {
@@ -811,6 +826,9 @@ const WORKER_TYPES = {
   "Quản lý":  { baseCost: 5000,  salary: 1500, skill: "deliver", emoji: "🧑‍💼", desc: "Giao đơn + thông báo" },
   "Chăn nuôi":{ baseCost: 1200,  salary: 400,  skill: "feed",    emoji: "👩‍🌾", desc: "Cho ăn + thu hoạch" }
 };
+const MAX_WORKERS = 8;             // 🆕 Giới hạn nhân công
+const MAX_WORKER_LEAVE_DAYS = 3;   // 🆕 Nghỉ tối đa
+
 const PERSONALITIES = ["chăm chỉ","lười biếng","nhanh nhẹn","cẩn thận","vụng về","thông minh","vui tính","trầm lặng","nóng tính","kiên nhẫn"];
 const HO = ["Nguyễn","Trần","Lê","Phạm","Hoàng","Huỳnh","Vũ","Võ","Đặng","Bùi","Đỗ","Hồ","Ngô","Dương","Lý","Đinh","Tạ","Trịnh","Cao","Mai"];
 const DEM = ["Văn","Thị","Minh","Hữu","Thanh","Quốc","Ngọc","Kim","Anh","Đức","Xuân","Thu"];
@@ -819,6 +837,37 @@ const TITLES = ["Anh","Chị","Cô","Chú","Bác","Em","Ông","Bà","Cậu","Dì
 const REVIEWS_GOOD = ["Tuyệt vời!","Giao nhanh!","Sẽ quay lại!","Uy tín!","Đúng hẹn!","Hàng tươi!"];
 const REVIEWS_MID = ["Được.","Cũng tạm.","Hàng đúng, hơi chậm.","OK."];
 const REVIEWS_BAD = ["Chờ lâu!","Giao trễ!","Không hài lòng.","Thất vọng!"];
+
+/* 🆕 Lời thoại NPC nhân công */
+const WORKER_LEAVE_REASONS = [
+  "Con bị ốm, xin nghỉ vài ngày",
+  "Về quê ăn giỗ ông nội",
+  "Vợ/chồng sinh em bé",
+  "Nhà có đám cưới họ hàng",
+  "Đi khám sức khoẻ định kỳ",
+  "Con vào năm học mới, cần đưa đón",
+  "Chăm mẹ già đang bệnh",
+  "Đi đám tang bên ngoại"
+];
+const WORKER_OPINIONS = [
+  { emoji: "💡", text: "Nên mua thêm máy nghiền để tự chế cám, rẻ hơn mua ngoài!", type: "tip" },
+  { emoji: "😟", text: "Trang trại thiếu chó canh, ban đêm bọn trộm hay rình rập...", type: "warn" },
+  { emoji: "🌾", text: "Nên trồng thêm lúa, đất bỏ không uổng lắm!", type: "tip" },
+  { emoji: "💧", text: "Cây héo vì thiếu nước, chủ nên để ý hơn...", type: "warn" },
+  { emoji: "🐔", text: "Gà nhà mình ăn cám ngon hơn nữa là đẻ trứng đều!", type: "tip" },
+  { emoji: "💰", text: "Lương giờ hơi thấp so với mặt bằng chung...", type: "complain" },
+  { emoji: "🤝", text: "Tôi muốn nhận thêm việc, chủ cứ giao thêm cho tôi!", type: "good" },
+  { emoji: "😴", text: "Tôi thấy làm hoài mệt quá, mong được nghỉ ngơi...", type: "complain" },
+  { emoji: "📈", text: "Giá nông sản đang lên, chủ bán nhiều vào!", type: "tip" },
+  { emoji: "🐛", text: "Sâu bọ hoành hành, chủ nhớ mua thuốc trừ sâu!", type: "warn" }
+];
+const WORKER_QUIT_REASONS = [
+  "Lương thấp quá, không đủ sống",
+  "Chủ không quan tâm đến nhân viên",
+  "Muốn sang làm cho trang trại khác",
+  "Bị bệnh nặng, phải về quê",
+  "Gia đình có biến cố, xin nghỉ việc"
+];
 
 const GENES = {
   normal:  { emoji: "",   label: "Thường",    weight: 90, yield: 1 },
@@ -928,7 +977,7 @@ const PLOTS_PER_ZONE = COLS * ROWS_PER_ZONE;
 const TOTAL_PLOTS = PLOTS_PER_ZONE * 2;
 const FARM_W = 700, FARM_H = 680;
 const DAY_DURATION = 240;
-const SAVE_KEY = 'ntvv_save_v10';
+const SAVE_KEY = 'ntvv_save_v11';
 
 /* ============ STATE ============ */
 const G = {
@@ -946,6 +995,8 @@ const G = {
   nextEventDay: 3,
   reviews: [], reviewStars: [],
   vaccineActive: false, vaccineDay: 0, birdFluDay: 0,
+  swineCholeraDay: 0,          // 🆕 Ngày dịch tả lợn bùng
+  secretSellCount: 0,          // 🆕 Đếm vụ bán chui
   zone: 'crop', tool: 'hand',
   stats: { plantsTotal: 0, carrotsPlanted: 0, chickensRaised: 0, totalEarned: 0, rareOwned: 0, goldOwned: 0, closeFriends: 0, weatherSeen: 1, daysPlayed: 1, deliveries: 0, bugsCaught: 0, themesOwned: 1, dogsOwned: 0 },
   unlockedAch: [],
@@ -956,14 +1007,15 @@ const G = {
   workerHappiness: 1,
   holidayBoostDays: 0,
   warehouseCap: 80,
-  phase: 'playing', userPaused: false,
-  running: false, lastTime: 0, lastSave: 0, lastCloudSave: 0
+  phase: 'playing', userPaused: false, pauseRef: 0,   // 🔧 FIX
+  running: false, lastTime: 0, lastSave: 0, lastCloudSave: 0,
+  _lastPausedRender: 0    // 🔧 FIX throttle render khi paused
 };
 
 const $ = id => document.getElementById(id);
 function toast(msg, cls = '') {
   const el = document.createElement('div');
-  el.className = 'toast' + (cls ? ' ' + cls : '');
+  el.className = 'toast' + (cls ? ' ' + cls : '');   // 🔧 FIX: ' ' + cls
   el.textContent = msg;
   $('toast-container').appendChild(el);
   setTimeout(() => el.remove(), 2600);
@@ -976,6 +1028,26 @@ function isPlotUnlocked(i) {
   return Math.floor((i - PLOTS_PER_ZONE) / COLS) < G.unlockedRowsAnimal;
 }
 function plotZoneOf(i) { return i < PLOTS_PER_ZONE ? 'crop' : 'animal'; }
+
+/* 🔧 FIX: pause/unpause bằng counter */
+function pause(reason) {
+  G.pauseRef++;
+  G.userPaused = true;
+  const b = $('pause-btn');
+  if (b) { b.textContent = '▶'; b.className = 'top-btn active'; }
+  const o = $('paused-overlay');
+  if (o) o.classList.add('show');
+}
+function unpause() {
+  G.pauseRef = Math.max(0, G.pauseRef - 1);
+  if (G.pauseRef === 0) {
+    G.userPaused = false;
+    const b = $('pause-btn');
+    if (b) { b.textContent = '⏸'; b.className = 'top-btn warn'; }
+    const o = $('paused-overlay');
+    if (o) o.classList.remove('show');
+  }
+}
 
 /* ============ WAREHOUSE ============ */
 function invStackCount() {
@@ -1062,8 +1134,13 @@ function rescaleFarm() {
   farm.style.transform = `scale(${scale})`;
   wrap.style.height = Math.round(FARM_H * scale) + 'px';
 }
-window.addEventListener('resize', rescaleFarm);
-window.addEventListener('orientationchange', () => setTimeout(rescaleFarm, 200));
+/* 🔧 FIX: debounce resize */
+let resizeRaf = null;
+window.addEventListener('resize', () => {
+  if (resizeRaf) cancelAnimationFrame(resizeRaf);
+  resizeRaf = requestAnimationFrame(rescaleFarm);
+}, { passive: true });
+window.addEventListener('orientationchange', () => setTimeout(rescaleFarm, 200), { passive: true });
 
 function timeString() {
   const minutes = (G.dayTime / DAY_DURATION) * 24 * 60;
@@ -1076,8 +1153,6 @@ function isNight() {
   const h = Math.floor(minutes / 60) % 24;
   return h >= 19 || h < 5;
 }
-
-/* ============ HOLIDAYS ============ */
 function checkHolidayFor(day) {
   if (day <= 0) return null;
   if (day % 15 !== 0) return null;
@@ -1156,6 +1231,9 @@ function applyLoadedData(data) {
   if (!Array.isArray(G.dogs)) G.dogs = [];
   if (!Array.isArray(G.ownedMills)) G.ownedMills = [];
   if (typeof G.loan !== 'number') G.loan = 0;
+  if (typeof G.secretSellCount !== 'number') G.secretSellCount = 0;
+  if (typeof G.swineCholeraDay !== 'number') G.swineCholeraDay = 0;
+  if (typeof G.pauseRef !== 'number') G.pauseRef = 0;
   if (!G.supermarket) G.supermarket = { prices: {}, competitors: {}, salesToday: 0, shelved: [] };
   if (!G.supermarket.prices) G.supermarket.prices = {};
   if (!G.supermarket.competitors) G.supermarket.competitors = {};
@@ -1167,8 +1245,14 @@ function applyLoadedData(data) {
   if (Array.isArray(G.plots)) G.plots.forEach(p => {
     if (typeof p.hungry !== 'boolean') p.hungry = p.kind === 'animal' && !ANIMALS[p.name]?.noFeed;
     if (typeof p.sick !== 'boolean') p.sick = false;
-    // Clean legacy fields
     delete p.fert; delete p.water;
+  });
+  if (Array.isArray(G.workers)) G.workers.forEach(w => {
+    if (typeof w.onLeave !== 'boolean') w.onLeave = false;
+    if (typeof w.leaveDays !== 'number') w.leaveDays = 0;
+    if (typeof w.mood !== 'number') w.mood = 70;
+    if (typeof w.opinions !== 'number') w.opinions = 0;
+    if (!w.pendingOpinion) w.pendingOpinion = null;
   });
   G.stats.themesOwned = G.ownedThemes.length;
   G.stats.dogsOwned = G.dogs.length;
@@ -1198,7 +1282,8 @@ function resetG(name, themeKey) {
   G.dailyDeliveries = 0; G.dailyHarvests = 0;
   G.nextEventDay = 3;
   G.reviews = []; G.reviewStars = [];
-  G.vaccineActive = false; G.vaccineDay = 0; G.birdFluDay = 0;
+  G.vaccineActive = false; G.vaccineDay = 0; G.birdFluDay = 0; G.swineCholeraDay = 0;
+  G.secretSellCount = 0;
   G.zone = 'crop'; G.tool = 'hand';
   G.stats = { plantsTotal: 0, carrotsPlanted: 0, chickensRaised: 0, totalEarned: 0, rareOwned: 0, goldOwned: 0, closeFriends: 0, weatherSeen: 1, daysPlayed: 1, deliveries: 0, bugsCaught: 0, themesOwned: 1, dogsOwned: 0 };
   G.unlockedAch = [];
@@ -1209,7 +1294,8 @@ function resetG(name, themeKey) {
   G.workerHappiness = 1;
   G.holidayBoostDays = 0;
   G.warehouseCap = 80;
-  G.phase = 'playing'; G.userPaused = false;
+  G.phase = 'playing'; G.userPaused = false; G.pauseRef = 0;
+  G._lastPausedRender = 0;
   for (const c in CROPS) if (CROPS[c].unlockCost === 0) G.unlockedCrops.push(c);
 }
 function startNewGame(name, themeKey) {
@@ -1491,7 +1577,7 @@ function showNews() {
   }
   if (G.vaccineActive) {
     const d = document.createElement('div'); d.className = 'news-item'; d.style.borderLeftColor = '#4CAF50';
-    d.innerHTML = `<strong>💉 Vaccine hiệu lực</strong><br>Đàn gia cầm được bảo vệ.`;
+    d.innerHTML = `<strong>💉 Vaccine hiệu lực</strong><br>Đàn gia súc/gia cầm được bảo vệ.`;
     body.appendChild(d);
   }
   const socials = [
@@ -1561,7 +1647,7 @@ function advanceDay() {
     if (tax > 0) { G.money -= tax; G.dailyTax = tax; }
   }
   let totalSalary = 0;
-  for (const w of G.workers) totalSalary += w.salary;
+  for (const w of G.workers) if (!w.onLeave) totalSalary += w.salary;
   if (totalSalary > 0) { G.money -= totalSalary; G.dailySalary = totalSalary; }
   const rent = (G.unlockedRowsCrop + G.unlockedRowsAnimal) * LAND_RENT_PER_ROW;
   if (rent > 0) { G.money -= rent; G.dailyRent = rent; }
@@ -1586,6 +1672,29 @@ function advanceDay() {
     G.holidayToday = checkHolidayFor(G.day);
     if (G.holidayBoostDays > 0) G.holidayBoostDays--;
 
+    // 🆕 Giảm ngày nghỉ phép của nhân công
+    for (const w of G.workers) {
+      if (w.onLeave) {
+        w.leaveDays--;
+        if (w.leaveDays <= 0) {
+          w.onLeave = false;
+          w.mood = Math.min(100, w.mood + 10);
+          toast(`🧑‍🌾 ${w.name} đã đi làm lại!`, 'info');
+        }
+      } else {
+        // Mood giảm dần nếu không được chăm sóc
+        w.mood = Math.max(20, w.mood - 1);
+      }
+    }
+    // 🆕 Kiểm tra mood thấp → có thể tự nghỉ việc
+    for (let i = G.workers.length - 1; i >= 0; i--) {
+      const w = G.workers[i];
+      if (w.mood < 25 && Math.random() < 0.25) {
+        toast(`😡 ${w.name} đã tự ý nghỉ việc vì bất mãn!`, 'error');
+        G.workers.splice(i, 1);
+      }
+    }
+
     const weights = { sunny: 35, rain: 25, cold: 15, storm: 15, rainbow: 10 };
     let total = Object.values(weights).reduce((s, w) => s + w, 0);
     let r = Math.random() * total; let chosen = 'sunny';
@@ -1605,9 +1714,16 @@ function advanceDay() {
     if (G.vaccineActive && G.day - G.vaccineDay >= 5) { G.vaccineActive = false; toast('💉 Vaccine hết hiệu lực.', 'info'); }
 
     G.birdFluDay = 0;
+    G.swineCholeraDay = 0;
+    // 🆕 Cúm gia cầm (gà/vịt)
     if (!G.vaccineActive && Math.random() < 0.12) {
-      const hasChickens = G.plots.some((p, i) => isPlotUnlocked(i) && p.kind === 'animal' && p.name === 'Gà');
-      if (hasChickens) G.birdFluDay = G.day;
+      const hasBirds = G.plots.some((p, i) => isPlotUnlocked(i) && p.kind === 'animal' && (p.name === 'Gà' || p.name === 'Vịt'));
+      if (hasBirds) G.birdFluDay = G.day;
+    }
+    // 🆕 Dịch tả lợn châu Phi (chỉ heo)
+    if (!G.vaccineActive && Math.random() < 0.10) {
+      const hasPigs = G.plots.some((p, i) => isPlotUnlocked(i) && p.kind === 'animal' && p.name === 'Heo');
+      if (hasPigs) G.swineCholeraDay = G.day;
     }
 
     checkAchievements();
@@ -1615,16 +1731,28 @@ function advanceDay() {
     G.phase = 'news';
     showNews();
 
+    // 🆕 Thứ tự ưu tiên event
     if (G.holidayToday) {
       setTimeout(holidayEvent, 700);
-    } else if (G.day >= G.nextInspectionDay && Math.random() < 0.4) {
-      G.nextInspectionDay = G.day + 4 + Math.floor(Math.random() * 4);
-      setTimeout(inspectionEvent, 700);
+    } else if (G.swineCholeraDay === G.day) {
+      setTimeout(swineCholeraEvent, 700);
+      G.nextEventDay = G.day + 2;
     } else if (G.birdFluDay === G.day) {
       setTimeout(birdFluEvent, 700);
       G.nextEventDay = G.day + 2;
+    } else if (G.day >= G.nextInspectionDay && Math.random() < 0.4) {
+      G.nextInspectionDay = G.day + 4 + Math.floor(Math.random() * 4);
+      setTimeout(inspectionEvent, 700);
     } else {
-      if (Math.random() < 0.35 && G.plots.some((p, i) => isPlotUnlocked(i) && p.kind === 'animal')) {
+      // 🆕 Pool mở rộng: thêm workerLeave, workerOpinion, workerQuitWarning
+      const roll = Math.random();
+      if (G.workers.length > 0 && roll < 0.28) {
+        setTimeout(workerLeaveRequest, 700);
+      } else if (G.workers.length > 0 && roll < 0.45) {
+        setTimeout(workerOpinionEvent, 700);
+      } else if (G.workers.some(w => w.mood < 40) && roll < 0.55) {
+        setTimeout(workerQuitWarning, 700);
+      } else if (roll < 0.68 && G.plots.some((p, i) => isPlotUnlocked(i) && p.kind === 'animal')) {
         setTimeout(thiefEvent, 700);
       } else if (G.day >= G.nextEventDay && Math.random() < 0.6) {
         setTimeout(triggerRandomEvent, 700);
@@ -1641,8 +1769,9 @@ function advanceDay() {
 function triggerRandomEvent() {
   if (G.phase !== 'playing') return;
   G.phase = 'event';
-  const pool = [chickenEscape, neighborHelp, animalEscape, sickAnimal, thiefEvent];
+  const pool = [chickenEscape, neighborHelp, animalEscape, sickAnimal, thiefEvent, bigAnimalEscape];
   if (!G.vaccineActive && G.birdFluDay === 0) pool.push(birdFluEvent);
+  if (!G.vaccineActive && G.swineCholeraDay === 0) pool.push(swineCholeraEvent);
   pick(pool)();
 }
 
@@ -1669,6 +1798,7 @@ function holidayEvent() {
       G.workerHappiness = Math.min(1.5, G.workerHappiness + 0.4);
       G.holidayBoostDays = 3;
       G.reputation = Math.min(10, G.reputation + 0.5);
+      for (const w of G.workers) w.mood = Math.min(100, w.mood + 30);
       toast('🧧 Nhân viên rất vui!', 'achievement');
       closeEvent(); renderAll();
     });
@@ -1682,6 +1812,7 @@ function holidayEvent() {
       G.workerHappiness = Math.min(2, G.workerHappiness + 0.6);
       G.holidayBoostDays = 5;
       G.reputation = Math.min(10, G.reputation + 0.8);
+      for (const w of G.workers) w.mood = Math.min(100, w.mood + 45);
       toast('🥮 Nhân viên cảm động!', 'achievement');
       closeEvent(); renderAll();
     });
@@ -1693,6 +1824,7 @@ function holidayEvent() {
       let quit = 0;
       G.workers = G.workers.filter(w => { if (Math.random() < 0.30) { quit++; return false; } return true; });
       G.workerHappiness = Math.max(0.3, G.workerHappiness - 0.4);
+      for (const w of G.workers) w.mood = Math.max(10, w.mood - 40);
       if (quit > 0) toast(`😡 ${quit} nhân viên đã nghỉ việc!`, 'error');
       else toast('😐 Nhân viên buồn nhưng vẫn ở lại.', 'warn');
       closeEvent(); rebuildPanels(); renderAll();
@@ -1710,6 +1842,7 @@ function holidayEvent() {
       G.workerHappiness = Math.min(1.5, G.workerHappiness + 0.3);
       G.holidayBoostDays = 2;
       G.reputation = Math.min(10, G.reputation + 0.4);
+      for (const w of G.workers) w.mood = Math.min(100, w.mood + 25);
       toast('🥮 Nhân viên rất vui!', 'achievement');
       closeEvent(); renderAll();
     });
@@ -1722,6 +1855,7 @@ function holidayEvent() {
       G.money -= 80 * n; G.dailyExpense += 80 * n;
       G.reputation = Math.min(10, G.reputation + 1.0);
       G.workerHappiness = Math.min(1.5, G.workerHappiness + 0.2);
+      for (const w of G.workers) w.mood = Math.min(100, w.mood + 20);
       toast('🏮 Cả làng khen!', 'achievement');
       closeEvent(); renderAll();
     });
@@ -1733,6 +1867,7 @@ function holidayEvent() {
       let quit = 0;
       G.workers = G.workers.filter(w => { if (Math.random() < 0.20) { quit++; return false; } return true; });
       G.workerHappiness = Math.max(0.3, G.workerHappiness - 0.25);
+      for (const w of G.workers) w.mood = Math.max(10, w.mood - 25);
       if (quit > 0) toast(`😡 ${quit} nhân viên nghỉ việc!`, 'error');
       else toast('😐 Không sao.', 'warn');
       closeEvent(); rebuildPanels(); renderAll();
@@ -1816,6 +1951,65 @@ function chickenEscape() {
   const b3 = document.createElement('button'); b3.className = 'event-btn';
   b3.innerHTML = `<span class="eb-icon">🤷</span><span class="eb-text">Bỏ mặc</span>`;
   tap(b3, () => { toast('Gà mất tích...', 'error'); G.reputation = Math.max(0, G.reputation - 0.15); closeEvent(); });
+  c.appendChild(b3);
+  $('event-overlay').style.display = 'flex';
+}
+
+/* 🆕 Thú lớn bỏ trốn (bò/trâu/cừu/heo) */
+function bigAnimalEscape() {
+  const targets = ['Bò', 'Trâu', 'Cừu', 'Heo'];
+  const animals = G.plots.map((p, i) => ({ p, i })).filter(({ p, i }) =>
+    isPlotUnlocked(i) && p.kind === 'animal' && targets.includes(p.name)
+  );
+  if (!animals.length) { closeEvent(); return; }
+  const esc = pick(animals);
+  const animalName = esc.p.name;
+  const emoji = ANIMALS[animalName].emoji;
+  const value = ANIMALS[animalName].cost;
+  esc.p.kind = esc.p.name = null; esc.p.progress = 0; esc.p.ready = false; esc.p.gene = null; esc.p.hungry = false; esc.p.sick = false;
+  plotSig = '';
+  $('event-icon').textContent = emoji;
+  $('event-title').textContent = '🐾 THÚ LỚN XỔNG CHUỒNG!';
+  $('event-desc').innerHTML = `Một con <strong>${animalName}</strong> to lớn đã phá rào chạy ra ngoài!<br>Trị giá <strong style="color:#FFD54F">${value}$</strong>`;
+  const c = $('event-choices'); c.innerHTML = '';
+
+  const b1 = document.createElement('button'); b1.className = 'event-btn';
+  b1.innerHTML = `<span class="eb-icon">🏃</span><span class="eb-text">Đuổi theo ngay (−25 ⚡)</span>`;
+  tap(b1, () => {
+    if (G.energy < 25) { toast('Không đủ năng lượng!', 'error'); return; }
+    G.energy -= 25;
+    if (Math.random() < 0.55) {
+      G.plots[esc.i].kind = 'animal'; G.plots[esc.i].name = animalName;
+      G.plots[esc.i].hungry = !ANIMALS[animalName].noFeed;
+      toast(`🎉 Bắt được ${animalName} trở lại!`, 'achievement');
+    } else toast(`😢 ${animalName} chạy mất!`, 'error');
+    closeEvent(); renderAll();
+  });
+  c.appendChild(b1);
+
+  const b2 = document.createElement('button'); b2.className = 'event-btn';
+  b2.innerHTML = `<span class="eb-icon">🤝</span><span class="eb-text">Nhờ hàng xóm giúp</span><span class="eb-cost">${(value * 0.15 | 0).toLocaleString()}$</span>`;
+  tap(b2, () => {
+    const cost = value * 0.15 | 0;
+    if (G.money < cost) { toast('Không đủ tiền!', 'error'); return; }
+    G.money -= cost; G.dailyExpense += cost;
+    if (Math.random() < 0.8) {
+      G.plots[esc.i].kind = 'animal'; G.plots[esc.i].name = animalName;
+      G.plots[esc.i].hungry = !ANIMALS[animalName].noFeed;
+      toast(`🎉 Cả làng giúp bắt được ${animalName}!`, 'info');
+      G.reputation = Math.min(10, G.reputation + 0.2);
+    } else toast(`😢 Không bắt được!`, 'error');
+    closeEvent(); renderAll();
+  });
+  c.appendChild(b2);
+
+  const b3 = document.createElement('button'); b3.className = 'event-btn danger';
+  b3.innerHTML = `<span class="eb-icon">🤷</span><span class="eb-text">Để nó đi</span>`;
+  tap(b3, () => {
+    G.reputation = Math.max(0, G.reputation - 0.3);
+    toast(`Mất ${animalName}...`, 'error');
+    closeEvent(); renderAll();
+  });
   c.appendChild(b3);
   $('event-overlay').style.display = 'flex';
 }
@@ -1989,11 +2183,11 @@ function neighborHelp() {
 }
 
 function birdFluEvent() {
-  const cp = G.plots.map((p, i) => ({ p, i })).filter(({ p, i }) => isPlotUnlocked(i) && p.kind === 'animal' && p.name === 'Gà');
+  const cp = G.plots.map((p, i) => ({ p, i })).filter(({ p, i }) => isPlotUnlocked(i) && p.kind === 'animal' && (p.name === 'Gà' || p.name === 'Vịt'));
   if (!cp.length) { closeEvent(); return; }
   $('event-icon').textContent = '🦠';
   $('event-title').textContent = 'DỊCH CÚM GIA CẦM!';
-  $('event-desc').innerHTML = `<strong>${cp.length} con gà</strong> có nguy cơ nhiễm bệnh!`;
+  $('event-desc').innerHTML = `<strong>${cp.length} con gia cầm</strong> có nguy cơ nhiễm bệnh!`;
   const c = $('event-choices'); c.innerHTML = '';
   const b1 = document.createElement('button'); b1.className = 'event-btn';
   b1.innerHTML = `<span class="eb-icon">💉</span><span class="eb-text">Vaccine khẩn</span><span class="eb-cost">${VACCINE_COST}$</span>`;
@@ -2010,7 +2204,7 @@ function birdFluEvent() {
   tap(b2, () => {
     const kill = Math.ceil(cp.length / 3);
     for (let k = 0; k < kill; k++) { const { p } = cp[k]; p.kind = p.name = null; p.progress = 0; p.ready = false; p.gene = null; p.pest = false; p.sick = false; }
-    toast(`😷 Mất ${kill} gà.`, 'error');
+    toast(`😷 Mất ${kill} gia cầm.`, 'error');
     G.reputation = Math.max(0, G.reputation - 0.3);
     closeEvent(); plotSig = ''; renderAll();
   });
@@ -2021,12 +2215,270 @@ function birdFluEvent() {
     if (Math.random() < 0.7) {
       const kill = Math.ceil(cp.length * 0.6);
       for (let k = 0; k < kill; k++) { const { p } = cp[k]; p.kind = p.name = null; p.progress = 0; p.ready = false; p.gene = null; p.pest = false; p.sick = false; }
-      toast(`💀 Mất ${kill} gà!`, 'error');
+      toast(`💀 Mất ${kill} gia cầm!`, 'error');
       G.reputation = Math.max(0, G.reputation - 0.5);
     } else toast('😅 Không sao!', 'info');
     closeEvent(); plotSig = ''; renderAll();
   });
   c.appendChild(b3);
+  $('event-overlay').style.display = 'flex';
+}
+
+/* 🆕 DỊCH TẢ LỢN CHÂU PHI */
+function swineCholeraEvent() {
+  const pigs = G.plots.map((p, i) => ({ p, i })).filter(({ p, i }) =>
+    isPlotUnlocked(i) && p.kind === 'animal' && p.name === 'Heo'
+  );
+  if (!pigs.length) { closeEvent(); return; }
+  $('event-icon').textContent = '🐷☠️';
+  $('event-title').textContent = 'DỊCH TẢ LỢN CHÂU PHI!';
+  $('event-desc').innerHTML =
+    `⚠️ <strong>Dịch tả lợn châu Phi</strong> đang bùng phát trong vùng!<br>` +
+    `<strong>${pigs.length} con heo</strong> của bạn có nguy cơ nhiễm bệnh cao.<br>` +
+    `<em style="color:#FFAB91">Bệnh này KHÔNG có vaccine — phải tiêu huỷ để ngăn lây lan.</em>`;
+  const c = $('event-choices'); c.innerHTML = '';
+
+  // Lựa chọn 1: Tiêu huỷ toàn bộ + bồi thường nhà nước
+  const comp = pigs.length * 250;
+  const b1 = document.createElement('button'); b1.className = 'event-btn';
+  b1.innerHTML = `<span class="eb-icon">🔥</span><span class="eb-text">Tiêu huỷ ngay<br><small style="color:#A5D6A7">Nhận bồi thường ${comp}$ · An toàn 100%</small></span>`;
+  tap(b1, () => {
+    for (const { p } of pigs) {
+      p.kind = p.name = null; p.progress = 0; p.ready = false;
+      p.gene = null; p.sick = false; p.hungry = false;
+    }
+    G.money += comp; G.dailyRevenue += comp; G.stats.totalEarned += comp;
+    toast(`🔥 Đã tiêu huỷ ${pigs.length} heo · nhận ${comp}$`, 'warn');
+    plotSig = ''; closeEvent(); renderAll();
+  });
+  c.appendChild(b1);
+
+  // Lựa chọn 2: Cách ly (chỉ tiêu huỷ 1/3, may mắn số còn lại sống)
+  const b2 = document.createElement('button'); b2.className = 'event-btn';
+  b2.innerHTML = `<span class="eb-icon">😷</span><span class="eb-text">Cách ly (mất 1/3)<br><small style="color:#A5D6A7">Một số sống sót</small></span>`;
+  tap(b2, () => {
+    const kill = Math.max(1, Math.ceil(pigs.length / 3));
+    for (let k = 0; k < kill; k++) {
+      const { p } = pigs[k];
+      p.kind = p.name = null; p.progress = 0; p.ready = false;
+      p.gene = null; p.sick = false; p.hungry = false;
+    }
+    // Số còn lại 40% cũng chết
+    for (let k = kill; k < pigs.length; k++) {
+      if (Math.random() < 0.4) {
+        const { p } = pigs[k];
+        p.kind = p.name = null; p.progress = 0; p.ready = false;
+        p.gene = null; p.sick = false; p.hungry = false;
+      }
+    }
+    toast(`😷 Mất ít nhất ${kill} heo.`, 'error');
+    G.reputation = Math.max(0, G.reputation - 0.3);
+    plotSig = ''; closeEvent(); renderAll();
+  });
+  c.appendChild(b2);
+
+  // Lựa chọn 3: Bán tháo (bán chui lấy tiền, nguy hiểm)
+  const dump = pigs.length * 140;
+  const b3 = document.createElement('button'); b3.className = 'event-btn danger';
+  b3.innerHTML = `<span class="eb-icon">💸</span><span class="eb-text">Bán tháo heo (−${dump}$?)<br><small style="color:#EF9A9A">+${dump}$ nhưng nguy cơ bị phạt</small></span>`;
+  tap(b3, () => {
+    for (const { p } of pigs) {
+      p.kind = p.name = null; p.progress = 0; p.ready = false;
+      p.gene = null; p.sick = false; p.hungry = false;
+    }
+    G.money += dump; G.dailyRevenue += dump; G.stats.totalEarned += dump;
+    G.secretSellCount = (G.secretSellCount || 0) + 2;
+    G.reputation = Math.max(0, G.reputation - 1.0);
+    toast(`💰 Bán chui +${dump}$ · nguy cơ kiểm dịch!`, 'warn');
+    plotSig = ''; closeEvent(); renderAll();
+  });
+  c.appendChild(b3);
+
+  // Lựa chọn 4: Mặc kệ (rất rủi ro)
+  const b4 = document.createElement('button'); b4.className = 'event-btn danger';
+  b4.innerHTML = `<span class="eb-icon">🤷</span><span class="eb-text">Mặc kệ (cực rủi ro)<br><small style="color:#EF9A9A">80% mất hết heo</small></span>`;
+  tap(b4, () => {
+    if (Math.random() < 0.8) {
+      for (const { p } of pigs) {
+        p.kind = p.name = null; p.progress = 0; p.ready = false;
+        p.gene = null; p.sick = false; p.hungry = false;
+      }
+      toast(`💀 Mất toàn bộ ${pigs.length} heo!`, 'error');
+      G.reputation = Math.max(0, G.reputation - 0.8);
+    } else {
+      toast('😅 Kỳ diệu — không con nào nhiễm bệnh!', 'info');
+      G.reputation = Math.min(10, G.reputation + 0.3);
+    }
+    plotSig = ''; closeEvent(); renderAll();
+  });
+  c.appendChild(b4);
+
+  $('event-overlay').style.display = 'flex';
+}
+
+/* 🆕 NPC XIN NGHỈ PHÉP */
+function workerLeaveRequest() {
+  const candidates = G.workers.filter(w => !w.onLeave);
+  if (!candidates.length) { closeEvent(); return; }
+  const w = pick(candidates);
+  const days = 1 + Math.floor(Math.random() * MAX_WORKER_LEAVE_DAYS);
+  const reason = pick(WORKER_LEAVE_REASONS);
+  $('event-icon').textContent = '📝';
+  $('event-title').textContent = 'NHÂN CÔNG XIN NGHỈ PHÉP';
+  $('event-desc').innerHTML =
+    `<strong>${w.name}</strong> (${w.age}t, ${WORKER_TYPES[w.type].emoji} ${w.type})<br>` +
+    `<em style="color:#FFAB91">"${reason}…"</em><br>` +
+    `Xin nghỉ <strong>${days} ngày</strong>.<br>` +
+    `<small style="color:#90A4AE">Tâm trạng hiện tại: ${w.mood}/100</small>`;
+  const c = $('event-choices'); c.innerHTML = '';
+
+  const b1 = document.createElement('button'); b1.className = 'event-btn';
+  b1.innerHTML = `<span class="eb-icon">✅</span><span class="eb-text">Đồng ý (nghỉ ${days} ngày)<br><small style="color:#A5D6A7">Tâm trạng +20</small></span>`;
+  tap(b1, () => {
+    w.onLeave = true;
+    w.leaveDays = days;
+    w.mood = Math.min(100, w.mood + 20);
+    toast(`📝 ${w.name} nghỉ ${days} ngày`, 'info');
+    closeEvent(); renderAll(); rebuildPanels();
+  });
+  c.appendChild(b1);
+
+  const b2 = document.createElement('button'); b2.className = 'event-btn';
+  const bonus = 150 + w.exp * 30;
+  b2.innerHTML = `<span class="eb-icon">💰</span><span class="eb-text">Đồng ý + thưởng ${bonus}$<br><small style="color:#A5D6A7">Tâm trạng +40 · Trung thành cao</small></span>`;
+  tap(b2, () => {
+    if (G.money < bonus) { toast('Không đủ tiền!', 'error'); return; }
+    G.money -= bonus; G.dailyExpense += bonus;
+    w.onLeave = true;
+    w.leaveDays = days;
+    w.mood = Math.min(100, w.mood + 40);
+    toast(`💰 ${w.name} cảm kích, nghỉ ${days} ngày`, 'achievement');
+    closeEvent(); renderAll(); rebuildPanels();
+  });
+  c.appendChild(b2);
+
+  const b3 = document.createElement('button'); b3.className = 'event-btn danger';
+  b3.innerHTML = `<span class="eb-icon">❌</span><span class="eb-text">Từ chối<br><small style="color:#EF9A9A">Tâm trạng −35 · 25% nghỉ việc luôn</small></span>`;
+  tap(b3, () => {
+    w.mood = Math.max(5, w.mood - 35);
+    if (Math.random() < 0.25) {
+      G.workers = G.workers.filter(x => x.id !== w.id);
+      toast(`😡 ${w.name} tức giận và nghỉ việc luôn!`, 'error');
+    } else {
+      toast(`😠 ${w.name} buồn nhưng vẫn tiếp tục làm`, 'warn');
+    }
+    closeEvent(); renderAll(); rebuildPanels();
+  });
+  c.appendChild(b3);
+
+  $('event-overlay').style.display = 'flex';
+}
+
+/* 🆕 NPC Ý KIẾN / GÓP Ý */
+function workerOpinionEvent() {
+  const candidates = G.workers.filter(w => !w.onLeave && !w.pendingOpinion);
+  if (!candidates.length) { closeEvent(); return; }
+  const w = pick(candidates);
+  const op = pick(WORKER_OPINIONS);
+  w.pendingOpinion = op;
+  $('event-icon').textContent = op.emoji;
+  $('event-title').textContent = 'NHÂN CÔNG GÓP Ý';
+  $('event-desc').innerHTML =
+    `<strong>${w.name}</strong> (${w.age}t, ${w.personality}) nói:<br><br>` +
+    `<em style="color:#FFEB3B;font-size:13px">"${op.text}"</em><br><br>` +
+    `<small style="color:#90A4AE">Loại góp ý: ${op.type === 'complain' ? '😟 Phàn nàn' : op.type === 'warn' ? '⚠️ Cảnh báo' : op.type === 'good' ? '👍 Khen' : '💡 Gợi ý'}</small>`;
+  const c = $('event-choices'); c.innerHTML = '';
+
+  const b1 = document.createElement('button'); b1.className = 'event-btn';
+  b1.innerHTML = `<span class="eb-icon">👂</span><span class="eb-text">Lắng nghe & cảm ơn<br><small style="color:#A5D6A7">Tâm trạng +15</small></span>`;
+  tap(b1, () => {
+    w.mood = Math.min(100, w.mood + 15);
+    w.pendingOpinion = null;
+    w.opinions = (w.opinions || 0) + 1;
+    // Nếu là cảnh báo thì gợi ý cho người chơi
+    if (op.type === 'warn') {
+      toast(`💡 ${w.name} cảnh báo: hãy chú ý!`, 'warn');
+    } else {
+      toast(`👂 Bạn lắng nghe ${w.name}`, 'info');
+    }
+    closeEvent(); renderAll(); rebuildPanels();
+  });
+  c.appendChild(b1);
+
+  // Nếu là "complain" về lương, có thể tăng lương luôn
+  if (op.type === 'complain' || op.type === 'warn') {
+    const raise = Math.round(w.salary * 0.15);
+    const b2 = document.createElement('button'); b2.className = 'event-btn';
+    b2.innerHTML = `<span class="eb-icon">💵</span><span class="eb-text">Tăng lương +${raise}$/ngày<br><small style="color:#A5D6A7">Tâm trạng +30 · Trung thành</small></span>`;
+    tap(b2, () => {
+      w.salary += raise;
+      w.mood = Math.min(100, w.mood + 30);
+      w.pendingOpinion = null;
+      toast(`💵 Đã tăng lương ${w.name} lên ${w.salary}$/ngày`, 'achievement');
+      closeEvent(); renderAll(); rebuildPanels();
+    });
+    c.appendChild(b2);
+  }
+
+  const b3 = document.createElement('button'); b3.className = 'event-btn danger';
+  b3.innerHTML = `<span class="eb-icon">🙉</span><span class="eb-text">Bỏ qua<br><small style="color:#EF9A9A">Tâm trạng −20</small></span>`;
+  tap(b3, () => {
+    w.mood = Math.max(5, w.mood - 20);
+    w.pendingOpinion = null;
+    toast(`🙉 Bạn phớt lờ ${w.name}`, 'warn');
+    closeEvent(); renderAll(); rebuildPanels();
+  });
+  c.appendChild(b3);
+
+  $('event-overlay').style.display = 'flex';
+}
+
+/* 🆕 NPC ĐE DỌA NGHỈ VIỆC (khi mood < 40) */
+function workerQuitWarning() {
+  const candidates = G.workers.filter(w => w.mood < 40 && !w.onLeave);
+  if (!candidates.length) { closeEvent(); return; }
+  const w = pick(candidates);
+  const reason = pick(WORKER_QUIT_REASONS);
+  $('event-icon').textContent = '😡';
+  $('event-title').textContent = 'NHÂN CÔNG ĐE DỌA NGHỈ VIỆC!';
+  $('event-desc').innerHTML =
+    `<strong>${w.name}</strong> (${w.mood}/100 tâm trạng) nói:<br><br>` +
+    `<em style="color:#FF8A80;font-size:13px">"${reason}. Tôi tính nghỉ!"</em>`;
+  const c = $('event-choices'); c.innerHTML = '';
+
+  const raise = Math.round(w.salary * 0.3);
+  const b1 = document.createElement('button'); b1.className = 'event-btn';
+  b1.innerHTML = `<span class="eb-icon">💵</span><span class="eb-text">Tăng lương ngay +${raise}$/ngày<br><small style="color:#A5D6A7">Tâm trạng +45</small></span>`;
+  tap(b1, () => {
+    w.salary += raise;
+    w.mood = Math.min(100, w.mood + 45);
+    G.dailyExpense += 0; // lương tính vào ngày sau
+    toast(`💵 Tăng lương ${w.name} → ${w.salary}$/ngày`, 'achievement');
+    closeEvent(); renderAll(); rebuildPanels();
+  });
+  c.appendChild(b1);
+
+  const bonus = 300 + w.exp * 50;
+  const b2 = document.createElement('button'); b2.className = 'event-btn';
+  b2.innerHTML = `<span class="eb-icon">🎁</span><span class="eb-text">Thưởng nóng ${bonus}$<br><small style="color:#A5D6A7">Tâm trạng +50</small></span>`;
+  tap(b2, () => {
+    if (G.money < bonus) { toast('Không đủ tiền!', 'error'); return; }
+    G.money -= bonus; G.dailyExpense += bonus;
+    w.mood = Math.min(100, w.mood + 50);
+    toast(`🎁 ${w.name} cảm động`, 'achievement');
+    closeEvent(); renderAll(); rebuildPanels();
+  });
+  c.appendChild(b2);
+
+  const b3 = document.createElement('button'); b3.className = 'event-btn danger';
+  b3.innerHTML = `<span class="eb-icon">🚪</span><span class="eb-text">Cho nghỉ luôn<br><small style="color:#EF9A9A">Mất ${w.name}</small></span>`;
+  tap(b3, () => {
+    G.workers = G.workers.filter(x => x.id !== w.id);
+    toast(`🚪 Đã cho ${w.name} nghỉ`, 'warn');
+    closeEvent(); renderAll(); rebuildPanels();
+  });
+  c.appendChild(b3);
+
   $('event-overlay').style.display = 'flex';
 }
 
@@ -2055,7 +2507,13 @@ function createWorker(type) {
     salary: Math.round(cfg.salary * (1 + exp * 0.05)),
     interval: Math.max(2, interval),
     timer: interval,
-    hired: G.day
+    hired: G.day,
+    // 🆕
+    onLeave: false,
+    leaveDays: 0,
+    mood: 60 + Math.floor(Math.random() * 30),
+    opinions: 0,
+    pendingOpinion: null
   };
 }
 
@@ -2126,7 +2584,6 @@ function buildBankPanel() {
   });
 }
 
-/* ✅ FIXED: máy nghiền đọc tươi, cache sig để tránh rebuild mỗi frame */
 let millSig = '';
 function buildMillPanel() {
   const box = $('mill-panel');
@@ -2154,7 +2611,6 @@ function buildMillPanel() {
     b.style.background = '#43A047';
     b.textContent = 'Chế biến tất cả';
     tap(b, () => {
-      // ✅ ĐỌC TƯƠI tại thời điểm click
       const curStock = invCount(cfg.input);
       if (curStock <= 0) { toast(`Không có ${cfg.input}!`, 'error'); return; }
       invSub(cfg.input, curStock);
@@ -2169,15 +2625,25 @@ function buildMillPanel() {
 
 function buildWorkersPanel() {
   const box = $('workers-panel');
-  $('worker-badge').textContent = G.workers.length;
+  $('worker-badge').textContent = `${G.workers.length}/${MAX_WORKERS}`;   // 🆕
   box.innerHTML = '';
+
+  // 🆕 Hiển thị giới hạn
+  const info = document.createElement('div');
+  info.style.cssText = 'background:#1f2b30;padding:7px 10px;border-radius:8px;font-size:11px;margin-bottom:6px';
+  info.innerHTML = `👥 Nhân công: <strong style="color:#FFD54F">${G.workers.length}/${MAX_WORKERS}</strong> · Tâm trạng TB: <strong style="color:#80DEEA">${G.workers.length ? Math.round(G.workers.reduce((s,w)=>s+w.mood,0)/G.workers.length) : 0}/100</strong>`;
+  box.appendChild(info);
+
+  const full = G.workers.length >= MAX_WORKERS;
   for (const type in WORKER_TYPES) {
     const cfg = WORKER_TYPES[type];
     const b = document.createElement('button');
     b.className = 'unlock-btn';
-    b.innerHTML = `<span>${cfg.emoji}</span><span class="unlock-name">${type}<span class="worker-detail">${cfg.desc} · Lương ${cfg.salary}$/ngày</span></span><span class="unlock-cost">${cfg.baseCost}$</span>`;
-    tap(b, () => {
+    if (full) b.style.opacity = '0.5';
+    b.innerHTML = `<span>${cfg.emoji}</span><span class="unlock-name">${type}<span class="worker-detail">${cfg.desc} · Lương ${cfg.salary}$/ngày</span></span><span class="unlock-cost">${full ? 'ĐẦY' : cfg.baseCost + '$'}</span>`;
+    if (!full) tap(b, () => {
       if (G.money < cfg.baseCost) { toast(`Cần ${cfg.baseCost}$ để thuê!`, 'error'); return; }
+      if (G.workers.length >= MAX_WORKERS) { toast(`⚠️ Đã đủ ${MAX_WORKERS} nhân công!`, 'warn'); return; }
       G.money -= cfg.baseCost; G.dailyExpense += cfg.baseCost;
       const w = createWorker(type);
       G.workers.push(w);
@@ -2186,18 +2652,65 @@ function buildWorkersPanel() {
     });
     box.appendChild(b);
   }
+
   if (G.workers.length) {
     const hdr = document.createElement('div');
     hdr.style.cssText = 'font-size:10px;color:#90A4AE;margin-top:8px;margin-bottom:4px;font-weight:600';
-    hdr.textContent = '📋 Nhân công đang làm:';
+    hdr.textContent = `📋 Nhân công đang làm (${G.workers.length}/${MAX_WORKERS}):`;
     box.appendChild(hdr);
+
     for (const w of G.workers) {
       const card = document.createElement('div');
-      card.className = 'review-item';
-      card.style.borderLeftColor = '#FFD54F';
-      card.innerHTML = `<div class="review-header"><span class="review-name">${w.name} (${w.age}t)</span><span style="color:#A5D6A7;font-size:10.5px">${w.salary}$/ngày</span></div><div style="color:#CFD8DC;font-size:10.5px">${WORKER_TYPES[w.type].emoji} ${w.type} · Kinh nghiệm: ${w.exp}/10 · Tính: <strong style="color:#FFD54F">${w.personality}</strong></div><div style="font-size:9.5px;color:#78909C;margin-top:2px">Vào làm ngày ${w.hired}</div>`;
+      card.className = 'worker-card' + (w.onLeave ? ' on-leave' : '') + (w.mood < 40 ? ' unhappy' : '');
+      const moodEmoji = w.mood >= 70 ? '😊' : w.mood >= 40 ? '😐' : '😠';
+      const leaveTag = w.onLeave ? `<span style="color:#FFB74D;font-size:9.5px">· 🏖️ Nghỉ còn ${w.leaveDays} ngày</span>` : '';
+      card.innerHTML = `
+        <div class="review-header">
+          <span class="review-name">${w.name} (${w.age}t)</span>
+          <span style="color:#A5D6A7;font-size:10.5px">${w.salary}$/ngày</span>
+        </div>
+        <div style="color:#CFD8DC;font-size:10.5px">
+          ${WORKER_TYPES[w.type].emoji} ${w.type} · KN: ${w.exp}/10 · Tính: <strong style="color:#FFD54F">${w.personality}</strong> ${leaveTag}
+        </div>
+        <div class="worker-mood" style="color:${w.mood >= 70 ? '#A5D6A7' : w.mood >= 40 ? '#FFD54F' : '#EF9A9A'};margin-top:3px">
+          ${moodEmoji} Tâm trạng: ${w.mood}/100
+        </div>
+        <div style="font-size:9.5px;color:#78909C;margin-top:2px">Vào làm ngày ${w.hired}${w.opinions > 0 ? ` · ${w.opinions} lần góp ý` : ''}</div>
+      `;
+      const actions = document.createElement('div');
+      actions.className = 'worker-actions';
+
+      // Nút tăng lương
+      const raiseBtn = document.createElement('button');
+      raiseBtn.style.cssText = 'background:#43A047;color:#fff';
+      const raiseCost = Math.round(w.salary * 0.1);
+      raiseBtn.textContent = `💵 Tăng +${raiseCost}$`;
+      tap(raiseBtn, () => {
+        if (G.money < raiseCost * 5) { toast('Cần ít nhất 5 ngày lương để cam kết!', 'error'); return; }
+        w.salary += raiseCost;
+        w.mood = Math.min(100, w.mood + 20);
+        toast(`💵 Tăng lương ${w.name} → ${w.salary}$/ngày`, 'info');
+        rebuildPanels(); renderAll();
+      });
+      actions.appendChild(raiseBtn);
+
+      // Nút thưởng
+      const bonusBtn = document.createElement('button');
+      bonusBtn.style.cssText = 'background:#FFA000;color:#fff';
+      const bonusAmt = 100;
+      bonusBtn.textContent = `🎁 Thưởng ${bonusAmt}$`;
+      tap(bonusBtn, () => {
+        if (G.money < bonusAmt) { toast('Không đủ tiền!', 'error'); return; }
+        G.money -= bonusAmt; G.dailyExpense += bonusAmt;
+        w.mood = Math.min(100, w.mood + 15);
+        toast(`🎁 ${w.name} vui vẻ nhận thưởng`, 'info');
+        rebuildPanels(); renderAll();
+      });
+      actions.appendChild(bonusBtn);
+
+      // Nút sa thải
       const fireBtn = document.createElement('button');
-      fireBtn.style.cssText = 'margin-top:4px;padding:5px 10px;border-radius:6px;background:#B71C1C;color:#fff;font-size:10px;font-weight:bold';
+      fireBtn.style.cssText = 'background:#B71C1C;color:#fff';
       fireBtn.textContent = '🚪 Sa thải';
       tap(fireBtn, () => {
         if (!confirm(`Sa thải ${w.name}?`)) return;
@@ -2205,7 +2718,9 @@ function buildWorkersPanel() {
         toast(`Đã sa thải ${w.name}`, 'info');
         rebuildPanels(); renderAll();
       });
-      card.appendChild(fireBtn);
+      actions.appendChild(fireBtn);
+
+      card.appendChild(actions);
       box.appendChild(card);
     }
   }
@@ -2380,11 +2895,11 @@ function buildVaccineList() {
   const box = $('vaccine-list'); box.innerHTML = '';
   if (G.vaccineActive) {
     const d = document.createElement('div'); d.className = 'inv-empty'; d.style.color = '#A5D6A7';
-    d.textContent = `✅ Còn ${Math.max(0, 5 - (G.day - G.vaccineDay))} ngày`;
+    d.textContent = `✅ Còn ${Math.max(0, 5 - (G.day - G.vaccineDay))} ngày · Bảo vệ cả gia cầm và heo`;
     box.appendChild(d); return;
   }
   const b = document.createElement('button'); b.className = 'worker-btn';
-  b.innerHTML = `<span>💉</span><span class="worker-name">Vaccine (5 ngày)<span class="worker-detail">Bảo vệ gia cầm</span></span><span class="worker-cost">${VACCINE_COST}$</span>`;
+  b.innerHTML = `<span>💉</span><span class="worker-name">Vaccine (5 ngày)<span class="worker-detail">Bảo vệ gia cầm (không trị dịch tả lợn)</span></span><span class="worker-cost">${VACCINE_COST}$</span>`;
   tap(b, () => {
     if (G.money < VACCINE_COST) { toast('Không đủ tiền!', 'error'); return; }
     G.money -= VACCINE_COST; G.dailyExpense += VACCINE_COST;
@@ -2426,7 +2941,7 @@ function openBulkModal(kind, key, name, unitCost, maxBuy) {
   $('bulk-qty').value = 1; $('bulk-qty').max = maxBuy;
   updateBulkTotal();
   $('bulk-overlay').classList.add('show');
-  G.userPaused = true;
+  pause('bulk');   // 🔧 FIX
 }
 function updateBulkTotal() {
   if (!bulkState) return;
@@ -2449,7 +2964,7 @@ document.querySelectorAll('.bulk-qty-row button').forEach(btn => {
   });
 });
 $('bulk-qty').addEventListener('input', updateBulkTotal);
-tap($('bulk-cancel'), () => { $('bulk-overlay').classList.remove('show'); bulkState = null; G.userPaused = false; });
+tap($('bulk-cancel'), () => { $('bulk-overlay').classList.remove('show'); bulkState = null; unpause(); });
 tap($('bulk-buy'), () => {
   if (!bulkState) return;
   const { kind, key, unitCost } = bulkState;
@@ -2470,7 +2985,7 @@ tap($('bulk-buy'), () => {
     }
     toast(`🛒 Đã mua ${key}`, 'info');
   }
-  $('bulk-overlay').classList.remove('show'); bulkState = null; G.userPaused = false;
+  $('bulk-overlay').classList.remove('show'); bulkState = null; unpause();
   checkAchievements(); rebuildPanels(); renderAll();
 });
 function buySeedBulk(crop) {
@@ -2595,10 +3110,8 @@ function onPlotClick(i) {
   const p = G.plots[i];
   const curZone = plotZoneOf(i);
 
-  // ==== XẺNG ====
   if (G.tool === 'shovel') { if (!p.kind) { setStatus('🪏 Ô trống.'); return; } shovelPlot(i); return; }
 
-  // ==== THUỐC SÂU 3×3 ====
   if (G.tool === 'spray') {
     if (invCount('Thuốc trừ sâu') <= 0) { toast('Không có thuốc trừ sâu! Mua ở Cửa hàng.', 'error'); return; }
     const area = getSprayArea(i);
@@ -2624,7 +3137,6 @@ function onPlotClick(i) {
     return;
   }
 
-  // ==== SÂU — bắt tay ====
   if (p.pest) {
     if (G.energy < BUG_ENERGY) { toast('Không đủ năng lượng!', 'error'); return; }
     G.energy -= BUG_ENERGY;
@@ -2709,7 +3221,7 @@ function harvestPlot(i) {
 
 /* ============ PLANT MODAL ============ */
 function openPlantModal(i) {
-  G.userPaused = true;
+  pause('plant-modal');  // 🔧 FIX
   const body = $('modal-body'); body.innerHTML = '';
   let hasAny = false;
   const zone = plotZoneOf(i);
@@ -2746,7 +3258,7 @@ function openPlantModal(i) {
   }
   $('modal-overlay').classList.add('show');
 }
-function closeModal() { $('modal-overlay').classList.remove('show'); G.userPaused = false; }
+function closeModal() { $('modal-overlay').classList.remove('show'); unpause(); }
 tap($('modal-close'), closeModal);
 document.getElementById('modal-overlay').addEventListener('pointerdown', e => {
   if (e.target.id === 'modal-overlay') closeModal();
@@ -2823,7 +3335,6 @@ function pickSupermarketItems() {
   });
 }
 
-/* ✅ FIXED: cache sig — slider kéo không đứt */
 let smSig = '';
 function renderSupermarket() {
   const box = $('supermarket-list');
@@ -2832,7 +3343,6 @@ function renderSupermarket() {
   $('sm-shelf-count').textContent = `${items.length}/10`;
   $('sm-sales-today').textContent = Math.round(G.supermarket.salesToday) + '$';
 
-  // Sig KHÔNG bao gồm prices để kéo slider không rebuild
   const sig = items.map(i =>
     i.name + ':' + i.stock + ':' +
     Math.round((G.supermarket.competitors[i.name] || 1) * 1000)
@@ -2876,7 +3386,7 @@ function renderSupermarket() {
 }
 
 tap($('sm-add-btn'), () => {
-  G.userPaused = true;
+  pause('sm-add');  // 🔧 FIX
   const body = $('modal-body'); body.innerHTML = '';
   const title = document.createElement('div');
   title.style.cssText = 'font-size:11px;color:#90A4AE;margin-bottom:8px';
@@ -2988,7 +3498,6 @@ function updateOnlineOrders(dt) {
   if (G.onlineCooldown <= 0) { spawnOnlineOrder(); G.onlineCooldown = 90 + Math.random() * 60; }
 }
 
-/* ✅ FIXED: cache sig — chỉ rebuild khi cấu trúc đổi */
 let onlineSig = '';
 function renderOnlineOrders() {
   const box = $('online-list');
@@ -3139,7 +3648,6 @@ function doReject(id) {
   G.customers.splice(idx, 1); lastCustSig = ''; renderAll();
 }
 
-/* ✅ FIXED: sig bao gồm canDeliver/hasAnyItem → nút cập nhật tươi; không return sớm */
 function renderCustomers() {
   const list = $('customer-list');
   if (!list) return;
@@ -3204,7 +3712,6 @@ function renderCustomers() {
       }
     }
   }
-  // Luôn cập nhật patience + trạng thái nút (không return sớm nữa)
   for (const cu of G.customers) {
     const card = list.querySelector(`.customer[data-cid="${cu.id}"]`);
     if (!card) continue;
@@ -3218,8 +3725,13 @@ function renderCustomers() {
   }
 }
 
+/* 🔧 FIX: cache sig — tránh rebuild mỗi frame */
+let reviewSig = '';
 function renderReviews() {
   const box = $('review-list');
+  const sig = G.reviews.slice(0, 12).map(r => r.name + r.day + r.stars).join('|');
+  if (sig === reviewSig && box.children.length) return;
+  reviewSig = sig;
   $('review-count').textContent = G.reviews.length;
   if (!G.reviews.length) { box.innerHTML = `<div class="inv-empty" style="padding:10px 0;text-align:center">Chưa có nhận xét.</div>`; return; }
   box.innerHTML = G.reviews.slice(0, 12).map(r => {
@@ -3236,15 +3748,22 @@ function checkAchievements() {
     }
   }
 }
+/* 🔧 FIX: cache sig cho achievements */
+let achSig = '';
 function renderAchievements() {
-  const box = $('ach-panel-list'); box.innerHTML = '';
-  for (const a of ACHIEVEMENTS) {
-    const done = G.unlockedAch.includes(a.id);
-    const prog = Math.min(G.stats[a.stat] || 0, a.target);
-    const el = document.createElement('div');
-    el.className = 'ach-item' + (done ? ' done' : '');
-    el.innerHTML = `<span class="ach-emoji">${done ? '✅' : a.emoji}</span><span class="ach-name">${a.name}</span><span class="ach-progress">${done ? '✓' : prog + '/' + a.target}</span>`;
-    box.appendChild(el);
+  const box = $('ach-panel-list');
+  const sig = G.unlockedAch.join(',') + '|' + ACHIEVEMENTS.map(a => G.stats[a.stat] || 0).join(',');
+  if (sig !== achSig || !box.children.length) {
+    achSig = sig;
+    box.innerHTML = '';
+    for (const a of ACHIEVEMENTS) {
+      const done = G.unlockedAch.includes(a.id);
+      const prog = Math.min(G.stats[a.stat] || 0, a.target);
+      const el = document.createElement('div');
+      el.className = 'ach-item' + (done ? ' done' : '');
+      el.innerHTML = `<span class="ach-emoji">${done ? '✅' : a.emoji}</span><span class="ach-name">${a.name}</span><span class="ach-progress">${done ? '✓' : prog + '/' + a.target}</span>`;
+      box.appendChild(el);
+    }
   }
   $('ach-count').textContent = `${G.unlockedAch.length}/${ACHIEVEMENTS.length}`;
   $('hud-ach').textContent = `🏆 ${G.unlockedAch.length}/${ACHIEVEMENTS.length}`;
@@ -3262,6 +3781,9 @@ function renderHUD() {
   $('hud-day').textContent = `📅 Ngày ${G.day}`;
   $('hud-clock').textContent = `🕐 ${timeString()}`;
   $('hud-tax').textContent = `📋 Thuế 10%`;
+  // 🆕 HUD worker counter
+  const hw = $('hud-worker');
+  if (hw) hw.textContent = `👥 ${G.workers.length}/${MAX_WORKERS}`;
   const loanEl = $('hud-loan');
   if (G.loan > 0) { loanEl.style.display = 'inline-flex'; loanEl.textContent = `💳 ${Math.round(G.loan).toLocaleString()}$`; }
   else loanEl.style.display = 'none';
@@ -3290,9 +3812,13 @@ function gameLoop(now) {
   dt = Math.min(dt, 0.5);
 
   if (isPaused()) {
-    renderPlots(); renderCustomers(); renderInventory();
-    renderReviews(); renderAchievements(); renderHUD();
-    renderSupermarket(); renderOnlineOrders();
+    // 🔧 FIX: throttle render khi paused (1Hz)
+    if (!G._lastPausedRender || now - G._lastPausedRender > 1000) {
+      G._lastPausedRender = now;
+      renderPlots(); renderCustomers(); renderInventory();
+      renderReviews(); renderAchievements(); renderHUD();
+      renderSupermarket(); renderOnlineOrders();
+    }
     requestAnimationFrame(gameLoop);
     return;
   }
@@ -3331,7 +3857,7 @@ function gameLoop(now) {
 
   const holiday = isHolidayToday();
   for (const wrk of G.workers) {
-    if (holiday) continue;
+    if (holiday || wrk.onLeave) continue;   // 🆕 nghỉ phép
     wrk.timer -= dt;
     if (wrk.timer <= 0) {
       const cfg = WORKER_TYPES[wrk.type];
@@ -3422,7 +3948,8 @@ function gameLoop(now) {
 
   const dayFrac = G.dayTime / DAY_DURATION;
   const sunAngle = -Math.PI / 2 + dayFrac * Math.PI * 2;
-  $('sunEl').style.transform = `translate(${Math.cos(sunAngle) * 25}px, ${Math.sin(sunAngle) * 12}px)`;
+  const sunEl = $('sunEl');
+  if (sunEl) sunEl.style.transform = `translate(${Math.cos(sunAngle) * 25}px, ${Math.sin(sunAngle) * 12}px)`;
 
   renderPlots(); renderCustomers(); renderInventory();
   renderReviews(); renderAchievements(); renderHUD();
@@ -3432,9 +3959,8 @@ function gameLoop(now) {
 
 /* ============ SAVE ============ */
 function getSaveData() {
-  return JSON.parse(JSON.stringify({
-    ...G, running: false, lastTime: 0, lastSave: 0, lastCloudSave: 0, phase: 'playing', userPaused: false
-  }));
+  const clone = { ...G, running: false, lastTime: 0, lastSave: 0, lastCloudSave: 0, phase: 'playing', userPaused: false, pauseRef: 0, _lastPausedRender: 0 };
+  try { return structuredClone(clone); } catch(e) { return JSON.parse(JSON.stringify(clone)); }
 }
 function saveGame() {
   try { localStorage.setItem(SAVE_KEY, JSON.stringify(getSaveData())); } catch (e) {}
@@ -3464,11 +3990,16 @@ tap($('save-btn'), async () => {
 
 /* ============ PAUSE ============ */
 tap($('pause-btn'), () => {
-  G.userPaused = !G.userPaused;
-  $('pause-btn').textContent = G.userPaused ? '▶' : '⏸';
-  $('pause-btn').className = 'top-btn ' + (G.userPaused ? 'active' : 'warn');
-  $('paused-overlay').classList.toggle('show', G.userPaused);
-  setStatus(G.userPaused ? '⏸ Đã tạm dừng' : '▶ Tiếp tục chơi');
+  // Nếu đang có modal mở, không can thiệp
+  if (G.pauseRef > 0 && G.userPaused) return;
+  if (G.userPaused) {
+    G.pauseRef = 0;
+    unpause();
+    setStatus('▶ Tiếp tục chơi');
+  } else {
+    pause('manual');
+    setStatus('⏸ Đã tạm dừng');
+  }
 });
 
 /* ============ RENAME ============ */
@@ -3529,11 +4060,19 @@ tap($('feedback-send'), () => {
 });
 
 window.addEventListener('beforeunload', () => { saveGame(); });
+window.addEventListener('pagehide', () => { saveGame(); });   // 🔧 FIX iOS Safari
 
 /* Auto-collapse panels on mobile by default */
 if (window.innerWidth < 700) {
   document.querySelectorAll('#side-panel .panel').forEach(p => {
     if (!p.classList.contains('collapsed') && p.id !== 'panel-cust' && p.id !== 'panel-feedback') p.classList.add('collapsed');
+  });
+}
+
+/* 🔧 FIX Android keyboard viewport */
+if (window.visualViewport) {
+  window.visualViewport.addEventListener('resize', () => {
+    document.documentElement.style.setProperty('--vvh', window.visualViewport.height + 'px');
   });
 }
 </script>
