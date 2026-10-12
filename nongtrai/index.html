@@ -6,80 +6,94 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <title>🌾 Nông Trại Vui Vẻ 🌾</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{background:#10161a;color:#eceff1;font-family:-apple-system,'Segoe UI',Tahoma,sans-serif;min-height:100vh;min-height:100dvh;overflow-x:hidden;touch-action:manipulation;overscroll-behavior:none}
-body{padding:8px;padding:8px max(8px,env(safe-area-inset-right)) 8px max(8px,env(safe-area-inset-left));-webkit-text-size-adjust:100%}
-button{font-family:inherit;touch-action:manipulation;cursor:pointer;user-select:none;-webkit-user-select:none;border:none;background:none;color:inherit}
-input,textarea{font-family:inherit;font-size:16px!important;-webkit-appearance:none;appearance:none}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;image-rendering:pixelated;image-rendering:-moz-crisp-edges;image-rendering:crisp-edges;border-radius:0!important}
+html,body{background:#0a0e12;color:#eceff1;font-family:'Courier New',Consolas,monospace;font-weight:700;letter-spacing:.3px;min-height:100vh;min-height:100dvh;overflow-x:hidden;touch-action:manipulation;overscroll-behavior:none;font-size:12px}
+body{padding:8px;padding:8px max(8px,env(safe-area-inset-right)) 8px max(8px,env(safe-area-inset-left));-webkit-text-size-adjust:100%;background:repeating-linear-gradient(0deg,#0a0e12 0 2px,#0d1218 2px 4px)}
+button{font-family:inherit;touch-action:manipulation;cursor:pointer;user-select:none;-webkit-user-select:none;border:none;background:none;color:inherit;font-weight:700;letter-spacing:.3px}
+input,textarea{font-family:inherit;font-size:16px!important;-webkit-appearance:none;appearance:none;font-weight:700}
 input[type=text],input[type=number],textarea{font-size:16px!important}
 select{font-size:16px!important}
+.pixel-title{font-family:'Press Start 2P',monospace;letter-spacing:0}
 
-#start-screen{background:linear-gradient(160deg,#1B5E20,#0d3b12);border-radius:16px;padding:24px 16px;max-width:640px;width:100%;margin:12px auto;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6);border:2px solid #2E7D32}
-#start-screen h1{font-size:clamp(20px,5vw,34px);color:#FFEB3B;margin-bottom:8px}
-.subtitle{color:#C8E6C9;font-size:12.5px;margin-bottom:16px}
-.field-label{font-size:13px;color:#fff;margin-bottom:8px;display:block}
-#farm-name-input{font-size:16px;padding:12px 14px;width:100%;max-width:280px;text-align:center;border-radius:10px;border:2px solid #4CAF50;background:#0d2b10;color:#FFEB3B;outline:none;font-weight:bold}
-.theme-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:6px;margin:10px 0 14px}
-.theme-card{border-radius:10px;padding:6px;cursor:pointer;border:3px solid transparent;text-align:center;background:rgba(0,0,0,.25);touch-action:manipulation}
-.theme-card.active{border-color:#FFC107}
-.theme-preview{height:38px;border-radius:6px;margin-bottom:4px;position:relative;overflow:hidden}
-.theme-name{font-size:10px;color:#fff;font-weight:600}
-.theme-price{font-size:9px;color:#FFD54F}
-.btn-primary{background:#FFC107;color:#1B5E20;font-size:16px;font-weight:bold;padding:14px 40px;border-radius:12px;box-shadow:0 4px 0 #c79100;min-height:48px}
-.btn-primary:active{transform:translateY(2px);box-shadow:0 2px 0 #c79100}
-.hint{margin-top:10px;color:#A5D6A7;font-size:11.5px}
-#resume-btn{background:#4CAF50;color:#fff;margin-top:10px;padding:12px 28px;border-radius:10px;font-size:14px;display:none;font-weight:bold;min-height:44px}
-#cloud-status{margin-top:10px;font-size:11.5px;color:#90A4AE;padding:9px 12px;background:rgba(0,0,0,.3);border-radius:10px;line-height:1.5;text-align:left}
-#cloud-status.ok{color:#A5D6A7;border-left:3px solid #4CAF50}
-#cloud-status.err{color:#EF9A9A;border-left:3px solid #EF5350}
-#cloud-status.warn{color:#FFCC80;border-left:3px solid #FB8C00}
-#auth-area{margin:14px 0;padding:12px;background:rgba(0,0,0,.25);border-radius:12px}
-.auth-label{color:#C8E6C9;font-size:12px;margin-bottom:10px}
+/* ==== COMMON PIXEL BUTTON STYLE ==== */
+.btn-pixel{border:2px solid #0a0e12;box-shadow:inset -2px -2px 0 rgba(0,0,0,.45),inset 2px 2px 0 rgba(255,255,255,.18),3px 3px 0 rgba(0,0,0,.55)}
+.btn-pixel:active{box-shadow:inset 2px 2px 0 rgba(0,0,0,.45),inset -2px -2px 0 rgba(255,255,255,.08);transform:translate(2px,2px)}
+
+/* ==== START SCREEN ==== */
+#start-screen{background:#1B5E20;padding:22px 14px;max-width:640px;width:100%;margin:12px auto;text-align:center;border:4px solid #0a0e12;box-shadow:inset -4px -4px 0 rgba(0,0,0,.35),inset 4px 4px 0 rgba(255,255,255,.12),6px 6px 0 rgba(0,0,0,.6);position:relative;overflow:hidden}
+#start-screen::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent 0 8px,rgba(0,0,0,.06) 8px 16px);pointer-events:none}
+#start-screen h1{font-family:'Press Start 2P',monospace;font-size:clamp(14px,3.4vw,22px);color:#FFEB3B;margin-bottom:12px;text-shadow:3px 3px 0 #7f5f00,6px 6px 0 rgba(0,0,0,.5);line-height:1.5;position:relative}
+.subtitle{color:#C8E6C9;font-size:12px;margin-bottom:16px;position:relative}
+.field-label{font-size:12px;color:#fff;margin-bottom:8px;display:block;text-transform:uppercase;letter-spacing:1px}
+#farm-name-input{font-size:16px;padding:12px 14px;width:100%;max-width:280px;text-align:center;border:3px solid #0a0e12;background:#0d2b10;color:#FFEB3B;outline:none;font-weight:700;box-shadow:inset 3px 3px 0 rgba(0,0,0,.5),inset -2px -2px 0 rgba(255,255,255,.1)}
+.theme-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:6px;margin:10px 0 14px;position:relative}
+.theme-card{border:3px solid #0a0e12;padding:6px;cursor:pointer;text-align:center;background:rgba(0,0,0,.3);touch-action:manipulation;box-shadow:inset -2px -2px 0 rgba(0,0,0,.4),3px 3px 0 rgba(0,0,0,.5)}
+.theme-card.active{border-color:#FFC107;box-shadow:inset -2px -2px 0 rgba(0,0,0,.4),0 0 0 2px #FFC107,3px 3px 0 rgba(0,0,0,.5)}
+.theme-preview{height:38px;margin-bottom:4px;position:relative;overflow:hidden;border:2px solid #0a0e12}
+.theme-name{font-size:9.5px;color:#fff;font-weight:700;line-height:1.3}
+.theme-price{font-size:8.5px;color:#FFD54F}
+.btn-primary{background:#FFC107;color:#1B5E20;font-size:14px;font-weight:700;padding:14px 32px;border:3px solid #0a0e12;box-shadow:inset -3px -3px 0 rgba(0,0,0,.35),inset 3px 3px 0 rgba(255,255,255,.25),4px 4px 0 rgba(0,0,0,.6);min-height:48px;text-transform:uppercase;letter-spacing:1px;font-family:'Press Start 2P',monospace}
+.btn-primary:active{transform:translate(3px,3px);box-shadow:inset 2px 2px 0 rgba(0,0,0,.35),1px 1px 0 rgba(0,0,0,.6)}
+.hint{margin-top:10px;color:#A5D6A7;font-size:11px;position:relative}
+#resume-btn{background:#4CAF50;color:#fff;margin-top:10px;padding:12px 24px;font-size:12px;display:none;font-weight:700;min-height:44px;border:3px solid #0a0e12;box-shadow:inset -3px -3px 0 rgba(0,0,0,.3),3px 3px 0 rgba(0,0,0,.5);text-transform:uppercase;letter-spacing:1px;font-family:'Press Start 2P',monospace}
+#cloud-status{margin-top:10px;font-size:11px;color:#90A4AE;padding:9px 12px;background:rgba(0,0,0,.4);line-height:1.5;text-align:left;border:2px solid #0a0e12;position:relative}
+#cloud-status.ok{color:#A5D6A7;border-left:4px solid #4CAF50}
+#cloud-status.err{color:#EF9A9A;border-left:4px solid #EF5350}
+#cloud-status.warn{color:#FFCC80;border-left:4px solid #FB8C00}
+#auth-area{margin:14px 0;padding:12px;background:rgba(0,0,0,.3);border:2px solid #0a0e12;position:relative}
+.auth-label{color:#C8E6C9;font-size:11.5px;margin-bottom:10px;text-transform:uppercase;letter-spacing:1px}
 .auth-buttons{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-.btn-google,.btn-anon{padding:12px 16px;border-radius:10px;font-size:13px;font-weight:600;min-width:160px;min-height:44px;display:flex;align-items:center;justify-content:center}
-.btn-google{background:#fff;color:#1f1f1f;box-shadow:0 3px 0 #bdbdbd}
-.btn-anon{background:#4CAF50;color:#fff;box-shadow:0 3px 0 #2E7D32}
-.user-badge{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#1B5E20,#0d3b12);padding:8px 12px;border-radius:12px;border:2px solid #4CAF50}
-.user-avatar{width:38px;height:38px;border-radius:50%;border:2px solid #FFD54F;object-fit:cover;background:#37474F}
+.btn-google,.btn-anon{padding:12px 16px;font-size:12px;font-weight:700;min-width:160px;min-height:44px;display:flex;align-items:center;justify-content:center;border:3px solid #0a0e12}
+.btn-google{background:#fff;color:#1f1f1f;box-shadow:inset -3px -3px 0 rgba(0,0,0,.2),3px 3px 0 rgba(0,0,0,.5)}
+.btn-anon{background:#4CAF50;color:#fff;box-shadow:inset -3px -3px 0 rgba(0,0,0,.3),3px 3px 0 rgba(0,0,0,.5)}
+.user-badge{display:flex;align-items:center;gap:10px;background:#1B5E20;padding:8px 12px;border:3px solid #0a0e12;box-shadow:inset -2px -2px 0 rgba(0,0,0,.4)}
+.user-avatar{width:38px;height:38px;border:2px solid #FFD54F;object-fit:cover;background:#37474F}
 .user-text{flex:1;text-align:left;min-width:0}
-.user-name{color:#FFEB3B;font-size:13px;font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.user-email{color:#A5D6A7;font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.btn-logout{width:34px;height:34px;border-radius:50%;background:rgba(200,30,30,.85);color:#fff;font-size:14px;font-weight:bold;flex-shrink:0}
+.user-name{color:#FFEB3B;font-size:12.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.user-email{color:#A5D6A7;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.btn-logout{width:34px;height:34px;background:#C62828;color:#fff;font-size:14px;font-weight:700;flex-shrink:0;border:2px solid #0a0e12}
 
-#game-screen{display:none;width:100%;max-width:1400px;margin:0 auto;background:#182228;border-radius:14px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.7);border:2px solid #263238}
-#hud{background:linear-gradient(90deg,#2E7D32,#1B5E20);padding:6px 8px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;border-bottom:3px solid #0d3b12;position:sticky;top:0;z-index:90;pointer-events:none}
+/* ==== START SCREEN FARMER ==== */
+.start-farmer-wrap{position:absolute;bottom:-4px;right:8px;pointer-events:none;filter:drop-shadow(3px 3px 0 rgba(0,0,0,.5))}
+.start-farmer-wrap svg{animation:farmerBob 1.4s steps(2) infinite}
+@keyframes farmerBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+
+/* ==== GAME SCREEN ==== */
+#game-screen{display:none;width:100%;max-width:1400px;margin:0 auto;background:#182228;border:3px solid #0a0e12;overflow:hidden;box-shadow:inset -3px -3px 0 rgba(0,0,0,.4),6px 6px 0 rgba(0,0,0,.55)}
+#hud{background:#2E7D32;padding:6px 8px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;border-bottom:3px solid #0a0e12;position:sticky;top:0;z-index:90;pointer-events:none;box-shadow:inset 0 3px 0 rgba(255,255,255,.15),inset 0 -3px 0 rgba(0,0,0,.3)}
 #hud > *{pointer-events:auto;touch-action:manipulation}
-#farm-title-bar{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.3);padding:3px 10px;border-radius:14px;border:1px solid rgba(255,255,255,.15);min-width:0}
-#farm-title-bar .name{font-size:12.5px;font-weight:bold;color:#FFEB3B;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px}
-#farm-title-bar .edit{cursor:pointer;font-size:10px;opacity:.85;padding:3px 6px;border-radius:6px;background:rgba(255,255,255,.12);white-space:nowrap;touch-action:manipulation}
-.stat{font-size:10.5px;font-weight:600;background:rgba(0,0,0,.28);padding:3px 8px;border-radius:14px;white-space:nowrap;display:inline-flex;align-items:center}
+#farm-title-bar{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.4);padding:3px 8px;border:2px solid #0a0e12;min-width:0}
+#farm-title-bar .name{font-size:12px;font-weight:700;color:#FFEB3B;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px}
+#farm-title-bar .edit{cursor:pointer;font-size:10px;padding:3px 6px;background:rgba(255,255,255,.15);white-space:nowrap;touch-action:manipulation;border:1px solid #0a0e12}
+.stat{font-size:10px;font-weight:700;background:rgba(0,0,0,.35);padding:3px 7px;white-space:nowrap;display:inline-flex;align-items:center;border:2px solid #0a0e12;box-shadow:inset -1px -1px 0 rgba(0,0,0,.4),inset 1px 1px 0 rgba(255,255,255,.08)}
 .stat.money{color:#FFD54F}.stat.scale{color:#B3E5FC}.stat.rep{color:#F8BBD0}.stat.stars{color:#FFC107}
 .stat.energy{color:#FFE082}.stat.weather{color:#FFCCBC}.stat.day{color:#B39DDB}.stat.ach{color:#FFD54F}
 .stat.ad{color:#FFAB91}.stat.ad.inactive{opacity:.45}
 .stat.cloud{color:#81D4FA}.stat.cloud.ok{color:#A5D6A7}.stat.cloud.err{color:#EF9A9A}
-.stat.user{color:#FFEB3B;gap:5px;padding:2px 8px 2px 2px}
-.stat.user img{width:20px;height:20px;border-radius:50%;border:1px solid #FFD54F}
-.stat.clock{color:#FFEB3B}
-.stat.tax{color:#FF8A80}
-.stat.loan{color:#FF8A80}
-.stat.holiday{color:#FF80AB}
+.stat.user{color:#FFEB3B;gap:5px;padding:2px 6px}
+.stat.user img{width:20px;height:20px;border:2px solid #FFD54F}
+.stat.clock{color:#FFEB3B}.stat.tax{color:#FF8A80}.stat.loan{color:#FF8A80}.stat.holiday{color:#FF80AB}
 .spacer{flex:1}
-.top-btn{padding:7px 10px;font-size:11px;border-radius:8px;background:#37474F;color:#fff;min-height:34px;font-weight:600;touch-action:manipulation}
-.top-btn:active{background:#546E7A}
+.top-btn{padding:6px 9px;font-size:10.5px;background:#37474F;color:#fff;min-height:32px;font-weight:700;touch-action:manipulation;border:2px solid #0a0e12;box-shadow:inset -2px -2px 0 rgba(0,0,0,.4),inset 2px 2px 0 rgba(255,255,255,.12),2px 2px 0 rgba(0,0,0,.5)}
+.top-btn:active{transform:translate(2px,2px);box-shadow:inset 1px 1px 0 rgba(0,0,0,.4)}
 .top-btn.warn{background:#E65100}
 .top-btn.active{background:#FFC107;color:#1B5E20}
 
 #main{display:flex;flex-wrap:wrap;gap:8px;padding:8px;align-items:flex-start}
 #farm-area{flex:1 1 700px;min-width:0;max-width:100%}
-#farm-wrap{position:relative;width:100%;max-width:700px;margin:0 auto;border-radius:10px;overflow:hidden;border:3px solid #37474F;touch-action:manipulation}
+#farm-wrap{position:relative;width:100%;max-width:700px;margin:0 auto;overflow:hidden;border:4px solid #0a0e12;touch-action:manipulation;box-shadow:inset 0 0 0 3px #000}
 #farm{position:relative;width:700px;height:680px;transform-origin:top left;overflow:hidden}
-#sky{position:absolute;top:0;left:0;right:0;height:125px;transition:background .6s}
-#ground{position:absolute;top:125px;left:0;right:0;bottom:0;transition:background .6s}
+#sky{position:absolute;top:0;left:0;right:0;height:125px;transition:background .3s}
+#ground{position:absolute;top:125px;left:0;right:0;bottom:0;transition:background .3s}
+/* Pixel grid overlay on ground */
+#farm::after{content:'';position:absolute;inset:125px 0 0 0;background-image:linear-gradient(0deg,rgba(0,0,0,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.08) 1px,transparent 1px);background-size:8px 8px;pointer-events:none;z-index:1}
 #farm-decor{position:absolute;inset:0;pointer-events:none;z-index:1}
-#farm-decor span{position:absolute;filter:drop-shadow(0 3px 4px rgba(0,0,0,.4));user-select:none}
+#farm-decor span{position:absolute;filter:drop-shadow(2px 3px 0 rgba(0,0,0,.45));user-select:none;image-rendering:pixelated}
 
-/* ==== THEME PARTICLES ==== */
 #theme-fx{position:absolute;inset:0;pointer-events:none;z-index:2;overflow:hidden}
 .theme-particle{position:absolute;pointer-events:none;user-select:none;font-size:16px;opacity:.9}
 @keyframes pButterfly{0%,100%{transform:translate(0,0) rotate(0)}25%{transform:translate(30px,-20px) rotate(15deg)}50%{transform:translate(60px,0) rotate(-10deg)}75%{transform:translate(30px,20px) rotate(10deg)}}
@@ -89,237 +103,235 @@ select{font-size:16px!important}
 @keyframes pSunray{0%,100%{opacity:.2;transform:scale(1)}50%{opacity:.6;transform:scale(1.15)}}
 @keyframes pMist{0%{transform:translateX(-100px);opacity:0}30%{opacity:.6}100%{transform:translateX(800px);opacity:0}}
 @keyframes pPetal{0%{transform:translate(0,0) rotate(0);opacity:0}10%{opacity:1}100%{transform:translate(-40px,300px) rotate(540deg);opacity:0}}
-@keyframes pSeagull{0%{transform:translateX(-100px) scaleX(1)}100%{transform:translateX(800px) scaleX(1)}}
+@keyframes pSeagull{0%{transform:translateX(-100px)}100%{transform:translateX(800px)}}
 @keyframes pFirefly{0%,100%{opacity:.2;transform:translate(0,0)}25%{opacity:1;transform:translate(20px,-15px)}50%{opacity:.5;transform:translate(40px,0)}75%{opacity:1;transform:translate(20px,15px)}}
-@keyframes pSparkle{0%,100%{opacity:.2;transform:scale(.8) rotate(0)}50%{opacity:1;transform:scale(1.3) rotate(180deg)}}
+@keyframes pSparkle{0%,100%{opacity:.2;transform:scale(.8)}50%{opacity:1;transform:scale(1.3)}}
 
-/* ==== HOLIDAY ==== */
-#holiday-overlay{position:absolute;inset:0;pointer-events:none;z-index:3;transition:background .8s,opacity .8s}
+/* ==== FARMER SPRITE ==== */
+.farmer-sprite{position:absolute;bottom:6px;right:14px;z-index:8;pointer-events:none;filter:drop-shadow(3px 3px 0 rgba(0,0,0,.55))}
+.farmer-sprite svg{display:block;animation:farmerIdle 1.6s steps(2) infinite;transform-origin:bottom center}
+@keyframes farmerIdle{0%,100%{transform:translateY(0) scaleX(1)}50%{transform:translateY(-2px) scaleX(1)}}
+.farmer-sprite .farmer-tool{animation:toolSwing 2.4s steps(3) infinite;transform-origin:top left}
+@keyframes toolSwing{0%,100%{transform:rotate(0)}50%{transform:rotate(-6deg)}}
+
+#holiday-overlay{position:absolute;inset:0;pointer-events:none;z-index:3;transition:background .6s,opacity .6s}
 #holiday-decor{position:absolute;inset:0;pointer-events:none;z-index:4;overflow:hidden}
-.holiday-lantern{position:absolute;font-size:22px;animation:lanternSwing 3s ease-in-out infinite;transform-origin:top center;filter:drop-shadow(0 3px 6px rgba(0,0,0,.4))}
+.holiday-lantern{position:absolute;font-size:22px;animation:lanternSwing 3s steps(4) infinite;transform-origin:top center;filter:drop-shadow(2px 3px 0 rgba(0,0,0,.45))}
 @keyframes lanternSwing{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
 .holiday-petal{position:absolute;top:-20px;font-size:16px;animation:petalFall linear infinite;pointer-events:none}
 @keyframes petalFall{to{transform:translateY(750px) rotate(720deg)}}
-.holiday-star{position:absolute;font-size:12px;animation:starTwinkle 2s ease-in-out infinite}
+.holiday-star{position:absolute;font-size:12px;animation:starTwinkle 2s steps(3) infinite}
 @keyframes starTwinkle{0%,100%{opacity:.3;transform:scale(.7)}50%{opacity:1;transform:scale(1.3)}}
-.holiday-moon{position:absolute;top:20px;right:60px;font-size:60px;filter:drop-shadow(0 0 30px #FFF59D);animation:moonFloat 4s ease-in-out infinite}
+.holiday-moon{position:absolute;top:20px;right:60px;font-size:60px;filter:drop-shadow(0 0 20px #FFF59D);animation:moonFloat 4s steps(4) infinite}
 @keyframes moonFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 
 #weather-fx{position:absolute;inset:0;pointer-events:none;z-index:50;overflow:hidden}
-.raindrop{position:absolute;width:2px;height:12px;background:linear-gradient(180deg,rgba(174,214,241,0),#AED6F1);top:-20px;animation:fall linear infinite}
+.raindrop{position:absolute;width:2px;height:10px;background:#AED6F1;top:-20px;animation:fall linear infinite}
 @keyframes fall{to{transform:translateY(900px)}}
-.snow{position:absolute;width:5px;height:5px;background:#fff;border-radius:50%;opacity:.85;top:-10px;animation:snowfall linear infinite}
+.snow{position:absolute;width:4px;height:4px;background:#fff;opacity:.9;top:-10px;animation:snowfall linear infinite}
 @keyframes snowfall{to{transform:translateY(900px) translateX(30px)}}
-#weather-overlay{position:absolute;inset:0;pointer-events:none;z-index:51;transition:background .6s}
+#weather-overlay{position:absolute;inset:0;pointer-events:none;z-index:51;transition:background .4s}
 #weather-overlay.storm{background:rgba(20,25,40,.55)}
 #weather-overlay.rainbow{background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,193,7,.08))}
 #weather-overlay.cold{background:rgba(120,180,240,.20)}
 #weather-overlay.rain{background:rgba(80,110,140,.22)}
-#weather-overlay.hot{background:linear-gradient(180deg,rgba(255,180,60,.18),rgba(255,120,30,.10))}
-#paused-overlay{position:absolute;inset:0;background:rgba(0,0,0,.55);z-index:70;display:none;align-items:center;justify-content:center;flex-direction:column;color:#FFEB3B;font-size:22px;font-weight:bold;pointer-events:none}
+#paused-overlay{position:absolute;inset:0;background:rgba(0,0,0,.65);z-index:70;display:none;align-items:center;justify-content:center;flex-direction:column;color:#FFEB3B;font-size:20px;font-weight:700;pointer-events:none;font-family:'Press Start 2P',monospace;text-shadow:3px 3px 0 #000}
 #paused-overlay.show{display:flex}
-#paused-overlay small{font-size:12px;color:#A5D6A7;margin-top:6px;font-weight:400}
-.sun{position:absolute;top:16px;left:24px;width:50px;height:50px;border-radius:50%;background:radial-gradient(circle,#FFF59D,#FFD54F);box-shadow:0 0 40px rgba(255,213,79,.85);z-index:2;transition:opacity .5s,transform .5s}
-.cloud{position:absolute;background:#fff;border-radius:50px;opacity:.85;z-index:2}
-.cloud::before,.cloud::after{content:'';position:absolute;background:#fff;border-radius:50%}
-.cloud::before{width:55%;height:150%;top:-60%;left:12%}
-.cloud::after{width:45%;height:130%;top:-45%;right:10%}
+#paused-overlay small{font-size:11px;color:#A5D6A7;margin-top:10px;font-weight:400;font-family:inherit;text-shadow:none}
+/* Pixel-art sun/cloud/barn */
+.sun{position:absolute;top:16px;left:24px;width:44px;height:44px;background:#FFD54F;z-index:2;transition:opacity .4s,transform .4s;box-shadow:0 0 0 3px #FFEB3B,0 0 0 6px #F9A825,0 0 0 9px rgba(249,168,37,.3)}
+.cloud{position:absolute;z-index:2;opacity:.9;background:#fff;box-shadow:8px 0 0 0 #fff,16px 0 0 0 #fff,4px -6px 0 0 #fff,12px -6px 0 0 #fff,-4px 0 0 0 #fff;height:12px}
 .barn{position:absolute;top:36px;right:24px;width:95px;height:74px;z-index:2}
-.barn-body{position:absolute;bottom:0;left:0;right:0;height:50px;background:#C62828;border:2px solid #8E1F1F;border-radius:3px}
-.barn-roof{position:absolute;top:0;left:-8px;right:-8px;height:36px;background:#8D6E63;clip-path:polygon(50% 0%,100% 100%,0% 100%)}
-.barn-door{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:26px;height:34px;background:#5D4037;border-radius:4px 4px 0 0}
-.barn-window{position:absolute;bottom:26px;left:8px;width:16px;height:16px;background:#FFF59D;border:2px solid #5D4037;border-radius:3px}
-#weather-badge{position:absolute;top:6px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.65);color:#fff;padding:4px 12px;border-radius:16px;font-size:11px;font-weight:bold;z-index:60;border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;gap:5px;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);pointer-events:none}
+.barn-body{position:absolute;bottom:0;left:0;right:0;height:50px;background:#C62828;border:3px solid #0a0e12;box-shadow:inset -3px -3px 0 rgba(0,0,0,.3),inset 3px 3px 0 rgba(255,255,255,.12)}
+.barn-roof{position:absolute;top:0;left:-8px;right:-8px;height:36px;background:#8D6E63;clip-path:polygon(50% 0%,100% 100%,0 100%);filter:drop-shadow(0 3px 0 #0a0e12)}
+.barn-door{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:26px;height:34px;background:#5D4037;border:3px solid #0a0e12;border-bottom:none}
+.barn-window{position:absolute;bottom:26px;left:8px;width:16px;height:16px;background:#FFF59D;border:3px solid #0a0e12}
+#weather-badge{position:absolute;top:6px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.75);color:#fff;padding:4px 12px;font-size:10.5px;font-weight:700;z-index:60;border:2px solid #fff;display:flex;align-items:center;gap:5px;pointer-events:none;box-shadow:2px 2px 0 rgba(0,0,0,.5)}
 .wdesc{font-size:9.5px;opacity:.85;font-weight:400;display:none}
 @media (min-width:600px){.wdesc{display:inline}}
-#zone-tabs{display:flex;gap:5px;padding:6px 10px 0;background:#1f2b30;flex-wrap:wrap}
-.zone-tab{flex:1;min-width:120px;padding:8px 10px;background:#263238;color:#B0BEC5;border-radius:9px 9px 0 0;font-size:11.5px;font-weight:bold;min-height:38px;touch-action:manipulation;cursor:pointer}
-.zone-tab.active{background:#37474F;color:#FFD54F;border-bottom:3px solid #FFD54F}
-#tools-bar{display:flex;gap:5px;padding:6px 10px 0;background:#1f2b30;flex-wrap:wrap}
-.tool-btn{padding:7px 12px;background:#37474F;color:#eceff1;border:2px solid transparent;border-radius:8px;font-size:11.5px;font-weight:600;min-height:36px;touch-action:manipulation;cursor:pointer}
-.tool-btn.active{background:#FFC107;color:#1B5E20;border-color:#FFA000}
+#zone-tabs{display:flex;gap:4px;padding:6px 8px 0;background:#1f2b30;flex-wrap:wrap}
+.zone-tab{flex:1;min-width:120px;padding:8px 10px;background:#263238;color:#B0BEC5;font-size:11px;font-weight:700;min-height:38px;touch-action:manipulation;cursor:pointer;border:2px solid #0a0e12;border-bottom:none;box-shadow:inset -2px -2px 0 rgba(0,0,0,.4)}
+.zone-tab.active{background:#37474F;color:#FFD54F;box-shadow:inset -2px -2px 0 rgba(0,0,0,.4),inset 0 -3px 0 #FFD54F}
+#tools-bar{display:flex;gap:5px;padding:6px 8px 0;background:#1f2b30;flex-wrap:wrap}
+.tool-btn{padding:7px 11px;background:#37474F;color:#eceff1;border:2px solid #0a0e12;font-size:11px;font-weight:700;min-height:36px;touch-action:manipulation;cursor:pointer;box-shadow:inset -2px -2px 0 rgba(0,0,0,.4),inset 2px 2px 0 rgba(255,255,255,.1)}
+.tool-btn.active{background:#FFC107;color:#1B5E20;box-shadow:inset -2px -2px 0 rgba(0,0,0,.25),inset 2px 2px 0 rgba(255,255,255,.5)}
 .tool-info{flex:1;display:flex;align-items:center;font-size:10.5px;color:#90A4AE;padding-left:6px;min-width:100px}
 #plots{position:absolute;top:160px;left:16px;right:16px;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,96px);gap:7px;z-index:5}
-.plot{border-radius:9px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid rgba(0,0,0,.45);overflow:hidden;box-shadow:inset 0 -4px 0 rgba(0,0,0,.15),0 2px 5px rgba(0,0,0,.3);position:relative;touch-action:manipulation;-webkit-user-select:none;user-select:none}
-.plot:active{transform:scale(.96)}
-.plot .plus{font-size:26px;color:rgba(255,255,255,.55);font-weight:900;pointer-events:none}
-.plot .hint-line{font-size:9px;color:rgba(255,255,255,.78);margin-top:3px;font-weight:600;pointer-events:none}
-.plot .emoji{font-size:26px;line-height:1;filter:drop-shadow(0 2px 3px rgba(0,0,0,.5));pointer-events:none}
-.plot.spray-target{box-shadow:0 0 0 3px #FFEB3B,inset 0 -4px 0 rgba(0,0,0,.15);animation:sprayPulse .5s ease}
+.plot{cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid rgba(0,0,0,.5);overflow:hidden;box-shadow:inset -3px -3px 0 rgba(0,0,0,.25),inset 3px 3px 0 rgba(255,255,255,.12),0 3px 0 rgba(0,0,0,.35);position:relative;touch-action:manipulation;-webkit-user-select:none;user-select:none}
+.plot:active{transform:scale(.94)}
+.plot .plus{font-size:24px;color:rgba(255,255,255,.6);font-weight:900;pointer-events:none}
+.plot .hint-line{font-size:9px;color:rgba(255,255,255,.8);margin-top:3px;font-weight:700;pointer-events:none;text-shadow:1px 1px 0 rgba(0,0,0,.5)}
+.plot .emoji{font-size:26px;line-height:1;filter:drop-shadow(2px 3px 0 rgba(0,0,0,.5));pointer-events:none;image-rendering:pixelated}
+.plot.spray-target{box-shadow:0 0 0 3px #FFEB3B,inset -3px -3px 0 rgba(0,0,0,.25);animation:sprayPulse .4s steps(2)}
 @keyframes sprayPulse{0%{transform:scale(1)}50%{transform:scale(1.08)}100%{transform:scale(1)}}
-.gene-badge{position:absolute;top:3px;right:3px;background:rgba(0,0,0,.75);border-radius:8px;font-size:11px;padding:1px 5px;line-height:1.3;border:1px solid rgba(255,255,255,.3);pointer-events:none}
+.gene-badge{position:absolute;top:3px;right:3px;background:rgba(0,0,0,.8);font-size:11px;padding:1px 5px;line-height:1.3;border:2px solid rgba(255,255,255,.4);pointer-events:none}
 .gene-badge.gene-rainbow{color:#FF80AB}.gene-badge.gene-royal{color:#FFD54F}
 .gene-badge.gene-gold{color:#FFEB3B;text-shadow:0 0 8px #FFC107}
-.badge-mini{position:absolute;top:3px;left:3px;font-size:12px;background:rgba(0,0,0,.75);border-radius:7px;padding:1px 5px;border:1px solid rgba(255,255,255,.3);pointer-events:none}
-.badge-mini.fert{border-color:#8BC34A;color:#C5E1A5}
+.badge-mini{position:absolute;top:3px;left:3px;font-size:12px;background:rgba(0,0,0,.8);padding:1px 5px;border:2px solid rgba(255,255,255,.4);pointer-events:none}
 .badge-mini.hungry{border-color:#EF5350;color:#FFCDD2}
 .badge-mini.sick{border-color:#B71C1C;color:#FF8A80}
-.badge-mini.thirsty{border-color:#29B6F6;color:#81D4FA;animation:thirstyPulse 1.2s ease-in-out infinite}
-@keyframes thirstyPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
-.plot.locked{background:#4E342E!important;border-color:#3E2723!important}
+.plot.locked{background:#4E342E!important;border-color:#0a0e12!important}
 .plot .lock-icon{font-size:22px;pointer-events:none}
 .plot .lock-hint{font-size:9.5px;color:#FFD54F;margin-top:3px;font-weight:700;pointer-events:none}
 .plot .lock-sub{font-size:8px;color:#BCAAA4;pointer-events:none}
-.progress-track{position:absolute;bottom:5px;left:6px;right:6px;height:7px;background:rgba(0,0,0,.5);border-radius:4px;overflow:hidden}
-.progress-fill{height:100%;background:#4CAF50;border-radius:4px;transition:width .2s linear}
+.progress-track{position:absolute;bottom:5px;left:6px;right:6px;height:8px;background:rgba(0,0,0,.55);border:2px solid #0a0e12;overflow:hidden}
+.progress-fill{height:100%;background:#4CAF50;transition:width .2s linear;box-shadow:inset 0 -2px 0 rgba(0,0,0,.25),inset 0 2px 0 rgba(255,255,255,.2)}
 .progress-fill.done{background:#FFD54F}.progress-fill.slow{background:#FF7043}
-.progress-fill.fert{background:linear-gradient(90deg,#4CAF50,#8BC34A)}
-.plot.ready{animation:pulse 1.2s infinite}
-@keyframes pulse{0%,100%{box-shadow:inset 0 -4px 0 rgba(0,0,0,.15),0 0 0 0 rgba(255,213,79,.85)}50%{box-shadow:inset 0 -4px 0 rgba(0,0,0,.15),0 0 0 8px rgba(255,213,79,0)}}
-.ready-tag{position:absolute;top:3px;left:50%;transform:translateX(-50%);background:#FFD54F;color:#3E2723;font-size:7.5px;font-weight:bold;padding:2px 5px;border-radius:6px;white-space:nowrap;pointer-events:none}
-.water-bar{position:absolute;bottom:14px;left:6px;right:6px;height:3px;background:rgba(0,0,0,.4);border-radius:2px;overflow:hidden}
-.water-fill{height:100%;background:linear-gradient(90deg,#29B6F6,#81D4FA);border-radius:2px}
+.plot.ready{animation:pulse 1.2s steps(2) infinite}
+@keyframes pulse{0%,100%{box-shadow:inset -3px -3px 0 rgba(0,0,0,.25),0 0 0 0 rgba(255,213,79,.85)}50%{box-shadow:inset -3px -3px 0 rgba(0,0,0,.25),0 0 0 6px rgba(255,213,79,0)}}
+.ready-tag{position:absolute;top:3px;left:50%;transform:translateX(-50%);background:#FFD54F;color:#3E2723;font-size:7.5px;font-weight:700;padding:2px 5px;white-space:nowrap;pointer-events:none;border:1px solid #0a0e12}
 
 #side-panel{flex:1 1 380px;min-width:280px;display:flex;flex-direction:column;gap:6px}
-.panel{background:#263238;border-radius:10px;border:1px solid #37474F;overflow:hidden}
-.panel-header{padding:10px 12px;cursor:pointer;user-select:none;display:flex;justify-content:space-between;align-items:center;gap:6px;font-size:11.5px;color:#80CBC4;letter-spacing:.4px;font-weight:600;background:#2a373d;min-height:40px;touch-action:manipulation}
+.panel{background:#263238;border:3px solid #0a0e12;overflow:hidden;box-shadow:inset -2px -2px 0 rgba(0,0,0,.3),inset 2px 2px 0 rgba(255,255,255,.05)}
+.panel-header{padding:10px 12px;cursor:pointer;user-select:none;display:flex;justify-content:space-between;align-items:center;gap:6px;font-size:11px;color:#80CBC4;letter-spacing:.5px;font-weight:700;background:#2a373d;min-height:40px;touch-action:manipulation;text-transform:uppercase;border-bottom:2px solid #0a0e12}
 .panel-header:active{background:#2f4048}
-.panel-header .chevron{transition:transform .3s;color:#FFD54F;font-size:13px}
+.panel-header .chevron{transition:transform .3s steps(3);color:#FFD54F;font-size:13px}
 .panel.collapsed .panel-header .chevron{transform:rotate(-90deg)}
-.panel-header .badge{background:#37474F;padding:2px 7px;border-radius:9px;font-size:9.5px;color:#FFD54F;text-transform:none}
-.panel-body{padding:9px 11px;max-height:4000px;overflow:hidden;transition:max-height .3s ease,padding .3s ease}
+.panel.collapsed .panel-header{border-bottom:none}
+.panel-header .badge{background:#37474F;padding:2px 7px;font-size:9.5px;color:#FFD54F;border:1px solid #0a0e12;text-transform:none}
+.panel-body{padding:9px 11px;max-height:4000px;overflow:hidden;transition:max-height .3s steps(8),padding .3s steps(8)}
 .panel.collapsed .panel-body{max-height:0;padding:0 11px}
 
-#panel-feedback{border:2px solid #FFC107;background:#2a2414}
-#panel-feedback .panel-header{background:#3a2f1a;color:#FFD54F}
-#panel-feedback textarea{width:100%;min-height:80px;background:#1f1a0e;border:2px solid #5D4037;border-radius:8px;color:#FFEB3B;padding:8px;resize:vertical;font-family:inherit;outline:none}
+#panel-feedback{border-color:#FFC107;background:#2a2414}
+#panel-feedback .panel-header{background:#3a2f1a;color:#FFD54F;border-color:#0a0e12}
+#panel-feedback textarea{width:100%;min-height:80px;background:#1f1a0e;border:3px solid #0a0e12;color:#FFEB3B;padding:8px;resize:vertical;outline:none;box-shadow:inset 3px 3px 0 rgba(0,0,0,.5)}
 #panel-feedback textarea:focus{border-color:#FFC107}
-#feedback-send{width:100%;margin-top:6px;background:#FFC107;color:#1B5E20;border-radius:8px;padding:10px;font-size:12.5px;font-weight:bold;min-height:42px;touch-action:manipulation}
+#feedback-send{width:100%;margin-top:6px;background:#FFC107;color:#1B5E20;padding:10px;font-size:12px;font-weight:700;min-height:42px;touch-action:manipulation;border:3px solid #0a0e12;box-shadow:inset -3px -3px 0 rgba(0,0,0,.25),inset 3px 3px 0 rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:1px}
 #feedback-note{font-size:9.5px;color:#B0BEC5;margin-top:5px;line-height:1.5}
 
 .shop-section{margin-bottom:8px}
 .shop-section:last-child{margin-bottom:0}
-.shop-sub{font-size:10px;color:#90A4AE;letter-spacing:.3px;margin-bottom:5px;font-weight:600;display:flex;justify-content:space-between}
+.shop-sub{font-size:10px;color:#90A4AE;letter-spacing:.5px;margin-bottom:5px;font-weight:700;text-transform:uppercase}
 .shop-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px}
-.shop-btn{background:#37474F;color:#eceff1;border-radius:7px;padding:8px 8px;font-size:11px;text-align:left;display:flex;justify-content:space-between;gap:4px;min-height:36px;align-items:center;touch-action:manipulation}
-.shop-btn:active{background:#546E7A}
-.shop-btn .price{color:#FFD54F;font-weight:bold;font-size:10px}
+.shop-btn{background:#37474F;color:#eceff1;padding:8px;font-size:11px;text-align:left;display:flex;justify-content:space-between;gap:4px;min-height:36px;align-items:center;touch-action:manipulation;border:2px solid #0a0e12;box-shadow:inset -2px -2px 0 rgba(0,0,0,.4),inset 2px 2px 0 rgba(255,255,255,.1)}
+.shop-btn:active{background:#546E7A;transform:translate(1px,1px)}
+.shop-btn .price{color:#FFD54F;font-weight:700;font-size:10px}
 .shop-btn .name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0}
 .ad-row{display:grid;grid-template-columns:1fr 1fr;gap:4px}
-.ad-btn{background:#5D4037;color:#fff;border-radius:7px;padding:9px 6px;font-size:11px;min-height:38px;touch-action:manipulation}
-.ad-btn:active{background:#795548}
-.unlock-btn,.land-btn,.worker-btn{display:flex;align-items:center;gap:6px;background:#37474F;color:#eceff1;border-radius:7px;padding:8px 9px;margin-bottom:4px;width:100%;font-size:11px;text-align:left;min-height:40px;touch-action:manipulation}
-.unlock-btn:active,.land-btn:active,.worker-btn:active{background:#546E7A}
-.unlock-name,.worker-name{flex:1;font-weight:600;min-width:0}
-.unlock-cost,.land-cost,.worker-cost{color:#FFD54F;font-weight:bold;font-size:10px}
+.ad-btn{background:#5D4037;color:#fff;padding:9px 6px;font-size:11px;min-height:38px;touch-action:manipulation;border:2px solid #0a0e12;box-shadow:inset -2px -2px 0 rgba(0,0,0,.4),inset 2px 2px 0 rgba(255,255,255,.1)}
+.ad-btn:active{background:#795548;transform:translate(1px,1px)}
+.unlock-btn,.land-btn,.worker-btn{display:flex;align-items:center;gap:6px;background:#37474F;color:#eceff1;padding:8px 9px;margin-bottom:4px;width:100%;font-size:11px;text-align:left;min-height:40px;touch-action:manipulation;border:2px solid #0a0e12;box-shadow:inset -2px -2px 0 rgba(0,0,0,.4),inset 2px 2px 0 rgba(255,255,255,.1)}
+.unlock-btn:active,.land-btn:active,.worker-btn:active{background:#546E7A;transform:translate(1px,1px)}
+.unlock-name,.worker-name{flex:1;font-weight:700;min-width:0}
+.unlock-cost,.land-cost,.worker-cost{color:#FFD54F;font-weight:700;font-size:10px}
 .land-btn{justify-content:space-between}
 .worker-btn.hired{background:#2E7D32;cursor:default}
 .worker-btn.hired .worker-cost{color:#C8E6C9}
 .worker-detail{font-size:9px;color:#B0BEC5;font-weight:400;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #inventory-list{display:flex;flex-wrap:wrap;gap:4px;font-size:10.5px;min-height:20px;max-height:140px;overflow-y:auto;padding-right:2px}
-.inv-chip{background:#37474F;padding:3px 8px;border-radius:9px;border:1px solid #546E7A;font-size:10px}
+.inv-chip{background:#37474F;padding:3px 8px;border:2px solid #0a0e12;font-size:10px;box-shadow:inset -1px -1px 0 rgba(0,0,0,.4)}
 .inv-chip .chip-price{color:#FFD54F;font-size:9px;margin-left:3px}
 .inv-empty{color:#78909C;font-style:italic;font-size:10.5px}
-.sell-btn{width:100%;margin-top:7px;background:#455A64;color:#fff;border-radius:7px;padding:9px;font-size:11px;min-height:38px;font-weight:600;touch-action:manipulation}
-.sell-btn:active{background:#546E7A}
+.sell-btn{width:100%;margin-top:7px;background:#455A64;color:#fff;padding:9px;font-size:11px;min-height:38px;font-weight:700;touch-action:manipulation;border:3px solid #0a0e12;box-shadow:inset -2px -2px 0 rgba(0,0,0,.4),inset 2px 2px 0 rgba(255,255,255,.1);text-transform:uppercase;letter-spacing:.5px}
+.sell-btn:active{background:#546E7A;transform:translate(2px,2px)}
 #customer-list{max-height:320px;overflow-y:auto;padding-right:2px}
-.customer{background:#37474F;border-radius:9px;padding:8px 10px;margin-bottom:5px;border-left:4px solid #FFC107}
+.customer{background:#37474F;padding:8px 10px;margin-bottom:5px;border:3px solid #0a0e12;border-left:6px solid #FFC107;box-shadow:inset -2px -2px 0 rgba(0,0,0,.3)}
 .customer.vip{border-left-color:#FF80AB;background:#3a2f47}
 .customer.rare{border-left-color:#B39DDB;background:#2f2a44}
 .customer.merchant{border-left-color:#4DD0E1;background:#2a3b40}
 .customer.special{border-left-color:#FFD54F;background:#453b22}
 .cust-top{display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap}
-.cust-name{font-size:11.5px;font-weight:bold;color:#FFD54F}
-.cust-tier{font-size:8px;padding:1px 5px;border-radius:7px;margin-left:3px;font-weight:bold}
+.cust-name{font-size:11.5px;font-weight:700;color:#FFD54F}
+.cust-tier{font-size:8px;padding:2px 5px;margin-left:3px;font-weight:700;border:1px solid #0a0e12}
 .cust-tier.vip{background:#FF80AB;color:#fff}.cust-tier.rare{background:#B39DDB;color:#311B92}
 .cust-tier.merchant{background:#4DD0E1;color:#004D40}.cust-tier.special{background:#FFD54F;color:#3E2723}
-.cust-reward{font-size:11px;font-weight:bold;color:#A5D6A7}
+.cust-reward{font-size:11px;font-weight:700;color:#A5D6A7}
 .cust-order{font-size:10px;color:#CFD8DC;margin:4px 0}
 .cust-bottom{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
-.patience-track{flex:1 1 100%;height:6px;background:#1c262b;border-radius:3px;overflow:hidden;margin-bottom:4px}
-.patience-fill{height:100%;background:#66BB6A;border-radius:3px}
+.patience-track{flex:1 1 100%;height:8px;background:#1c262b;border:2px solid #0a0e12;overflow:hidden;margin-bottom:4px}
+.patience-fill{height:100%;background:#66BB6A}
 .patience-fill.low{background:#EF5350}
-.deliver-btn{background:#43A047;color:#fff;border-radius:6px;padding:7px 10px;font-size:10.5px;font-weight:bold;min-height:32px;touch-action:manipulation}
-.partial-btn{background:#FB8C00;color:#fff;border-radius:6px;padding:7px 10px;font-size:10.5px;font-weight:bold;min-height:32px;touch-action:manipulation}
-.reject-btn{background:#B71C1C;color:#fff;border-radius:6px;padding:7px 10px;font-size:10.5px;font-weight:bold;min-height:32px;touch-action:manipulation}
-.deliver-btn:disabled,.partial-btn:disabled{background:#546E7A;opacity:.6}
+.deliver-btn,.partial-btn,.reject-btn{color:#fff;padding:7px 10px;font-size:10.5px;font-weight:700;min-height:32px;touch-action:manipulation;border:2px solid #0a0e12;box-shadow:inset -2px -2px 0 rgba(0,0,0,.35),inset 2px 2px 0 rgba(255,255,255,.15)}
+.deliver-btn{background:#43A047}.partial-btn{background:#FB8C00}.reject-btn{background:#B71C1C}
+.deliver-btn:active,.partial-btn:active,.reject-btn:active{transform:translate(1px,1px)}
+.deliver-btn:disabled,.partial-btn:disabled{background:#546E7A;opacity:.5}
 .empty-customers{color:#78909C;font-size:11px;text-align:center;padding:16px 10px;font-style:italic}
-.sm-row{display:flex;align-items:center;gap:6px;padding:6px 0;border-bottom:1px dashed #37474F;font-size:11px;flex-wrap:wrap}
+.sm-row{display:flex;align-items:center;gap:6px;padding:6px 0;border-bottom:2px dashed #37474F;font-size:11px;flex-wrap:wrap}
 .sm-row:last-child{border-bottom:none}
-.sm-item{flex:1;font-weight:600;min-width:70px}
-.sm-price{color:#FFD54F;font-weight:bold;font-size:11px}
+.sm-item{flex:1;font-weight:700;min-width:70px}
+.sm-price{color:#FFD54F;font-weight:700;font-size:11px}
 .sm-comp{color:#90A4AE;font-size:10px}
 .sm-comp.win{color:#A5D6A7}.sm-comp.lose{color:#EF9A9A}
 .sm-slider{width:80px;flex-shrink:0}
 .sm-slider input{width:100%}
-.sm-remove{background:#B71C1C;color:#fff;border-radius:6px;padding:4px 8px;font-size:10px;min-height:26px;touch-action:manipulation;font-weight:bold}
-.online-card{background:#1f2b30;border-radius:9px;padding:8px 10px;margin-bottom:5px;border-left:4px solid #29B6F6}
+.sm-remove{background:#B71C1C;color:#fff;padding:4px 8px;font-size:10px;min-height:26px;touch-action:manipulation;font-weight:700;border:2px solid #0a0e12}
+.online-card{background:#1f2b30;padding:8px 10px;margin-bottom:5px;border:3px solid #0a0e12;border-left:6px solid #29B6F6}
 .online-card.shipping{border-left-color:#FFB300}
 .online-top{display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap}
-.online-name{font-size:11.5px;font-weight:bold;color:#81D4FA}
-.online-reward{font-size:11px;font-weight:bold;color:#FFD54F}
+.online-name{font-size:11.5px;font-weight:700;color:#81D4FA}
+.online-reward{font-size:11px;font-weight:700;color:#FFD54F}
 .online-order{font-size:10px;color:#CFD8DC;margin:4px 0;word-break:break-word}
 .online-bar{display:flex;gap:6px;align-items:center;font-size:9.5px;color:#90A4AE;margin-top:4px}
-.online-track{flex:1;height:6px;background:#1c262b;border-radius:3px;overflow:hidden}
-.online-fill{height:100%;background:#29B6F6;border-radius:3px}
+.online-track{flex:1;height:8px;background:#1c262b;border:2px solid #0a0e12;overflow:hidden}
+.online-fill{height:100%;background:#29B6F6}
 .online-fill.shipping{background:#FFB300}
 #review-list{max-height:200px;overflow-y:auto;padding-right:2px}
-.review-item{background:#1f2b30;border-radius:8px;padding:6px 9px;font-size:10.5px;border-left:3px solid #4DD0E1;margin-bottom:4px}
+.review-item{background:#1f2b30;padding:6px 9px;font-size:10.5px;border:2px solid #0a0e12;border-left:4px solid #4DD0E1;margin-bottom:4px}
 .review-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px}
-.review-name{font-weight:bold;color:#FFD54F;font-size:10.5px}
+.review-name{font-weight:700;color:#FFD54F;font-size:10.5px}
 .review-stars{color:#FFC107;font-size:10.5px}
 .review-text{color:#CFD8DC;font-style:italic}
 #ach-panel-list{display:grid;gap:4px;max-height:200px;overflow-y:auto}
-.ach-item{background:#37474F;border-radius:7px;padding:5px 9px;font-size:10.5px;display:flex;align-items:center;gap:6px}
+.ach-item{background:#37474F;padding:5px 9px;font-size:10.5px;display:flex;align-items:center;gap:6px;border:2px solid #0a0e12}
 .ach-item.done{background:#2E7D32;color:#C8E6C9}
 .ach-emoji{font-size:13px}
 .ach-name{flex:1;min-width:0}
-.ach-progress{color:#90A4AE;font-size:9.5px;font-weight:bold}
+.ach-progress{color:#90A4AE;font-size:9.5px;font-weight:700}
 .ach-item.done .ach-progress{color:#A5D6A7}
 
-#status-bar{padding:8px 12px;background:#0d1418;border-top:2px solid #263238;font-size:11.5px;color:#FFF59D;min-height:34px;display:flex;align-items:center}
+#status-bar{padding:8px 12px;background:#0d1418;border-top:3px solid #0a0e12;font-size:11px;color:#FFF59D;min-height:34px;display:flex;align-items:center;letter-spacing:.5px}
 
-#modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:100;align-items:center;justify-content:center;padding:12px}
+#modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;align-items:center;justify-content:center;padding:12px}
 #modal-overlay.show{display:flex}
-#modal{background:#263238;border-radius:12px;padding:16px;width:100%;max-width:480px;border:2px solid #37474F;max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
-#modal h3{color:#80CBC4;font-size:14px;margin-bottom:12px}
-.modal-option{display:flex;justify-content:space-between;align-items:center;background:#37474F;color:#eceff1;border-radius:9px;padding:11px 14px;margin-bottom:5px;width:100%;font-size:12.5px;text-align:left;min-height:44px;gap:6px;touch-action:manipulation}
+#modal{background:#263238;padding:16px;width:100%;max-width:480px;border:4px solid #0a0e12;max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch;box-shadow:inset -3px -3px 0 rgba(0,0,0,.3),6px 6px 0 rgba(0,0,0,.6)}
+#modal h3{color:#80CBC4;font-size:13px;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px}
+.modal-option{display:flex;justify-content:space-between;align-items:center;background:#37474F;color:#eceff1;padding:11px 14px;margin-bottom:5px;width:100%;font-size:12.5px;text-align:left;min-height:44px;gap:6px;touch-action:manipulation;border:2px solid #0a0e12;box-shadow:inset -2px -2px 0 rgba(0,0,0,.4)}
 .modal-option:active{background:#4CAF50}
-.modal-option .count{color:#FFD54F;font-weight:bold;font-size:11px;flex-shrink:0}
-.modal-close{width:100%;margin-top:6px;background:#455A64;color:#fff;border-radius:9px;padding:11px;font-size:13px;min-height:44px;touch-action:manipulation}
+.modal-option .count{color:#FFD54F;font-weight:700;font-size:11px;flex-shrink:0}
+.modal-close{width:100%;margin-top:6px;background:#455A64;color:#fff;padding:11px;font-size:12.5px;min-height:44px;touch-action:manipulation;border:3px solid #0a0e12;font-weight:700;text-transform:uppercase}
 .modal-empty{color:#90A4AE;font-size:12px;text-align:center;padding:14px 0;line-height:1.6}
-.big-modal{background:#263238;border-radius:14px;padding:18px;width:100%;max-width:500px;border:2px solid #37474F;max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
-.big-modal h2{font-size:16px;color:#FFD54F;margin-bottom:5px;text-align:center}
-.big-modal .subhead{text-align:center;color:#90A4AE;font-size:11.5px;margin-bottom:12px}
-.news-item{padding:9px 11px;background:#1f2b30;border-radius:9px;margin-bottom:6px;font-size:12px;line-height:1.5;border-left:3px solid #4DD0E1}
+.big-modal{background:#263238;padding:18px;width:100%;max-width:500px;border:4px solid #0a0e12;max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch;box-shadow:inset -3px -3px 0 rgba(0,0,0,.3),6px 6px 0 rgba(0,0,0,.6)}
+.big-modal h2{font-size:15px;color:#FFD54F;margin-bottom:5px;text-align:center;font-family:'Press Start 2P',monospace;line-height:1.5}
+.big-modal .subhead{text-align:center;color:#90A4AE;font-size:11px;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px}
+.news-item{padding:9px 11px;background:#1f2b30;margin-bottom:6px;font-size:12px;line-height:1.5;border:2px solid #0a0e12;border-left:5px solid #4DD0E1}
 .news-item.weather{border-left-color:#FFD54F}
 .news-item.market{border-left-color:#A5D6A7}
 .news-item.social{border-left-color:#FF80AB}
 .news-item.disease{border-left-color:#EF5350;background:#33222a}
 .news-item.holiday{border-left-color:#FFC107;background:#3a2f1a}
-.report-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed #37474F;font-size:12px;gap:8px}
+.report-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:2px dashed #37474F;font-size:12px;gap:8px}
 .report-row:last-child{border-bottom:none}
-.report-row.total{font-weight:bold;font-size:13.5px;color:#FFD54F;border-top:2px solid #455A64;margin-top:5px;padding-top:9px}
+.report-row.total{font-weight:700;font-size:13.5px;color:#FFD54F;border-top:3px solid #455A64;border-bottom:none;margin-top:5px;padding-top:9px}
 .report-row .val.income{color:#A5D6A7}
 .report-row .val.expense{color:#EF9A9A}
-.event-icon{font-size:42px;text-align:center;margin:6px 0}
-.event-title{font-size:15px;font-weight:bold;color:#FFD54F;text-align:center;margin-bottom:7px}
-.event-desc{font-size:12.5px;color:#CFD8DC;text-align:center;margin-bottom:14px;line-height:1.6}
-.event-btn{width:100%;padding:12px;margin-bottom:6px;background:#37474F;color:#eceff1;border-radius:10px;font-size:12.5px;text-align:left;display:flex;gap:8px;align-items:center;min-height:48px;touch-action:manipulation}
-.event-btn:active{background:#4CAF50}
+.event-icon{font-size:42px;text-align:center;margin:6px 0;filter:drop-shadow(3px 3px 0 rgba(0,0,0,.5))}
+.event-title{font-size:14px;font-weight:700;color:#FFD54F;text-align:center;margin-bottom:7px;font-family:'Press Start 2P',monospace;line-height:1.5}
+.event-desc{font-size:12px;color:#CFD8DC;text-align:center;margin-bottom:14px;line-height:1.6}
+.event-btn{width:100%;padding:12px;margin-bottom:6px;background:#37474F;color:#eceff1;font-size:12px;text-align:left;display:flex;gap:8px;align-items:center;min-height:48px;touch-action:manipulation;border:3px solid #0a0e12;box-shadow:inset -2px -2px 0 rgba(0,0,0,.4),inset 2px 2px 0 rgba(255,255,255,.1)}
+.event-btn:active{background:#4CAF50;transform:translate(2px,2px)}
 .event-btn.danger:active{background:#C62828}
 .eb-icon{font-size:18px;flex-shrink:0}
 .eb-text{flex:1;min-width:0}
-.eb-cost{color:#FFD54F;font-weight:bold;font-size:11px;flex-shrink:0}
-#bulk-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:105;align-items:center;justify-content:center;padding:12px}
+.eb-cost{color:#FFD54F;font-weight:700;font-size:11px;flex-shrink:0}
+#bulk-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:105;align-items:center;justify-content:center;padding:12px}
 #bulk-overlay.show{display:flex}
-.bulk-info{background:#1f2b30;padding:9px 12px;border-radius:9px;margin-bottom:10px;font-size:12px}
+.bulk-info{background:#1f2b30;padding:9px 12px;margin-bottom:10px;font-size:12px;border:2px solid #0a0e12}
 .bulk-info .row{display:flex;justify-content:space-between;margin-bottom:4px}
-.bulk-info .val{color:#FFD54F;font-weight:bold}
+.bulk-info .val{color:#FFD54F;font-weight:700}
 .bulk-qty-row{display:flex;gap:4px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
-.bulk-qty-row button{background:#455A64;color:#fff;border-radius:8px;padding:10px 12px;font-size:12px;font-weight:bold;min-height:42px;min-width:48px;touch-action:manipulation}
-.bulk-qty-row button:active{background:#546E7A}
-.bulk-qty-row input{flex:1;min-width:80px;background:#1f2b30;color:#FFD54F;border:2px solid #455A64;border-radius:8px;padding:9px;font-size:16px;font-weight:bold;text-align:center}
+.bulk-qty-row button{background:#455A64;color:#fff;padding:10px 12px;font-size:12px;font-weight:700;min-height:42px;min-width:48px;touch-action:manipulation;border:2px solid #0a0e12;box-shadow:inset -2px -2px 0 rgba(0,0,0,.4)}
+.bulk-qty-row button:active{background:#546E7A;transform:translate(1px,1px)}
+.bulk-qty-row input{flex:1;min-width:80px;background:#1f2b30;color:#FFD54F;border:3px solid #0a0e12;padding:9px;font-size:16px;font-weight:700;text-align:center}
 .bulk-actions{display:flex;gap:6px}
-.bulk-actions button{flex:1;padding:12px;border-radius:10px;font-size:13px;font-weight:bold;min-height:46px;touch-action:manipulation}
-.btn-buy{background:#43A047;color:#fff}
-.btn-buy:active{background:#4CAF50}
-.btn-cancel{background:#455A64;color:#fff}
-.btn-cancel:active{background:#546E7A}
+.bulk-actions button{flex:1;padding:12px;font-size:12.5px;font-weight:700;min-height:46px;touch-action:manipulation;border:3px solid #0a0e12;text-transform:uppercase}
+.btn-buy{background:#43A047;color:#fff;box-shadow:inset -3px -3px 0 rgba(0,0,0,.3),inset 3px 3px 0 rgba(255,255,255,.15)}
+.btn-buy:active{background:#4CAF50;transform:translate(2px,2px)}
+.btn-cancel{background:#455A64;color:#fff;box-shadow:inset -2px -2px 0 rgba(0,0,0,.4)}
+.btn-cancel:active{background:#546E7A;transform:translate(2px,2px)}
 #toast-container{position:fixed;top:10px;right:10px;left:10px;display:flex;flex-direction:column;gap:6px;z-index:300;pointer-events:none;max-width:360px;margin-left:auto}
-.toast{background:#2E7D32;color:#fff;padding:10px 14px;border-radius:9px;font-size:12px;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.5);border-left:4px solid #FFD54F;animation:toastIn .3s ease}
+.toast{background:#2E7D32;color:#fff;padding:10px 14px;font-size:11.5px;font-weight:700;box-shadow:4px 4px 0 rgba(0,0,0,.6);border:3px solid #0a0e12;border-left:6px solid #FFD54F;animation:toastIn .2s steps(4)}
 .toast.error{background:#C62828}.toast.info{background:#0277BD}
-.toast.achievement{background:linear-gradient(135deg,#FFC107,#FF8F00);color:#3E2723}
+.toast.achievement{background:#FFC107;color:#3E2723}
 .toast.warn{background:#EF6C00}
 @keyframes toastIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
 
@@ -331,10 +343,12 @@ select{font-size:16px!important}
   .plot .plus{font-size:22px}
   #farm{width:680px;height:620px}
   #farm-wrap{max-width:100%}
-  .stat{font-size:10px;padding:3px 7px}
-  .top-btn{padding:6px 8px;font-size:10.5px}
-  #farm-title-bar .name{max-width:120px;font-size:11.5px}
+  .stat{font-size:9.5px;padding:2px 6px}
+  .top-btn{padding:5px 7px;font-size:10px}
+  #farm-title-bar .name{max-width:120px;font-size:11px}
   .sm-slider{width:70px}
+  .farmer-sprite{bottom:4px;right:8px}
+  .farmer-sprite svg{width:36px;height:54px}
 }
 @supports (-webkit-touch-callout:none){
   body{min-height:-webkit-fill-available}
@@ -366,9 +380,37 @@ select{font-size:16px!important}
     <input id="farm-name-input" type="text" value="Đồi Gió" maxlength="20">
     <label class="field-label" style="margin-top:12px;">Chọn phông nền khởi đầu</label>
     <div class="theme-grid" id="theme-grid"></div>
-    <button class="btn-primary" id="start-btn">▶ BẮT ĐẦU MỚI</button>
+    <button class="btn-primary" id="start-btn">▶ BẮT ĐẦU</button>
     <button id="resume-btn">📂 CHƠI TIẾP</button>
     <p class="hint">💡 Đổi tên: 100k | Vay bank 10%/ngày | Thuế 10% lợi nhuận</p>
+  </div>
+  <!-- Farmer chào ở góc start screen -->
+  <div class="start-farmer-wrap">
+    <svg width="56" height="84" viewBox="0 0 16 24" shape-rendering="crispEdges">
+      <rect x="4" y="0" width="8" height="3" fill="#FFD54F"/>
+      <rect x="4" y="3" width="8" height="1" fill="#E65100"/>
+      <rect x="1" y="4" width="14" height="2" fill="#F9A825"/>
+      <rect x="0" y="6" width="16" height="1" fill="#E65100"/>
+      <rect x="3" y="7" width="10" height="6" fill="#FFCC80"/>
+      <rect x="11" y="7" width="2" height="6" fill="#E8A870"/>
+      <rect x="5" y="9" width="2" height="2" fill="#1A1A1A"/>
+      <rect x="9" y="9" width="2" height="2" fill="#1A1A1A"/>
+      <rect x="7" y="10" width="2" height="1" fill="#C68A5A"/>
+      <rect x="6" y="12" width="4" height="1" fill="#8D4A2A"/>
+      <rect x="6" y="13" width="4" height="1" fill="#E8A870"/>
+      <rect x="3" y="14" width="10" height="6" fill="#42A5F5"/>
+      <rect x="7" y="14" width="2" height="6" fill="#1E88E5"/>
+      <rect x="5" y="14" width="6" height="1" fill="#1E88E5"/>
+      <rect x="3" y="20" width="10" height="1" fill="#3E2723"/>
+      <rect x="7" y="20" width="2" height="1" fill="#FFD54F"/>
+      <rect x="3" y="21" width="4" height="3" fill="#6D4C41"/>
+      <rect x="9" y="21" width="4" height="3" fill="#6D4C41"/>
+      <rect x="7" y="21" width="2" height="3" fill="#3E2723"/>
+      <rect x="2" y="23" width="5" height="1" fill="#1A0F08"/>
+      <rect x="9" y="23" width="5" height="1" fill="#1A0F08"/>
+      <rect x="1" y="14" width="2" height="6" fill="#FFCC80"/>
+      <rect x="13" y="14" width="2" height="6" fill="#FFCC80"/>
+    </svg>
   </div>
 </div>
 
@@ -406,10 +448,9 @@ select{font-size:16px!important}
       </div>
       <div id="tools-bar">
         <button class="tool-btn active" data-tool="hand">✋ Tay</button>
-        <button class="tool-btn" data-tool="water">💧 Tưới nước</button>
         <button class="tool-btn" data-tool="shovel">🪏 Xẻng</button>
         <button class="tool-btn" data-tool="spray">💨 Thuốc sâu 3×3</button>
-        <div class="tool-info" id="tool-info">Bấm ô để trồng / thu hoạch / bón phân</div>
+        <div class="tool-info" id="tool-info">Bấm ô để trồng / thu hoạch</div>
       </div>
       <div id="farm-wrap">
         <div id="farm">
@@ -417,11 +458,44 @@ select{font-size:16px!important}
           <div id="farm-decor"></div>
           <div id="theme-fx"></div>
           <div class="sun" id="sunEl"></div>
-          <div class="cloud" style="top:26px;left:180px;width:65px;height:22px;"></div>
-          <div class="cloud" style="top:55px;left:360px;width:50px;height:16px;"></div>
-          <div class="cloud" style="top:16px;left:500px;width:55px;height:18px;"></div>
+          <div class="cloud" style="top:26px;left:180px;width:24px;"></div>
+          <div class="cloud" style="top:55px;left:360px;width:18px;"></div>
+          <div class="cloud" style="top:16px;left:500px;width:20px;"></div>
           <div class="barn"><div class="barn-roof"></div><div class="barn-body"></div><div class="barn-door"></div><div class="barn-window"></div></div>
           <div id="plots"></div>
+          <!-- ===== FARMER SPRITE ===== -->
+          <div class="farmer-sprite">
+            <svg width="48" height="72" viewBox="0 0 16 24" shape-rendering="crispEdges">
+              <rect x="4" y="0" width="8" height="3" fill="#FFD54F"/>
+              <rect x="4" y="3" width="8" height="1" fill="#E65100"/>
+              <rect x="1" y="4" width="14" height="2" fill="#F9A825"/>
+              <rect x="0" y="6" width="16" height="1" fill="#E65100"/>
+              <rect x="3" y="7" width="10" height="6" fill="#FFCC80"/>
+              <rect x="11" y="7" width="2" height="6" fill="#E8A870"/>
+              <rect x="5" y="9" width="2" height="2" fill="#1A1A1A"/>
+              <rect x="9" y="9" width="2" height="2" fill="#1A1A1A"/>
+              <rect x="7" y="10" width="2" height="1" fill="#C68A5A"/>
+              <rect x="6" y="12" width="4" height="1" fill="#8D4A2A"/>
+              <rect x="6" y="13" width="4" height="1" fill="#E8A870"/>
+              <rect x="3" y="14" width="10" height="6" fill="#42A5F5"/>
+              <rect x="7" y="14" width="2" height="6" fill="#1E88E5"/>
+              <rect x="5" y="14" width="6" height="1" fill="#1E88E5"/>
+              <rect x="3" y="20" width="10" height="1" fill="#3E2723"/>
+              <rect x="7" y="20" width="2" height="1" fill="#FFD54F"/>
+              <rect x="3" y="21" width="4" height="3" fill="#6D4C41"/>
+              <rect x="9" y="21" width="4" height="3" fill="#6D4C41"/>
+              <rect x="7" y="21" width="2" height="3" fill="#3E2723"/>
+              <rect x="2" y="23" width="5" height="1" fill="#1A0F08"/>
+              <rect x="9" y="23" width="5" height="1" fill="#1A0F08"/>
+              <rect x="1" y="14" width="2" height="6" fill="#FFCC80"/>
+              <rect x="13" y="14" width="2" height="6" fill="#FFCC80"/>
+              <!-- Cây cuốc trên tay phải -->
+              <g class="farmer-tool">
+                <rect x="14" y="6" width="1" height="14" fill="#8D6E63"/>
+                <rect x="13" y="6" width="3" height="1" fill="#546E7A"/>
+              </g>
+            </svg>
+          </div>
           <div id="holiday-overlay"></div>
           <div id="holiday-decor"></div>
           <div id="weather-fx"></div>
@@ -493,7 +567,7 @@ select{font-size:16px!important}
         <div class="panel-header" data-panel="panel-supermarket"><span>🏪 Siêu thị <span class="badge" id="sm-sales-today">0$</span></span><span class="chevron">▼</span></div>
         <div class="panel-body">
           <div style="font-size:10px;color:#90A4AE;margin-bottom:5px">Kệ hàng: <span id="sm-shelf-count">0/10</span></div>
-          <div class="sm-row" style="font-size:10px;color:#607D8B;font-weight:600"><span style="flex:1">Mặt hàng</span><span>Giá bạn</span><span>Đối thủ</span><span style="width:80px"></span></div>
+          <div class="sm-row" style="font-size:10px;color:#607D8B;font-weight:700"><span style="flex:1">Mặt hàng</span><span>Giá bạn</span><span>Đối thủ</span><span style="width:80px"></span></div>
           <div id="supermarket-list"></div>
           <button class="sell-btn" id="sm-add-btn" style="margin-top:6px">➕ Chọn món lên kệ</button>
         </div>
@@ -536,7 +610,6 @@ select{font-size:16px!important}
         <div class="panel-body"><div id="customer-list"></div></div>
       </div>
 
-      <!-- ⭐ GÓP Ý — đặt dưới cùng ⭐ -->
       <div class="panel" id="panel-feedback">
         <div class="panel-header" data-panel="panel-feedback"><span>💌 Góp ý nhà phát hành</span><span class="chevron">▼</span></div>
         <div class="panel-body">
@@ -573,17 +646,16 @@ select{font-size:16px!important}
 </div>
 
 <div id="news-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:110;align-items:center;justify-content:center;padding:12px;">
-  <div class="big-modal"><h2>📰 BẢN TIN NÔNG TRẠI</h2><div class="subhead" id="news-day-label">Ngày 1</div><div id="news-body"></div><button class="btn-primary" style="width:100%;margin-top:12px;padding:12px;" id="news-ok">ĐÓN NGÀY MỚI 🌅</button></div>
+  <div class="big-modal"><h2>📰 BẢN TIN</h2><div class="subhead" id="news-day-label">Ngày 1</div><div id="news-body"></div><button class="btn-primary" style="width:100%;margin-top:12px;padding:12px;font-size:12px" id="news-ok">ĐÓN NGÀY MỚI 🌅</button></div>
 </div>
 <div id="report-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:110;align-items:center;justify-content:center;padding:12px;">
-  <div class="big-modal"><h2>📊 SỔ THU CHI</h2><div class="subhead" id="report-day-label">Kết thúc ngày</div><div id="report-body"></div><button class="btn-primary" style="width:100%;margin-top:12px;padding:12px;" id="report-ok">TIẾP TỤC</button></div>
+  <div class="big-modal"><h2>📊 SỔ THU CHI</h2><div class="subhead" id="report-day-label">Kết thúc ngày</div><div id="report-body"></div><button class="btn-primary" style="width:100%;margin-top:12px;padding:12px;font-size:12px" id="report-ok">TIẾP TỤC</button></div>
 </div>
 <div id="event-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:115;align-items:center;justify-content:center;padding:12px;">
   <div class="big-modal"><div class="event-icon" id="event-icon">🐔</div><div class="event-title" id="event-title"></div><div class="event-desc" id="event-desc"></div><div id="event-choices"></div></div>
 </div>
 <div id="toast-container"></div>
 
-<!-- ===== FIREBASE ===== -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
@@ -616,7 +688,7 @@ window.Cloud = {
     try {
       const json = JSON.stringify(data);
       if (json.length > 900000) return false;
-      await setDoc(doc(db, 'saves', this.userId), { data: json, updatedAt: serverTimestamp(), version: 9, day: data.day || 1, money: data.money || 0 });
+      await setDoc(doc(db, 'saves', this.userId), { data: json, updatedAt: serverTimestamp(), version: 11, day: data.day || 1, money: data.money || 0 });
       this.lastSync = Date.now();
       return true;
     } catch (e) { return false; }
@@ -738,53 +810,30 @@ window.updateCloudHUD = state => {
 };
 </script>
 
-<!-- ===== GAME ===== -->
 <script>
-/* ============================================================
-   POINTER TAP — pointerdown + delegation + device check
-   GIẢM ĐỘ NHẠY:
-     - Chuột (PC): fire ngay lập tức
-     - Cảm ứng: delay 90ms — nếu scroll bắt đầu hoặc di >10px thì huỷ
-   ============================================================ */
+/* ============ TAP DELEGATION ============ */
 const tapHandlers = new WeakMap();
 function tap(el, fn) { if (el) tapHandlers.set(el, fn); }
-
-let pendingTap = null;
-let pendingTimer = null;
+let pendingTap = null, pendingTimer = null;
 let pointerStartX = 0, pointerStartY = 0;
-
-function cancelPendingTap() {
-  if (pendingTimer) { clearTimeout(pendingTimer); pendingTimer = null; }
-  pendingTap = null;
-}
-
+function cancelPendingTap() { if (pendingTimer) { clearTimeout(pendingTimer); pendingTimer = null; } pendingTap = null; }
 document.addEventListener('pointerdown', (e) => {
   if (e.pointerType === 'mouse' && e.button !== 0) return;
   const tag = (e.target.tagName || '').toUpperCase();
   if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
-
-  // Ghi nhớ vị trí bắt đầu
   pointerStartX = e.clientX; pointerStartY = e.clientY;
-
   let node = e.target;
   while (node && node !== document) {
     if (tapHandlers.has(node)) {
       const fn = tapHandlers.get(node);
       e.stopPropagation();
-      if (e.pointerType === 'mouse') {
-        // Chuột — fire ngay
-        fn(e, node);
-      } else {
-        // Cảm ứng — delay 90ms để chờ xem có scroll không
+      if (e.pointerType === 'mouse') { fn(e, node); }
+      else {
         cancelPendingTap();
         const data = { fn, node, event: e };
         pendingTap = data;
         pendingTimer = setTimeout(() => {
-          if (pendingTap === data) {
-            pendingTap = null;
-            pendingTimer = null;
-            fn(e, node);
-          }
+          if (pendingTap === data) { pendingTap = null; pendingTimer = null; fn(e, node); }
         }, 90);
       }
       return;
@@ -792,16 +841,10 @@ document.addEventListener('pointerdown', (e) => {
     node = node.parentNode;
   }
 }, { passive: true });
-
-// Huỷ pending tap nếu bắt đầu scroll
 document.addEventListener('scroll', cancelPendingTap, { passive: true, capture: true });
-
-// Huỷ nếu người dùng di chuyển ngón tay >10px
 document.addEventListener('pointermove', (e) => {
   if (!pendingTap) return;
-  if (Math.abs(e.clientX - pointerStartX) > 10 || Math.abs(e.clientY - pointerStartY) > 10) {
-    cancelPendingTap();
-  }
+  if (Math.abs(e.clientX - pointerStartX) > 10 || Math.abs(e.clientY - pointerStartY) > 10) cancelPendingTap();
 }, { passive: true, capture: true });
 
 /* ============ DATA ============ */
@@ -819,32 +862,30 @@ const CROPS = {
   "Nho":       { seed: 160, grow: 28, sell: 420, emoji: "🍇", unlockCost: 3000, coldResist: false }
 };
 const ANIMALS = {
-  "Gà":     { cost: 60,   time: 7,  product: "Trứng",     sell: 28,  emoji: "🐔", waste: 1 },
-  "Vịt":    { cost: 90,   time: 8,  product: "Trứng vịt", sell: 42,  emoji: "🦆", waste: 1 },
-  "Ong mật":{ cost: 150,  time: 10, product: "Mật ong",   sell: 70,  emoji: "🐝", waste: 0, noFeed: true },
-  "Heo":    { cost: 180,  time: 12, product: "Thịt heo",  sell: 85,  emoji: "🐷", waste: 3 },
-  "Bò":     { cost: 380,  time: 16, product: "Sữa",       sell: 165, emoji: "🐄", waste: 4 },
-  "Trâu":   { cost: 550,  time: 20, product: "Sữa trâu",  sell: 220, emoji: "🐃", waste: 5 },
-  "Cừu":    { cost: 650,  time: 22, product: "Len",       sell: 280, emoji: "🐑", waste: 2 }
+  "Gà":     { cost: 60,   time: 7,  product: "Trứng",     sell: 28,  emoji: "🐔" },
+  "Vịt":    { cost: 90,   time: 8,  product: "Trứng vịt", sell: 42,  emoji: "🦆" },
+  "Ong mật":{ cost: 150,  time: 10, product: "Mật ong",   sell: 70,  emoji: "🐝", noFeed: true },
+  "Heo":    { cost: 180,  time: 12, product: "Thịt heo",  sell: 85,  emoji: "🐷" },
+  "Bò":     { cost: 380,  time: 16, product: "Sữa",       sell: 165, emoji: "🐄" },
+  "Trâu":   { cost: 550,  time: 20, product: "Sữa trâu",  sell: 220, emoji: "🐃" },
+  "Cừu":    { cost: 650,  time: 22, product: "Len",       sell: 280, emoji: "🐑" }
 };
 const DOGS = {
-  "Chó ta":          { cost: 20000,  guard: 25, emoji: "🐕",   desc: "25% chống trộm" },
-  "Béc-giê Đức":     { cost: 60000,  guard: 50, emoji: "🐕‍🦺", desc: "50% chống trộm" },
-  "Pitbull":         { cost: 100000, guard: 75, emoji: "🐶",   desc: "75% chống trộm" },
-  "Doberman":        { cost: 150000, guard: 90, emoji: "🦮",   desc: "90% chống trộm" }
+  "Chó ta":      { cost: 20000,  guard: 25, emoji: "🐕",   desc: "25% chống trộm" },
+  "Béc-giê Đức": { cost: 60000,  guard: 50, emoji: "🐕‍🦺", desc: "50% chống trộm" },
+  "Pitbull":     { cost: 100000, guard: 75, emoji: "🐶",   desc: "75% chống trộm" },
+  "Doberman":    { cost: 150000, guard: 90, emoji: "🦮",   desc: "90% chống trộm" }
 };
 const MILLS = {
-  "Máy nghiền ngô": { price: 8000,  input: "Ngô",  output: "Cám",  ratio: 1,  emoji: "⚙️" },
-  "Máy xay thóc":   { price: 12000, input: "Lúa",  output: "Gạo",  ratio: 1,  emoji: "🏭" }
+  "Máy nghiền ngô": { price: 8000,  input: "Ngô",  output: "Cám",  ratio: 1, emoji: "⚙️" },
+  "Máy xay thóc":   { price: 12000, input: "Lúa",  output: "Gạo",  ratio: 1, emoji: "🏭" }
 };
-const PRODUCT_PRICE = {
-  "Cám": 60, "Gạo": 120, "Phân": 15
-};
+const PRODUCT_PRICE = { "Cám": 60, "Gạo": 120 };
 const WORKER_TYPES = {
-  "Nông dân": { baseCost: 500,   salary: 150, skill: "harvest", emoji: "🧑‍🌾", desc: "Thu hoạch tự động" },
-  "Kỹ sư":    { baseCost: 2000,  salary: 600, skill: "plant",   emoji: "👨‍🌾", desc: "Trồng cây tự động" },
-  "Quản lý":  { baseCost: 5000,  salary: 1500,skill: "deliver", emoji: "🧑‍💼", desc: "Giao đơn + thông báo" },
-  "Chăn nuôi":{ baseCost: 1200,  salary: 400, skill: "feed",    emoji: "👩‍🌾", desc: "Cho ăn + thu hoạch" }
+  "Nông dân": { baseCost: 500,   salary: 150,  skill: "harvest", emoji: "🧑‍🌾", desc: "Thu hoạch tự động" },
+  "Kỹ sư":    { baseCost: 2000,  salary: 600,  skill: "plant",   emoji: "👨‍🌾", desc: "Trồng cây tự động" },
+  "Quản lý":  { baseCost: 5000,  salary: 1500, skill: "deliver", emoji: "🧑‍💼", desc: "Giao đơn + thông báo" },
+  "Chăn nuôi":{ baseCost: 1200,  salary: 400,  skill: "feed",    emoji: "👩‍🌾", desc: "Cho ăn + thu hoạch" }
 };
 const PERSONALITIES = ["chăm chỉ","lười biếng","nhanh nhẹn","cẩn thận","vụng về","thông minh","vui tính","trầm lặng","nóng tính","kiên nhẫn"];
 const HO = ["Nguyễn","Trần","Lê","Phạm","Hoàng","Huỳnh","Vũ","Võ","Đặng","Bùi","Đỗ","Hồ","Ngô","Dương","Lý","Đinh","Tạ","Trịnh","Cao","Mai"];
@@ -868,20 +909,17 @@ function rollGene() {
   return 'normal';
 }
 
-/* ==== WEATHERS: mưa grow nhanh; nắng gắt làm cây khát nước ==== */
 const WEATHERS = {
-  sunny:   { emoji: "☀️", name: "Nắng gắt",  growMul: 1.15, desc: "Cây cần tưới nước!",   marketEffect: { veg: 1.05 }, hot: true },
-  rain:    { emoji: "🌧️", name: "Mưa",      growMul: 1.6,  desc: "Cây lớn cực nhanh!",   marketEffect: { veg: 1.25 } },
-  storm:   { emoji: "⛈️", name: "Bão",      growMul: 0.7,  desc: "Cây có thể hỏng",       marketEffect: { veg: 1.35 }, stormChance: 0.02 },
-  cold:    { emoji: "❄️", name: "Lạnh",     growMul: 0.6,  desc: "Cây ưa nóng ngừng lớn", marketEffect: { veg: 1.30 } },
-  rainbow: { emoji: "🌈", name: "Cầu vồng", growMul: 1.3,  desc: "Tất cả giá +30%",       marketEffect: { all: 1.30 } }
+  sunny:   { emoji: "☀️", name: "Nắng",     growMul: 1.15, desc: "Cây lớn nhanh hơn chút.",   marketEffect: { veg: 1.05 } },
+  rain:    { emoji: "🌧️", name: "Mưa",      growMul: 1.6,  desc: "Cây lớn cực nhanh!",         marketEffect: { veg: 1.25 } },
+  storm:   { emoji: "⛈️", name: "Bão",      growMul: 0.7,  desc: "Cây có thể hỏng",             marketEffect: { veg: 1.35 }, stormChance: 0.02 },
+  cold:    { emoji: "❄️", name: "Lạnh",     growMul: 0.6,  desc: "Cây ưa nóng ngừng lớn",       marketEffect: { veg: 1.30 } },
+  rainbow: { emoji: "🌈", name: "Cầu vồng", growMul: 1.3,  desc: "Tất cả giá +30%",             marketEffect: { all: 1.30 } }
 };
 const ROW_COST = 2500;
 const VACCINE_COST = 800;
 const BUG_ENERGY = 3;
-const FERT_ENERGY = 1;
 const FEED_ENERGY = 1;
-const WATER_ENERGY = 1;
 const SPRAY_COST = 60;
 const RENAME_COST = 100000;
 const TAX_RATE = 0.10;
@@ -911,99 +949,49 @@ const ACHIEVEMENTS = [
   { id: "dog5",     emoji: "🐕", name: "Trang trại an toàn", desc: "Nuôi 5 chó",    target: 5,   stat: "dogsOwned" }
 ];
 
-/* ==== THEMES: chi tiết hơn, thêm particle ==== */
+/* ==== THEMES — pixel art sky/ground với dithering ==== */
+/* Mỗi theme: sky/ground CSS dùng repeating-linear-gradient tạo texture pixel, slot pattern */
 const THEMES = {
-  "Đồng lúa vàng": { price: 0, rarity: "Khởi đầu", particles: 'butterfly',
-    sky: "linear-gradient(180deg,#87CEEB 0%,#B0E0E6 55%,#E0F4FF 100%)", ground: "linear-gradient(180deg,#C9B037 0%,#A08820 50%,#8B7015 100%)",
-    slot: "#A67C52", slotBorder: "#5D4037",
-    decor: [
-      { emoji:"🌾",x:3,y:76,size:26 }, { emoji:"🌾",x:8,y:80,size:30 }, { emoji:"🌾",x:14,y:78,size:28 },
-      { emoji:"🌾",x:20,y:82,size:26 }, { emoji:"🐃",x:88,y:70,size:32 },
-      { emoji:"🌳",x:56,y:68,size:34 }, { emoji:"🌳",x:64,y:72,size:30 },
-      { emoji:"🍚",x:30,y:74,size:22 }, { emoji:"🐓",x:72,y:82,size:22 }
-    ] },
-  "Làng quê Bắc Bộ": { price: 800, rarity: "Phổ thông", particles: 'leaf',
-    sky: "linear-gradient(180deg,#B8D4E0 0%,#D5E5EC 60%,#E8EEF0 100%)", ground: "linear-gradient(180deg,#7CA84A 0%,#5E8A35 50%,#4A6F28 100%)",
+  "Đồng lúa vàng": { price: 0, rarity: "Khởi đầu",
+    sky: "repeating-linear-gradient(180deg,#87CEEB 0 4px,#92D5EE 4px 8px), linear-gradient(180deg,#87CEEB,#B0E0E6)", ground: "repeating-linear-gradient(90deg,#C9B037 0 6px,#BBA030 6px 12px),repeating-linear-gradient(0deg,transparent 0 6px,rgba(0,0,0,.06) 6px 12px),linear-gradient(180deg,#C9B037,#8B7015)",
+    slot: "#A67C52", slotBorder: "#4E342E",
+    decor: [{ emoji:"🌾",x:3,y:76,size:26 },{ emoji:"🌾",x:8,y:80,size:30 },{ emoji:"🌾",x:14,y:78,size:28 },{ emoji:"🌾",x:20,y:82,size:26 },{ emoji:"🐃",x:88,y:70,size:32 },{ emoji:"🌳",x:56,y:68,size:34 },{ emoji:"🌳",x:64,y:72,size:30 },{ emoji:"🐓",x:72,y:82,size:22 }] },
+  "Làng quê Bắc Bộ": { price: 800, rarity: "Phổ thông",
+    sky: "repeating-linear-gradient(180deg,#B8D4E0 0 4px,#C0D9E4 4px 8px)", ground: "repeating-linear-gradient(90deg,#7CA84A 0 6px,#6F9B42 6px 12px),repeating-linear-gradient(0deg,transparent 0 6px,rgba(0,0,0,.07) 6px 12px),linear-gradient(180deg,#7CA84A,#4A6F28)",
     slot: "#8D6E63", slotBorder: "#4E342E",
-    decor: [
-      { emoji:"🎋",x:3,y:70,size:34 }, { emoji:"🎋",x:8,y:74,size:30 },
-      { emoji:"🏠",x:78,y:70,size:38 }, { emoji:"🏠",x:88,y:74,size:30 },
-      { emoji:"🌳",x:68,y:72,size:34 }, { emoji:"🐕",x:58,y:82,size:24 },
-      { emoji:"🐖",x:22,y:82,size:26 }, { emoji:"🐔",x:38,y:84,size:22 },
-      { emoji:"🌾",x:48,y:80,size:22 }
-    ] },
-  "Sông nước miền Tây": { price: 1500, rarity: "Phổ thông", particles: 'dragonfly',
-    sky: "linear-gradient(180deg,#7EC8E3 0%,#A8DCEF 55%,#D9F1F8 100%)", ground: "linear-gradient(180deg,#4BA3A3 0%,#3A8585 40%,#2D6B6B 100%)",
+    decor: [{ emoji:"🎋",x:3,y:70,size:34 },{ emoji:"🎋",x:8,y:74,size:30 },{ emoji:"🏠",x:78,y:70,size:38 },{ emoji:"🏠",x:88,y:74,size:30 },{ emoji:"🌳",x:68,y:72,size:34 },{ emoji:"🐕",x:58,y:82,size:24 },{ emoji:"🐖",x:22,y:82,size:26 },{ emoji:"🐔",x:38,y:84,size:22 },{ emoji:"🌾",x:48,y:80,size:22 }] },
+  "Sông nước miền Tây": { price: 1500, rarity: "Phổ thông",
+    sky: "repeating-linear-gradient(180deg,#7EC8E3 0 4px,#8ACFE7 4px 8px)", ground: "repeating-linear-gradient(90deg,#4BA3A3 0 6px,#439696 6px 12px),repeating-linear-gradient(0deg,transparent 0 6px,rgba(0,0,0,.07) 6px 12px),linear-gradient(180deg,#4BA3A3,#2D6B6B)",
     slot: "#8D6E63", slotBorder: "#4E342E",
-    decor: [
-      { emoji:"🌴",x:4,y:66,size:38 }, { emoji:"🌴",x:12,y:70,size:34 },
-      { emoji:"🛶",x:52,y:74,size:30 }, { emoji:"🦆",x:78,y:84,size:24 },
-      { emoji:"🐟",x:88,y:80,size:22 }, { emoji:"🌺",x:24,y:80,size:22 },
-      { emoji:"🏮",x:60,y:66,size:20 }
-    ] },
-  "Ruộng bậc thang": { price: 3500, rarity: "Hiếm", particles: 'cloud',
-    sky: "linear-gradient(180deg,#E6B8D0 0%,#F0D0DC 30%,#D8D5E5 70%,#B8C5DC 100%)", ground: "linear-gradient(180deg,#8BC34A 0%,#689F38 35%,#4E7D28 65%,#3A5F1F 100%)",
+    decor: [{ emoji:"🌴",x:4,y:66,size:38 },{ emoji:"🌴",x:12,y:70,size:34 },{ emoji:"🛶",x:52,y:74,size:30 },{ emoji:"🦆",x:78,y:84,size:24 },{ emoji:"🐟",x:88,y:80,size:22 },{ emoji:"🌺",x:24,y:80,size:22 },{ emoji:"🏮",x:60,y:66,size:20 }] },
+  "Ruộng bậc thang": { price: 3500, rarity: "Hiếm",
+    sky: "repeating-linear-gradient(180deg,#E6B8D0 0 4px,#EFC5DA 4px 8px),repeating-linear-gradient(180deg,transparent 30px,rgba(255,255,255,.4) 30px 32px)", ground: "repeating-linear-gradient(90deg,#8BC34A 0 6px,#7FB53F 6px 12px),repeating-linear-gradient(0deg,transparent 0 6px,rgba(0,0,0,.08) 6px 12px),linear-gradient(180deg,#8BC34A,#3A5F1F)",
     slot: "#8D6E63", slotBorder: "#4E342E",
-    decor: [
-      { emoji:"⛰️",x:2,y:56,size:50 }, { emoji:"⛰️",x:90,y:54,size:52 },
-      { emoji:"⛰️",x:20,y:58,size:34 }, { emoji:"🏘️",x:48,y:68,size:30 },
-      { emoji:"🌾",x:14,y:80,size:24 }, { emoji:"🌾",x:30,y:82,size:22 },
-      { emoji:"🐃",x:70,y:80,size:28 }
-    ] },
-  "Rừng dừa xanh": { price: 6000, rarity: "Hiếm", particles: 'sunray',
-    sky: "linear-gradient(180deg,#4FC3F7 0%,#81D4FA 50%,#B3E5FC 100%)", ground: "linear-gradient(180deg,#2E7D32 0%,#1B5E20 50%,#0D3B12 100%)",
+    decor: [{ emoji:"⛰️",x:2,y:56,size:50 },{ emoji:"⛰️",x:90,y:54,size:52 },{ emoji:"⛰️",x:20,y:58,size:34 },{ emoji:"🏘️",x:48,y:68,size:30 },{ emoji:"🌾",x:14,y:80,size:24 },{ emoji:"🌾",x:30,y:82,size:22 },{ emoji:"🐃",x:70,y:80,size:28 }] },
+  "Rừng dừa xanh": { price: 6000, rarity: "Hiếm",
+    sky: "repeating-linear-gradient(180deg,#4FC3F7 0 4px,#5FCBF8 4px 8px)", ground: "repeating-linear-gradient(90deg,#2E7D32 0 6px,#256A28 6px 12px),repeating-linear-gradient(0deg,transparent 0 6px,rgba(0,0,0,.09) 6px 12px),linear-gradient(180deg,#2E7D32,#0D3B12)",
     slot: "#6D4C41", slotBorder: "#3E2723",
-    decor: [
-      { emoji:"🌴",x:3,y:60,size:42 }, { emoji:"🌴",x:12,y:64,size:38 },
-      { emoji:"🌴",x:22,y:68,size:34 }, { emoji:"🐒",x:48,y:66,size:28 },
-      { emoji:"🥥",x:36,y:82,size:22 }, { emoji:"🦜",x:60,y:64,size:26 },
-      { emoji:"🍌",x:80,y:78,size:24 }
-    ] },
-  "Núi đá Đồng Văn": { price: 12000, rarity: "Sử thi", particles: 'mist',
-    sky: "linear-gradient(180deg,#5C6B85 0%,#8994A5 40%,#C5C9D4 80%,#E8E8EA 100%)", ground: "linear-gradient(180deg,#7A7A7A 0%,#5A5A5A 50%,#3E3E3E 100%)",
+    decor: [{ emoji:"🌴",x:3,y:60,size:42 },{ emoji:"🌴",x:12,y:64,size:38 },{ emoji:"🌴",x:22,y:68,size:34 },{ emoji:"🐒",x:48,y:66,size:28 },{ emoji:"🥥",x:36,y:82,size:22 },{ emoji:"🦜",x:60,y:64,size:26 },{ emoji:"🍌",x:80,y:78,size:24 }] },
+  "Núi đá Đồng Văn": { price: 12000, rarity: "Sử thi",
+    sky: "repeating-linear-gradient(180deg,#5C6B85 0 4px,#657492 4px 8px),repeating-linear-gradient(0deg,rgba(255,255,255,.15) 0 3px,transparent 3px 8px)", ground: "repeating-linear-gradient(90deg,#7A7A7A 0 6px,#6E6E6E 6px 12px),repeating-linear-gradient(0deg,transparent 0 6px,rgba(0,0,0,.1) 6px 12px),linear-gradient(180deg,#7A7A7A,#3E3E3E)",
     slot: "#6D4C41", slotBorder: "#3E2723",
-    decor: [
-      { emoji:"🏔️",x:1,y:52,size:56 }, { emoji:"🏔️",x:86,y:50,size:58 },
-      { emoji:"🏔️",x:44,y:56,size:40 }, { emoji:"🐎",x:55,y:76,size:30 },
-      { emoji:"🌸",x:20,y:80,size:22 }, { emoji:"🌺",x:74,y:80,size:22 },
-      { emoji:"⛰️",x:32,y:60,size:32 }
-    ] },
-  "Cao nguyên hoa": { price: 25000, rarity: "Sử thi", particles: 'petal',
-    sky: "linear-gradient(180deg,#87CEEB 0%,#B0E5F5 60%,#E8F5E9 100%)", ground: "linear-gradient(180deg,#A5D6A7 0%,#81C784 45%,#4CAF50 100%)",
+    decor: [{ emoji:"🏔️",x:1,y:52,size:56 },{ emoji:"🏔️",x:86,y:50,size:58 },{ emoji:"🏔️",x:44,y:56,size:40 },{ emoji:"🐎",x:55,y:76,size:30 },{ emoji:"🌸",x:20,y:80,size:22 },{ emoji:"🌺",x:74,y:80,size:22 },{ emoji:"⛰️",x:32,y:60,size:32 }] },
+  "Cao nguyên hoa": { price: 25000, rarity: "Sử thi",
+    sky: "repeating-linear-gradient(180deg,#87CEEB 0 4px,#93D3EE 4px 8px)", ground: "repeating-linear-gradient(90deg,#A5D6A7 0 6px,#95C998 6px 12px),repeating-linear-gradient(0deg,transparent 0 6px,rgba(0,0,0,.06) 6px 12px),linear-gradient(180deg,#A5D6A7,#4CAF50)",
     slot: "#8D6E63", slotBorder: "#4E342E",
-    decor: [
-      { emoji:"🌸",x:4,y:72,size:26 }, { emoji:"🌻",x:12,y:74,size:30 },
-      { emoji:"🌷",x:90,y:72,size:28 }, { emoji:"🌹",x:82,y:76,size:26 },
-      { emoji:"🦋",x:44,y:74,size:24 }, { emoji:"🌼",x:60,y:70,size:24 },
-      { emoji:"🐝",x:72,y:66,size:22 }, { emoji:"🌸",x:30,y:78,size:22 }
-    ] },
-  "Vịnh Hạ Long": { price: 50000, rarity: "Huyền thoại", particles: 'seagull',
-    sky: "linear-gradient(180deg,#FFB74D 0%,#FF8A65 35%,#FFD54F 60%,#FFF8E1 100%)", ground: "linear-gradient(180deg,#4DD0E1 0%,#26A69A 45%,#00838F 100%)",
+    decor: [{ emoji:"🌸",x:4,y:72,size:26 },{ emoji:"🌻",x:12,y:74,size:30 },{ emoji:"🌷",x:90,y:72,size:28 },{ emoji:"🌹",x:82,y:76,size:26 },{ emoji:"🦋",x:44,y:74,size:24 },{ emoji:"🌼",x:60,y:70,size:24 },{ emoji:"🐝",x:72,y:66,size:22 },{ emoji:"🌸",x:30,y:78,size:22 }] },
+  "Vịnh Hạ Long": { price: 50000, rarity: "Huyền thoại",
+    sky: "repeating-linear-gradient(180deg,#FFB74D 0 4px,#FFA726 4px 8px),repeating-linear-gradient(0deg,rgba(255,255,255,.2) 0 3px,transparent 3px 10px)", ground: "repeating-linear-gradient(90deg,#4DD0E1 0 6px,#3FBBCB 6px 12px),repeating-linear-gradient(0deg,transparent 0 6px,rgba(0,0,0,.07) 6px 12px),linear-gradient(180deg,#4DD0E1,#00838F)",
     slot: "#8D6E63", slotBorder: "#4E342E",
-    decor: [
-      { emoji:"🏝️",x:2,y:60,size:44 }, { emoji:"🏝️",x:88,y:62,size:40 },
-      { emoji:"⛵",x:48,y:68,size:34 }, { emoji:"🌅",x:40,y:34,size:52 },
-      { emoji:"🐬",x:72,y:76,size:28 }, { emoji:"🦅",x:20,y:36,size:24 },
-      { emoji:"⛰️",x:34,y:56,size:32 }
-    ] },
-  "Đêm trăng quê": { price: 100000, rarity: "Huyền thoại", particles: 'firefly',
-    sky: "linear-gradient(180deg,#0D1B2A 0%,#1B2A4A 40%,#283D5E 80%,#3A5075 100%)", ground: "linear-gradient(180deg,#1A3A2A 0%,#0F2A1E 50%,#051510 100%)",
+    decor: [{ emoji:"🏝️",x:2,y:60,size:44 },{ emoji:"🏝️",x:88,y:62,size:40 },{ emoji:"⛵",x:48,y:68,size:34 },{ emoji:"🌅",x:40,y:34,size:52 },{ emoji:"🐬",x:72,y:76,size:28 },{ emoji:"🦅",x:20,y:36,size:24 },{ emoji:"⛰️",x:34,y:56,size:32 }] },
+  "Đêm trăng quê": { price: 100000, rarity: "Huyền thoại",
+    sky: "repeating-linear-gradient(180deg,#0D1B2A 0 4px,#152540 4px 8px),repeating-linear-gradient(0deg,#FFF 0 1px,transparent 1px 15px)", ground: "repeating-linear-gradient(90deg,#1A3A2A 0 6px,#123020 6px 12px),repeating-linear-gradient(0deg,transparent 0 6px,rgba(0,0,0,.15) 6px 12px),linear-gradient(180deg,#1A3A2A,#051510)",
     slot: "#3E2723", slotBorder: "#1B0F0D",
-    decor: [
-      { emoji:"🌙",x:76,y:12,size:56 }, { emoji:"⭐",x:14,y:10,size:18 },
-      { emoji:"⭐",x:38,y:16,size:14 }, { emoji:"⭐",x:60,y:8,size:20 },
-      { emoji:"🏮",x:8,y:68,size:28 }, { emoji:"🏮",x:24,y:72,size:24 },
-      { emoji:"🦉",x:48,y:62,size:26 }, { emoji:"🌾",x:86,y:80,size:26 }
-    ] },
-  "Thần Nông": { price: 250000, rarity: "Huyền thoại", particles: 'sparkle',
-    sky: "linear-gradient(180deg,#FFD700 0%,#FFC107 25%,#FFE082 55%,#FFF9C4 100%)", ground: "linear-gradient(180deg,#8BC34A 0%,#558B2F 35%,#33691E 70%,#1B5E20 100%)",
+    decor: [{ emoji:"🌙",x:76,y:12,size:56 },{ emoji:"⭐",x:14,y:10,size:18 },{ emoji:"⭐",x:38,y:16,size:14 },{ emoji:"⭐",x:60,y:8,size:20 },{ emoji:"🏮",x:8,y:68,size:28 },{ emoji:"🏮",x:24,y:72,size:24 },{ emoji:"🦉",x:48,y:62,size:26 },{ emoji:"🌾",x:86,y:80,size:26 }] },
+  "Thần Nông": { price: 250000, rarity: "Huyền thoại",
+    sky: "repeating-linear-gradient(180deg,#FFD700 0 4px,#FFC900 4px 8px),repeating-linear-gradient(0deg,rgba(255,255,255,.4) 0 3px,transparent 3px 12px)", ground: "repeating-linear-gradient(90deg,#8BC34A 0 6px,#7FB53F 6px 12px),repeating-linear-gradient(0deg,transparent 0 6px,rgba(0,0,0,.08) 6px 12px),linear-gradient(180deg,#8BC34A,#1B5E20)",
     slot: "#8D6E63", slotBorder: "#3E2723",
-    decor: [
-      { emoji:"🐉",x:4,y:56,size:52 }, { emoji:"🐉",x:88,y:54,size:48 },
-      { emoji:"✨",x:40,y:26,size:30 }, { emoji:"🌾",x:18,y:80,size:32 },
-      { emoji:"🌾",x:30,y:82,size:30 }, { emoji:"🏮",x:60,y:68,size:28 },
-      { emoji:"💎",x:78,y:74,size:24 }
-    ] }
+    decor: [{ emoji:"🐉",x:4,y:56,size:52 },{ emoji:"🐉",x:88,y:54,size:48 },{ emoji:"✨",x:40,y:26,size:30 },{ emoji:"🌾",x:18,y:80,size:32 },{ emoji:"🌾",x:30,y:82,size:30 },{ emoji:"🏮",x:60,y:68,size:28 },{ emoji:"💎",x:78,y:74,size:24 }] }
 };
 
 function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
@@ -1018,9 +1006,8 @@ const PLOTS_PER_ZONE = COLS * ROWS_PER_ZONE;
 const TOTAL_PLOTS = PLOTS_PER_ZONE * 2;
 const FARM_W = 700, FARM_H = 680;
 const DAY_DURATION = 240;
-const SAVE_KEY = 'ntvv_save_v9';
+const SAVE_KEY = 'ntvv_save_v11';
 
-/* ============ STATE ============ */
 const G = {
   farmName: "Nông trại", themeKey: "Đồng lúa vàng", ownedThemes: ["Đồng lúa vàng"],
   money: 500, energy: 100, loan: 0,
@@ -1060,7 +1047,6 @@ function toast(msg, cls = '') {
 }
 function setStatus(m) { $('status-bar').textContent = m; }
 function isPaused() { return G.userPaused || G.phase !== 'playing'; }
-
 function getTheme() { return THEMES[G.themeKey] || THEMES["Đồng lúa vàng"]; }
 function isPlotUnlocked(i) {
   if (i < PLOTS_PER_ZONE) return Math.floor(i / COLS) < G.unlockedRowsCrop;
@@ -1068,23 +1054,14 @@ function isPlotUnlocked(i) {
 }
 function plotZoneOf(i) { return i < PLOTS_PER_ZONE ? 'crop' : 'animal'; }
 
-/* ==== WAREHOUSE ==== */
-function invStackCount() {
-  let n = 0;
-  for (const k in G.inventory) if (G.inventory[k].count > 0) n++;
-  return n;
-}
+function invStackCount() { let n = 0; for (const k in G.inventory) if (G.inventory[k].count > 0) n++; return n; }
 function invHasSpace(newKey) {
   if (G.inventory[newKey] && G.inventory[newKey].count > 0) return true;
   return invStackCount() < G.warehouseCap;
 }
-
 function invCount(k) { return (G.inventory[k] && G.inventory[k].count) || 0; }
 function invAdd(k, n = 1, meta) {
-  if (!invHasSpace(k)) {
-    toast('📦 Kho đầy! Nâng cấp kho để chứa thêm.', 'warn');
-    return false;
-  }
+  if (!invHasSpace(k)) { toast('📦 Kho đầy! Nâng cấp kho để chứa thêm.', 'warn'); return false; }
   if (!G.inventory[k]) G.inventory[k] = { count: 0 };
   G.inventory[k].count += n;
   if (meta) Object.assign(G.inventory[k], meta);
@@ -1171,8 +1148,6 @@ function isNight() {
   const h = Math.floor(minutes / 60) % 24;
   return h >= 19 || h < 5;
 }
-
-/* ============ HOLIDAYS ============ */
 function checkHolidayFor(day) {
   if (day <= 0) return null;
   if (day % 15 !== 0) return null;
@@ -1260,10 +1235,9 @@ function applyLoadedData(data) {
   if (typeof G.holidayBoostDays !== 'number') G.holidayBoostDays = 0;
   if (typeof G.warehouseCap !== 'number') G.warehouseCap = 80;
   if (Array.isArray(G.plots)) G.plots.forEach(p => {
-    if (typeof p.fert !== 'boolean') p.fert = false;
     if (typeof p.hungry !== 'boolean') p.hungry = p.kind === 'animal' && !ANIMALS[p.name]?.noFeed;
     if (typeof p.sick !== 'boolean') p.sick = false;
-    if (typeof p.water !== 'number') p.water = 100;
+    delete p.fert; delete p.water;
   });
   G.stats.themesOwned = G.ownedThemes.length;
   G.stats.dogsOwned = G.dogs.length;
@@ -1286,7 +1260,7 @@ function resetG(name, themeKey) {
   G.adTime = 0; G.spawnCooldown = 3;
   G.plots = Array.from({ length: TOTAL_PLOTS }, () => ({
     kind: null, name: null, progress: 0, ready: false, gene: null,
-    damaged: false, pest: false, fert: false, hungry: false, sick: false, water: 100
+    damaged: false, pest: false, hungry: false, sick: false
   }));
   G.day = 1; G.dayTime = 0; G.weather = 'sunny'; G.weatherSeen = ['sunny'];
   G.marketMul = {}; G.dailyRevenue = 0; G.dailyExpense = 0; G.dailySalary = 0; G.dailyRent = 0; G.dailyLoanInterest = 0; G.dailyTax = 0;
@@ -1334,123 +1308,89 @@ function openGame() {
 }
 function updateFarmTitle() { $('hud-title').textContent = `🌾 ${G.farmName}`; }
 
-/* ============ THEME + PARTICLES ============ */
 const THEME_PARTICLES = {
-  "Đồng lúa vàng":      { type: 'butterfly',  emoji: '🦋', count: 4,  zone: 'top' },
-  "Làng quê Bắc Bộ":    { type: 'leaf',       emoji: '🍃', count: 8,  zone: 'full' },
-  "Sông nước miền Tây": { type: 'dragonfly',  emoji: '🪰', count: 4,  zone: 'mid' },
-  "Ruộng bậc thang":    { type: 'cloud',      emoji: '☁️', count: 3,  zone: 'top' },
-  "Rừng dừa xanh":      { type: 'sunray',     emoji: '✨', count: 5,  zone: 'mid' },
-  "Núi đá Đồng Văn":    { type: 'mist',       emoji: '🌫️', count: 4,  zone: 'mid' },
-  "Cao nguyên hoa":     { type: 'petal',      emoji: '🌸', count: 10, zone: 'full' },
-  "Vịnh Hạ Long":       { type: 'seagull',    emoji: '🕊️', count: 3,  zone: 'top' },
-  "Đêm trăng quê":      { type: 'firefly',    emoji: '✨', count: 12, zone: 'mid' },
-  "Thần Nông":          { type: 'sparkle',    emoji: '⭐', count: 10, zone: 'mid' }
+  "Đồng lúa vàng":      { type: 'butterfly',  emoji: '🦋', count: 4 },
+  "Làng quê Bắc Bộ":    { type: 'leaf',       emoji: '🍃', count: 8 },
+  "Sông nước miền Tây": { type: 'dragonfly',  emoji: '🪰', count: 4 },
+  "Ruộng bậc thang":    { type: 'cloud',      emoji: '☁️', count: 3 },
+  "Rừng dừa xanh":      { type: 'sunray',     emoji: '✨', count: 5 },
+  "Núi đá Đồng Văn":    { type: 'mist',       emoji: '🌫️', count: 4 },
+  "Cao nguyên hoa":     { type: 'petal',      emoji: '🌸', count: 10 },
+  "Vịnh Hạ Long":       { type: 'seagull',    emoji: '🕊️', count: 3 },
+  "Đêm trăng quê":      { type: 'firefly',    emoji: '✨', count: 12 },
+  "Thần Nông":          { type: 'sparkle',    emoji: '⭐', count: 10 }
 };
 function applyThemeParticles() {
   const fx = $('theme-fx');
   if (!fx) return;
   fx.innerHTML = '';
-  const cfg = THEME_PARTICLES[G.themeKey] || { type: 'leaf', emoji: '🍃', count: 6, zone: 'mid' };
+  const cfg = THEME_PARTICLES[G.themeKey] || { type: 'leaf', emoji: '🍃', count: 6 };
   for (let i = 0; i < cfg.count; i++) {
     const el = document.createElement('span');
     el.className = 'theme-particle';
     el.textContent = cfg.emoji;
     if (cfg.type === 'butterfly') {
-      el.style.left = (10 + Math.random() * 80) + '%';
-      el.style.top = (20 + Math.random() * 40) + '%';
-      el.style.animation = `pButterfly ${3 + Math.random() * 3}s ease-in-out infinite`;
-      el.style.animationDelay = (Math.random() * 3) + 's';
+      el.style.left = (10 + Math.random() * 80) + '%'; el.style.top = (20 + Math.random() * 40) + '%';
+      el.style.animation = `pButterfly ${3 + Math.random() * 3}s steps(8) infinite`; el.style.animationDelay = (Math.random() * 3) + 's';
       el.style.fontSize = (14 + Math.random() * 8) + 'px';
     } else if (cfg.type === 'leaf') {
-      el.style.left = (Math.random() * 100) + '%';
-      el.style.top = '-30px';
-      el.style.animation = `pLeaf ${6 + Math.random() * 4}s linear infinite`;
-      el.style.animationDelay = (Math.random() * 6) + 's';
+      el.style.left = (Math.random() * 100) + '%'; el.style.top = '-30px';
+      el.style.animation = `pLeaf ${6 + Math.random() * 4}s linear infinite`; el.style.animationDelay = (Math.random() * 6) + 's';
       el.style.fontSize = (14 + Math.random() * 8) + 'px';
     } else if (cfg.type === 'dragonfly') {
-      el.style.left = (20 + Math.random() * 60) + '%';
-      el.style.top = (30 + Math.random() * 30) + '%';
-      el.style.animation = `pDragonfly ${4 + Math.random() * 3}s ease-in-out infinite`;
-      el.style.animationDelay = (Math.random() * 3) + 's';
+      el.style.left = (20 + Math.random() * 60) + '%'; el.style.top = (30 + Math.random() * 30) + '%';
+      el.style.animation = `pDragonfly ${4 + Math.random() * 3}s steps(6) infinite`; el.style.animationDelay = (Math.random() * 3) + 's';
       el.style.fontSize = (14 + Math.random() * 6) + 'px';
     } else if (cfg.type === 'cloud') {
-      el.style.left = '-80px';
-      el.style.top = (5 + Math.random() * 30) + '%';
-      el.style.animation = `pCloud ${15 + Math.random() * 10}s linear infinite`;
-      el.style.animationDelay = (Math.random() * 10) + 's';
-      el.style.fontSize = (20 + Math.random() * 14) + 'px';
-      el.style.opacity = '0.7';
+      el.style.left = '-80px'; el.style.top = (5 + Math.random() * 30) + '%';
+      el.style.animation = `pCloud ${15 + Math.random() * 10}s linear infinite`; el.style.animationDelay = (Math.random() * 10) + 's';
+      el.style.fontSize = (20 + Math.random() * 14) + 'px'; el.style.opacity = '0.7';
     } else if (cfg.type === 'sunray') {
-      el.style.left = (Math.random() * 100) + '%';
-      el.style.top = (Math.random() * 100) + '%';
-      el.style.animation = `pSunray ${2 + Math.random() * 2}s ease-in-out infinite`;
-      el.style.animationDelay = (Math.random() * 3) + 's';
-      el.style.fontSize = (10 + Math.random() * 8) + 'px';
-      el.style.color = '#FFEB3B';
+      el.style.left = (Math.random() * 100) + '%'; el.style.top = (Math.random() * 100) + '%';
+      el.style.animation = `pSunray ${2 + Math.random() * 2}s steps(3) infinite`; el.style.animationDelay = (Math.random() * 3) + 's';
+      el.style.fontSize = (10 + Math.random() * 8) + 'px'; el.style.color = '#FFEB3B';
     } else if (cfg.type === 'mist') {
-      el.style.left = '-80px';
-      el.style.top = (20 + Math.random() * 60) + '%';
-      el.style.animation = `pMist ${12 + Math.random() * 8}s linear infinite`;
-      el.style.animationDelay = (Math.random() * 8) + 's';
-      el.style.fontSize = (30 + Math.random() * 30) + 'px';
-      el.style.opacity = '0.3';
+      el.style.left = '-80px'; el.style.top = (20 + Math.random() * 60) + '%';
+      el.style.animation = `pMist ${12 + Math.random() * 8}s linear infinite`; el.style.animationDelay = (Math.random() * 8) + 's';
+      el.style.fontSize = (30 + Math.random() * 30) + 'px'; el.style.opacity = '0.3';
     } else if (cfg.type === 'petal') {
-      el.style.left = (Math.random() * 100) + '%';
-      el.style.top = '-30px';
-      el.style.animation = `pPetal ${7 + Math.random() * 5}s linear infinite`;
-      el.style.animationDelay = (Math.random() * 7) + 's';
+      el.style.left = (Math.random() * 100) + '%'; el.style.top = '-30px';
+      el.style.animation = `pPetal ${7 + Math.random() * 5}s linear infinite`; el.style.animationDelay = (Math.random() * 7) + 's';
       el.style.fontSize = (14 + Math.random() * 8) + 'px';
     } else if (cfg.type === 'seagull') {
-      el.style.left = '-100px';
-      el.style.top = (10 + Math.random() * 40) + '%';
-      el.style.animation = `pSeagull ${18 + Math.random() * 10}s linear infinite`;
-      el.style.animationDelay = (Math.random() * 12) + 's';
+      el.style.left = '-100px'; el.style.top = (10 + Math.random() * 40) + '%';
+      el.style.animation = `pSeagull ${18 + Math.random() * 10}s linear infinite`; el.style.animationDelay = (Math.random() * 12) + 's';
       el.style.fontSize = (18 + Math.random() * 8) + 'px';
     } else if (cfg.type === 'firefly') {
-      el.style.left = (Math.random() * 100) + '%';
-      el.style.top = (20 + Math.random() * 70) + '%';
-      el.style.animation = `pFirefly ${2 + Math.random() * 3}s ease-in-out infinite`;
-      el.style.animationDelay = (Math.random() * 3) + 's';
-      el.style.fontSize = (8 + Math.random() * 6) + 'px';
-      el.style.color = '#FFEB3B';
-      el.style.textShadow = '0 0 8px #FFEB3B';
+      el.style.left = (Math.random() * 100) + '%'; el.style.top = (20 + Math.random() * 70) + '%';
+      el.style.animation = `pFirefly ${2 + Math.random() * 3}s steps(4) infinite`; el.style.animationDelay = (Math.random() * 3) + 's';
+      el.style.fontSize = (8 + Math.random() * 6) + 'px'; el.style.color = '#FFEB3B'; el.style.textShadow = '0 0 8px #FFEB3B';
     } else if (cfg.type === 'sparkle') {
-      el.style.left = (Math.random() * 100) + '%';
-      el.style.top = (Math.random() * 100) + '%';
-      el.style.animation = `pSparkle ${1.5 + Math.random() * 2}s ease-in-out infinite`;
-      el.style.animationDelay = (Math.random() * 2) + 's';
+      el.style.left = (Math.random() * 100) + '%'; el.style.top = (Math.random() * 100) + '%';
+      el.style.animation = `pSparkle ${1.5 + Math.random() * 2}s steps(3) infinite`; el.style.animationDelay = (Math.random() * 2) + 's';
       el.style.fontSize = (12 + Math.random() * 8) + 'px';
     }
     fx.appendChild(el);
   }
 }
-
 function applyTheme() {
   const t = getTheme();
   $('sky').style.background = t.sky;
   $('ground').style.background = t.ground;
   $('farm').style.background = t.ground;
   $('farm-wrap').style.background = t.ground;
-  document.querySelectorAll('.plot').forEach(p => {
-    p.style.background = t.slot;
-    p.style.borderColor = t.slotBorder;
-  });
+  document.querySelectorAll('.plot').forEach(p => { p.style.background = t.slot; p.style.borderColor = t.slotBorder; });
   const decorEl = $('farm-decor');
   decorEl.innerHTML = '';
   if (t.decor) for (const d of t.decor) {
     const span = document.createElement('span');
     span.textContent = d.emoji;
-    span.style.left = d.x + '%';
-    span.style.top = d.y + '%';
-    span.style.fontSize = d.size + 'px';
+    span.style.left = d.x + '%'; span.style.top = d.y + '%'; span.style.fontSize = d.size + 'px';
     span.style.transform = `translate(-50%,-50%)`;
     decorEl.appendChild(span);
   }
   applyThemeParticles();
 }
-
-/* ============ HOLIDAY DECOR ============ */
 function applyHolidayDecor() {
   const hd = $('holiday-decor');
   const ho = $('holiday-overlay');
@@ -1458,75 +1398,44 @@ function applyHolidayDecor() {
   hd.innerHTML = '';
   ho.style.background = '';
   if (!G.holidayToday) return;
-
   if (G.holidayToday === 'tet') {
-    // Nền đỏ + vàng ấm
     ho.style.background = 'radial-gradient(circle at 50% 100%, rgba(255,215,0,.20), rgba(200,30,30,.18) 55%, rgba(150,10,10,.10) 100%)';
-    // Đèn lồng treo trên
     for (let i = 0; i < 8; i++) {
       const el = document.createElement('span');
-      el.className = 'holiday-lantern';
-      el.textContent = '🏮';
-      el.style.left = (3 + i * 13) + '%';
-      el.style.top = (12 + Math.random() * 30) + 'px';
-      el.style.animationDelay = (Math.random() * 2) + 's';
-      el.style.fontSize = (18 + Math.random() * 10) + 'px';
+      el.className = 'holiday-lantern'; el.textContent = '🏮';
+      el.style.left = (3 + i * 13) + '%'; el.style.top = (12 + Math.random() * 30) + 'px';
+      el.style.animationDelay = (Math.random() * 2) + 's'; el.style.fontSize = (18 + Math.random() * 10) + 'px';
       hd.appendChild(el);
     }
-    // Hoa mai rơi
     for (let i = 0; i < 18; i++) {
       const el = document.createElement('span');
-      el.className = 'holiday-petal';
-      el.textContent = Math.random() < 0.5 ? '🌸' : '🏵️';
+      el.className = 'holiday-petal'; el.textContent = Math.random() < 0.5 ? '🌸' : '🏵️';
       el.style.left = Math.random() * 100 + '%';
-      el.style.animationDuration = (8 + Math.random() * 6) + 's';
-      el.style.animationDelay = (Math.random() * 5) + 's';
+      el.style.animationDuration = (8 + Math.random() * 6) + 's'; el.style.animationDelay = (Math.random() * 5) + 's';
       el.style.fontSize = (12 + Math.random() * 8) + 'px';
       hd.appendChild(el);
     }
-    // Pháo đỏ dưới
-    const firecracker = document.createElement('span');
-    firecracker.textContent = '🧨🧨🧨';
-    firecracker.style.cssText = 'position:absolute;bottom:10px;left:50%;transform:translateX(-50%);font-size:30px;opacity:.9';
-    hd.appendChild(firecracker);
   } else {
-    // Trung Thu — nền tím + xanh, trăng sáng
     ho.style.background = 'radial-gradient(circle at 78% 12%, rgba(255,255,200,.35), transparent 25%), radial-gradient(circle at 50% 50%, rgba(100,100,180,.20), transparent 75%)';
-    // Mặt trăng lớn
     const moon = document.createElement('span');
-    moon.className = 'holiday-moon';
-    moon.textContent = '🌕';
+    moon.className = 'holiday-moon'; moon.textContent = '🌕';
     hd.appendChild(moon);
-    // Đèn lồng
     for (let i = 0; i < 9; i++) {
       const el = document.createElement('span');
-      el.className = 'holiday-lantern';
-      el.textContent = '🏮';
-      el.style.left = (2 + i * 12) + '%';
-      el.style.top = (30 + Math.random() * 60) + 'px';
-      el.style.animationDelay = (Math.random() * 2) + 's';
-      el.style.fontSize = (16 + Math.random() * 8) + 'px';
+      el.className = 'holiday-lantern'; el.textContent = '🏮';
+      el.style.left = (2 + i * 12) + '%'; el.style.top = (30 + Math.random() * 60) + 'px';
+      el.style.animationDelay = (Math.random() * 2) + 's'; el.style.fontSize = (16 + Math.random() * 8) + 'px';
       hd.appendChild(el);
     }
-    // Sao nhấp nháy
     for (let i = 0; i < 14; i++) {
       const el = document.createElement('span');
-      el.className = 'holiday-star';
-      el.textContent = '⭐';
-      el.style.left = Math.random() * 100 + '%';
-      el.style.top = (Math.random() * 110) + 'px';
-      el.style.fontSize = (8 + Math.random() * 8) + 'px';
-      el.style.animationDelay = (Math.random() * 2) + 's';
+      el.className = 'holiday-star'; el.textContent = '⭐';
+      el.style.left = Math.random() * 100 + '%'; el.style.top = (Math.random() * 110) + 'px';
+      el.style.fontSize = (8 + Math.random() * 8) + 'px'; el.style.animationDelay = (Math.random() * 2) + 's';
       hd.appendChild(el);
     }
-    // Bánh trung thu dưới
-    const cake = document.createElement('span');
-    cake.textContent = '🥮🥮🥮';
-    cake.style.cssText = 'position:absolute;bottom:10px;left:50%;transform:translateX(-50%);font-size:28px;opacity:.9';
-    hd.appendChild(cake);
   }
 }
-
 function applyWeatherVisual() {
   const w = WEATHERS[G.weather];
   $('wb-emoji').textContent = w.emoji;
@@ -1537,17 +1446,16 @@ function applyWeatherVisual() {
   ov.className = '';
   const night = isNight();
   if (G.weather === 'sunny') {
-    if (night) { sky.style.background = 'linear-gradient(180deg,#0D1B2A,#1B2A4A 60%,#3A5075)'; ground.style.background = t.ground; sun.style.opacity = '0'; }
+    if (night) { sky.style.background = 'repeating-linear-gradient(180deg,#0D1B2A 0 4px,#152540 4px 8px)'; ground.style.background = t.ground; sun.style.opacity = '0'; }
     else { sky.style.background = t.sky; ground.style.background = t.ground; sun.style.opacity = '1'; }
-    if (!night) ov.classList.add('hot');
   }
-  else if (G.weather === 'rain') { sky.style.background = 'linear-gradient(180deg,#3d5a75,#89a2b5)'; ground.style.background = 'linear-gradient(180deg,#3d6028,#2f5220)'; sun.style.opacity = '0.1'; ov.classList.add('rain'); }
-  else if (G.weather === 'storm') { sky.style.background = 'linear-gradient(180deg,#1c2e40,#3a4e60)'; ground.style.background = 'linear-gradient(180deg,#2a4a1e,#1e3a15)'; sun.style.opacity = '0'; ov.classList.add('storm'); }
-  else if (G.weather === 'cold') { sky.style.background = 'linear-gradient(180deg,#8BB3CC,#D5E5EC)'; ground.style.background = 'linear-gradient(180deg,#D5E4E8,#A5BCC2)'; sun.style.opacity = '0.3'; ov.classList.add('cold'); }
-  else if (G.weather === 'rainbow') { sky.style.background = 'linear-gradient(180deg,#FFE4E1,#E6E6FA 40%,#E0FFFF)'; ground.style.background = t.ground; sun.style.opacity = '1'; ov.classList.add('rainbow'); }
+  else if (G.weather === 'rain') { sky.style.background = 'repeating-linear-gradient(180deg,#3d5a75 0 4px,#466381 4px 8px)'; ground.style.background = 'repeating-linear-gradient(90deg,#3d6028 0 6px,#345323 6px 12px)'; sun.style.opacity = '0.1'; ov.classList.add('rain'); }
+  else if (G.weather === 'storm') { sky.style.background = 'repeating-linear-gradient(180deg,#1c2e40 0 4px,#243849 4px 8px)'; ground.style.background = 'repeating-linear-gradient(90deg,#2a4a1e 0 6px,#223d18 6px 12px)'; sun.style.opacity = '0'; ov.classList.add('storm'); }
+  else if (G.weather === 'cold') { sky.style.background = 'repeating-linear-gradient(180deg,#8BB3CC 0 4px,#95BDD4 4px 8px)'; ground.style.background = 'repeating-linear-gradient(90deg,#D5E4E8 0 6px,#C5D4D8 6px 12px)'; sun.style.opacity = '0.3'; ov.classList.add('cold'); }
+  else if (G.weather === 'rainbow') { sky.style.background = 'repeating-linear-gradient(180deg,#FFE4E1 0 4px,#E6E6FA 4px 8px)'; ground.style.background = t.ground; sun.style.opacity = '1'; ov.classList.add('rainbow'); }
   const fx = $('weather-fx'); fx.innerHTML = '';
   if (G.weather === 'rain' || G.weather === 'storm') {
-    const cnt = G.weather === 'storm' ? 60 : 40;
+    const cnt = G.weather === 'storm' ? 50 : 35;
     for (let i = 0; i < cnt; i++) {
       const d = document.createElement('div'); d.className = 'raindrop';
       d.style.left = Math.random() * 100 + '%';
@@ -1556,7 +1464,7 @@ function applyWeatherVisual() {
       fx.appendChild(d);
     }
   } else if (G.weather === 'cold') {
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 28; i++) {
       const s = document.createElement('div'); s.className = 'snow';
       s.style.left = Math.random() * 100 + '%';
       s.style.animationDuration = (3 + Math.random() * 3) + 's';
@@ -1615,7 +1523,6 @@ tap($('news-ok'), () => {
   $('news-overlay').style.display = 'none';
   G.phase = 'playing';
 });
-
 function showReport() {
   $('report-day-label').textContent = `Kết thúc ngày ${G.day}`;
   const body = $('report-body'); body.innerHTML = '';
@@ -1654,13 +1561,10 @@ function showReport() {
   body.appendChild(rr);
   $('report-overlay').style.display = 'flex';
 }
-
-/* ============ ADVANCE DAY ============ */
 let reportHandler = null;
 function advanceDay() {
   if (G.phase !== 'playing') return;
   G.phase = 'report';
-
   const dailyProfit = G.dailyRevenue - G.dailyExpense;
   if (dailyProfit > 0) {
     const tax = Math.floor(dailyProfit * TAX_RATE);
@@ -1673,28 +1577,19 @@ function advanceDay() {
   if (rent > 0) { G.money -= rent; G.dailyRent = rent; }
   if (G.loan > 0) {
     const interest = Math.floor(G.loan * LOAN_INTEREST);
-    G.loan += interest;
-    G.dailyLoanInterest = interest;
-    if (G.loan > 500000 && G.money < G.loan) {
-      toast('💀 Nợ quá lớn! Toà tuyên bố phá sản...', 'error');
-    }
+    G.loan += interest; G.dailyLoanInterest = interest;
+    if (G.loan > 500000 && G.money < G.loan) toast('💀 Nợ quá lớn! Toà tuyên bố phá sản...', 'error');
   }
-
   showReport();
   if (reportHandler) $('report-ok').removeEventListener('pointerdown', reportHandler);
   reportHandler = () => {
     $('report-ok').removeEventListener('pointerdown', reportHandler);
     reportHandler = null;
     $('report-overlay').style.display = 'none';
-
-    G.day++;
-    G.dayTime = 0;
+    G.day++; G.dayTime = 0;
     G.stats.daysPlayed = G.day;
-
-    // Holiday
     G.holidayToday = checkHolidayFor(G.day);
     if (G.holidayBoostDays > 0) G.holidayBoostDays--;
-
     const weights = { sunny: 35, rain: 25, cold: 15, storm: 15, rainbow: 10 };
     let total = Object.values(weights).reduce((s, w) => s + w, 0);
     let r = Math.random() * total; let chosen = 'sunny';
@@ -1702,43 +1597,32 @@ function advanceDay() {
     G.weather = chosen;
     if (!G.weatherSeen.includes(chosen)) G.weatherSeen.push(chosen);
     G.stats.weatherSeen = G.weatherSeen.length;
-
     G.dailyRevenue = 0; G.dailyExpense = 0; G.dailySalary = 0; G.dailyRent = 0; G.dailyLoanInterest = 0; G.dailyTax = 0;
     G.dailyDeliveries = 0; G.dailyHarvests = 0;
     G.supermarket.salesToday = 0;
     rollDailyMarket(); rollCompetitors();
     applyWeatherVisual(); applyTheme(); applyHolidayDecor();
     G.energy = Math.min(100, G.energy + 40);
-    // Reset water cho tất cả cây khi mưa hoặc ngày mới
-    for (const p of G.plots) if (p.kind === 'crop') p.water = Math.max(p.water, 60);
-
     if (G.reviewStars.length > 20) G.reviewStars = G.reviewStars.slice(-20);
     if (G.vaccineActive && G.day - G.vaccineDay >= 5) { G.vaccineActive = false; toast('💉 Vaccine hết hiệu lực.', 'info'); }
-
     G.birdFluDay = 0;
     if (!G.vaccineActive && Math.random() < 0.12) {
       const hasChickens = G.plots.some((p, i) => isPlotUnlocked(i) && p.kind === 'animal' && p.name === 'Gà');
       if (hasChickens) G.birdFluDay = G.day;
     }
-
     checkAchievements();
     renderAll();
     G.phase = 'news';
     showNews();
-
-    // Priority: Holiday > Inspection > BirdFlu > Thief (35%) > Random
-    if (G.holidayToday) {
-      setTimeout(holidayEvent, 700);
-    } else if (G.day >= G.nextInspectionDay && Math.random() < 0.4) {
+    if (G.holidayToday) setTimeout(holidayEvent, 700);
+    else if (G.day >= G.nextInspectionDay && Math.random() < 0.4) {
       G.nextInspectionDay = G.day + 4 + Math.floor(Math.random() * 4);
       setTimeout(inspectionEvent, 700);
     } else if (G.birdFluDay === G.day) {
-      setTimeout(birdFluEvent, 700);
-      G.nextEventDay = G.day + 2;
+      setTimeout(birdFluEvent, 700); G.nextEventDay = G.day + 2;
     } else {
-      if (Math.random() < 0.35 && G.plots.some((p, i) => isPlotUnlocked(i) && p.kind === 'animal')) {
-        setTimeout(thiefEvent, 700);
-      } else if (G.day >= G.nextEventDay && Math.random() < 0.6) {
+      if (Math.random() < 0.35 && G.plots.some((p, i) => isPlotUnlocked(i) && p.kind === 'animal')) setTimeout(thiefEvent, 700);
+      else if (G.day >= G.nextEventDay && Math.random() < 0.6) {
         setTimeout(triggerRandomEvent, 700);
         G.nextEventDay = G.day + 1 + Math.floor(Math.random() * 3);
       }
@@ -1749,7 +1633,7 @@ function advanceDay() {
   $('report-ok').addEventListener('pointerdown', reportHandler);
 }
 
-/* ============ EVENTS ============ */
+/* ============ EVENTS (giữ nguyên logic) ============ */
 function triggerRandomEvent() {
   if (G.phase !== 'playing') return;
   G.phase = 'event';
@@ -1757,56 +1641,44 @@ function triggerRandomEvent() {
   if (!G.vaccineActive && G.birdFluDay === 0) pool.push(birdFluEvent);
   pick(pool)();
 }
-
 function holidayEvent() {
   if (G.phase === 'news') G.phase = 'event';
   const isTet = G.holidayToday === 'tet';
   const workers = G.workers;
   const c = $('event-choices'); c.innerHTML = '';
-
   $('event-icon').textContent = isTet ? '🧧' : '🥮';
-  $('event-title').textContent = isTet ? '🧧 TẾT NGUYÊN ĐÁN!' : '🥮 TẾT TRUNG THU!';
+  $('event-title').textContent = isTet ? '🧧 TẾT!' : '🥮 TRUNG THU!';
   const n = workers.length;
-
   if (isTet) {
-    $('event-desc').innerHTML = `Hôm nay là <strong>Tết</strong>!<br>${n} nhân công xin nghỉ. Bạn có muốn <strong>lì xì</strong> để giữ lòng họ không?`;
-    const luckyAmount = 200 * n;
-    const moonAmount = 500 * n;
-
+    $('event-desc').innerHTML = `Hôm nay là <strong>Tết</strong>!<br>${n} nhân công xin nghỉ. Lì xì giữ lòng họ?`;
+    const luckyAmount = 200 * n; const moonAmount = 500 * n;
     const b1 = document.createElement('button'); b1.className = 'event-btn';
     b1.innerHTML = `<span class="eb-icon">🧧</span><span class="eb-text">Lì xì ${n} nhân viên<br><small style="color:#A5D6A7">Vui vẻ, tăng tốc 3 ngày</small></span><span class="eb-cost">${luckyAmount.toLocaleString()}$</span>`;
     tap(b1, () => {
       if (G.money < luckyAmount) { toast('Không đủ tiền!', 'error'); return; }
       G.money -= luckyAmount; G.dailyExpense += luckyAmount;
       G.workerHappiness = Math.min(1.5, G.workerHappiness + 0.4);
-      G.holidayBoostDays = 3;
-      G.reputation = Math.min(10, G.reputation + 0.5);
+      G.holidayBoostDays = 3; G.reputation = Math.min(10, G.reputation + 0.5);
       toast('🧧 Nhân viên rất vui!', 'achievement');
       closeEvent(); renderAll();
     });
     c.appendChild(b1);
-
     const b2 = document.createElement('button'); b2.className = 'event-btn';
-    b2.innerHTML = `<span class="eb-icon">🥮</span><span class="eb-text">Tặng bánh chưng + bánh tét<br><small style="color:#A5D6A7">Vui hơn lì xì</small></span><span class="eb-cost">${moonAmount.toLocaleString()}$</span>`;
+    b2.innerHTML = `<span class="eb-icon">🥮</span><span class="eb-text">Tặng bánh chưng<br><small style="color:#A5D6A7">Vui hơn lì xì</small></span><span class="eb-cost">${moonAmount.toLocaleString()}$</span>`;
     tap(b2, () => {
       if (G.money < moonAmount) { toast('Không đủ tiền!', 'error'); return; }
       G.money -= moonAmount; G.dailyExpense += moonAmount;
       G.workerHappiness = Math.min(2, G.workerHappiness + 0.6);
-      G.holidayBoostDays = 5;
-      G.reputation = Math.min(10, G.reputation + 0.8);
+      G.holidayBoostDays = 5; G.reputation = Math.min(10, G.reputation + 0.8);
       toast('🥮 Nhân viên cảm động!', 'achievement');
       closeEvent(); renderAll();
     });
     c.appendChild(b2);
-
     const b3 = document.createElement('button'); b3.className = 'event-btn danger';
-    b3.innerHTML = `<span class="eb-icon">😐</span><span class="eb-text">Không tặng gì<br><small style="color:#EF9A9A">30% mỗi nhân viên nghỉ việc</small></span>`;
+    b3.innerHTML = `<span class="eb-icon">😐</span><span class="eb-text">Không tặng gì<br><small style="color:#EF9A9A">30% nhân viên nghỉ việc</small></span>`;
     tap(b3, () => {
       let quit = 0;
-      G.workers = G.workers.filter(w => {
-        if (Math.random() < 0.30) { quit++; return false; }
-        return true;
-      });
+      G.workers = G.workers.filter(w => { if (Math.random() < 0.30) { quit++; return false; } return true; });
       G.workerHappiness = Math.max(0.3, G.workerHappiness - 0.4);
       if (quit > 0) toast(`😡 ${quit} nhân viên đã nghỉ việc!`, 'error');
       else toast('😐 Nhân viên buồn nhưng vẫn ở lại.', 'warn');
@@ -1814,22 +1686,19 @@ function holidayEvent() {
     });
     c.appendChild(b3);
   } else {
-    $('event-desc').innerHTML = `Hôm nay là <strong>Trung Thu</strong>!<br>${n} nhân công xin nghỉ. Tặng <strong>bánh trung thu</strong> để động viên?`;
+    $('event-desc').innerHTML = `Hôm nay là <strong>Trung Thu</strong>!<br>${n} nhân công xin nghỉ. Tặng bánh?`;
     const moonAmount = 150 * n;
-
     const b1 = document.createElement('button'); b1.className = 'event-btn';
-    b1.innerHTML = `<span class="eb-icon">🥮</span><span class="eb-text">Tặng ${n} hộp bánh<br><small style="color:#A5D6A7">Vui vẻ, tăng tốc 2 ngày</small></span><span class="eb-cost">${moonAmount.toLocaleString()}$</span>`;
+    b1.innerHTML = `<span class="eb-icon">🥮</span><span class="eb-text">Tặng ${n} hộp bánh<br><small style="color:#A5D6A7">Tăng tốc 2 ngày</small></span><span class="eb-cost">${moonAmount.toLocaleString()}$</span>`;
     tap(b1, () => {
       if (G.money < moonAmount) { toast('Không đủ tiền!', 'error'); return; }
       G.money -= moonAmount; G.dailyExpense += moonAmount;
       G.workerHappiness = Math.min(1.5, G.workerHappiness + 0.3);
-      G.holidayBoostDays = 2;
-      G.reputation = Math.min(10, G.reputation + 0.4);
+      G.holidayBoostDays = 2; G.reputation = Math.min(10, G.reputation + 0.4);
       toast('🥮 Nhân viên rất vui!', 'achievement');
       closeEvent(); renderAll();
     });
     c.appendChild(b1);
-
     const b2 = document.createElement('button'); b2.className = 'event-btn';
     b2.innerHTML = `<span class="eb-icon">🏮</span><span class="eb-text">Tổ chức rước đèn<br><small style="color:#A5D6A7">Uy tín +1</small></span><span class="eb-cost">${(80 * n).toLocaleString()}$</span>`;
     tap(b2, () => {
@@ -1841,15 +1710,11 @@ function holidayEvent() {
       closeEvent(); renderAll();
     });
     c.appendChild(b2);
-
     const b3 = document.createElement('button'); b3.className = 'event-btn danger';
-    b3.innerHTML = `<span class="eb-icon">😐</span><span class="eb-text">Không tặng gì<br><small style="color:#EF9A9A">20% mỗi nhân viên nghỉ</small></span>`;
+    b3.innerHTML = `<span class="eb-icon">😐</span><span class="eb-text">Không tặng gì<br><small style="color:#EF9A9A">20% nhân viên nghỉ</small></span>`;
     tap(b3, () => {
       let quit = 0;
-      G.workers = G.workers.filter(w => {
-        if (Math.random() < 0.20) { quit++; return false; }
-        return true;
-      });
+      G.workers = G.workers.filter(w => { if (Math.random() < 0.20) { quit++; return false; } return true; });
       G.workerHappiness = Math.max(0.3, G.workerHappiness - 0.25);
       if (quit > 0) toast(`😡 ${quit} nhân viên nghỉ việc!`, 'error');
       else toast('😐 Không sao.', 'warn');
@@ -1857,31 +1722,25 @@ function holidayEvent() {
     });
     c.appendChild(b3);
   }
-
   $('event-overlay').style.display = 'flex';
 }
-
 function thiefEvent() {
   const animals = G.plots.map((p, i) => ({ p, i })).filter(({ p, i }) => isPlotUnlocked(i) && p.kind === 'animal');
   if (!animals.length) { closeEvent(); return; }
   const guard = totalGuard();
   const isThief = Math.random() < 0.5;
   $('event-icon').textContent = isThief ? '🦹' : '👤';
-  $('event-title').textContent = isThief ? 'KẺ TRỘM ĐỘT NHẬP!' : 'HÀNG XÓM LẤY TRỘM!';
-  $('event-desc').innerHTML = `${isThief ? 'Kẻ trộm' : 'Hàng xóm'} đang lảng vảng quanh chuồng!<br><strong>Chó canh: ${guard}%</strong> cơ hội phát hiện.`;
+  $('event-title').textContent = isThief ? 'KẺ TRỘM!' : 'HÀNG XÓM LẤY TRỘM!';
+  $('event-desc').innerHTML = `${isThief ? 'Kẻ trộm' : 'Hàng xóm'} đang lảng vảng quanh chuồng!<br><strong>Chó canh: ${guard}%</strong>`;
   const c = $('event-choices'); c.innerHTML = '';
   const b1 = document.createElement('button'); b1.className = 'event-btn';
   b1.innerHTML = `<span class="eb-icon">🐕</span><span class="eb-text">Để chó xử lý</span>`;
   tap(b1, () => {
-    if (Math.random() * 100 < guard) {
-      toast('🐕 Chó đã đuổi được trộm!', 'achievement');
-      G.reputation = Math.min(10, G.reputation + 0.2);
-    } else {
-      const lost = pick(animals);
-      const animalName = lost.p.name;
+    if (Math.random() * 100 < guard) { toast('🐕 Chó đã đuổi được trộm!', 'achievement'); G.reputation = Math.min(10, G.reputation + 0.2); }
+    else {
+      const lost = pick(animals); const animalName = lost.p.name;
       lost.p.kind = lost.p.name = null; lost.p.progress = 0; lost.p.ready = false; lost.p.gene = null; lost.p.hungry = false;
-      toast(`😡 Bị trộm mất 1 con ${animalName}!`, 'error');
-      plotSig = '';
+      toast(`😡 Bị trộm mất 1 con ${animalName}!`, 'error'); plotSig = '';
     }
     closeEvent(); renderAll();
   });
@@ -1891,22 +1750,17 @@ function thiefEvent() {
   tap(b2, () => {
     if (G.money < 200) { toast('Không đủ tiền!', 'error'); return; }
     G.money -= 200; G.dailyExpense += 200;
-    if (Math.random() < 0.85) {
-      toast('🚔 Công an đã bắt được trộm!', 'info');
-      G.reputation = Math.min(10, G.reputation + 0.3);
-    } else {
-      const lost = pick(animals);
-      const animalName = lost.p.name;
+    if (Math.random() < 0.85) { toast('🚔 Công an đã bắt được trộm!', 'info'); G.reputation = Math.min(10, G.reputation + 0.3); }
+    else {
+      const lost = pick(animals); const animalName = lost.p.name;
       lost.p.kind = lost.p.name = null; lost.p.progress = 0; lost.p.ready = false; lost.p.gene = null;
-      toast(`😡 Trộm chạy thoát, mất 1 ${animalName}!`, 'error');
-      plotSig = '';
+      toast(`😡 Trộm chạy thoát, mất 1 ${animalName}!`, 'error'); plotSig = '';
     }
     closeEvent(); renderAll();
   });
   c.appendChild(b2);
   $('event-overlay').style.display = 'flex';
 }
-
 function chickenEscape() {
   const n = 1 + Math.floor(Math.random() * 2);
   $('event-icon').textContent = '🐔';
@@ -1939,7 +1793,6 @@ function chickenEscape() {
   c.appendChild(b3);
   $('event-overlay').style.display = 'flex';
 }
-
 function animalEscape() {
   const animals = G.plots.map((p, i) => ({ p, i })).filter(({ p, i }) => isPlotUnlocked(i) && p.kind === 'animal');
   if (!animals.length) { closeEvent(); return; }
@@ -1958,8 +1811,7 @@ function animalEscape() {
     if (G.energy < 20) { toast('Không đủ năng lượng!', 'error'); return; }
     G.energy -= 20;
     if (Math.random() < 0.6) {
-      G.plots[esc.i].kind = 'animal';
-      G.plots[esc.i].name = animalName;
+      G.plots[esc.i].kind = 'animal'; G.plots[esc.i].name = animalName;
       G.plots[esc.i].hungry = !ANIMALS[animalName].noFeed;
       toast(`🎉 Bắt được ${animalName}!`, 'info');
     } else toast('😢 Không tìm thấy!', 'error');
@@ -1972,8 +1824,7 @@ function animalEscape() {
     if (G.money < 50) { toast('Không đủ tiền!', 'error'); return; }
     G.money -= 50; G.dailyExpense += 50;
     if (Math.random() < 0.85) {
-      G.plots[esc.i].kind = 'animal';
-      G.plots[esc.i].name = animalName;
+      G.plots[esc.i].kind = 'animal'; G.plots[esc.i].name = animalName;
       G.plots[esc.i].hungry = !ANIMALS[animalName].noFeed;
       toast(`🎉 Bắt được ${animalName}!`, 'info');
     } else toast('😢 Không tìm thấy!', 'error');
@@ -1986,7 +1837,6 @@ function animalEscape() {
   c.appendChild(b3);
   $('event-overlay').style.display = 'flex';
 }
-
 function sickAnimal() {
   const animals = G.plots.map((p, i) => ({ p, i })).filter(({ p, i }) => isPlotUnlocked(i) && p.kind === 'animal' && !p.sick);
   if (!animals.length) { closeEvent(); return; }
@@ -2011,7 +1861,7 @@ function sickAnimal() {
   });
   c.appendChild(b1);
   const b2 = document.createElement('button'); b2.className = 'event-btn danger';
-  b2.innerHTML = `<span class="eb-icon">☠️</span><span class="eb-text">Tiêu huỷ (an toàn)</span>`;
+  b2.innerHTML = `<span class="eb-icon">☠️</span><span class="eb-text">Tiêu huỷ</span>`;
   tap(b2, () => {
     sick.p.kind = sick.p.name = null; sick.p.progress = 0; sick.p.ready = false; sick.p.gene = null; sick.p.sick = false; sick.p.hungry = false;
     G.reputation = Math.max(0, G.reputation - 0.15);
@@ -2032,7 +1882,6 @@ function sickAnimal() {
   c.appendChild(b3);
   $('event-overlay').style.display = 'flex';
 }
-
 function inspectionEvent() {
   $('event-icon').textContent = '🚔';
   $('event-title').textContent = 'KIỂM DỊCH ĐỘT XUẤT!';
@@ -2043,25 +1892,17 @@ function inspectionEvent() {
     $('event-desc').innerHTML = `Đội kiểm dịch đến kiểm tra.<br><strong style="color:#A5D6A7">Trang trại sạch sẽ!</strong>`;
     const b = document.createElement('button'); b.className = 'event-btn';
     b.innerHTML = `<span class="eb-icon">✅</span><span class="eb-text">Tiễn đoàn ra về</span>`;
-    tap(b, () => {
-      G.reputation = Math.min(10, G.reputation + 0.3);
-      toast('✅ Đạt chuẩn!', 'achievement');
-      closeEvent(); renderAll();
-    });
+    tap(b, () => { G.reputation = Math.min(10, G.reputation + 0.3); toast('✅ Đạt chuẩn!', 'achievement'); closeEvent(); renderAll(); });
     c.appendChild(b);
   } else {
-    let fine = 0;
-    let desc = 'Phát hiện:<br>';
+    let fine = 0; let desc = 'Phát hiện:<br>';
     if (sickPlots.length > 0) {
       desc += `🚨 <strong>${sickPlots.length} con bệnh</strong><br>`;
       fine += sickPlots.length * 500;
       for (const s of sickPlots) { s.kind = s.name = null; s.progress = 0; s.ready = false; s.gene = null; s.sick = false; s.hungry = false; }
       plotSig = '';
     }
-    if (secretCount > 0) {
-      desc += `🚨 <strong>${secretCount} vụ bán chui</strong><br>`;
-      fine += 20000 * secretCount;
-    }
+    if (secretCount > 0) { desc += `🚨 <strong>${secretCount} vụ bán chui</strong><br>`; fine += 20000 * secretCount; }
     fine = Math.min(fine, G.money);
     G.money -= fine; G.dailyExpense += fine;
     G.reputation = Math.max(0, G.reputation - 1.5);
@@ -2074,7 +1915,6 @@ function inspectionEvent() {
   }
   $('event-overlay').style.display = 'flex';
 }
-
 function neighborHelp() {
   const nb = randomNpcName();
   const items = prodItems();
@@ -2112,7 +1952,6 @@ function neighborHelp() {
   c.appendChild(b3);
   $('event-overlay').style.display = 'flex';
 }
-
 function birdFluEvent() {
   const cp = G.plots.map((p, i) => ({ p, i })).filter(({ p, i }) => isPlotUnlocked(i) && p.kind === 'animal' && p.name === 'Gà');
   if (!cp.length) { closeEvent(); return; }
@@ -2154,17 +1993,13 @@ function birdFluEvent() {
   c.appendChild(b3);
   $('event-overlay').style.display = 'flex';
 }
-
-function closeEvent() {
-  $('event-overlay').style.display = 'none';
-  G.phase = 'playing';
-}
+function closeEvent() { $('event-overlay').style.display = 'none'; G.phase = 'playing'; }
 function addRelationship(npc, delta) {
   G.relationships[npc] = (G.relationships[npc] || 0) + delta;
   G.stats.closeFriends = Object.values(G.relationships).filter(v => v >= 3).length;
 }
 
-/* ============ WORKER MANAGEMENT ============ */
+/* ============ WORKER ============ */
 function createWorker(type) {
   const cfg = WORKER_TYPES[type];
   const exp = Math.floor(Math.random() * 10);
@@ -2174,15 +2009,12 @@ function createWorker(type) {
   const interval = Math.max(2, Math.round(cfg.baseCost > 3000 ? 3 : 6) / (expMul * personalityMul));
   return {
     id: Date.now() + Math.random(),
-    type,
-    name: randomWorkerName(),
+    type, name: randomWorkerName(),
     age: 20 + Math.floor(Math.random() * 40),
-    exp,
-    personality,
+    exp, personality,
     salary: Math.round(cfg.salary * (1 + exp * 0.05)),
     interval: Math.max(2, interval),
-    timer: interval,
-    hired: G.day
+    timer: interval, hired: G.day
   };
 }
 
@@ -2191,29 +2023,23 @@ function rebuildPanels() {
   buildShop(); buildUnlockList(); buildLandList(); buildVaccineList(); buildThemeShop();
   buildWorkersPanel(); buildDogsPanel(); buildMillPanel(); buildBankPanel(); buildWarehousePanel();
 }
-
 function buildWarehousePanel() {
-  const box = $('warehouse-panel');
-  if (!box) return;
+  const box = $('warehouse-panel'); if (!box) return;
   box.innerHTML = '';
   const used = invStackCount();
   $('wh-badge').textContent = `${used}/${G.warehouseCap}`;
-
   const info = document.createElement('div');
-  info.style.cssText = 'background:#1f2b30;padding:8px 10px;border-radius:8px;font-size:11px;margin-bottom:6px';
+  info.style.cssText = 'background:#1f2b30;padding:8px 10px;font-size:11px;margin-bottom:6px;border:2px solid #0a0e12';
   info.innerHTML = `📦 Đang dùng: <strong style="color:#FFD54F">${used}/${G.warehouseCap}</strong> ô`;
   box.appendChild(info);
-
   for (const tier of WAREHOUSE_TIERS) {
     if (tier.cap === 80) continue;
     if (G.warehouseCap >= tier.cap) {
       const d = document.createElement('div');
       d.className = 'inv-empty'; d.style.color = '#A5D6A7';
       d.textContent = `✅ Đã nâng lên ${tier.cap} ô`;
-      box.appendChild(d);
-      continue;
+      box.appendChild(d); continue;
     }
-    // Chỉ hiện tier kế tiếp
     const prevCap = tier.cap === 150 ? 80 : 150;
     if (G.warehouseCap !== prevCap) continue;
     const b = document.createElement('button');
@@ -2235,15 +2061,13 @@ function buildWarehousePanel() {
     box.appendChild(d);
   }
 }
-
 function buildBankPanel() {
   $('bank-badge').textContent = G.loan > 0 ? Math.round(G.loan).toLocaleString() + '$' : '0$';
   document.querySelectorAll('[data-loan]').forEach(btn => {
     tap(btn, () => {
       const amt = parseInt(btn.dataset.loan, 10);
       if (!confirm(`Vay ${amt.toLocaleString()}$? Lãi 10%/ngày sẽ cộng vào nợ.`)) return;
-      G.money += amt;
-      G.loan += amt;
+      G.money += amt; G.loan += amt;
       toast(`💳 Đã vay ${amt.toLocaleString()}$`, 'warn');
       renderAll(); rebuildPanels();
     });
@@ -2252,21 +2076,20 @@ function buildBankPanel() {
     if (G.loan <= 0) { toast('Không có nợ!', 'info'); return; }
     if (G.money < G.loan) { toast(`Cần ${Math.round(G.loan).toLocaleString()}$ để trả!`, 'error'); return; }
     const amt = G.loan;
-    G.money -= amt;
-    G.loan = 0;
+    G.money -= amt; G.loan = 0;
     toast(`💳 Đã trả hết nợ ${Math.round(amt).toLocaleString()}$!`, 'achievement');
     renderAll(); rebuildPanels();
   });
 }
-
+let millSig = '';
 function buildMillPanel() {
-  const box = $('mill-panel');
+  const box = $('mill-panel'); if (!box) return;
+  const sig = G.ownedMills.join(',') + '|' + G.ownedMills.map(m => invCount(MILLS[m].input)).join(',');
+  if (sig === millSig && box.dataset.built === '1') return;
+  millSig = sig; box.dataset.built = '1';
   $('mill-badge').textContent = G.ownedMills.length;
   box.innerHTML = '';
-  if (!G.ownedMills.length) {
-    box.innerHTML = '<div class="inv-empty">Chưa có máy. Mua ở Cửa hàng!</div>';
-    return;
-  }
+  if (!G.ownedMills.length) { box.innerHTML = '<div class="inv-empty">Chưa có máy. Mua ở Cửa hàng!</div>'; return; }
   for (const m of G.ownedMills) {
     const cfg = MILLS[m];
     const row = document.createElement('div');
@@ -2274,21 +2097,20 @@ function buildMillPanel() {
     const inStock = invCount(cfg.input);
     row.innerHTML = `<span class="sm-item">${cfg.emoji} ${m}<br><span style="font-size:9px;color:#90A4AE">${cfg.input} → ${cfg.output}</span></span><span style="color:#FFD54F;font-size:11px;font-weight:bold">${inStock} ${cfg.input}</span>`;
     const b = document.createElement('button');
-    b.className = 'shop-btn';
-    b.style.background = '#43A047';
-    b.innerHTML = `Chế biến tất cả`;
+    b.className = 'shop-btn'; b.style.background = '#43A047';
+    b.textContent = 'Chế biến tất cả';
     tap(b, () => {
-      if (inStock <= 0) { toast(`Không có ${cfg.input}!`, 'error'); return; }
-      invSub(cfg.input, inStock);
-      invAdd(cfg.output, inStock * cfg.ratio);
-      toast(`⚙️ Xay ${inStock} ${cfg.input} → ${inStock * cfg.ratio} ${cfg.output}`, 'info');
-      renderAll(); rebuildPanels();
+      const curStock = invCount(cfg.input);
+      if (curStock <= 0) { toast(`Không có ${cfg.input}!`, 'error'); return; }
+      invSub(cfg.input, curStock);
+      invAdd(cfg.output, curStock * cfg.ratio);
+      toast(`⚙️ Xay ${curStock} ${cfg.input} → ${curStock * cfg.ratio} ${cfg.output}`, 'info');
+      millSig = ''; buildMillPanel(); renderAll();
     });
     row.appendChild(b);
     box.appendChild(row);
   }
 }
-
 function buildWorkersPanel() {
   const box = $('workers-panel');
   $('worker-badge').textContent = G.workers.length;
@@ -2310,16 +2132,15 @@ function buildWorkersPanel() {
   }
   if (G.workers.length) {
     const hdr = document.createElement('div');
-    hdr.style.cssText = 'font-size:10px;color:#90A4AE;margin-top:8px;margin-bottom:4px;font-weight:600';
-    hdr.textContent = '📋 Nhân công đang làm:';
+    hdr.style.cssText = 'font-size:10px;color:#90A4AE;margin-top:8px;margin-bottom:4px;font-weight:700;text-transform:uppercase';
+    hdr.textContent = '📋 Đang làm:';
     box.appendChild(hdr);
     for (const w of G.workers) {
       const card = document.createElement('div');
-      card.className = 'review-item';
-      card.style.borderLeftColor = '#FFD54F';
-      card.innerHTML = `<div class="review-header"><span class="review-name">${w.name} (${w.age}t)</span><span style="color:#A5D6A7;font-size:10.5px">${w.salary}$/ngày</span></div><div style="color:#CFD8DC;font-size:10.5px">${WORKER_TYPES[w.type].emoji} ${w.type} · Kinh nghiệm: ${w.exp}/10 · Tính: <strong style="color:#FFD54F">${w.personality}</strong></div><div style="font-size:9.5px;color:#78909C;margin-top:2px">Vào làm ngày ${w.hired}</div>`;
+      card.className = 'review-item'; card.style.borderLeftColor = '#FFD54F';
+      card.innerHTML = `<div class="review-header"><span class="review-name">${w.name} (${w.age}t)</span><span style="color:#A5D6A7;font-size:10.5px">${w.salary}$/ngày</span></div><div style="color:#CFD8DC;font-size:10.5px">${WORKER_TYPES[w.type].emoji} ${w.type} · EXP: ${w.exp}/10 · Tính: <strong style="color:#FFD54F">${w.personality}</strong></div>`;
       const fireBtn = document.createElement('button');
-      fireBtn.style.cssText = 'margin-top:4px;padding:5px 10px;border-radius:6px;background:#B71C1C;color:#fff;font-size:10px;font-weight:bold';
+      fireBtn.style.cssText = 'margin-top:4px;padding:5px 10px;background:#B71C1C;color:#fff;font-size:10px;font-weight:700;border:2px solid #0a0e12';
       fireBtn.textContent = '🚪 Sa thải';
       tap(fireBtn, () => {
         if (!confirm(`Sa thải ${w.name}?`)) return;
@@ -2332,29 +2153,23 @@ function buildWorkersPanel() {
     }
   }
 }
-
 function buildDogsPanel() {
   const box = $('dogs-panel');
   $('dog-badge').textContent = G.dogs.length;
   box.innerHTML = '';
-  if (!G.dogs.length) {
-    box.innerHTML = '<div class="inv-empty">Chưa có chó. Mua ở Cửa hàng để canh trại!</div>';
-    return;
-  }
+  if (!G.dogs.length) { box.innerHTML = '<div class="inv-empty">Chưa có chó. Mua ở Cửa hàng để canh trại!</div>'; return; }
   const totalG = totalGuard();
   const total = document.createElement('div');
-  total.style.cssText = 'background:#1f2b30;padding:6px 10px;border-radius:8px;font-size:11px;margin-bottom:6px';
-  total.innerHTML = `🐕 <strong>${G.dogs.length} chó</strong> · Tổng bảo vệ: <strong style="color:#A5D6A7">${totalG}%</strong>`;
+  total.style.cssText = 'background:#1f2b30;padding:6px 10px;font-size:11px;margin-bottom:6px;border:2px solid #0a0e12';
+  total.innerHTML = `🐕 <strong>${G.dogs.length} chó</strong> · Bảo vệ: <strong style="color:#A5D6A7">${totalG}%</strong>`;
   box.appendChild(total);
   for (const d of G.dogs) {
     const card = document.createElement('div');
-    card.className = 'review-item';
-    card.style.borderLeftColor = '#8D6E63';
+    card.className = 'review-item'; card.style.borderLeftColor = '#8D6E63';
     card.innerHTML = `<div class="review-header"><span class="review-name">${d.emoji} ${d.type}</span><span style="color:#A5D6A7;font-size:10.5px">${d.guard}%</span></div><div style="color:#CFD8DC;font-size:10.5px">Mua ngày ${d.day}</div>`;
     box.appendChild(card);
   }
 }
-
 function buildShop() {
   const cb = $('shop-crops'), ab = $('shop-animals'), db = $('shop-dogs'), mb = $('shop-mills'), tb = $('shop-tools');
   cb.innerHTML = ''; ab.innerHTML = ''; db.innerHTML = ''; mb.innerHTML = ''; tb.innerHTML = '';
@@ -2393,7 +2208,6 @@ function buildShop() {
   st.innerHTML = `<span class="name">💨 Thuốc trừ sâu</span><span class="price">${SPRAY_COST}$</span>`;
   tap(st, () => buySpray());
   tb.appendChild(st);
-
   document.querySelectorAll('.ad-btn').forEach(btn => {
     tap(btn, () => { if (btn.dataset.ad === 'flyer') buyAd(20, 100, 'Tờ rơi'); else buyAd(45, 300, 'Radio'); });
   });
@@ -2416,7 +2230,7 @@ function buyMill(name) {
   G.money -= d.price; G.dailyExpense += d.price;
   G.ownedMills.push(name);
   toast(`🏭 Đã mua ${name}!`, 'achievement');
-  renderAll(); rebuildPanels();
+  millSig = ''; renderAll(); rebuildPanels();
 }
 function buyDog(name) {
   const d = DOGS[name];
@@ -2427,18 +2241,15 @@ function buyDog(name) {
   toast(`🐕 Đã mua ${name} (${d.guard}% bảo vệ)`, 'achievement');
   checkAchievements(); renderAll(); rebuildPanels();
 }
-
 function buildThemeShop() {
-  const box = $('theme-shop-list');
-  if (!box) return;
+  const box = $('theme-shop-list'); if (!box) return;
   box.innerHTML = '';
   $('theme-count').textContent = `${G.ownedThemes.length}/${Object.keys(THEMES).length}`;
   for (const key in THEMES) {
     const t = THEMES[key];
     const owned = G.ownedThemes.includes(key);
     const equipped = G.themeKey === key;
-    const row = document.createElement('div');
-    row.className = 'sm-row';
+    const row = document.createElement('div'); row.className = 'sm-row';
     let action;
     if (equipped) action = `<button class="shop-btn" disabled style="background:#FFC107;color:#1B5E20;opacity:1;font-size:10.5px;padding:5px 8px">✓ Dùng</button>`;
     else if (owned) action = `<button class="shop-btn" data-theme="${key}" data-act="equip" style="background:#43A047;font-size:10.5px;padding:5px 8px">Dùng</button>`;
@@ -2584,7 +2395,7 @@ tap($('bulk-buy'), () => {
     for (let i = 0; i < q; i++) {
       const gene = rollGene();
       const k = key + '|' + gene;
-      if (!invHasSpace(k)) { toast('📦 Kho đầy! Một số con không mua được.', 'warn'); break; }
+      if (!invHasSpace(k)) { toast('📦 Kho đầy!', 'warn'); break; }
       if (!G.inventory[k]) G.inventory[k] = { count: 0, base: key, gene };
       G.inventory[k].count++;
       if (gene === 'rainbow' || gene === 'royal') G.stats.rareOwned = 1;
@@ -2625,7 +2436,6 @@ function buildPlots() {
   }
   plotSig = '';
 }
-
 function getSprayArea(idx) {
   const zone = plotZoneOf(idx);
   const start = zone === 'crop' ? 0 : PLOTS_PER_ZONE;
@@ -2644,13 +2454,12 @@ function getSprayArea(idx) {
   }
   return result;
 }
-
 function renderPlots() {
   const container = $('plots');
   const t = getTheme();
   const start = G.zone === 'crop' ? 0 : PLOTS_PER_ZONE;
   const sig = G.plots.slice(start, start + PLOTS_PER_ZONE).map((p, i) =>
-    `${isPlotUnlocked(start + i) ? 1 : 0}${p.kind || '-'}|${p.name || '-'}|${p.ready ? 1 : 0}|${p.gene || '-'}|${p.pest ? 1 : 0}|${p.fert ? 1 : 0}|${p.hungry ? 1 : 0}|${p.sick ? 1 : 0}|${Math.floor((p.water||100)/20)}`
+    `${isPlotUnlocked(start + i) ? 1 : 0}${p.kind || '-'}|${p.name || '-'}|${p.ready ? 1 : 0}|${p.gene || '-'}|${p.pest ? 1 : 0}|${p.hungry ? 1 : 0}|${p.sick ? 1 : 0}`
   ).join(',') + `|${t.slot}|${G.zone}|${G.unlockedRowsCrop}|${G.unlockedRowsAnimal}`;
   if (sig !== plotSig) {
     plotSig = sig;
@@ -2681,23 +2490,13 @@ function renderPlots() {
       if (p.pest) badges += `<span class="badge-mini" style="background:rgba(200,30,30,.85)">🐛</span>`;
       if (p.sick) badges += `<span class="badge-mini sick">🤒</span>`;
       else if (p.hungry && !isCrop && !ANIMALS[p.name].noFeed) badges += `<span class="badge-mini hungry">🍽️</span>`;
-      else if (p.fert) badges += `<span class="badge-mini fert">💩</span>`;
-      // Thirsty badge khi cây thiếu nước và trời nắng
-      if (isCrop && (p.water || 100) < 30 && WEATHERS[G.weather].hot) {
-        badges += `<span class="badge-mini thirsty">💧</span>`;
-      }
       html += badges;
       if (!isCrop && p.gene && p.gene !== 'normal') html += `<div class="gene-badge gene-${p.gene}">${GENES[p.gene].emoji}</div>`;
       html += `<div class="emoji">${data.emoji}</div>`;
       let cls = '';
       if (p.pest) cls = 'slow';
       else if (p.ready) cls = 'done';
-      else if (p.fert) cls = 'fert';
       html += `<div class="progress-track"><div class="progress-fill ${cls}" style="width:${p.ready ? 100 : 0}%"></div></div>`;
-      // Water bar cho cây
-      if (isCrop && (p.water || 100) < 100) {
-        html += `<div class="water-bar"><div class="water-fill" style="width:${Math.max(0, p.water || 0)}%"></div></div>`;
-      }
       el.innerHTML = html;
     }
   }
@@ -2714,7 +2513,6 @@ function renderPlots() {
     if (fill) fill.style.width = pct + '%';
   }
 }
-
 function onPlotClick(i) {
   if (!isPlotUnlocked(i)) {
     const zone = plotZoneOf(i);
@@ -2726,39 +2524,18 @@ function onPlotClick(i) {
   }
   const p = G.plots[i];
   const curZone = plotZoneOf(i);
-
-  // ==== TƯỚI NƯỚC ====
-  if (G.tool === 'water') {
-    if (p.kind !== 'crop') { toast('Chỉ tưới được cây trồng!', 'info'); return; }
-    if ((p.water || 100) >= 95) { toast('Cây này đủ nước rồi!', 'info'); return; }
-    if (G.energy < WATER_ENERGY) { toast('Không đủ năng lượng!', 'error'); return; }
-    G.energy -= WATER_ENERGY;
-    p.water = 100;
-    setStatus('💧 Đã tưới cây!');
-    toast('💧 Cây đã được tưới nước!', 'info');
-    plotSig = ''; renderAll();
-    return;
-  }
-
-  // ==== XẺNG ====
   if (G.tool === 'shovel') { if (!p.kind) { setStatus('🪏 Ô trống.'); return; } shovelPlot(i); return; }
-
-  // ==== THUỐC SÂU 3×3 ====
   if (G.tool === 'spray') {
-    if (invCount('Thuốc trừ sâu') <= 0) { toast('Không có thuốc trừ sâu! Mua ở Cửa hàng.', 'error'); return; }
+    if (invCount('Thuốc trừ sâu') <= 0) { toast('Không có thuốc trừ sâu!', 'error'); return; }
     const area = getSprayArea(i);
     let killed = 0, eligible = 0;
-    for (const gi of area) {
-      const gp = G.plots[gi];
-      if (gp.kind && gp.pest) eligible++;
-    }
+    for (const gi of area) { const gp = G.plots[gi]; if (gp.kind && gp.pest) eligible++; }
     if (eligible === 0) { toast('Khu vực này không có sâu.', 'info'); return; }
     invSub('Thuốc trừ sâu', 1);
     for (const gi of area) {
       const gp = G.plots[gi];
       if (gp.pest) {
-        gp.pest = false;
-        killed++;
+        gp.pest = false; killed++;
         const visIdx = gi - (G.zone === 'crop' ? 0 : PLOTS_PER_ZONE);
         const el = $('plots').children[visIdx];
         if (el) { el.classList.add('spray-target'); setTimeout(() => el.classList.remove('spray-target'), 500); }
@@ -2769,8 +2546,6 @@ function onPlotClick(i) {
     plotSig = ''; renderAll();
     return;
   }
-
-  // ==== SÂU — bắt tay ====
   if (p.pest) {
     if (G.energy < BUG_ENERGY) { toast('Không đủ năng lượng!', 'error'); return; }
     G.energy -= BUG_ENERGY;
@@ -2780,11 +2555,9 @@ function onPlotClick(i) {
     checkAchievements(); plotSig = ''; renderAll();
     return;
   }
-
   if (!p.kind) { openPlantModal(i); return; }
   if (p.kind === 'crop' && curZone !== 'crop') return;
   if (p.kind === 'animal' && curZone !== 'animal') return;
-
   if (p.sick) {
     if (confirm(`Động vật bị bệnh! Chữa trị ${(ANIMALS[p.name].cost * 0.6 | 0)}$?`)) {
       const cost = ANIMALS[p.name].cost * 0.6 | 0;
@@ -2813,25 +2586,9 @@ function onPlotClick(i) {
     renderAll();
     return;
   }
-  // Bón phân
-  if (p.kind === 'crop' && !p.fert) {
-    if (invCount('Phân') > 0) {
-      if (confirm(`Bón phân (💩) để cây lớn nhanh ×2?`)) {
-        if (G.energy < FERT_ENERGY) { toast('Không đủ năng lượng!', 'error'); return; }
-        invSub('Phân', 1);
-        G.energy -= FERT_ENERGY;
-        p.fert = true;
-        toast('💩 Đã bón phân! Cây lớn nhanh hơn.', 'info');
-        plotSig = ''; renderAll();
-        return;
-      }
-    } else {
-      toast('Không có phân! Nuôi động vật để lấy phân.', 'info');
-    }
-  }
   const data = p.kind === 'crop' ? CROPS[p.name] : ANIMALS[p.name];
   const total = p.kind === 'crop' ? data.grow : data.time;
-  setStatus(`${p.kind === 'crop' ? '🌱' : '🐾'} ${p.name} (${p.progress.toFixed(1)}/${total}s, nước ${Math.round(p.water||0)}%)`);
+  setStatus(`${p.kind === 'crop' ? '🌱' : '🐾'} ${p.name} (${p.progress.toFixed(1)}/${total}s)`);
 }
 function shovelPlot(i) {
   const p = G.plots[i];
@@ -2844,7 +2601,7 @@ function shovelPlot(i) {
     setStatus(`🪏 Dời ${p.name} về kho.`);
   }
   p.kind = p.name = null; p.progress = 0; p.ready = false; p.gene = null;
-  p.damaged = false; p.pest = false; p.fert = false; p.hungry = false; p.sick = false; p.water = 100;
+  p.damaged = false; p.pest = false; p.hungry = false; p.sick = false;
   plotSig = ''; renderAll();
 }
 function harvestPlot(i) {
@@ -2854,24 +2611,20 @@ function harvestPlot(i) {
     invAdd(p.name, 1);
     G.dailyHarvests++;
     setStatus(`🌾 Thu hoạch 1 ${p.name}!`);
-    p.kind = p.name = null; p.progress = 0; p.ready = false; p.fert = false; p.water = 100;
+    p.kind = p.name = null; p.progress = 0; p.ready = false;
   } else {
     const prod = ANIMALS[p.name].product;
     const gene = p.gene || 'normal';
     const y = GENES[gene].yield;
     invAdd(prod, y);
-    const waste = ANIMALS[p.name].waste || 1;
-    if (waste > 0) invAdd('Phân', waste);
     G.dailyHarvests++;
-    setStatus(`📦 Thu ${y} ${prod}${waste > 0 ? ' + ' + waste + ' phân' : ''}!`);
+    setStatus(`📦 Thu ${y} ${prod}!`);
     p.ready = false; p.progress = 0;
     if (!ANIMALS[p.name].noFeed) p.hungry = true;
   }
   checkAchievements();
   return true;
 }
-
-/* ============ PLANT MODAL ============ */
 function openPlantModal(i) {
   G.userPaused = true;
   const body = $('modal-body'); body.innerHTML = '';
@@ -2921,7 +2674,7 @@ function plantCrop(i, name) {
   invSub(key, 1);
   const p = G.plots[i];
   p.kind = 'crop'; p.name = name; p.progress = 0; p.ready = false; p.gene = null;
-  p.pest = false; p.fert = false; p.water = 100;
+  p.pest = false;
   G.stats.plantsTotal++;
   if (name === 'Cà rốt') G.stats.carrotsPlanted++;
   setStatus(`🌱 Trồng ${name}!`);
@@ -2938,11 +2691,13 @@ function placeAnimal(i, animal, gene) {
   setStatus(`🐾 Nuôi ${animal}${ANIMALS[animal].noFeed ? '' : ' (cần cho ăn)'}!`);
   checkAchievements(); renderAll();
 }
-
-/* ============ INVENTORY ============ */
+let invSig = '';
 function renderInventory() {
-  const box = $('inventory-list');
+  const box = $('inventory-list'); if (!box) return;
   const keys = Object.keys(G.inventory).filter(k => G.inventory[k].count > 0);
+  const sig = keys.map(k => k + ':' + G.inventory[k].count).join(',') + '|' + G.warehouseCap;
+  if (sig === invSig && box.children.length) return;
+  invSig = sig;
   if (!keys.length) { box.innerHTML = `<span class="inv-empty">(trống)</span>`; return; }
   box.innerHTML = keys.map(k => {
     const it = G.inventory[k];
@@ -2969,24 +2724,24 @@ tap($('sell-all-btn'), () => {
   setStatus(`🏪 Bán được ${total}$`);
   checkAchievements(); renderAll();
 });
-
-/* ============ SUPERMARKET — THỦ CÔNG ============ */
 function pickSupermarketItems() {
-  const COMMON = ['Cà rốt', 'Cà chua', 'Trứng', 'Gạo', 'Cám'];
   const shelved = G.supermarket.shelved || [];
   return shelved.map(name => {
     const stock = invCount(name);
     const price = itemBasePrice(name);
-    const isCommon = COMMON.includes(name);
-    return { name, stock, price, isCommon };
+    return { name, stock, price };
   });
 }
-
+let smSig = '';
 function renderSupermarket() {
-  const box = $('supermarket-list');
-  box.innerHTML = '';
+  const box = $('supermarket-list'); if (!box) return;
   const items = pickSupermarketItems();
   $('sm-shelf-count').textContent = `${items.length}/10`;
+  $('sm-sales-today').textContent = Math.round(G.supermarket.salesToday) + '$';
+  const sig = items.map(i => i.name + ':' + i.stock + ':' + Math.round((G.supermarket.competitors[i.name] || 1) * 1000)).join('|');
+  if (sig === smSig && box.children.length) return;
+  smSig = sig;
+  box.innerHTML = '';
   for (const item of items) {
     const it = item.name;
     const baseP = itemBasePrice(it);
@@ -3006,21 +2761,17 @@ function renderSupermarket() {
       const nowWin = newMyPrice < compPrice;
       row.querySelector('.sm-price').textContent = newMyPrice + '$';
       const comp = row.querySelector('.sm-comp');
-      comp.classList.toggle('win', nowWin);
-      comp.classList.toggle('lose', !nowWin);
+      comp.classList.toggle('win', nowWin); comp.classList.toggle('lose', !nowWin);
     });
     const rmBtn = row.querySelector('.sm-remove');
     tap(rmBtn, () => {
       G.supermarket.shelved = G.supermarket.shelved.filter(x => x !== it);
-      renderSupermarket();
+      smSig = ''; renderSupermarket();
     });
     box.appendChild(row);
   }
   if (!box.children.length) box.innerHTML = `<div class="inv-empty" style="padding:6px 0;text-align:center">Kệ trống. Bấm "Chọn món lên kệ".</div>`;
-  $('sm-sales-today').textContent = Math.round(G.supermarket.salesToday) + '$';
 }
-
-/* Modal chọn món lên kệ */
 tap($('sm-add-btn'), () => {
   G.userPaused = true;
   const body = $('modal-body'); body.innerHTML = '';
@@ -3028,8 +2779,6 @@ tap($('sm-add-btn'), () => {
   title.style.cssText = 'font-size:11px;color:#90A4AE;margin-bottom:8px';
   title.textContent = `Chọn tối đa 10 món (hiện có ${G.supermarket.shelved.length})`;
   body.appendChild(title);
-
-  // Gom tất cả món có thể bán
   const allItems = new Set();
   for (const k in G.inventory) {
     const it = G.inventory[k];
@@ -3039,13 +2788,11 @@ tap($('sm-add-btn'), () => {
   for (const c in CROPS) allItems.add(c);
   for (const a in ANIMALS) allItems.add(ANIMALS[a].product);
   for (const p in PRODUCT_PRICE) allItems.add(p);
-
   const sorted = [...allItems].sort((a, b) => {
     const sa = invCount(a), sb = invCount(b);
     if ((sa > 0) !== (sb > 0)) return sb - sa;
     return sb - sa;
   });
-
   for (const it of sorted) {
     const onShelf = G.supermarket.shelved.includes(it);
     const stock = invCount(it);
@@ -3066,13 +2813,12 @@ tap($('sm-add-btn'), () => {
         b.innerHTML = `<span>✓ ${it}</span><span class="count">có ${stock}</span>`;
       }
       title.textContent = `Chọn tối đa 10 món (hiện có ${G.supermarket.shelved.length})`;
-      renderSupermarket();
+      smSig = ''; renderSupermarket();
     });
     body.appendChild(b);
   }
   $('modal-overlay').classList.add('show');
 });
-
 function trySupermarketSale(dt) {
   for (const k of (G.supermarket.shelved || [])) {
     const it = G.inventory[k];
@@ -3090,8 +2836,6 @@ function trySupermarketSale(dt) {
     }
   }
 }
-
-/* ============ ONLINE ORDERS ============ */
 function spawnOnlineOrder() {
   const pool = prodItems();
   if (!pool.length) return;
@@ -3134,28 +2878,43 @@ function updateOnlineOrders(dt) {
   G.onlineCooldown -= dt;
   if (G.onlineCooldown <= 0) { spawnOnlineOrder(); G.onlineCooldown = 90 + Math.random() * 60; }
 }
+let onlineSig = '';
 function renderOnlineOrders() {
-  const box = $('online-list');
+  const box = $('online-list'); if (!box) return;
   $('online-count').textContent = G.onlineOrders.length;
-  box.innerHTML = '';
-  if (!G.onlineOrders.length) { box.innerHTML = `<div class="inv-empty" style="padding:6px 0;text-align:center">Chưa có đơn online.</div>`; return; }
+  const sig = G.onlineOrders.map(o => o.id + ':' + o.phase).join(',');
+  const rebuild = sig !== onlineSig || !box.children.length;
+  if (rebuild) {
+    onlineSig = sig;
+    box.innerHTML = '';
+    if (!G.onlineOrders.length) {
+      box.innerHTML = `<div class="inv-empty" style="padding:6px 0;text-align:center">Chưa có đơn online.</div>`;
+      return;
+    }
+    for (const o of G.onlineOrders) {
+      const card = document.createElement('div');
+      card.className = 'online-card' + (o.phase === 'shipping' ? ' shipping' : '');
+      card.dataset.oid = o.id;
+      const orderTxt = Object.keys(o.order).map(it => {
+        const have = invCount(it); const need = o.order[it]; const ok = have >= need;
+        return `<span style="color:${ok ? '#A5D6A7' : '#EF9A9A'}">${need}× ${it} (có ${have})</span>`;
+      }).join(', ');
+      card.innerHTML = `<div class="online-top"><span class="online-name">📦 ${o.name}</span><span class="online-reward">${o.reward}$</span></div><div class="online-order">${orderTxt}</div><div class="online-bar"><span class="on-phase"></span><div class="online-track"><div class="online-fill ${o.phase === 'shipping' ? 'shipping' : ''}"></div></div><span class="on-time"></span></div>`;
+      box.appendChild(card);
+    }
+  }
   for (const o of G.onlineOrders) {
-    const card = document.createElement('div');
-    card.className = 'online-card' + (o.phase === 'shipping' ? ' shipping' : '');
-    const orderTxt = Object.keys(o.order).map(it => {
-      const have = invCount(it); const need = o.order[it]; const ok = have >= need;
-      return `<span style="color:${ok ? '#A5D6A7' : '#EF9A9A'}">${need}× ${it} (có ${have})</span>`;
-    }).join(', ');
+    const card = box.querySelector(`.online-card[data-oid="${o.id}"]`);
+    if (!card) continue;
     const phase = o.phase === 'prep' ? 'Chuẩn bị' : 'Đang giao';
     const time = o.phase === 'prep' ? o.prepTime : o.shipTime;
     const max = o.phase === 'prep' ? o.prepMax : o.shipMax;
     const pct = 100 - (time / max) * 100;
-    card.innerHTML = `<div class="online-top"><span class="online-name">📦 ${o.name}</span><span class="online-reward">${o.reward}$</span></div><div class="online-order">${orderTxt}</div><div class="online-bar"><span>${phase}</span><div class="online-track"><div class="online-fill ${o.phase === 'shipping' ? 'shipping' : ''}" style="width:${pct}%"></div></div><span>${Math.max(0, Math.ceil(time))}s</span></div>`;
-    box.appendChild(card);
+    card.querySelector('.on-phase').textContent = phase;
+    card.querySelector('.on-time').textContent = Math.max(0, Math.ceil(time)) + 's';
+    card.querySelector('.online-fill').style.width = pct + '%';
   }
 }
-
-/* ============ CUSTOMERS ============ */
 let custIdSeq = 0;
 let lastCustSig = '';
 function maxCustomers() {
@@ -3197,6 +2956,7 @@ function spawnCustomer() {
   G.customers.push({ id: ++custIdSeq, name: randomNpcName(), order, reward, patience, maxPatience: patience, tier });
 }
 function canDeliver(cu) { for (const it in cu.order) if (invCount(it) < cu.order[it]) return false; return true; }
+function hasAnyItem(cu) { for (const it in cu.order) if (invCount(it) > 0) return true; return false; }
 function performDeliver(cu) {
   for (const it in cu.order) invSub(it, cu.order[it]);
   G.money += cu.reward; G.dailyRevenue += cu.reward; G.stats.totalEarned += cu.reward; G.stats.deliveries++; G.dailyDeliveries++;
@@ -3218,7 +2978,7 @@ function partialDeliver(cu) {
     const have = Math.min(invCount(it), cu.order[it]);
     if (have > 0) { deliveredValue += have; invSub(it, have); }
   }
-  if (deliveredValue === 0) { toast('Không có hàng!', 'error'); return; }
+  if (deliveredValue === 0) { toast('Không có hàng!', 'error'); return false; }
   const ratio = deliveredValue / totalValue;
   const reward = Math.round(cu.reward * ratio * 0.7);
   G.money += reward; G.dailyRevenue += reward; G.stats.totalEarned += reward; G.stats.deliveries++; G.dailyDeliveries++;
@@ -3258,53 +3018,53 @@ function doReject(id) {
   G.customers.splice(idx, 1); lastCustSig = ''; renderAll();
 }
 function renderCustomers() {
-  const list = $('customer-list');
+  const list = $('customer-list'); if (!list) return;
   $('cust-count').textContent = G.customers.length;
-  const sig = G.customers.map(c => c.id).join(',');
+  const sig = G.customers.map(c => c.id + ':' + (canDeliver(c) ? 1 : 0) + ':' + (hasAnyItem(c) ? 1 : 0)).join(',');
   if (sig !== lastCustSig) {
     lastCustSig = sig;
     while (list.firstChild) list.removeChild(list.firstChild);
     if (!G.customers.length) {
-      const e = document.createElement('div'); e.className = 'empty-customers';
+      const e = document.createElement('div');
+      e.className = 'empty-customers';
       e.innerHTML = 'Chưa có khách...<br>Trồng trọt để có hàng!';
-      list.appendChild(e); return;
+      list.appendChild(e);
+    } else {
+      for (const cu of G.customers) {
+        const pct = Math.max(0, (cu.patience / cu.maxPatience) * 100);
+        const ok = canDeliver(cu);
+        const any = hasAnyItem(cu);
+        const orderTxt = Object.keys(cu.order).map(it => cu.order[it] + '× ' + it).join(', ');
+        const card = document.createElement('div');
+        card.className = 'customer ' + cu.tier;
+        card.dataset.cid = cu.id;
+        const top = document.createElement('div'); top.className = 'cust-top';
+        const nm = document.createElement('span'); nm.className = 'cust-name';
+        nm.innerHTML = cu.name + (cu.tier !== 'normal' ? `<span class="cust-tier ${cu.tier}">${TIER_LABEL[cu.tier]}</span>` : '');
+        const rw = document.createElement('span'); rw.className = 'cust-reward';
+        rw.textContent = '💰 ' + cu.reward + '$';
+        top.appendChild(nm); top.appendChild(rw);
+        const ord = document.createElement('div'); ord.className = 'cust-order';
+        ord.textContent = 'Cần: ' + orderTxt;
+        const bot = document.createElement('div'); bot.className = 'cust-bottom';
+        const tr = document.createElement('div'); tr.className = 'patience-track';
+        const fi = document.createElement('div');
+        fi.className = 'patience-fill' + (pct < 30 ? ' low' : '');
+        fi.style.width = pct + '%'; tr.appendChild(fi);
+        const btFull = document.createElement('button');
+        btFull.className = 'deliver-btn'; btFull.textContent = 'GIAO'; btFull.disabled = !ok;
+        const btPart = document.createElement('button');
+        btPart.className = 'partial-btn'; btPart.textContent = '1 PHẦN'; btPart.disabled = !any;
+        const btRej = document.createElement('button');
+        btRej.className = 'reject-btn'; btRej.textContent = 'TỪ CHỐI';
+        bot.appendChild(tr); bot.appendChild(btFull); bot.appendChild(btPart); bot.appendChild(btRej);
+        tap(btFull, () => deliver(cu.id));
+        tap(btPart, () => doPartial(cu.id));
+        tap(btRej, () => doReject(cu.id));
+        card.appendChild(top); card.appendChild(ord); card.appendChild(bot);
+        list.appendChild(card);
+      }
     }
-    for (const cu of G.customers) {
-      const pct = Math.max(0, (cu.patience / cu.maxPatience) * 100);
-      const ok = canDeliver(cu);
-      let any = false;
-      for (const it in cu.order) if (invCount(it) > 0) { any = true; break; }
-      const orderTxt = Object.keys(cu.order).map(it => cu.order[it] + '× ' + it).join(', ');
-      const card = document.createElement('div');
-      card.className = 'customer ' + cu.tier;
-      card.dataset.cid = cu.id;
-      const top = document.createElement('div'); top.className = 'cust-top';
-      const nm = document.createElement('span'); nm.className = 'cust-name';
-      nm.innerHTML = cu.name + (cu.tier !== 'normal' ? `<span class="cust-tier ${cu.tier}">${TIER_LABEL[cu.tier]}</span>` : '');
-      const rw = document.createElement('span'); rw.className = 'cust-reward';
-      rw.textContent = '💰 ' + cu.reward + '$';
-      top.appendChild(nm); top.appendChild(rw);
-      const ord = document.createElement('div'); ord.className = 'cust-order';
-      ord.textContent = 'Cần: ' + orderTxt;
-      const bot = document.createElement('div'); bot.className = 'cust-bottom';
-      const tr = document.createElement('div'); tr.className = 'patience-track';
-      const fi = document.createElement('div'); fi.className = 'patience-fill' + (pct < 30 ? ' low' : '');
-      fi.style.width = pct + '%'; tr.appendChild(fi);
-      const btFull = document.createElement('button'); btFull.className = 'deliver-btn';
-      btFull.textContent = 'GIAO'; btFull.disabled = !ok;
-      const btPart = document.createElement('button'); btPart.className = 'partial-btn';
-      btPart.textContent = '1 PHẦN'; btPart.disabled = !any;
-      const btRej = document.createElement('button'); btRej.className = 'reject-btn';
-      btRej.textContent = 'TỪ CHỐI';
-      bot.appendChild(tr);
-      bot.appendChild(btFull); bot.appendChild(btPart); bot.appendChild(btRej);
-      tap(btFull, () => deliver(cu.id));
-      tap(btPart, () => doPartial(cu.id));
-      tap(btRej, () => doReject(cu.id));
-      card.appendChild(top); card.appendChild(ord); card.appendChild(bot);
-      list.appendChild(card);
-    }
-    return;
   }
   for (const cu of G.customers) {
     const card = list.querySelector(`.customer[data-cid="${cu.id}"]`);
@@ -3315,7 +3075,7 @@ function renderCustomers() {
     const btn = card.querySelector('.deliver-btn');
     if (btn) btn.disabled = !canDeliver(cu);
     const btPart = card.querySelector('.partial-btn');
-    if (btPart) { let any = false; for (const it in cu.order) if (invCount(it) > 0) { any = true; break; } btPart.disabled = !any; }
+    if (btPart) btPart.disabled = !hasAnyItem(cu);
   }
 }
 function renderReviews() {
@@ -3377,7 +3137,8 @@ function renderHUD() {
 function renderAll() {
   renderPlots(); renderInventory(); renderCustomers();
   renderReviews(); renderAchievements(); renderHUD();
-  renderSupermarket(); renderOnlineOrders(); buildWarehousePanel();
+  renderSupermarket(); renderOnlineOrders();
+  buildWarehousePanel(); buildMillPanel();
 }
 
 /* ============ GAME LOOP ============ */
@@ -3386,7 +3147,6 @@ function gameLoop(now) {
   let dt = (now - G.lastTime) / 1000;
   G.lastTime = now;
   dt = Math.min(dt, 0.5);
-
   if (isPaused()) {
     renderPlots(); renderCustomers(); renderInventory();
     renderReviews(); renderAchievements(); renderHUD();
@@ -3394,12 +3154,9 @@ function gameLoop(now) {
     requestAnimationFrame(gameLoop);
     return;
   }
-
   const w = WEATHERS[G.weather];
   const night = isNight();
-  const isHot = !!w.hot;
   const boost = G.holidayBoostDays > 0 ? (1 + G.workerHappiness * 0.5) : 1;
-
   for (let i = 0; i < G.plots.length; i++) {
     if (!isPlotUnlocked(i)) continue;
     const p = G.plots[i];
@@ -3412,29 +3169,11 @@ function gameLoop(now) {
     if (!isCrop && p.sick) continue;
     let mul = w.growMul;
     if (G.weather === 'cold' && isCrop && !data.coldResist) mul = 0.1;
-    if (p.fert) mul *= 2;
     if (p.pest) mul *= 0.3;
     if (night) mul *= 0.7;
-
-    // ==== HỆ THỐNG NƯỚC ====
-    if (isCrop) {
-      if (p.water === undefined) p.water = 100;
-      if (isHot) {
-        p.water = Math.max(0, p.water - 2.5 * dt);
-      } else if (G.weather === 'rain' || G.weather === 'storm') {
-        p.water = 100;
-      } else if (G.weather === 'cold') {
-        p.water = Math.max(0, p.water - 0.3 * dt);
-      } else {
-        // rainbow - bình thường
-        p.water = Math.max(0, p.water - 0.8 * dt);
-      }
-      if (p.water < 30) mul *= 0.3;
-    }
-
     if (G.weather === 'storm' && !p.damaged && isCrop && Math.random() < (w.stormChance || 0) * dt) {
       p.damaged = true; p.kind = p.name = null; p.progress = 0; p.ready = false;
-      p.gene = null; p.pest = false; p.fert = false;
+      p.gene = null; p.pest = false;
       toast(`⛈️ Bão phá hủy một cây!`, 'error');
       plotSig = ''; continue;
     }
@@ -3442,11 +3181,8 @@ function gameLoop(now) {
     const total = isCrop ? data.grow : data.time;
     if (p.progress >= total) { p.progress = total; p.ready = true; plotSig = ''; }
   }
-
   if (G.adTime > 0) G.adTime = Math.max(0, G.adTime - dt);
   G.energy = Math.min(100, G.energy + dt * 1.5);
-
-  // Workers — nghỉ lễ
   const holiday = isHolidayToday();
   for (const wrk of G.workers) {
     if (holiday) continue;
@@ -3454,26 +3190,20 @@ function gameLoop(now) {
     if (wrk.timer <= 0) {
       const cfg = WORKER_TYPES[wrk.type];
       wrk.timer = wrk.interval / boost;
-
-      // Nông dân / Kỹ sư / Chăn nuôi — thu hoạch
       if (cfg.skill === 'harvest' || cfg.skill === 'plant' || cfg.skill === 'feed') {
         for (let i = 0; i < G.plots.length; i++) {
           if (isPlotUnlocked(i) && G.plots[i].ready && !G.plots[i].pest && !G.plots[i].hungry) { harvestPlot(i); break; }
         }
       }
-      // Chăn nuôi — cho ăn
       if (cfg.skill === 'feed') {
         for (let i = 0; i < G.plots.length; i++) {
           if (!isPlotUnlocked(i)) continue;
           const p = G.plots[i];
           if (p.kind === 'animal' && p.hungry && !ANIMALS[p.name].noFeed && invCount('Cám') > 0) {
-            invSub('Cám', 1);
-            p.hungry = false;
-            break;
+            invSub('Cám', 1); p.hungry = false; break;
           }
         }
       }
-      // Kỹ sư — trồng
       if (cfg.skill === 'plant') {
         for (let i = 0; i < G.plots.length; i++) {
           if (!isPlotUnlocked(i)) continue;
@@ -3484,7 +3214,7 @@ function gameLoop(now) {
             if (!G.unlockedCrops.includes(crop)) continue;
             if (invCount('Hạt ' + crop) > 0) {
               invSub('Hạt ' + crop, 1);
-              p.kind = 'crop'; p.name = crop; p.progress = 0; p.ready = false; p.pest = false; p.fert = false; p.water = 100;
+              p.kind = 'crop'; p.name = crop; p.progress = 0; p.ready = false; p.pest = false;
               G.stats.plantsTotal++;
               if (crop === 'Cà rốt') G.stats.carrotsPlanted++;
               break;
@@ -3493,23 +3223,20 @@ function gameLoop(now) {
           plotSig = ''; break;
         }
       }
-      // ===== QUẢN LÝ — CHỈ GIAO HÀNG + THÔNG BÁO =====
       if (cfg.skill === 'deliver') {
         for (let i = G.customers.length - 1; i >= 0; i--) {
           const cu = G.customers[i];
           if (canDeliver(cu)) {
-            const reward = cu.reward;
-            const cname = cu.name;
+            const reward = cu.reward; const cname = cu.name;
             performDeliver(cu);
             G.customers.splice(i, 1); lastCustSig = '';
             toast(`🧑‍💼 ${wrk.name} giao đơn ${cname}: +${reward}$`, 'info');
-            break; // mỗi nhịp chỉ giao 1 đơn
+            break;
           }
         }
       }
     }
   }
-
   for (let i = G.customers.length - 1; i >= 0; i--) {
     const cu = G.customers[i];
     cu.patience -= dt;
@@ -3520,7 +3247,6 @@ function gameLoop(now) {
       addReview(cu.name, 1, 'Chờ quá lâu!', cu.tier);
     }
   }
-
   G.spawnCooldown -= dt;
   if (G.spawnCooldown <= 0) {
     G.spawnCooldown = spawnInterval();
@@ -3529,25 +3255,20 @@ function gameLoop(now) {
       if (G.customers.length + 1 < maxCustomers() && Math.random() < 0.5) spawnCustomer();
     }
   }
-
   trySupermarketSale(dt);
   updateOnlineOrders(dt);
-
   if (G.phase === 'playing') {
     G.dayTime += dt;
     if (G.dayTime >= DAY_DURATION) advanceDay();
   }
-
   if (now - G.lastSave > 8000) { saveGame(); G.lastSave = now; }
   if (now - G.lastCloudSave > 25000) {
     G.lastCloudSave = now;
     if (window.cloudSaveNow) window.cloudSaveNow();
   }
-
   const dayFrac = G.dayTime / DAY_DURATION;
   const sunAngle = -Math.PI / 2 + dayFrac * Math.PI * 2;
   $('sunEl').style.transform = `translate(${Math.cos(sunAngle) * 25}px, ${Math.sin(sunAngle) * 12}px)`;
-
   renderPlots(); renderCustomers(); renderInventory();
   renderReviews(); renderAchievements(); renderHUD();
   renderSupermarket(); renderOnlineOrders();
@@ -3585,8 +3306,6 @@ tap($('save-btn'), async () => {
   const ok = await cloudSaveNow();
   toast(ok ? '☁️ Đã lưu Cloud!' : '💾 Đã lưu máy', ok ? 'info' : 'warn');
 });
-
-/* ============ PAUSE ============ */
 tap($('pause-btn'), () => {
   G.userPaused = !G.userPaused;
   $('pause-btn').textContent = G.userPaused ? '▶' : '⏸';
@@ -3594,21 +3313,16 @@ tap($('pause-btn'), () => {
   $('paused-overlay').classList.toggle('show', G.userPaused);
   setStatus(G.userPaused ? '⏸ Đã tạm dừng' : '▶ Tiếp tục chơi');
 });
-
-/* ============ RENAME ============ */
 tap($('rename-btn'), () => {
   const newName = prompt(`Đổi tên nông trại (phí ${RENAME_COST.toLocaleString()}$):\nTên hiện tại: "${G.farmName}"`, G.farmName);
   if (!newName || newName.trim() === G.farmName) return;
   if (G.money < RENAME_COST) { toast(`Cần ${RENAME_COST.toLocaleString()}$!`, 'error'); return; }
-  G.money -= RENAME_COST;
-  G.dailyExpense += RENAME_COST;
+  G.money -= RENAME_COST; G.dailyExpense += RENAME_COST;
   G.farmName = newName.trim();
   updateFarmTitle();
   toast(`✏️ Đã đổi tên: ${G.farmName}`, 'achievement');
   renderAll();
 });
-
-/* ============ ZONE / TOOL ============ */
 document.querySelectorAll('.zone-tab').forEach(tab => {
   tap(tab, () => {
     document.querySelectorAll('.zone-tab').forEach(t => t.classList.remove('active'));
@@ -3623,24 +3337,19 @@ document.querySelectorAll('.tool-btn[data-tool]').forEach(btn => {
     btn.classList.add('active');
     G.tool = btn.dataset.tool;
     const msgs = {
-      hand: 'Bấm ô để trồng / thu hoạch / bón phân',
-      water: '💧 Bấm ô cây để tưới nước',
+      hand: 'Bấm ô để trồng / thu hoạch',
       shovel: '🪏 Bấm ô để xoá',
       spray: '💨 Bấm ô có sâu — xịt cả vùng 3×3!'
     };
     $('tool-info').textContent = msgs[G.tool] || '';
   });
 });
-
-/* ============ COLLAPSIBLE PANELS ============ */
 document.querySelectorAll('.panel-header').forEach(h => {
   tap(h, () => {
     const panel = document.getElementById(h.dataset.panel);
     if (panel) panel.classList.toggle('collapsed');
   });
 });
-
-/* ============ FEEDBACK ============ */
 tap($('feedback-send'), () => {
   const txt = $('feedback-text').value.trim();
   if (!txt) { toast('Bạn chưa nhập gì!', 'warn'); return; }
@@ -3652,10 +3361,7 @@ tap($('feedback-send'), () => {
   $('feedback-text').value = '';
   toast('📨 Cảm ơn góp ý của bạn!', 'achievement');
 });
-
 window.addEventListener('beforeunload', () => { saveGame(); });
-
-/* Auto-collapse panels on mobile by default */
 if (window.innerWidth < 700) {
   document.querySelectorAll('#side-panel .panel').forEach(p => {
     if (!p.classList.contains('collapsed') && p.id !== 'panel-cust' && p.id !== 'panel-feedback') p.classList.add('collapsed');
