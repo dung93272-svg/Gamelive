@@ -76,7 +76,7 @@ input,textarea{font-family:inherit;font-size:16px!important;-webkit-appearance:n
 #main{display:flex;flex-wrap:wrap;gap:8px;padding:8px;align-items:flex-start;position:relative;min-height:400px}
 #farm-area{flex:1 1 700px;min-width:0;max-width:100%}
 #farm-wrap{position:relative;width:100%;max-width:700px;margin:0 auto;overflow:hidden;border:4px solid #0a0e12;touch-action:manipulation;box-shadow:inset 0 0 0 3px #000}
-#farm{position:relative;width:700px;height:680px;transform-origin:top left;overflow:hidden}
+#farm{position:relative;width:700px;height:680px;transform-origin:top left;overflow:hidden;image-rendering:pixelated}
 #sky{position:absolute;top:0;left:0;right:0;height:125px;transition:background .4s}
 #ground{position:absolute;top:125px;left:0;right:0;bottom:0;transition:background .4s}
 /* Pixel grid overlay */
@@ -85,80 +85,141 @@ input,textarea{font-family:inherit;font-size:16px!important;-webkit-appearance:n
 #farm-decor span{position:absolute;filter:drop-shadow(2px 3px 0 rgba(0,0,0,.4));user-select:none;image-rendering:pixelated}
 
 /* ============ TRANG 1: ĐỒNG LÚA VÀNG — TOP-DOWN 2D PIXEL ART ============ */
+/* Sky: bầu trời xanh pixel với mây cứng */
 #farm.bg-crop #sky{
   background:
-    repeating-linear-gradient(0deg,rgba(255,255,255,.08) 0 1px,transparent 1px 4px),
-    linear-gradient(180deg,#7EC8E3 0%,#A8DCEF 55%,#D9F1F8 100%);
+    /* Mây pixel màu trắng sữa nằm ngang */
+    linear-gradient(180deg,
+      transparent 0 22px,
+      #ffffff 22px 26px,
+      #ffffff 26px 30px,
+      transparent 30px 55px,
+      #ffffff 55px 59px,
+      #ffffff 59px 62px,
+      transparent 62px 100%),
+    /* Bầu trời xanh da trời pixel */
+    linear-gradient(180deg,
+      #5FB8E5 0%,
+      #7EC5E8 45%,
+      #A5D8EE 75%,
+      #C8E5F0 100%);
+  background-size: 100% 100%, 100% 100%;
 }
-/* Bầu trời có mây pixel + cò trắng được vẽ bằng decor */
+/* Ground: ruộng lúa vàng với đường đất ngang và mương nước */
 #farm.bg-crop #ground{
-  background:
-    /* Lối đất ngang uốn giữa ruộng */
+  background-color: #D4A017;
+  background-image:
+    /* Lớp trên: Lối đất nâu chạy ngang giữa ruộng (dirt path) */
     linear-gradient(180deg,
       transparent 0 210px,
-      #B18962 210px 218px,
-      #8D6E63 218px 226px,
-      #6D4C41 226px 230px,
-      #8D6E63 230px 238px,
-      #B18962 238px 246px,
-      transparent 246px),
-    /* Rãnh nước mương giữa các luống lúa */
-    repeating-linear-gradient(0deg,
-      rgba(110,80,20,.35) 0 2px,
-      transparent 2px 16px),
-    /* Sọc dọc các hàng lúa vàng */
+      #4A3015 210px 213px,
+      #6B4423 213px 216px,
+      #8B5A2B 216px 234px,
+      #A0693A 234px 238px,
+      #8B5A2B 238px 242px,
+      #6B4423 242px 245px,
+      #4A3015 245px 248px,
+      transparent 248px),
+    /* Mương nước xanh ngọc chạy ngang phía dưới */
+    linear-gradient(180deg,
+      transparent 0 430px,
+      rgba(70,120,140,0.55) 430px 432px,
+      rgba(90,150,170,0.75) 432px 442px,
+      rgba(110,170,190,0.75) 442px 450px,
+      rgba(90,150,170,0.75) 450px 460px,
+      rgba(70,120,140,0.55) 460px 462px,
+      transparent 462px),
+    /* Rãnh nước mương nhỏ xen kẽ trong ruộng */
+    linear-gradient(180deg,
+      transparent 0 310px,
+      rgba(90,130,150,0.35) 310px 312px,
+      transparent 312px 380px,
+      rgba(90,130,150,0.35) 380px 382px,
+      transparent 382px 500px),
+    /* Sọc dọc các hàng lúa vàng — tạo texture pixel art */
     repeating-linear-gradient(90deg,
-      #E5C742 0 3px,
-      #DDBC3A 3px 6px,
-      #CFAC32 6px 9px,
-      #DDBC3A 9px 12px),
-    /* Nền ruộng lúa vàng */
-    linear-gradient(180deg,#E8CE5A 0%,#D9B943 40%,#C9A838 100%);
-  background-blend-mode:multiply,normal,normal,normal;
+      #D4A017 0 2px,
+      #C9950F 2px 4px,
+      #BE8A0D 4px 6px,
+      #C9950F 6px 8px,
+      #D4A017 8px 10px,
+      #CFA014 10px 12px,
+      #C49510 12px 14px);
+  background-blend-mode: normal, normal, normal, normal, normal;
 }
-/* Vài đám cỏ xanh điểm xuyết trên ruộng */
+/* Vài bụi lúa nhỏ xanh điểm xuyết tạo cảm giác ruộng bậc thang */
 #farm.bg-crop #ground::before{
-  content:'';position:absolute;inset:0;
+  content:'';
+  position:absolute;
+  inset:0;
   background:
-    radial-gradient(circle at 12% 68%,#7CB342 0 22px,transparent 24px),
-    radial-gradient(circle at 82% 78%,#7CB342 0 26px,transparent 28px),
-    radial-gradient(circle at 45% 88%,#8BC34A 0 18px,transparent 20px),
-    radial-gradient(circle at 68% 90%,#6DA03B 0 20px,transparent 22px);
+    radial-gradient(circle at 8% 78%, rgba(110,160,50,0.5) 0 6px, transparent 7px),
+    radial-gradient(circle at 16% 82%, rgba(110,160,50,0.5) 0 5px, transparent 6px),
+    radial-gradient(circle at 84% 88%, rgba(110,160,50,0.5) 0 7px, transparent 8px),
+    radial-gradient(circle at 92% 92%, rgba(110,160,50,0.5) 0 5px, transparent 6px);
   pointer-events:none;
+  z-index:0;
 }
 
 /* ============ TRANG 2: LÀNG QUÊ TRE — TOP-DOWN 2D PIXEL ART ============ */
 #farm.bg-animal #sky{
   background:
-    repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 1px,transparent 1px 4px),
-    linear-gradient(180deg,#A8D4E6 0%,#C8E0EC 60%,#E8F0F4 100%);
+    linear-gradient(180deg,
+      transparent 0 22px,
+      #ffffff 22px 26px,
+      transparent 26px 55px,
+      #ffffff 55px 59px,
+      transparent 59px 100%),
+    linear-gradient(180deg,
+      #88C8E8 0%,
+      #A8D5EC 45%,
+      #C8E5F2 75%,
+      #E0EEF5 100%);
+  background-size: 100% 100%, 100% 100%;
 }
 #farm.bg-animal #ground{
-  background:
-    /* Đường đất uốn qua làng */
-    radial-gradient(ellipse 220px 34px at 50% 42%,#A1887F 0 60%,transparent 72%),
-    /* Bãi cỏ lớn */
-    radial-gradient(circle at 14% 24%,#8BC34A 0 90px,transparent 100px),
-    radial-gradient(circle at 86% 68%,#7CB342 0 100px,transparent 110px),
-    /* Pixel cỏ sọc */
+  background-color: #7CB342;
+  background-image:
+    /* Lớp trên: đường đất uốn quanh sân */
+    linear-gradient(180deg,
+      transparent 0 240px,
+      #4A3015 240px 243px,
+      #6B4423 243px 246px,
+      #8B5A2B 246px 270px,
+      #A0693A 270px 274px,
+      #8B5A2B 274px 278px,
+      #6B4423 278px 281px,
+      transparent 281px),
+    /* Vũng nước / bùn nhỏ */
+    linear-gradient(180deg,
+      transparent 0 420px,
+      rgba(90,70,40,0.5) 420px 422px,
+      rgba(110,85,50,0.6) 422px 440px,
+      rgba(90,70,40,0.5) 440px 442px,
+      transparent 442px),
+    /* Cỏ dọc pixel */
     repeating-linear-gradient(90deg,
-      rgba(60,90,30,.30) 0 2px,
-      transparent 2px 8px),
-    repeating-linear-gradient(0deg,
-      rgba(40,70,20,.30) 0 2px,
-      transparent 2px 8px),
-    /* Nền cỏ */
-    linear-gradient(180deg,#8BC34A 0%,#6DA03B 50%,#4F7A28 100%);
-  background-blend-mode:multiply,normal,normal,normal,normal;
+      #7CB342 0 3px,
+      #74A83C 3px 6px,
+      #6DA03B 6px 9px,
+      #74A83C 9px 12px,
+      #7CB342 12px 15px,
+      #76AA3E 15px 18px);
 }
+/* Đốm cỏ sáng / hoa dại pixel */
 #farm.bg-animal #ground::before{
-  content:'';position:absolute;inset:0;
+  content:'';
+  position:absolute;
+  inset:0;
   background:
-    radial-gradient(circle at 30% 78%,#A1887F 0 20px,transparent 22px),
-    radial-gradient(circle at 55% 82%,#A1887F 0 24px,transparent 26px),
-    radial-gradient(circle at 78% 80%,#B18962 0 18px,transparent 20px);
+    radial-gradient(circle at 12% 82%, rgba(180,220,90,0.7) 0 4px, transparent 5px),
+    radial-gradient(circle at 22% 88%, rgba(180,220,90,0.7) 0 3px, transparent 4px),
+    radial-gradient(circle at 40% 92%, rgba(255,240,100,0.7) 0 3px, transparent 4px),
+    radial-gradient(circle at 60% 86%, rgba(180,220,90,0.7) 0 4px, transparent 5px),
+    radial-gradient(circle at 78% 90%, rgba(255,180,200,0.7) 0 3px, transparent 4px),
+    radial-gradient(circle at 92% 84%, rgba(180,220,90,0.7) 0 3px, transparent 4px);
   pointer-events:none;
-  opacity:.7;
+  z-index:0;
 }
 
 /* ==== WEATHER EFFECTS ==== */
@@ -222,27 +283,41 @@ input,textarea{font-family:inherit;font-size:16px!important;-webkit-appearance:n
 .tool-info{flex:1;display:flex;align-items:center;font-size:11px;color:#90A4AE;padding-left:6px;min-width:100px;font-weight:500}
 #farm-wrap{margin:0 auto}
 
-/* ==== SHOP BACKGROUND (TRANG 3) - Vietnamese countryside shop ==== */
-#shop-bg{width:100%;height:220px;border:4px solid #0a0e12;position:relative;overflow:hidden;margin-bottom:8px;
-  background:
-    repeating-linear-gradient(90deg,#A0522D 0 4px,#8B4513 4px 8px,#7A3B0F 8px 12px,#8B4513 12px 16px),
-    repeating-linear-gradient(0deg,rgba(0,0,0,.08) 0 2px,transparent 2px 6px),
-    #6B3410;
-  background-blend-mode:multiply;
+/* ==== SHOP BACKGROUND (TRANG 3) - Vietnamese countryside ==== */
+#shop-bg{width:100%;height:240px;border:4px solid #0a0e12;position:relative;overflow:hidden;margin-bottom:8px;
+  /* Golden rice paddy base */
+  background-color:#D4A017;
+  background-image:
+    /* Dirt path */
+    linear-gradient(180deg,
+      transparent 0 160px,
+      #4A3015 160px 163px,
+      #8B5A2B 163px 178px,
+      #A0693A 178px 182px,
+      #8B5A2B 182px 186px,
+      #4A3015 186px 189px,
+      transparent 189px),
+    /* Rice stripes */
+    repeating-linear-gradient(90deg,
+      #D4A017 0 3px,
+      #C9950F 3px 6px,
+      #BE8A0D 6px 9px,
+      #C9950F 9px 12px);
 }
 #shop-bg::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:120px;
+  content:'';position:absolute;top:0;left:0;right:0;height:130px;
   background:
-    repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 1px,transparent 1px 3px),
-    linear-gradient(180deg,#7EC8E3 0%,#A8DCEF 40%,#D9F1F8 70%,#FFF8E1 100%);
-}
-#shop-bg::after{
-  content:'';position:absolute;bottom:0;left:0;right:0;height:80px;
-  background:
-    repeating-linear-gradient(90deg,
-      #E5C742 0 3px,#DDBC3A 3px 6px,#CFAC32 6px 9px,#DDBC3A 9px 12px),
-    linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.15) 100%);
-  pointer-events:none;
+    linear-gradient(180deg,
+      transparent 0 28px,
+      #ffffff 28px 32px,
+      transparent 32px 60px,
+      #ffffff 60px 64px,
+      transparent 64px 100%),
+    linear-gradient(180deg,
+      #5FB8E5 0%,
+      #7EC5E8 55%,
+      #A5D8EE 100%);
+  background-size: 100% 100%, 100% 100%;
 }
 #shop-bg .shop-decor{position:absolute;inset:0;pointer-events:none;z-index:2}
 #shop-bg .shop-decor span{position:absolute;filter:drop-shadow(2px 3px 0 rgba(0,0,0,.5));image-rendering:pixelated}
@@ -277,8 +352,19 @@ input,textarea{font-family:inherit;font-size:16px!important;-webkit-appearance:n
 
 /* ==== SIDE PANEL ==== */
 #side-panel{flex:1 1 380px;min-width:280px;display:flex;flex-direction:column;gap:6px}
-body[data-page="shop"] #side-panel{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));flex:1 1 100%;width:100%}
-@media (max-width:600px){body[data-page="shop"] #side-panel{grid-template-columns:1fr}}
+/* ==== TRANG 3 (SHOP): Đặt theo hàng ngang — KHÔNG chia đôi ==== */
+body[data-page="shop"] #side-panel{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  flex:1 1 100%;
+  width:100%;
+  min-width:0;
+}
+body[data-page="shop"] .panel{width:100%}
+@media (max-width:600px){
+  body[data-page="shop"] #side-panel{flex-direction:column}
+}
 .panel{background:#263238;border:3px solid #0a0e12;overflow:hidden;box-shadow:inset -2px -2px 0 rgba(0,0,0,.3),inset 2px 2px 0 rgba(255,255,255,.05)}
 .panel-header{padding:10px 12px;cursor:pointer;user-select:none;display:flex;justify-content:space-between;align-items:center;gap:6px;font-size:12px;color:#80CBC4;font-weight:700;background:#2a373d;min-height:40px;touch-action:manipulation;border-bottom:2px solid #0a0e12}
 .panel-header:active{background:#2f4048}
@@ -298,7 +384,8 @@ body[data-page="shop"] #side-panel{display:grid;grid-template-columns:repeat(aut
 .shop-section{margin-bottom:8px}
 .shop-section:last-child{margin-bottom:0}
 .shop-sub{font-size:11px;color:#90A4AE;margin-bottom:5px;font-weight:700}
-.shop-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+/* Shop items flow theo hàng ngang */
+.shop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:4px}
 .shop-btn{background:#37474F;color:#eceff1;padding:8px;font-size:11.5px;text-align:left;display:flex;justify-content:space-between;gap:4px;min-height:36px;align-items:center;touch-action:manipulation;border:2px solid #0a0e12;box-shadow:inset -2px -2px 0 rgba(0,0,0,.4),inset 2px 2px 0 rgba(255,255,255,.1)}
 .shop-btn:active{background:#546E7A;transform:translate(1px,1px)}
 .shop-btn .price{color:#FFD54F;font-weight:700;font-size:10.5px}
@@ -500,14 +587,31 @@ body[data-page="shop"] #side-panel{display:grid;grid-template-columns:repeat(aut
     <!-- TRANG 3: SHOP BACKGROUND -->
     <div id="shop-bg" style="display:none">
       <div class="shop-decor">
-        <span style="left:5%;top:12%;font-size:22px">☁️</span>
-        <span style="left:72%;top:6%;font-size:28px">☀️</span>
-        <span style="left:14%;bottom:22%;font-size:32px">🎋</span>
-        <span style="left:86%;bottom:22%;font-size:30px">🎋</span>
-        <span style="left:8%;bottom:14%;font-size:20px">🌾</span>
-        <span style="left:88%;bottom:14%;font-size:20px">🌾</span>
-        <span style="left:28%;top:18%;font-size:20px">🕊️</span>
-        <span style="left:60%;top:14%;font-size:18px">🕊️</span>
+        <!-- Mây pixel -->
+        <span style="left:5%;top:10%;font-size:22px">☁️</span>
+        <span style="left:72%;top:6%;font-size:26px">☁️</span>
+        <!-- Mặt trời -->
+        <span style="left:88%;top:8%;font-size:28px">☀️</span>
+        <!-- Tre hai bên -->
+        <span style="left:6%;bottom:16%;font-size:34px">🎋</span>
+        <span style="left:11%;bottom:20%;font-size:28px">🎋</span>
+        <span style="left:88%;bottom:16%;font-size:32px">🎋</span>
+        <!-- Lúa vàng -->
+        <span style="left:20%;bottom:8%;font-size:20px">🌾</span>
+        <span style="left:26%;bottom:10%;font-size:18px">🌾</span>
+        <span style="left:78%;bottom:8%;font-size:20px">🌾</span>
+        <span style="left:82%;bottom:10%;font-size:18px">🌾</span>
+        <!-- Cò trắng bay -->
+        <span style="left:32%;top:14%;font-size:20px">🕊️</span>
+        <span style="left:52%;top:10%;font-size:18px">🕊️</span>
+        <span style="left:64%;top:18%;font-size:16px">🕊️</span>
+        <!-- Trâu gặm cỏ -->
+        <span style="left:22%;bottom:18%;font-size:30px">🐃</span>
+        <span style="left:78%;bottom:18%;font-size:28px">🐃</span>
+        <!-- Cà chua trong chậu gỗ -->
+        <span style="left:38%;bottom:12%;font-size:20px">🍅</span>
+        <span style="left:42%;bottom:10%;font-size:18px">🍅</span>
+        <span style="left:58%;bottom:12%;font-size:20px">🍅</span>
       </div>
       <div id="shop-house">
         <div class="house-roof"></div>
@@ -532,9 +636,6 @@ body[data-page="shop"] #side-panel{display:grid;grid-template-columns:repeat(aut
           <div id="sky"></div><div id="ground"></div>
           <div id="farm-decor"></div>
           <div class="sun" id="sunEl"></div>
-          <div class="cloud" style="top:26px;left:180px;width:24px;"></div>
-          <div class="cloud" style="top:55px;left:360px;width:18px;"></div>
-          <div class="cloud" style="top:16px;left:500px;width:20px;"></div>
           <div id="plots"></div>
           <div class="farmer-sprite">
             <svg width="48" height="72" viewBox="0 0 16 24" shape-rendering="crispEdges">
@@ -616,7 +717,7 @@ body[data-page="shop"] #side-panel{display:grid;grid-template-columns:repeat(aut
         <div class="panel-body" id="land-list"></div>
       </div>
 
-      <!-- PAGE SHOP -->
+      <!-- PAGE SHOP (TRANG 3) — Xếp theo hàng ngang, không chia đôi -->
       <div class="panel collapsed" data-page="shop" id="panel-warehouse">
         <div class="panel-header" data-panel="panel-warehouse"><span>📦 Kho hàng <span class="badge" id="wh-badge">0/80</span></span><span class="chevron">▼</span></div>
         <div class="panel-body" id="warehouse-panel"></div>
@@ -967,55 +1068,64 @@ const ACHIEVEMENTS = [
 /* ===== PAGE THEMES — Vietnamese countryside top-down ===== */
 const PAGE_THEMES = {
   crop: {
-    slot: "#A67C52", slotBorder: "#4E342E",
+    slot: "#B8891C", slotBorder: "#6B4423",
     decor: [
-      /* Bụi tre phía trái */
-      { emoji:"🎋",x:5,y:72,size:38 },
-      { emoji:"🎋",x:9,y:76,size:34 },
-      { emoji:"🎋",x:13,y:73,size:30 },
-      /* Nhà gỗ nhỏ phía phải */
-      { emoji:"🏠",x:88,y:70,size:42 },
+      /* Bụi tre bên trái */
+      { emoji:"🎋",x:5,y:68,size:38 },
+      { emoji:"🎋",x:9,y:72,size:34 },
+      { emoji:"🎋",x:13,y:68,size:30 },
+      /* Nhà gỗ nhỏ bên phải */
+      { emoji:"🏠",x:88,y:66,size:42 },
       /* Trâu gặm cỏ */
-      { emoji:"🐃",x:80,y:86,size:34 },
+      { emoji:"🐃",x:78,y:88,size:36 },
       /* Cò trắng bay trên trời */
-      { emoji:"🕊️",x:28,y:6,size:24 },
+      { emoji:"🕊️",x:28,y:5,size:24 },
       { emoji:"🕊️",x:46,y:3,size:20 },
-      { emoji:"🕊️",x:64,y:9,size:22 },
-      { emoji:"🕊️",x:82,y:5,size:18 },
+      { emoji:"🕊️",x:64,y:7,size:22 },
       /* Cây cà chua trong chậu gỗ */
-      { emoji:"🍅",x:38,y:80,size:24 },
-      { emoji:"🍅",x:44,y:83,size:22 },
+      { emoji:"🍅",x:34,y:82,size:24 },
+      { emoji:"🍅",x:40,y:85,size:22 },
+      { emoji:"🍅",x:46,y:82,size:24 },
       /* Lúa vàng điểm xuyết */
-      { emoji:"🌾",x:22,y:82,size:26 },
-      { emoji:"🌾",x:26,y:85,size:24 },
-      { emoji:"🌾",x:58,y:82,size:26 },
-      /* Mương nước */
-      { emoji:"💧",x:68,y:78,size:20 }
+      { emoji:"🌾",x:20,y:84,size:26 },
+      { emoji:"🌾",x:24,y:87,size:24 },
+      { emoji:"🌾",x:58,y:84,size:26 },
+      { emoji:"🌾",x:62,y:87,size:24 },
+      /* Nông dân đội nón lá đứng làm việc */
+      { emoji:"👨‍🌾",x:70,y:86,size:28 }
     ],
     particles: null
   },
   animal: {
-    slot: "#8D6E63", slotBorder: "#4E342E",
+    slot: "#6B9A32", slotBorder: "#3E5A1A",
     decor: [
       /* Bụi tre lớn */
       { emoji:"🎋",x:5,y:70,size:42 },
       { emoji:"🎋",x:10,y:74,size:38 },
       { emoji:"🎋",x:14,y:70,size:32 },
-      /* Nhà gỗ nhỏ */
-      { emoji:"🏠",x:86,y:70,size:44 },
-      /* Trâu gặm cỏ giữa bãi */
+      /* Nhà gỗ */
+      { emoji:"🏠",x:86,y:68,size:44 },
+      /* Trâu gặm cỏ */
       { emoji:"🐃",x:50,y:88,size:38 },
       /* Cây xanh */
-      { emoji:"🌳",x:70,y:72,size:34 },
+      { emoji:"🌳",x:70,y:74,size:34 },
       /* Cò trắng bay */
       { emoji:"🕊️",x:24,y:6,size:22 },
       { emoji:"🕊️",x:66,y:8,size:20 },
-      /* Đàn vật nuôi rải rác quanh sân */
+      { emoji:"🕊️",x:44,y:4,size:18 },
+      /* Đàn vật nuôi */
       { emoji:"🐔",x:28,y:84,size:22 },
       { emoji:"🦆",x:35,y:86,size:20 },
-      { emoji:"🐖",x:60,y:84,size:26 },
-      { emoji:"🐕",x:72,y:86,size:22 },
-      { emoji:"🐄",x:38,y:88,size:28 }
+      { emoji:"🐖",x:60,y:86,size:26 },
+      { emoji:"🐕",x:72,y:88,size:22 },
+      { emoji:"🐄",x:38,y:90,size:28 },
+      /* Cà chua trong chậu gỗ */
+      { emoji:"🍅",x:20,y:82,size:20 },
+      { emoji:"🍅",x:25,y:84,size:22 },
+      /* Lúa vàng */
+      { emoji:"🌾",x:82,y:88,size:24 },
+      /* Nông dân đội nón lá */
+      { emoji:"👨‍🌾",x:16,y:88,size:26 }
     ],
     particles: null
   }
