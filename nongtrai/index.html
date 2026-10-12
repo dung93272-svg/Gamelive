@@ -4077,4 +4077,48 @@ if (window.visualViewport) {
 }
 </script>
 </body>
+  <div id="debug-overlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#000;color:#0f0;font-family:monospace;font-size:11px;padding:12px;overflow:auto;z-index:9999;white-space:pre-wrap;word-break:break-all"></div>
+<script>
+(function(){
+  var el = document.getElementById('debug-overlay');
+  var logs = [];
+  function show(msg){
+    logs.push(msg);
+    el.style.display = 'block';
+    el.textContent = logs.join('\n\n');
+  }
+  window.addEventListener('error', function(e){
+    show('❌ ERROR: ' + e.message + '\n   at ' + (e.filename||'?') + ':' + e.lineno + ':' + e.colno);
+  });
+  window.addEventListener('unhandledrejection', function(e){
+    show('❌ PROMISE: ' + (e.reason && e.reason.message || e.reason));
+  });
+  // Info môi trường
+  setTimeout(function(){
+    var info = [
+      '🔍 DEBUG INFO',
+      'UA: ' + navigator.userAgent,
+      'Screen: ' + screen.width + 'x' + screen.height,
+      'Viewport: ' + window.innerWidth + 'x' + window.innerHeight,
+      'DPR: ' + (window.devicePixelRatio || 1),
+      'structuredClone: ' + (typeof structuredClone !== 'undefined' ? 'YES' : 'NO'),
+      'Blob: ' + (typeof Blob !== 'undefined' ? 'YES' : 'NO'),
+      'visualViewport: ' + (window.visualViewport ? 'YES' : 'NO'),
+      'PointerEvent: ' + (window.PointerEvent ? 'YES' : 'NO'),
+      'CSS dvh: ' + (CSS.supports('height','100dvh') ? 'YES' : 'NO')
+    ].join('\n');
+    show(info);
+  }, 500);
+  // Cho phép tắt overlay bằng 5 lần tap góc trên phải
+  var tapCount = 0, tapTimer;
+  document.addEventListener('touchstart', function(e){
+    if (e.touches[0].clientX > window.innerWidth - 50 && e.touches[0].clientY < 50) {
+      tapCount++;
+      clearTimeout(tapTimer);
+      tapTimer = setTimeout(function(){ tapCount = 0; }, 800);
+      if (tapCount >= 5) { el.style.display = el.style.display === 'none' ? 'block' : 'none'; tapCount = 0; }
+    }
+  }, {passive:true});
+})();
+</script>
 </html>
